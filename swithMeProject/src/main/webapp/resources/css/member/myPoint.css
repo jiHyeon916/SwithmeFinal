@@ -1,0 +1,188 @@
+@charset "UTF-8";
+@import url(//fonts.googleapis.com/earlyaccess/notosanskr.css);
+@font-face {
+    font-family: 'EF_watermelonSalad';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2210-EF@1.0/EF_watermelonSalad.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'PyeongChang-Bold';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2206-02@1.0/PyeongChang-Bold.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}
+@import url(//fonts.googleapis.com/earlyaccess/notosanskr.css);
+
+/* 초기화 */
+/* * {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    color: #292929;
+    font-family: 'Noto Sans KR', sans-serif;
+    font-family: 'Noto Sans KR', sans-serif;
+    text-decoration: none;
+}
+
+p{
+    margin: 0;
+}
+
+h1 {
+    padding: 0;
+    margin: 0;
+}
+
+a{
+    text-decoration: none;
+    color: #292929;
+    list-style: none;
+}
+
+a:hover{
+    text-decoration: none;
+    color: #292929;
+} */
+
+/* 공통 */
+.page-blank{
+	margin-top : 80px;
+}
+.mySide{
+	position : fixed;
+}
+.content{
+	width : 100%;
+	float:left;
+	padding-left : 250px;
+}
+
+/* 포인트페이지 */
+/* 상단 포인트 블럭 */
+.topBlock{
+	height : 55px;
+	padding : 13px 20px;
+	border : 1.5px solid rgb(175, 175, 175);
+	border-radius: 10px;
+	box-sizing : border-box;
+	color : rgb(3, 195, 115);
+	font-size : 16px;
+	font-weight : 500;
+	margin-bottom : 30px;
+}
+
+/* 포인트 표시 */
+#todayPoint, #totalPoint{
+	width : 50%;
+	height : 270px;
+	border : 1.5px solid rgb(175, 175, 175);
+	display : inline-block;
+	box-sizing : border-box;
+	padding : 15px 25px 15px 20px;
+	margin-bottom : 30px;
+}
+#todayPoint>div, #totalPoint>div{
+	color : #a3a3a3;
+}
+#todayPoint{
+	border-radius: 10px 0 0 10px;
+	border-right : none;
+	
+}
+#totalPoint{
+	border-radius: 0 10px 10px 0;
+}
+.content p{
+	color : #03c373;
+	font-size : 100px;
+	font-weight : 450;
+	text-align : right;
+	margin-top : 70px;
+	width : 365px;
+	display : inline-block;
+}
+.content span{
+	text-align : right;
+	font-size : 18px;
+}
+
+/* 포인트 리스트(테이블) */
+.block{
+	padding : 25px;
+	border : 1.5px solid rgb(175, 175, 175);
+	border-radius: 10px;
+	box-sizing : border-box;
+	margin : auto;
+}
+.myBtn>button{
+	display : inline-block;
+	width : 80px;
+	height : 38px;
+	background-color : white;
+	border : 1.5px solid #cecece;
+	border-radius : 5px;
+	color : #cecece;
+	margin-right : 10px;
+	margin-bottom : 30px;
+}
+.myBtn>button:first-child {
+	border : 1.5px solid rgb(3, 195, 115);
+	color : rgb(3, 195, 115);
+}
+#pointList{
+	width : 100%;
+	margin-bottom : 20px;
+}
+#pointList th, td{
+	text-align : center;
+}
+th{
+	border-bottom : 1px solid #9d9d9d;
+	background-color : #efefef;
+}
+th:nth-of-type(1){
+	width : 20%;
+}
+th:nth-of-type(2){
+	width : 10%;
+}
+th:nth-of-type(3){
+	width : 50%;
+}
+th:nth-of-type(4){
+	width : 20%;
+}
+td:last-child{
+	font-weight : bold;
+}
+tr{
+	height : 60px;
+	border-bottom : 1px solid #cecece;
+}
+tr:last-child{
+	border : none;
+}
+
+/* 페이징버튼 */
+.paBtn{
+	width : 265px;
+	height : 60px;
+	margin : auto;
+}
+.paBtn > button{
+	width : 40px;
+	height : 40px;
+	background-color : white;
+	border : 1px solid rgb(3, 195, 115);
+	border-radius : 3px;
+	color : rgb(3, 195, 115);
+	margin : 5px;
+	box-sizing : border-box;
+}
+.paBtn > button:first-child{
+	background-color : rgb(3, 195, 115);
+	color : white;
+	border : none; 
+	box-sizing : border-box;
+}

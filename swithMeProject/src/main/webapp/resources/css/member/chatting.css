@@ -1,0 +1,264 @@
+@charset "UTF-8";
+@import url(//fonts.googleapis.com/earlyaccess/notosanskr.css);
+@font-face {
+    font-family: 'EF_watermelonSalad';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2210-EF@1.0/EF_watermelonSalad.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'PyeongChang-Bold';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2206-02@1.0/PyeongChang-Bold.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}
+@import url(//fonts.googleapis.com/earlyaccess/notosanskr.css);
+
+/* 초기화 */
+/* * {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    color: #292929;
+    font-family: 'Noto Sans KR', sans-serif;
+    font-family: 'Noto Sans KR', sans-serif;
+    text-decoration: none;
+}
+
+p{
+    margin: 0;
+}
+
+h1 {
+    padding: 0;
+    margin: 0;
+}
+
+a{
+    text-decoration: none;
+    color: #292929;
+    list-style: none;
+}
+
+a:hover{
+    text-decoration: none;
+    color: #292929;
+} */
+
+/* 공통 */
+.page-blank{
+	margin-top : 80px;
+}
+.mySide{
+	position : fixed;
+}
+.content{
+	width : 100%;
+	float:left;
+	padding-left : 250px;
+}
+
+/* 채팅페이지 */
+
+/* 상단 포인트 블럭 */
+.topBlock{
+    width: 100%;
+	height : 55px;
+	padding : 13px 20px;
+	border : 1.5px solid rgb(175, 175, 175);
+	border-radius: 10px;
+	box-sizing : border-box;
+	color : rgb(3, 195, 115);
+	font-size : 16px;
+	font-weight : 500;
+	margin-bottom : 30px;
+}
+
+/* 채팅방 목록 */
+#room{
+    /* display : inline-block; */
+	width : 350px;
+    height : 600px; /* 높이 나중에 삭제할 것 */
+	border : 1.5px solid rgb(175, 175, 175);
+    box-sizing: border-box;
+	padding : 15px 0;
+	margin-bottom : 100px;
+    border-radius: 10px 0 0 10px;
+    border-right : none;
+    float: left;
+}
+#room>p{
+    display: block;
+    color :rgb(3, 195, 115);
+    margin-left : 20px;
+    margin-bottom: 15px;
+    font-weight: bold;
+}
+.roomBlock{
+    display : inline-block;
+    width : 100%;
+    height : 120px;
+}
+.roomBlock:nth-of-type(1){
+    background-color: rgb(207, 254, 227);
+}
+.roomBlock:hover{
+    background-color: rgb(207, 254, 227);
+}
+.roomBlock>div{
+    display: inline-block;
+    width : 82px;
+    height : 82px;
+    border-radius: 50%;
+    background-color: rgb(200, 200, 200);
+    margin : 20px 0 0 20px;
+}
+.roomBlock>ul{
+    width : 200px;
+    height : 100%;
+    float : right;
+    margin-right : 20px;
+    padding : 10px 5px;
+    margin-bottom: 0;
+    margin-top : 0;
+}
+.roomBlock li{
+    width : 100%;
+    height : 33%;
+    line-height: 33px;
+}
+.roomBlock li:nth-of-type(1){
+    font-weight: bold;
+    font-size: 17px;
+}
+.roomBlock li:nth-of-type(2){
+    font-size: 15px;
+}
+.roomBlock li:nth-of-type(3){
+    font-size: 14px;
+}
+
+
+
+
+
+
+
+
+
+
+
+/* 채팅내용 */
+#chat{
+    /* display : inline-block; */
+	width : 600px;
+    height : 600px; /* 높이 나중에 삭제할 것 */
+	border : 1.5px solid rgb(175, 175, 175);
+    box-sizing: border-box;
+	padding : 15px 20px;
+	margin-bottom : 100px;
+	border-radius: 0 10px 10px 0;
+    float : left;
+    /* position:relative; */
+}
+#chat-top{
+    height: 25px;
+    margin-bottom: 15px;
+}
+#chat-top>b{
+    color : rgb(3, 195, 115);
+}
+#chat-top>button{
+    float: right;
+    background-color : white;
+    border : none;
+    color : #292929;
+    font-size: 15px;
+}
+#chat-top>button:hover{
+    color : rgb(3, 195, 115);
+}
+
+.chat-con{
+    height: 450px;
+    overflow: auto;
+}
+
+/* 상대방 채팅 */
+.chat-you{
+    background-color: antiquewhite;
+    padding:10px;
+}
+.chat-you>div{
+    float:left;
+    width : 82px;
+    height : 82px;
+    border-radius: 50%;
+    background-color: rgb(200, 200, 200);
+}
+.chat-you>ul{
+    display: inline-block;
+    margin : 15px 10px;
+}
+.chat-you li:nth-of-type(1){
+   display: inline-block;
+   font-weight: bold;
+   font-size: 15px;
+   margin-right: 10px;
+}
+.chat-you li:nth-of-type(2){
+    display: inline-block;
+    font-size: 14px;
+}
+.chat-you li:nth-of-type(3){
+    font-size: 18px;
+}
+
+/* 내 채팅 */
+.chat-me{
+    /* background-color: rgb(193, 154, 104); */
+    padding:10px;
+}
+.chat-me>div{
+    float: right;
+    width : 82px;
+    height : 82px;
+    border-radius: 50%;
+    background-color: rgb(200, 200, 200);
+}
+.chat-me>ul{
+    margin : 15px 95px 15px 15px;
+    text-align: right;
+}
+ .chat-me li:nth-of-type(1){
+     display: inline-block;
+     font-size: 14px;
+ }
+ .chat-me li:nth-of-type(2){
+     font-size: 18px;
+     color :rgb(3, 195, 115);
+ }
+
+ /* 채팅 입력창 */
+#chat-bottom{
+    width : 100%;
+    height : 80px;
+    border-top: 1px solid rgb(132, 132, 132);
+    /* position:absolute;  */
+    padding-top : 20px;
+    margin-top: 10px;
+    /* bottom:0px; */
+}
+#chat-input{
+    width : 490px;
+    height: 40px;
+    margin-right: 10px;
+}
+#chat-btn{
+    width : 52px;
+    height: 40px;
+    background-color: rgb(3, 195, 115);
+    color : white;
+    border: none;
+    border-radius: 5px;
+}
