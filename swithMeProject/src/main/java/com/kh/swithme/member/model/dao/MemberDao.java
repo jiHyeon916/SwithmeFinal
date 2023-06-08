@@ -75,8 +75,8 @@ public class MemberDao {
 
 	
 	//----------------------희재
-		public ArrayList<Calendar> selectMyCalendarlList(SqlSessionTemplate sqlSession){
-			return (ArrayList)sqlSession.selectList("memberMapper.selectMyCalendarlList");
+		public ArrayList<Calendar> selectMyCalendarlList(SqlSessionTemplate sqlSession, String memberId){
+			return (ArrayList)sqlSession.selectList("memberMapper.selectMyCalendarlList", memberId);
 		}
 		
 		public int addSchedule(SqlSessionTemplate sqlSession, Calendar cl) {

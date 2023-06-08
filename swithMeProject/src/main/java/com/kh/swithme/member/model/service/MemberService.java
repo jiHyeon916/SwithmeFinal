@@ -53,7 +53,7 @@ public interface MemberService {
    
 	//----------------------희재
 	//calendar 조회
-	ArrayList<Calendar> selectMyCalendarlList();
+	ArrayList<Calendar> selectMyCalendarlList(String memberId);
 	
 	// calendar - 일정 추가
 	int addSchedule(Calendar cl);
