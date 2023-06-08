@@ -26,8 +26,9 @@ public class MemberControllerK {
 	
 	@ResponseBody
 	@RequestMapping(value="calendarList.me", produces="application/json; charset=UTF-8")
-	public String ajaxMyCalener(Model model) {
-		ArrayList<Calendar> list = memberService.selectMyCalendarlList();
+	public String ajaxMyCalenerList(String memberId) {
+		System.out.println(memberId);
+		ArrayList<Calendar> list = memberService.selectMyCalendarlList(memberId);
 		return new Gson().toJson(list);
 	}
 	

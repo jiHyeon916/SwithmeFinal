@@ -97,7 +97,7 @@ a:hover {
 		<div class="content">
 			<div class="block">
 				<div class="myBtn">
-					<button>일정</button>
+					<button>일정 </button>
 					<button>오늘의 할 일</button>
 				</div>
 				<div id='calendar'></div>
@@ -202,7 +202,7 @@ a:hover {
 	            	  url:'addSchedule.me',
 	            	  data : {
 	            		  calendarTitle : $('#calendar_title').val(),
-	            		  memberId : 'user00',
+	            		  memberId : '${ loginMember.memberId }',
 	            		  calendarContent : $('#calendar_content').val(),
 	            		  startDay : $('#calendar_start_date').val(),
 	            		  endDay : $('#calendar_end_date').val()
@@ -250,7 +250,7 @@ a:hover {
 	    				  data : {
 	    					  calendarNo : calendarNo,
 		            		  calendarTitle : $('#detail_calendar_title').val(),
-		            		  memberId : 'user00',
+		            		  memberId : '${ loginMember.memberId }',
 		            		  calendarContent : $('#detail_calendar_content').val(),
 		            		  startDay : $('#detail_calendar_start_date').val(),
 		            		  endDay : $('#detail_calendar_end_date').val()
@@ -273,7 +273,7 @@ a:hover {
 	    		        	url : 'deleteSchedule.me',
 	    		        	data : {
 	    						calendarNo : calendarNo
-	    						, memberId : 'user00'
+	    						, memberId : '${ loginMember.memberId }'
 	    		        	},
 	    		        	success : function(){
 	    		        		alert('일정이 삭제되었습니다.');
@@ -294,6 +294,9 @@ a:hover {
 	    	  //캘린더 조회
 	    		$.ajax({
 	    			  url : 'calendarList.me',
+	    			  data : {
+	    				  memberId : '${ loginMember.memberId }'
+	    			  },
 	    			  success : function(result){
 	    		            var events = [];
 	    		            if(result!=null){

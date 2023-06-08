@@ -127,8 +127,8 @@ public class MemberServiceImpl implements MemberService{
 	   
 	   //-----------------------------희재
 		@Override
-		public ArrayList<Calendar> selectMyCalendarlList() {
-			return memberDao.selectMyCalendarlList(sqlSession);
+		public ArrayList<Calendar> selectMyCalendarlList(String memberId) {
+			return memberDao.selectMyCalendarlList(sqlSession, memberId);
 		}
 
 		@Override
