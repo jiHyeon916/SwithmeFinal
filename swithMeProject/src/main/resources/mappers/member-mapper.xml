@@ -27,7 +27,7 @@
 		FROM
 			CALENDAR
 		WHERE
-			MEMBER_ID= 'user00'
+			MEMBER_ID= 'dfdf1234'
 	</select>
 	
 	<!-- 일정 추가 -->
@@ -63,6 +63,28 @@
 		WHERE
 			CALENDAR_NO=#{calendarNo}
 	</update>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	
@@ -254,10 +276,7 @@
       		AND
       			MEMBER_PWD = ${memberEpwdChk}	
       	</select>
-      	
-      	
-      	
-      	
+
       	
       	<!-- 정보수정 -->
       	<update id="updateMember" parameterType="member">

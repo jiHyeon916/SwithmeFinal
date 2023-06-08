@@ -47,7 +47,6 @@ public class AdminController {
 	   
 	   
 	   
-	   
 	   //리스트 넘기기
 	  mv.addObject("pi", pi); 
 	  mv.addObject("memList", adminService.adminMemberList(pi));
@@ -59,7 +58,7 @@ public class AdminController {
    
    
    @RequestMapping("adminMemberSearch.ad")
-   public String adminMemberSearch() {
+   public String adminMemberSearch(int currentPage, String keyword, String condition) {
       
       //페이징처리
       

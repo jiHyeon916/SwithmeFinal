@@ -23,40 +23,31 @@
     #adminMemberBtn:hover{
         cursor: pointer;
     }
-
- 
     #adminMemberTable th{
         width: 150px;
         padding-right: 10px;
     }
-    
     #adminMemberTable th, td{
         border: 1px solid rgb(205, 203, 203);
     }
-    
      #adminMemberTable > thead{
         text-align: center;
     }
-    
     #adminMemberForm input:focus{
        border-color:rgb(3, 195, 115);
        outline: none;
        height:29px;
     }
-    
       #adminMemberForm input{
          height:29px;
          border-radius : 5px;
          border-color : lightgray;
      }
-    
     #adminMemberForm select:focus{
         border-color:rgb(3, 195, 115);
         outline: none;
         border-radius : 5px;
-        
     }
-    
     #adminMemberForm  > select {
           border-radius : 5px;
     }
@@ -107,7 +98,6 @@
                              <th>가입날짜</th>
                              <th>정지여부</th>
                          </tr>
-                         
                     </thead>
                     <tbody>
                     	<c:forEach items="${ memList }" var ="m" >
@@ -121,9 +111,16 @@
 	                         </tr>
                          </c:forEach>
                     </tbody>
-         
                  </table>
             <br><br>
+            
+            	<script>
+            		$(function() {
+            			$('#adminMemberTable > tbody > tr').click(function() {
+            				location.href='#admin상세정보 페이지 만들어서 넣기 ';
+            			});
+            		});
+            	</script>
             
             
             <!-- 페이징처리 -->
@@ -155,11 +152,10 @@
                			<button><a href="adminMember.ad?amPage=${pi.currentPage + 1 }">다음</a></button>
                		</c:otherwise>
                	</c:choose>
-               
-            </div>
-         </div>
-      </div>
-   </div>
+	            </div>
+	         </div>
+	      </div>
+	   </div>
 <br><br><br><br><br><br><br><br><br>
 </body>
 </html>
