@@ -1,6 +1,7 @@
 package com.kh.swithme.admin.model.service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +20,7 @@ public class AdminServiceImpl implements AdminService {
 	@Autowired
 	private SqlSessionTemplate sqlSession;
 	
-	//회원들의 count조회(페이징처리)
+	//회원들의 count조회(페이징)
 	@Override
 	public int selectMemberCount() {
 		return adminDao.selectMemberCount(sqlSession);
@@ -29,6 +30,16 @@ public class AdminServiceImpl implements AdminService {
 	@Override
 	public ArrayList<Member> adminMemberList(PageInfo pi) {
 		return adminDao.adminMemberList(sqlSession, pi);
+	}
+	//검색한 키워드가 포함된 결과 count(페이징)
+	@Override
+	public int selectMemberSearchCount(HashMap<String, String> map) {
+		return adminDao.selectMemberSearchCount(sqlSession, map);
+	}
+	//검색 결과 페이징
+	@Override
+	public ArrayList<Member> selectMemberSearchList(HashMap<String, String> map, PageInfo pi) {
+		return adminDao.selectMemberSearchList(sqlSession, map,pi);
 	}
 	
 	

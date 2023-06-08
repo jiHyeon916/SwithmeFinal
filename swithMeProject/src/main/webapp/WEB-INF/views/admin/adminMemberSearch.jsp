@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+     <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -76,25 +77,37 @@
       </div>
       
       <div class="content">
-         <div class="topBlock">회원관리</div>
+         <div class="topBlock">회원 검색결과</div>
          
          
                   <div class="block">
                      
                      
-               <form action="search.mem" method="post" id="adminMemberForm">
+               <form action="adminMemberSearch.ad" method="post" id="adminMemberForm">
          
                      <input type="hidden" name="currentPage" value="1">
          
-                     <select name="condition" id="adminMemberSelect" >
+                     <select name="condition" id="adminMemberSelect">
                          <option value="memberId">아이디</option>
                          <option value="nickName">닉네임</option>
                      </select>
          
-                     <input type="text" name="keyword">
-                     <button type="submit" id="adminMemberBtn">검색</button>
+                     <input type="text" name="keyword" value="${keyword}">
+                     <button type="submit" id="adminMemberBtn" >검색</button>
          
                  </form>
+                 
+                 <c:if test="${ !empty condition }">
+                 	<script>
+                 		$(function() {
+                 			$('#adminMemberSelect option[value=${condition}]').attr('selected',true);
+                 		});
+                 	</script>
+                 </c:if>
+                 
+                 
+                 
+                 
                  <br><br><br>
                  <table id="adminMemberTable">
                     <thead>
@@ -105,37 +118,75 @@
                              <th>닉네임</th>
                              <th>가입날짜</th>
                              <th>정지여부</th>
+                             <th> </th>
                          </tr>
-                         
                     </thead>
                     <tbody>
-                         <tr>
-                             <td>#no</td>
-                             <td>#아이디</td>
-                             <td>#이름</td>
-                             <td>#닉네임</td>
-                             <td>#가입날짜</td>
-                             <td>#정지여부</td>
-                         </tr>
+                    	
+                    	<c:choose>
+                    		<c:when test="${empty searchList }">
+                    			<tr>
+                    				<td colspan="7">조회된 결과가 없습니다.</td>
+                    			</tr>
+                    		</c:when>
+ 							<c:otherwise>
+ 							                   	
+		                    	<c:forEach items="${searchList }" var="m">
+		                         <tr>
+		                             <td>#no</td>
+		                             <td>${m.memberId }</td>
+		                             <td>${m.memberName }</td>
+		                             <td>${m.nickName }</td>
+		                             <td>${m.memberEnrollDate }</td>
+		                             <td>${m.memberStatus }</td>
+		                             <td><button >정지</button></td>
+		                         </tr>
+		                        </c:forEach>
+		                     </c:otherwise>   
+                        </c:choose> 
                     </tbody>
          
                  </table>
                  
                  
             <br><br>
+            
+            <!-- 페이징 처리 --> 
             <div class="paBtn">
-               <button>1</button>
-               <button>2</button>
-               <button>3</button>
-               <button>4</button>
-               <button>5</button>
-            </div>
+            
+               <!-- 현재페이지가 1이면 이전버튼 작동 x 아니면 현재페이지 -1 작동 -->
+               	<c:choose>
+               		<c:when test="${pi.currentPage eq 1 }">
+               			<button disabled><a href="">이전</a></button>
+               		</c:when>
+               		<c:otherwise>
+               			<button><a href="adminMemberSearch.ad?amPage=${pi.currentPage - 1 }">이전</a></button>
+               		</c:otherwise>
+               	</c:choose>
+               	
+               	
+               	<c:forEach var="p" begin="${pi.startPage }" end="${pi.endPage }">
+               		<button><a href="adminMemberSearch.ad?amPage=${p }">${p }</a></button>
+               	
+               	</c:forEach>
+               	
+               	
+               	<!-- 다음 버튼 만들기 -->
+               	<c:choose>
+               		<c:when test="${pi.currentPage eq pi.maxPage }">
+               			<button disabled><a href="#">다음</a></button>
+               		</c:when>
+               		<c:otherwise>
+               			<button><a href="adminMemberSearch.ad?amPage=${pi.currentPage + 1 }">다음</a></button>
+               		</c:otherwise>
+               	</c:choose>
+	            </div>
             
          </div>
          
       
       </div>
    </div>
-
+<br><br><br><br><br><br>
 </body>
 </html>
