@@ -5,7 +5,6 @@
 <head>
 <meta charset="UTF-8">
 <title>비밀번호 찾기 폼 </title>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 </head>
 <style>
 
@@ -22,7 +21,6 @@
     
     #searchPwdForm table td{
         width: 150px;
-        height : 30px;
     }
    
    #searchPwdForm button{
@@ -30,7 +28,7 @@
         border: none;
         border-radius: 5px;
         width: 285px;
-        height: 40px;
+        height: 35px;
         margin-left: 20px; 
         color: white;
         
@@ -80,36 +78,38 @@
     
     <h1 id="searchPwdTitle" align="center">비밀번호 찾기</h1><br><br>
 
-    <form action="searchPwd.mem" method="post">
+    <form action="searchPwd.me" method="post">
         <div id="searchPwdForm">
             <table  border="0" align="center" width="180px;">
                 <br><br>
-                
+                <tr>
+                    <th>이름</th>
+                    <td colspan="2"><input type="text" name="memberName"  required placeholder=" 이름을 입력해주세요." ></td>
+                </tr><td><br></td></tr>
                 <tr>
                     <th>아이디</th>
-                    <td colspan="2"><input type="text" value="${memberId}" name="memberId"  required placeholder=" 아이디를 입력해주세요." ></td>
+                    <td colspan="2"><input type="text" name="memberId"  required placeholder=" 아이디를 입력해주세요." ></td>
                 </tr><td><br></td></tr>
-                <tr>
-                    <th>이메일</th>
-                    <td colspan="2"><input type="eamil" value="${memberEmail}" name="memberEmail" required placeholder=" 이메일을 입력해주세요."></td>
-                </tr>
                 
                 <tr>
-                <td id="reWriteMessage"> </td>
+                    <th>이메일</th>
+                    <td colspan="2"><input type="eamil" name="userEmail" required placeholder=" 비밀번호를 입력해주세요."></td>
                 </tr>
-                <td><br></td></tr>
+                <tr><td><br></td></tr>
                 <tr>
-                    <td colspan="3"><button>찾기</button></td>
+                    <td id="PwderrorMsg" colspan="3" style="display:n***;" >
+                        * 이름 / 아이디 / 이메일을 다시 입력해주세요.
+                    </td>
+                 
                 </tr><td><br></td></tr>
+                    
+                <tr>
+                    <td colspan="3"><button onclick="location.href='###'">찾기</button></td>
+                </tr><td><br></td></tr>
+                
             </table>
         </div>
     </form>
-    
- 
-
-    
-    
-   
      <br><br><br><br><br><br>
  					<jsp:include page="../common/footer.jsp"/>
 

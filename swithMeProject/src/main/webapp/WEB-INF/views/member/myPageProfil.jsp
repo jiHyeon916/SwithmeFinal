@@ -3,7 +3,6 @@
 <!DOCTYPE html>
 <html>
 <head>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <link rel="stylesheet" href="resources/css/member/myPoint.css">
@@ -56,14 +55,12 @@
 				            이메일
 				        </div>
 				</div>
-				
-				
-				        <button type="button" data-toggle="modal" data-target="#basicExampleModal" style="background-color:rgb(210, 59, 59);">
+				        <button style="background-color:rgb(210, 59, 59);">
 				            회원탈퇴
 				        </button>
 				
 				
-				        <button  type="button" data-toggle="modal" data-target="#basicExampleModal2"  style="background-color: rgb(3, 195, 115); margin-left: 80px;">
+				        <button  onclick="location.href='###'" style="background-color: rgb(3, 195, 115); margin-left: 80px;">
 				            정보수정
 				        </button>
 								
@@ -71,160 +68,6 @@
 							
 				
 			</div>
-<%-- 
-<!-- 회원탈퇴 버튼 클릭 시 보여질 Modal -->
-    <div class="modal fade" id="deleteForm">
-        <div class="modal-dialog modal-sm">
-            <div class="modal-content">
-
-                <!-- Modal Header -->
-                <div class="modal-header">
-                    <h4 class="modal-title">회원탈퇴</h4>
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                </div>
-
-                <form action="delete.mem" method="post">
-                    <!-- Modal body -->
-                    <div class="modal-body">
-                        <div align="center">
-                            탈퇴 후 복구가 불가능합니다. <br>
-                            정말로 탈퇴 하시겠습니까? <br>
-                        </div>
-                        <br>
-                            <label for="userPwd" class="mr-sm-2">Password : </label>
-                            <input type="text" class="form-control mb-2 mr-sm-2" placeholder="Enter Password" id="userPwd" name="memberPwd"> <br>
-                    </div>
-                    <!-- Modal footer -->
-                    <div class="modal-footer" align="center">
-                        <button type="submit" class="btn btn-danger">탈퇴하기</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-    
-   --%>
-    
-    
-    
-    <!-- Button trigger modal -->
-
-<!-- 회원탈퇴 Modal -->
-<div class="modal fade" id="basicExampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-  aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">회원탈퇴</h5>
-     </div>
-    	  <form action="delete.mem" method="post">
-      			<div class="modal-body">
-        			<div align="center">
-	                            탈퇴 후 복구가 불가능합니다. <br>
-	                            정말로 탈퇴 하시겠습니까? <br>
-	                </div><br>
-                      <label for="userPwd" class="mr-sm-2">Password : </label>
-                      <input type="password" class="form-control mb-2 mr-sm-2" placeholder="Enter Password" id="userPwd" name="memberPwd"> <br>
-                    </div>
-                    <!-- Modal footer -->
-                    <div class="modal-footer" align="center">
-                        <button type="submit" class="btn btn-danger">탈퇴하기</button>
-    				 </div>
-   		   </form>
-	    </div>
-	  </div>
-	</div>
-    
-    
-    <!-- 정보수정 Modal -->
-<div class="modal fade" id="basicExampleModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-  aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">회원탈퇴</h5>
-     </div>
-    	  <form action="updateEnrollForm.mem" method="post">
-      			<div class="modal-body">
-        			<div align="center">
-	                            정보수정을 원하시면 현재 비밀번호를 입력해주세요. <br><br>
-	                </div><br>
-                      <label for="userPwd" class="mr-sm-2">Password : </label>
-                      <input type="password" class="form-control mb-2 mr-sm-2" placeholder="Enter Password" id="userPwd" name="memberPwdUpdate"> <br>
-                    </div>
-                    <!-- Modal footer -->
-                    <div class="modal-footer" align="center">
-                        <button type="submit" class="btn btn-danger">수정하기</button>
-    				 </div>
-   		   </form>
-	    </div>
-	  </div>
-	</div>
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			<script>
-			$('#deleteBtn').click(function() {
-				
-				let password = prompt('탈퇴를 원하시면 비밀번호를 입력해주세요');
-				
-				console.log(password);
-				
-					$.ajax({
-							url : 'memberPwdChk.me',
-							data : {memberPwd : password},
-									
-							success : function(result) {
-								
-								if(result > 0) { //삭제 성공
-									comfirm('탈퇴되었습니다.');
-									location.href="delete.mem";
-								
-								}else{
-									comfirm('비밀번호를 다시 입력해주세요.');
-								}							
-							},error : () => {console.log('실패');}
-					});
-					
-				});
-			</script>
-			
 			
 			<br><br><br>
 		</div>
