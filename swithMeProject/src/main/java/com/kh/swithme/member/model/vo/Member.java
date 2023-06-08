@@ -10,7 +10,7 @@ public class Member {
 	private String memberName;
 	private String memberEmail;
 	private String nickName;
-	private String memberEnrollDate;
+	private String enrollDate;
 	private String memberStatus;
 	
 }

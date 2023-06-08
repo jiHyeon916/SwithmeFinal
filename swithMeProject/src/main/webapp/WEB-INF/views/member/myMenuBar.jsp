@@ -11,7 +11,6 @@
 		
 	<div id="myMenuBar-area">
 		<ul id="mySide1">
-		
 			<li><a href="profil.me">프로필</a></li>
 			<li><a href="alarm.me">알림</a></li>
 			<li><a href="item.me">캐릭터</a></li>
@@ -20,8 +19,8 @@
 			<li><a href="chat.me">채팅</a></li>
 		</ul>
 		<ul id="mySide2">
-			<li><a href="#">일정관리</a></li>
-			<li><a href="#">스터디밴드</a></li>
+			<li><a href="calendar.me">일정관리</a></li>
+			<li><a href="studyBand.me">스터디밴드</a></li>
 		</ul>
 		<ul id="mySide3"> 	
 			<li><a href="history.me">활동정보</a></li>

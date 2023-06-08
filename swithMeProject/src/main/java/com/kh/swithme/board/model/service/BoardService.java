@@ -1,6 +1,7 @@
 package com.kh.swithme.board.model.service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import com.kh.swithme.board.model.vo.Attach;
 import com.kh.swithme.board.model.vo.Board;
@@ -71,26 +72,39 @@ public interface BoardService {
 	
 	
 	
-	//// ------------------희재 - 스터디룸 
+////------------------희재 - 스터디룸 
 	// 스터디룸 리스트 카운트
 	int sRoomListCount();
 	
 	// 스터디룸 리스트 불러오기
 	ArrayList<StudyRoom> selectSRoomList(PageInfo pi);
 	
-	// 스터디룸 대표이미지 불러오기
+	// 스터디룸 이미지 불러오기
 	ArrayList<Attach> selectSRoomAttachList(int studyRoomNo);
 	
 	// 스터디름 상세 정보 보기 
 	StudyRoom selectStudyRoom(int studyRoomNo);
 	
-	// 댓글(후기) 불러오기
+	// 댓글(이용후기) 불러오기
 	ArrayList<SRoomReview> selectStudyRoomReviewList(int studyRoomNo);
 	
-	// 댓글(후기) 작성하기
+	// 댓글(이용후기) 작성하기
 	int insertStudyRoomReview(SRoomReview sr);
 	
+	// 댓글(이용후기) 불러오기
+	SRoomReview selectStudyRoomReview(int reviewNo);
 	
+	// 댓글(이용후기) 수정하기
+	int updateStudyRoomReview(SRoomReview sr);
+	
+	// 댓글(이용후기) 삭제하기
+	int deleteStudyRoomReview(int reviewNo);
+	
+	// 스터디룸 주소 불러오기
+	ArrayList<StudyRoom> selectAddress();
+	
+	// 스터디룸 검색하기
+	ArrayList<StudyRoom> studyRoomSearch(HashMap<String, String> map);
 	
 	
 	

@@ -1,6 +1,7 @@
 package com.kh.swithme.board.model.service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,20 +19,20 @@ import com.kh.swithme.common.model.vo.PageInfo;
 @Service
 public class BoardServiceImpl implements BoardService {
 
-	
+
 	@Autowired
 	private BoardDao boardDao;
-	
+
 	@Autowired
 	private SqlSessionTemplate sqlSession;
-	
-	
-	
-	
-	
-	
+
+
+
+
+
+
 	// 혜린
-	
+
 	@Override
 	public int boardListCount(int boardType) {
 		return boardDao.boardListCount(sqlSession, boardType);
@@ -105,10 +106,10 @@ public class BoardServiceImpl implements BoardService {
 		return boardDao.reReplyBoard(sqlSession, rere);
 	}
 
-	
-	
+
+
 	// 희재 - 스터디룸 
-	
+
 	@Override
 	public int sRoomListCount() {
 		return boardDao.sRoomListCount(sqlSession);
@@ -121,7 +122,7 @@ public class BoardServiceImpl implements BoardService {
 
 	@Override
 	public ArrayList<Attach> selectSRoomAttachList(int studyRoomNo) {
-		return null;
+		return boardDao.selectSRoomAttachList(sqlSession, studyRoomNo);
 	}
 
 	@Override
@@ -138,5 +139,30 @@ public class BoardServiceImpl implements BoardService {
 	public int insertStudyRoomReview(SRoomReview sr) {
 		return boardDao.insertStudyRoomReview(sqlSession, sr);
 	}
-	
+
+	@Override
+	public SRoomReview selectStudyRoomReview(int reviewNo) {
+		return boardDao.selectStudyRoomReview(sqlSession, reviewNo);
+	}
+
+	@Override
+	public int updateStudyRoomReview(SRoomReview sr) {
+		return boardDao.updateStudyRoomReview(sqlSession, sr);
+	}
+
+	@Override
+	public int deleteStudyRoomReview(int reviewNo) {
+		return boardDao.deleteStudyRoomReview(sqlSession, reviewNo);
+	}
+	@Override
+	public ArrayList<StudyRoom> selectAddress() {
+		return boardDao.selectAddress(sqlSession);
+	}
+	@Override
+	public ArrayList<StudyRoom> studyRoomSearch(HashMap<String, String> map) {
+		return boardDao.studyRoomSearch(sqlSession, map);
+	}
+
+
+
 }

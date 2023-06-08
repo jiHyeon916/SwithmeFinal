@@ -1,5 +1,7 @@
 package com.kh.swithme.board.controller;
 
+import java.util.HashMap;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -243,22 +245,59 @@ public class BoardController {
 	@RequestMapping("studyRoomDetail.bo")
 	public String selectStudyRoom(int studyRoomNo, Model model) {
 		model.addAttribute("sRoomDetail", boardService.selectStudyRoom(studyRoomNo));
+		model.addAttribute("sRoomAttachList", boardService.selectSRoomAttachList(studyRoomNo));
 		return "board/studyRoomDetail";
 	}
 	
 	@ResponseBody
 	@RequestMapping(value="selectStudyRoomReviewList.bo", produces="application/json; charset=UTF-8")
 	public String ajaxSelectStudyRoomReviewList(int studyRoomNo) {
-		System.out.println(boardService.selectStudyRoomReviewList(studyRoomNo));
 		return new Gson().toJson(boardService.selectStudyRoomReviewList(studyRoomNo));
 	}
 	
 	@ResponseBody
 	@RequestMapping(value="insertstudyRoomReview.bo", produces="application/json; charset=UTF-8")
 	public int ajaxInsertStudyRoomReview(SRoomReview sr) {
-		System.out.println(sr);
 		return boardService.insertStudyRoomReview(sr);
 	}
+	
+	@ResponseBody
+	@RequestMapping(value="selectStudyRoomReview.bo", produces="application/json; charset=UTF-8")
+	public String ajaxSelectStudyRoomReview(int reviewNo) {
+		return new Gson().toJson(boardService.selectStudyRoomReview(reviewNo));
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="deleteReview.bo")
+	public int ajaxDeleteReview(int reviewNo) {
+		return boardService.deleteStudyRoomReview(reviewNo);
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="updateReview.bo", produces="application/json; charset=UTF-8")
+	public String ajaxUpdateReview(SRoomReview sr) {
+		return new Gson().toJson(boardService.updateStudyRoomReview(sr));
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="map.bo", produces="application/json; charset=UTF-8")
+	public String ajaxSelectAddress() {
+		return new Gson().toJson(boardService.selectAddress());
+	}
+	
+	@RequestMapping(value="sRoomSearch.bo")
+	public String studyRoomSearch(String searchSelect, String searchText, Model model) {
+		HashMap<String, String> map = new HashMap();
+		map.put("searchSelect", searchSelect);
+		map.put("searchText", searchText);
+
+		model.addAttribute("sRoomList", boardService.studyRoomSearch(map));
+		
+		return "board/studyRoomMain";
+	}
+	
+
+
 	
 
 	
