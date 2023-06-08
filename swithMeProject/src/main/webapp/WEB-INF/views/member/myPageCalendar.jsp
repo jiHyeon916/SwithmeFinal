@@ -80,7 +80,25 @@ a:hover {
 	border-radius: 5px;
 	margin-right: 10px;
 }
+
+.myBtn>button:hover{
+	background-color : rgb(207, 254, 227);
+	color : #03c373;
+}
+
+/* 일요일 날짜 빨간색 */
+.fc-day-sun a {
+  color: rgb(255, 75, 75);
+  text-decoration: none;
+}
+
+/* 토요일 날짜 파란색 */
+.fc-day-sat a {
+  color: rgb(60, 60, 255);
+  text-decoration: none;
+}
 </style>
+
 
 <title>Insert title here</title>
 </head>
@@ -97,8 +115,8 @@ a:hover {
 		<div class="content">
 			<div class="block">
 				<div class="myBtn">
-					<button>일정 </button>
-					<button>오늘의 할 일</button>
+					<button onclick="location.href='calendar.me'">일정 </button>
+					<button onclick="location.href='toDoList.me'">오늘의 할 일</button>
 				</div>
 				<div id='calendar'></div>
 			</div>
@@ -182,10 +200,10 @@ a:hover {
 	    var calendarEl = document.getElementById('calendar');
 	    var calendar = new FullCalendar.Calendar(calendarEl, {
 	    	
-	    	headerTollbar : {
-	            left: '',
+	    	headerToolbar : {
+	            left: 'prev',
 	            center: 'title',
-	            right: 'prev,next today'
+	            right: 'next today'
 	    	},
 	
 	      initialDate: new Date().toISOString().substring(0, 10),
@@ -193,9 +211,11 @@ a:hover {
 	      selectable: true,
 	      selectMirror: true,
 	      select: function(arg) {
-	    	  //캘린더 입력
+	    	  //캘린더 일정 추가
 	    	  var date =  moment(arg.startStr).format('YYYY-MM-DD');
+	    	  var date2 =  moment(arg.startStr).add(1, 'days').format('YYYY-MM-DD');
 	    	  document.getElementById('calendar_start_date').value = date;
+	    	  document.getElementById('calendar_end_date').value = date2;
 	    	  $("#calendarModal").modal("show"); // modal 나타내기
 	    	  $('#addCalendar').on('click', function(){
 	        	  $.ajax({
@@ -311,6 +331,8 @@ a:hover {
 	    		                    ,calendarContent : item.calendarContent
 	    		                    ,start : item.startDay
 	    		                    ,end : enddate
+	    		                    ,color : '#80f0c1ea'
+	    		                    ,allDay : false
 	    		            	});
 	    		            });
 	    		         }
