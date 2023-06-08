@@ -3,7 +3,66 @@
     PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="memberMapper">
+	<resultMap id="CalendarResultSet" type="calendar">
+		<result column="CALENDAR_NO" property="calendarNo" />
+		<result column="MEMBER_ID" property="memberId" />
+		<result column="START_DAY" property="startDay" />
+		<result column="END_DAY" property="endDay" />
+		<result column="CALENDAR_TITLE" property="calendarTitle" />
+		<result column="CALENDAR_CONTENT" property="calendarContent" />
+		<result column="TEXTCOLOR" property="textColor" />
+		<result column="BACKGROUNDCOLOR" property="backgroundColor" />
+</resultMap>
 	<!-- 희재 -->
+	<!-- 일정 조회 -->
+	<select id="selectMyCalendarlList" resultMap="CalendarResultSet">
+		SELECT
+			CALENDAR_NO
+			,TO_char(START_DAY, 'YYYY-MM-DD') AS "START_DAY"
+			,TO_char(END_DAY, 'YYYY-MM-DD') AS "END_DAY"
+			,CALENDAR_TITLE
+			,CALENDAR_CONTENT
+			,TEXTCOLOR
+			,BACKGROUNDCOLOR
+		FROM
+			CALENDAR
+		WHERE
+			MEMBER_ID= 'user00'
+	</select>
+	
+	<!-- 일정 추가 -->
+	<insert id="addSchedule" parameterType="Calendar">
+		INSERT
+		INTO 
+			CALENDAR
+			(CALENDAR_NO, MEMBER_ID, START_DAY, END_DAY, CALENDAR_TITLE, CALENDAR_CONTENT)
+		VALUES
+			(SEQ_CALENDAR_NO.NEXTVAL, #{memberId}, #{startDay}, #{endDay}, #{calendarTitle}, #{calendarContent})
+	</insert>
+	
+	<!-- 일정 삭제 -->
+	<delete id="deleteSchedule" parameterType="Calendar">
+		DELETE
+		FROM
+			CALENDAR
+		WHERE
+			CALENDAR_NO=#{calendarNo}
+		AND
+			MEMBER_ID=#{memberId}
+	</delete>
+	
+	<!-- 일정 수정 -->
+	<update id="updateScehdule" parameterType="Calendar">
+		UPDATE
+			CALENDAR
+		SET
+			CALENDAR_TITLE=#{calendarTitle}
+			,CALENDAR_CONTENT=#{calendarContent}
+			,START_DAY=#{startDay}
+			,END_DAY=#{endDay}
+		WHERE
+			CALENDAR_NO=#{calendarNo}
+	</update>
 	
 	
 	

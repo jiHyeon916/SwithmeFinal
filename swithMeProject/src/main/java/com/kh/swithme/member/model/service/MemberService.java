@@ -1,53 +1,68 @@
 package com.kh.swithme.member.model.service;
 
-import com.kh.swithme.member.model.vo.Mail;
+import java.util.ArrayList;
+
+import com.kh.swithme.member.model.vo.Calendar;
 import com.kh.swithme.member.model.vo.Member;
 
 public interface MemberService {
 	
 	
-	//아이디 중복 체크
+	//�븘�씠�뵒 以묐났 泥댄겕
 	int idCheck(String checkId);
 	
-	//닉네임 중복체크
+	//�땳�꽕�엫 以묐났泥댄겕
 	int nickCheck(String checkNick);
 	
-	//이메일 중복체크
+	//�씠硫붿씪 以묐났泥댄겕
 	int emailCheck(String checkEmail);
 	
-	//회원가입
+	//�쉶�썝媛��엯
 	int joinMember(Member m);
 	
-	//회원가입시 포인트 insert
+	//�쉶�썝媛��엯�떆 �룷�씤�듃 insert
 	int joinPoint(Member m);
 
-	//로그인
+	//濡쒓렇�씤
 	Member loginMember(Member m);
 
-   //로그인시 출석 포인트 select
+   //濡쒓렇�씤�떆 異쒖꽍 �룷�씤�듃 select
    int loginPointChk(Member m);
 
-   //로그인 포인트 insert
+   //濡쒓렇�씤 �룷�씤�듃 insert
    int loginPointInsert(Member m);
    
-   // 로그인 찾기
+   // 濡쒓렇�씤 李얘린
    Member memberSerchId(Member m);
    
-   //회원탈퇴
+   //�쉶�썝�깉�눜
    int deleteMember(String userId);
   
-   //기존 비밀번호 확인
+   //湲곗〈 鍮꾨�踰덊샇 �솗�씤
    int memberPwdChk(Member m);
    
    
-   //정보수정
+   //�젙蹂댁닔�젙
    int updateMember(Member m);
 
-   //비밀번호 찾기(회원이 입력한 값이 일치한지 확인)
+   //鍮꾨�踰덊샇 李얘린(�쉶�썝�씠 �엯�젰�븳 媛믪씠 �씪移섑븳吏� �솗�씤)
    Member memberSearchPwd(Member m);
    
-   //임시번호 메일 보내기
+   //�엫�떆踰덊샇 硫붿씪 蹂대궡湲�
    void sendMailInsert(Member m);
+   
+	//----------------------희재
+	//calendar 조회
+	ArrayList<Calendar> selectMyCalendarlList();
+	
+	// calendar - 일정 추가
+	int addSchedule(Calendar cl);
+	
+	// calendar - 일정 삭제
+	int deleteSchedule(Calendar cl);
+	
+	// calendar - 일정 수정
+	int updateSchedule(Calendar cl);
 	
 	  
 }
