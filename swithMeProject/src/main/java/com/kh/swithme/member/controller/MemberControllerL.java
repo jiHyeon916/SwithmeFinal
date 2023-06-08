@@ -80,14 +80,7 @@ public class MemberControllerL {
    public String profilMember() {
       return "member/myPageProfil";
    }
-   /*
-   //정보수정 폼으로 이동
-   @RequestMapping("updateEnrollForm.mem")
-   public String updateMember() {
-	   return "member/updateEnrollForm";
-   }
- 
-   */
+   
    
    
    
@@ -100,7 +93,6 @@ public class MemberControllerL {
    @RequestMapping("idCheck.me")
    public String idCheck(String checkId) {
       return memberService.idCheck(checkId) > 0 ? "N" : "Y";
-
    }
    
    /**닉네임 중복체크
@@ -136,17 +128,14 @@ public class MemberControllerL {
       
          if(memberService.joinMember(m) > 0) { //회원가입 성공
             memberService.joinPoint(m);
-               //message = "<script>alert('환영합니다 ! 500p가 지급되었습니다 !');location.href='loginForm.me';</script>";
                session.setAttribute("alertMsg","회원가입을 축하합니다 ! 500p가 지급되었습니다 !");   
                mv.setViewName("member/loginForm");
             }else {
-               //message = "<script>alert('회원가입을 다시 시도해주세요.');location.href='memberEnrollForm.me';</script>";
             	session.setAttribute("alertMsg","회원가입에 실패했습니다.");   
                 mv.setViewName("member/memberEnrollForm");
             }
          return mv;
       }
-   
    
    /**로그인하기
     * @param m
@@ -157,18 +146,17 @@ public class MemberControllerL {
       
       Member loginMember = memberService.loginMember(m); // DB에 저장되어있는 회원정보 가져오기
       //System.out.println(loginMember);
-      //복화
-      if(loginMember != null && bcryptPasswordEncoder.matches(m.getMemberPwd(), loginMember.getMemberPwd())) {
-            
+      	//복화
+      	if(loginMember != null && bcryptPasswordEncoder.matches(m.getMemberPwd(), loginMember.getMemberPwd())) {
             if(memberService.loginPointChk(m) == 0 && !loginMember.getMemberId().equals("admin")) {
             	memberService.loginPointInsert(m);
             	session.setAttribute("alertMsg", "환영합니다 ! 30p가 지급되었습니다 !");
             }
-            session.setAttribute("loginMember", loginMember);
-            model.setViewName("redirect:/");
-      }else {
-    	  	session.setAttribute("alertMsg", "로그인에 실패하였습니다.");
-            model.setViewName("member/loginForm");
+	            session.setAttribute("loginMember", loginMember);
+	            model.setViewName("redirect:/");
+	      			}else {
+			    	  	session.setAttribute("alertMsg", "로그인에 실패하였습니다.");
+			            model.setViewName("member/loginForm");
       }
          return model;
    }
@@ -186,7 +174,6 @@ public class MemberControllerL {
 	   }
 	
 	
-	
 	/** 아이디 찾기
 	 * @return
 	 */
@@ -196,7 +183,6 @@ public class MemberControllerL {
 		Member searchMember = memberService. memberSerchId(m);
 		session.setAttribute("searchMember", searchMember);
 		model.setViewName("member/searchIdResult");
-		
 		return model;
 		
 	}
@@ -209,7 +195,7 @@ public class MemberControllerL {
 	public String deleteMember(String memberPwd, HttpSession session) {
 		
 			String encPwd = ((Member)session.getAttribute("loginMember")).getMemberPwd();// DB에 기록된 암호화된 비밀번호
-		
+
 			if(bcryptPasswordEncoder.matches(memberPwd, encPwd)) { //사용자가 입력한 평문과 암호가 맞을 경우.  
 				
 				//위에가 맞아야 아이디 검사를 하는거임.
@@ -230,8 +216,6 @@ public class MemberControllerL {
 					session.setAttribute("alertMsg", "비밀번호를 다시 입력해주세요.");
 					return "redirect:profil.me";
 			}
-		
-		
 	}
 	
 	
@@ -276,34 +260,27 @@ public class MemberControllerL {
 		
 		String encPwd = ((Member)session.getAttribute("loginMember")).getMemberPwd();// DB에 기록된 암호화된 비밀번호
 		
-		System.out.println(memberPwdUpdate);
+		//System.out.println(memberPwdUpdate);
 		if(bcryptPasswordEncoder.matches(memberPwdUpdate, encPwd)) { //사용자가 입력한 평문과 암호가 맞을 경우.  
 			
 			//위에가 맞아야 아이디 검사를 하는거임.
 			
 				return "member/updateEnrollForm";
 				
-				}else { //비번 잘못침.
+					}else { //비번 잘못침.
 				
-					session.setAttribute("alertMsg", "비밀번호를 다시 입력해주세요.");
-					return "redirect:profil.me";
+						session.setAttribute("alertMsg", "비밀번호를 다시 입력해주세요.");
+						return "redirect:profil.me";
 		}
-	
-		//암호화하기 
-		
-		/*
-		if(memberService.updateMember(m) > 0 ) { //update성공
-			session.setAttribute("alertMsg", "정보가 수정되었습니다.");
-			return "redirect:/";
-		}else {
-			session.setAttribute("alertMsg", "정보수정 실패");
-			return "member/updateEnrollForm";
-		}
-		*/
-		
 	}
 	
 	
+	
+	/**정보수정
+	 * @param m
+	 * @param session
+	 * @return
+	 */
 	@RequestMapping("update.mem")
 	public String updateMember(Member m, HttpSession session) {
 		
@@ -311,14 +288,13 @@ public class MemberControllerL {
 	      m.setMemberPwd(encPwd);
 	      //System.out.println(encPwd);
 		
-		if(memberService.updateMember(m) > 0 ) { //update성공
-			session.setAttribute("alertMsg", "정보가 수정되었습니다.");
-			return "redirect:/";
-		}else {
-			session.setAttribute("alertMsg", "정보수정 실패");
-			return "member/updateEnrollForm";
-		}
-		
+			if(memberService.updateMember(m) > 0 ) { //update성공
+				session.setAttribute("alertMsg", "정보가 수정되었습니다.");
+				return "redirect:/";
+			}else {
+				session.setAttribute("alertMsg", "정보수정 실패");
+				return "member/updateEnrollForm";
+			}
 	}
 	
 	
@@ -385,9 +361,6 @@ public class MemberControllerL {
 				mv.setViewName("member/searchPwdForm");
 			}
 			return mv;
-		
-		
-		
 	}
 	
 	
@@ -401,8 +374,6 @@ public class MemberControllerL {
 		String secret = f.format(i);
 		
 		return secret;
-		
-		
 	}
 	
 	

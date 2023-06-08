@@ -18,4 +18,29 @@ public class AdminController {
 	}
 	
 	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	//이지현
+	
+	//회원관리로 이동
+	//회원관리로 이동
+    @RequestMapping("adminMember.ad")
+    public String adminMember() {
+    	return "admin/adminMember"; 
+    }
+	
 }

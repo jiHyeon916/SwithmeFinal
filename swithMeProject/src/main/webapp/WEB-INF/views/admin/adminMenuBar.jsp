@@ -10,7 +10,7 @@
 <body>
 	<div id="adminMenuBar-area">
 		<ul id="adSide">
-			<li><a href="#">회원관리</a></li>
+			<li><a href="adminMember.ad">회원관리</a></li>
 			<li><a href="#">스터디밴드관리</a></li>
 			<li><a href="#">스터디룸관리</a></li>
 			<li><a href="#">상점관리</a></li>
