@@ -6,7 +6,57 @@
 	<!-- 희재 -->
 	
 	
+	
+	
+	
+	
+	
+	
 	<!-- 지현 -->
+	
+	<resultMap type="member" id="memberResultSet">
+		<result column="MEMBER_ID" property="memberId" />
+		<result column="MEMBER_PWD" property="memberPwd" />
+		<result column="MEMBER_NAME" property="memberName" />
+		<result column="MEMBER_EMAIL" property="memberEmail" />
+		<result column="NICKNAME" property="nickName" />
+		<result column="MEMBER_ENROLL_DATE" property="memberEnrollDate" />
+		<result column="MEMBER_STATUS" property="memberStatus" />
+	</resultMap>
+	
+	
+	<!-- 회원들의 count 조회(페이징) -->
+	<select id="selectMemberCount" resultType="_int">
+		SELECT
+			COUNT(*)
+		FROM
+			MEMBER	
+	</select>
+	
+	
+	
+	<!-- 회원들 모두 조회 -->
+	<select id="adminMemberList" resultMap="memberResultSet">
+			SELECT
+			MEMBER_ID 		
+			,MEMBER_NAME	
+			,NICKNAME		
+			,TO_CHAR(MEMBER_ENROLL_DATE, 'YYYY-MM-DD') AS MEMBER_ENROLL_DATE	
+			,MEMBER_STATUS			
+		FROM	
+			MEMBER
+        ORDER 
+            BY 
+                MEMBER_ENROLL_DATE DESC
+	
+	</select>
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	<!-- 유진 -->

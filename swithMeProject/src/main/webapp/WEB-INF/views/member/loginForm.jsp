@@ -21,6 +21,7 @@
     
     #loginMember table td{
         width: 150px;
+        height:30px;
     }
    
    #loginMember button{
@@ -28,7 +29,7 @@
         border: none;
         border-radius: 5px;
         width: 285px;
-        height: 35px;  
+        height: 40px; 
         color : white;
         
     }
@@ -39,7 +40,7 @@
     border-radius: 5px;
     border-color: lightgray;
     border-style: double;
-    height: 23px;
+    height: 29px;
     width: 200px;
     font-size:12px;
 }
@@ -56,7 +57,7 @@
         
     }
     #loginMember table{
-    	margin-left:90px;
+    	margin:auto;
     }
 
 </style>
@@ -82,7 +83,7 @@
                 
                 <tr>
                     <th>비밀번호</th>
-                    <td colspan="2"><input type="password" required placeholder=" 비밀번호를 입력해주세요."></td>
+                    <td colspan="2"><input type="password" name="memberPwd" required placeholder=" 비밀번호를 입력해주세요."></td>
                 </tr><td><br></td></tr>
                 
                 <tr>

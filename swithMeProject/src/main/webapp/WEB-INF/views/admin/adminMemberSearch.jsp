@@ -1,6 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-    <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -77,7 +76,7 @@
       </div>
       
       <div class="content">
-         <div class="topBlock">전체회원</div>
+         <div class="topBlock">회원관리</div>
          
          
                   <div class="block">
@@ -110,56 +109,33 @@
                          
                     </thead>
                     <tbody>
-                    	<c:forEach items="${ memList }" var ="m" >
-	                         <tr>
-	                             <td>#No</td>
-	                             <td>${m.memberId }</td>
-	                             <td>${m.memberName }</td>
-	                             <td>${m.nickName }</td>
-	                             <td>${m.memberEnrollDate }</td>
-	                             <td>${m.memberStatus }</td>
-	                         </tr>
-                         </c:forEach>
+                         <tr>
+                             <td>#no</td>
+                             <td>#아이디</td>
+                             <td>#이름</td>
+                             <td>#닉네임</td>
+                             <td>#가입날짜</td>
+                             <td>#정지여부</td>
+                         </tr>
                     </tbody>
          
                  </table>
+                 
+                 
             <br><br>
-            
-            
-            <!-- 페이징처리 -->
             <div class="paBtn">
-            
-               <!-- 현재페이지가 1이면 이전버튼 작동 x 아니면 현재페이지 -1 작동 -->
-               	<c:choose>
-               		<c:when test="${pi.currentPage eq 1 }">
-               			<button disabled><a href="">이전</a></button>
-               		</c:when>
-               		<c:otherwise>
-               			<button><a href="adminMember.ad?amPage=${pi.currentPage - 1 }">이전</a></button>
-               		</c:otherwise>
-               	</c:choose>
-               	
-               	
-               	<c:forEach var="p" begin="${pi.startPage }" end="${pi.endPage }">
-               		<button><a href="adminMember.ad?amPage=${p }">${p }</a></button>
-               	
-               	</c:forEach>
-               	
-               	
-               	<!-- 다음 버튼 만들기 -->
-               	<c:choose>
-               		<c:when test="${pi.currentPage eq pi.maxPage }">
-               			<button disabled><a href="#">다음</a></button>
-               		</c:when>
-               		<c:otherwise>
-               			<button><a href="adminMember.ad?amPage=${pi.currentPage + 1 }">다음</a></button>
-               		</c:otherwise>
-               	</c:choose>
-               
+               <button>1</button>
+               <button>2</button>
+               <button>3</button>
+               <button>4</button>
+               <button>5</button>
             </div>
+            
          </div>
+         
+      
       </div>
    </div>
-<br><br><br><br><br><br><br><br><br>
+
 </body>
 </html>

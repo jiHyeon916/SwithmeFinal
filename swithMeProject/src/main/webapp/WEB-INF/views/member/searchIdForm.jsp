@@ -25,6 +25,7 @@
     
     #searchIdForm table td{
         width: 150px;
+        height:30px;
     }
    
    #searchIdForm button{
@@ -32,7 +33,7 @@
         border: none;
         border-radius: 5px;
         width: 285px;
-        height: 35px;
+        height: 40px;
         margin-left: 20px; 
         color: white;
         
@@ -41,7 +42,7 @@
     border-radius: 5px;
     border-color: lightgray;
     border-style: double;
-    height: 23px;
+    height: 29px;
     width: 200px;
     font-size:12px;
 }
@@ -86,6 +87,7 @@
         <div id="searchIdForm">
             <table  border="0" align="center" width="180px;">
                 <br><br>
+                
                 <tr>
                     <th>이름</th>
                     <td colspan="2"><input type="text" name="memberName"  required placeholder=" 이름을 입력해주세요." ></td>
@@ -94,18 +96,15 @@
                 
                 <tr>
                     <th>이메일</th>
-                    <td colspan="2"><input type="eamil" name="userEmail" required placeholder=" 비밀번호를 입력해주세요."></td>
+                    <td colspan="2"><input type="eamil" name="memberEmail" required placeholder=" 비밀번호를 입력해주세요."></td>
                 </tr>
                 <tr><td><br></td></tr>
-                <tr>
-                    <td id="idSearchErrorMsg" colspan="3" style="display:n***;" >
-                        * 아이디 또는 이메일을 다시 입력해주세요.
-                    </td>
+               
                  
                 </tr><td><br></td></tr>
                     
                 <tr>
-                    <td colspan="3"><button onclick="location.href='###'">찾기</button></td>
+                    <td colspan="3"><button>찾기</button></td>
                 </tr><td><br></td></tr>
                 
             </table>

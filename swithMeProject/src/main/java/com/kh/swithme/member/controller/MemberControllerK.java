@@ -1,65 +1,6 @@
 package com.kh.swithme.member.controller;
 
-import java.util.ArrayList;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-
-import com.google.gson.Gson;
-import com.kh.swithme.member.model.service.MemberService;
-import com.kh.swithme.member.model.vo.Calendar;
-
-@Controller
 public class MemberControllerK {
-	
-	
-	@Autowired
-	private MemberService memberService;
-	
-	@RequestMapping(value="calendar.me")
-	public String myCalendar() {
-		return "member/myPageCalendar";
-	}
-	
-	@ResponseBody
-	@RequestMapping(value="calendarList.me", produces="application/json; charset=UTF-8")
-	public String ajaxMyCalener(Model model) {
-		ArrayList<Calendar> list = memberService.selectMyCalendarlList();
-		return new Gson().toJson(list);
-	}
-	
-	@ResponseBody
-	@RequestMapping(value="addSchedule.me")
-	public int ajaxAddSchedule(Calendar cl) {
-		return memberService.addSchedule(cl);
-	}
-	
-	@ResponseBody
-	@RequestMapping(value="deleteSchedule.me")
-	public int ajaxDeleteSchedule(Calendar cl) {
-		return memberService.deleteSchedule(cl);
-	}
-	
-	@ResponseBody
-	@RequestMapping(value="updateSchedule.me")
-	public int ajaxUpdateSchedule(Calendar cl) {
-		return memberService.updateSchedule(cl);
-	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	@RequestMapping("studyBand.me")
-	public String myStudyBandList() {
-		return "member/myStudyBand";
-	}
-	
+
+	String test;
 }

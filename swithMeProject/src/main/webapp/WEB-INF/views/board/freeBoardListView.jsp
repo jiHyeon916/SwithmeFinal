@@ -85,37 +85,7 @@
                           <li><button type="button">이슈정보</button></li>
                         </ul>
                     </div>
-                    <script>
-                        $(function(){
-                            // 카테고리 박스
-                            const btn = document.querySelector('.btn-select');
-                            const list = document.querySelector('.list-member');
-                            btn.addEventListener('click', () => {
-                                btn.classList.toggle('on');
-                            });
-                            list.addEventListener('click', (event) => {
-                                if (event.target.nodeName === "BUTTON") {
-                                    btn.innerText = event.target.innerText;
-                                    btn.classList.remove('on');
-                                }
-                            });
-
-                            freeBoardCount();
-                            
-                        })
-
-                        function freeBoardCount(){
-                            $.ajax({
-                                url : 'freeCount.bo',
-                                success : function(r) {
-                                    $('.totalListCount').html('전체 게시글 ' + r + '건');
-                                },
-                                error : function(){
-
-                                }
-                            })
-                        }
-                    </script>
+                    
                 </div>
                 <div id="freeRankSort" class="clear">
                     <input type="radio" name="dd" id="" checked><p>최신 순</p>
@@ -123,7 +93,7 @@
                     <input type="radio" name="dd" id=""><p>댓글 많은 순</p>
                     <input type="radio" name="dd" id=""><p>좋아요 순</p>
                 </div>
-                <button id="freeWrite"><a href="freeBoardWrite.bo">글 작성하기</a></button>
+                <button id="freeWrite"><a href="freeBoardWrite.bo?boardType=">글 작성하기</a></button>
             </div>
             
             
@@ -137,7 +107,7 @@
                         <p id="F_title">${ b.boardTitle }</p>
                         <p id="F_date">${ b.createDate }</p>
                     </div>
-                    <p id="F_Content">${ b.boardContent }</p>
+                    <p id="F_content">${ b.summary }</p>
                     <ul id="F_like" class="clear">
                         <li><img src="resources/images/board/reply.png">16</li>
                         <li><img src="resources/images/board/heart.png">${ b.boardNo }</li>
@@ -149,6 +119,49 @@
             </div>
             </c:forEach>
 			
+            <script>
+                $(function(){
+                    // 카테고리 박스
+                    const btn = document.querySelector('.btn-select');
+                    const list = document.querySelector('.list-member');
+                    btn.addEventListener('click', () => {
+                        btn.classList.toggle('on');
+                    });
+                    list.addEventListener('click', (event) => {
+                        if (event.target.nodeName === "BUTTON") {
+                            btn.innerText = event.target.innerText;
+                            btn.classList.remove('on');
+                        }
+                    });
+
+                    freeBoardCount();
+
+                    $(".freeBoardList").each(function() {
+                    var $textEncoder = $(this).find(".textEncoder"); // .textEncoder 클래스를 가진 요소 선택
+                    $textEncoder.find("p").empty(); // .textEncoder 하위의 <p> 요소 내용을 비움
+                    var html = $textEncoder.html(); // .textEncoder 내용 가져오기
+                    var strippedText = stripHtmlTags(html); // HTML 태그 제거
+                    $textEncoder.text(strippedText); // 제거된 HTML 태그가 적용된 텍스트로 설정
+                });
+                    
+                    
+                })
+
+                function freeBoardCount(){
+                    $.ajax({
+                        url : 'freeCount.bo',
+                        success : function(r) {
+                            $('.totalListCount').html('전체 게시글 ' + r + '건');
+                        },
+                        error : function(){
+
+                        }
+                    })
+                }
+
+
+                
+            </script>
 			<!-- 페이징 바 -->
 			<div id="pagingBar" class="clear">
                 <div class="wrap">

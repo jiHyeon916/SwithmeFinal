@@ -63,22 +63,17 @@
 	</select>
 	
 	<!-- 스터디룸 메인 리스트 -->
-	<select id="selectSRoomList" resultType="StudyRoom">
+	<select id="selectSRoomList" resultMap="sRoomResultSet">
 		SELECT 
-			SR_NO studyRoomNo
-			,SR_NAME studyRoomName
-			,SR_LOCATION studyRoomLocation
-			,SR_ADDRESS studyRoomAddress
-			,SR_PHONE studyRoomPhone
-			,SR_LAT studyRoomLat
-			,SR_LNG studyRoomLng
-			,CHANGE_NAME titleImg
+			SR_NO
+			,SR_NAME
+			,SR_LOCATION
+			,SR_ADDRESS
+			,SR_LAT
+			,SR_LNG
+			,SR_PHONE
 		FROM
 			BOARD_STUDYROOM
-		JOIN
-			ATTACH ON(BOARD_STUDYROOM.SR_NO = ATTACH.REF_NO)
-        WHERE
-            FILE_LEVEL=1
 		ORDER
 		BY
 			SR_CREATEDATE DESC
@@ -101,20 +96,6 @@
 		WHERE
 			SR_NO=#{studyRoomNo}
 	
-	</select>
-	
-	<select id="selectSRoomAttachList" parameterType="_int" resultType="Attach">
-		SELECT
-			FILE_NO fileNo
-			,CHANGE_NAME changeName
-			,FILE_LEVEL fileLeve
-			,REF_NO refNo
-		FROM
-		 	ATTACH
-		WHERE
-			 REF_NO = #{studyRoomNo}
-		AND
-			FIELD = 2
 	</select>
 	
 	<!-- 스터디룸 리뷰 보기 -->
@@ -154,125 +135,6 @@
 			)
 	</insert>
 	
-	<!-- 스터디룸 리뷰 불러오기 -->
-	<select id="selectStudyRoomReview" resultType="SRoomReview">
-		SELECT
-			REVIEW_NO reviewNo
-			, MEMBER_ID memberId
-			, REVIEW_CONTENT reviewContent
-			, REVIEW_STAR reviewStar
-		FROM
-			BOARD_SROOM_REVIEW
-		WHERE
-			REVIEW_NO = #{reviewNo}	
-	</select>
-	
-	
-	
-	<!-- 스터디룸 리뷰 수정 -->
-	<update id="updateStudyRoomReview" parameterType="SRoomReview">
-		UPDATE
-			BOARD_SROOM_REVIEW
-		SET
-			REVIEW_CONTENT=#{reviewContent}
-			,REVIEW_DATE=SYSDATE
-        WHERE
-            REVIEW_NO = #{reviewNo}
-	</update>
-	
-	<!-- 스터디룸 리뷰 삭제 -->
-	<delete id="deleteStudyRoomReview">
-		DELETE 
-		FROM 	
-			BOARD_SROOM_REVIEW
-		WHERE
-			REVIEW_NO=#{reviewNo}
-	
-	</delete>
-	
-	<!-- 스터디룸 전체 주소 조회 -->
-	<select id="selectAddress" resultMap="sRoomResultSet">
-		SELECT 
-			SR_LAT
-			,SR_LNG
-		FROM
-			BOARD_STUDYROOM
-	</select>
-	
-	<!-- 스터디룸 검색 -->
-	<select id="studyRoomSearch" parameterType="hashmap" resultType="studyRoom">
-		SELECT 
-			SR_NO studyRoomNo
-			,SR_NAME studyRoomName
-			,SR_LOCATION studyRoomLocation
-			,SR_ADDRESS studyRoomAddress
-			,SR_PHONE studyRoomPhone
-			,CHANGE_NAME titleImg
-		FROM
-			BOARD_STUDYROOM
-		JOIN
-			ATTACH ON(BOARD_STUDYROOM.SR_NO = ATTACH.REF_NO)
-        WHERE
-            FILE_LEVEL=1
-			<if test="searchSelect == '10'">
-				AND SR_LOCATION='강원'
-			</if>
-			<if test="searchSelect == '20'">
-				AND SR_LOCATION='경기'
-			</if>
-			<if test="searchSelect == '30'">
-				AND SR_LOCATION='경남'
-			</if>
-			<if test="searchSelect == '40'">
-				AND SR_LOCATION='경북'
-			</if>
-			<if test="searchSelect == '50'">
-				AND SR_LOCATION='광주'
-			</if>
-			<if test="searchSelect == '60'">
-				AND SR_LOCATION='대구' 
-			</if>
-			<if test="searchSelect == '70'">
-				AND SR_LOCATION='대전'
-			</if>
-			<if test="searchSelect == '80'">
-				AND SR_LOCATION='부산'
-			</if>
-			<if test="searchSelect == '90'">
-				AND SR_LOCATION='서울'
-			</if>
-			<if test="searchSelect == '11'">
-				AND SR_LOCATION='세종'
-			</if>
-			<if test="searchSelect == '12'">
-				AND SR_LOCATION='울산'
-			</if>
-			<if test="searchSelect == '13'">
-				AND SR_LOCATION='인천' 
-			</if>
-			<if test="searchSelect == '14'">
-				AND SR_LOCATION='전남'
-			</if>
-			<if test="searchSelect == '15'">
-				AND SR_LOCATION='전북'
-			</if>
-			<if test="searchSelect == '16'">
-				AND SR_LOCATION='제주'
-			</if>
-			<if test="searchSelect == '17'">
-				AND SR_LOCATION='충남'
-			</if>
-			<if test="searchSelect == '18'">
-				AND SR_LOCATION ='충북'
-			</if>
-			AND
-				SR_NAME LIKE '%' || #{searchText} || '%'
-			ORDER
-			BY
-				SR_CREATEDATE DESC
-	</select>
-	
-	
 	<!-- 혜린 -->
 	
 
@@ -285,7 +147,7 @@
 			  MAINBOARD
 		WHERE
 			  <if test="boardType == 1">
-			  BOARD_TYPE = 'info'
+			  BOARD_TYPE = 'free'
 			  </if>
 			   <if test="boardType == 2">
 			  BOARD_TYPE = 'info'
@@ -321,7 +183,15 @@
 		    BY
 	          CREATE_DATE DESC
 	</select>
-	
+	<update id="boardCountUp">
+		UPDATE 
+                MAINBOARD
+        SET
+               BOARD_COUNT = BOARD_COUNT + 1
+ 		WHERE
+               BOARD_NO = #{ boardNo }
+
+	</update>
 	<!-- 자유게시판 게시글 수 조회  -->
 	<select id="freeCount" resultType="_int">
 		SELECT

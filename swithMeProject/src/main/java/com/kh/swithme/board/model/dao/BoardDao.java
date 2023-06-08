@@ -1,13 +1,11 @@
 package com.kh.swithme.board.model.dao;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
-import com.kh.swithme.board.model.vo.Attach;
 import com.kh.swithme.board.model.vo.Board;
 import com.kh.swithme.board.model.vo.ReReply;
 import com.kh.swithme.board.model.vo.Reply;
@@ -18,7 +16,7 @@ import com.kh.swithme.common.model.vo.PageInfo;
 @Repository
 public class BoardDao {
 
-
+	
 	//혜린 -----------------------------------------------------------------------------------
 	public int boardListCount(SqlSessionTemplate sqlSession, int boardType) {
 		return sqlSession.selectOne("boardMapper.boardListCount", boardType);
@@ -76,54 +74,30 @@ public class BoardDao {
 	public int reReplyBoard(SqlSessionTemplate sqlSession, ReReply rere) {
 		return sqlSession.insert("boardMapper.reReplyBoard", rere);
 	}
-
-
-
-
+	
+	
+	
+	
 	// 희재 스터디룸 ------------------------------------------------------------------------
 	public int sRoomListCount(SqlSessionTemplate sqlSession) {
 		return sqlSession.selectOne("boardMapper.sRoomListCount");
 	}
-
+	
 	public ArrayList<StudyRoom> selectSRoomList(SqlSessionTemplate sqlSession, PageInfo pi){
 		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
 		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
 		return (ArrayList)sqlSession.selectList("boardMapper.selectSRoomList", rowBounds);
 	}
-
+	
 	public StudyRoom selectStudyRoom(SqlSessionTemplate sqlSession, int studyRoomNo) {
 		return sqlSession.selectOne("boardMapper.selectStudyRoom", studyRoomNo);
 	}
-
-	public ArrayList<Attach> selectSRoomAttachList(SqlSessionTemplate sqlSession, int studyRoomNo){
-		return (ArrayList)sqlSession.selectList("boardMapper.selectSRoomAttachList", studyRoomNo);
-	}
-
+	
 	public ArrayList<SRoomReview> selectStudyRoomReviewList(SqlSessionTemplate sqlSession, int studyRoomNo){
 		return (ArrayList)sqlSession.selectList("boardMapper.selectStudyRoomReviewList", studyRoomNo);
 	}
-
+	
 	public int insertStudyRoomReview(SqlSessionTemplate sqlSession, SRoomReview sr) {
 		return sqlSession.insert("boardMapper.insertStudyRoomReview", sr);
-	}
-
-	public SRoomReview selectStudyRoomReview(SqlSessionTemplate sqlSession, int reviewNo) {
-		return sqlSession.selectOne("boardMapper.selectStudyRoomReview", reviewNo);
-	}
-
-	public int updateStudyRoomReview(SqlSessionTemplate sqlSession, SRoomReview sr) {
-		return sqlSession.update("boardMapper.updateStudyRoomReview", sr);
-	}
-
-	public int deleteStudyRoomReview(SqlSessionTemplate sqlSession, int reviewNo) {
-		return sqlSession.delete("boardMapper.deleteStudyRoomReview",reviewNo);
-	}
-
-	public ArrayList<StudyRoom> selectAddress(SqlSessionTemplate sqlSession) {
-		return (ArrayList)sqlSession.selectList("boardMapper.selectAddress");
-	}
-	
-	public ArrayList<StudyRoom> studyRoomSearch(SqlSessionTemplate sqlSession, HashMap<String, String> map){
-		return (ArrayList)sqlSession.selectList("boardMapper.studyRoomSearch", map);
 	}
 }

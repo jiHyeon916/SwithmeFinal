@@ -50,8 +50,10 @@
             <li><a href="#">아이템 상점</a></li>
         </ul>
         
+        
+        	<!-- 회원이 가입했을 때 마이페이지 -->
 	        <ul id="userMenu">
-	      	  <c:if test="${!empty loginMember }">
+	      	  <c:if test="${!empty loginMember && !loginMember.memberId.equals('admin')}">
 		            <li>
 		                <a href="alarm.me">
 		                    <img src="resources/images/common/notice.png">
@@ -59,6 +61,17 @@
 		                </a>
 		            </li>
          	 </c:if>  
+         	 
+         	 <!-- 관리자가 가입했을 때 마이페이지 -->
+       	 	<c:if test="${!empty loginMember &&  loginMember.memberId eq 'admin'}">
+		            <li>
+		                <a href="adPage.ad">
+		                    <img src="resources/images/common/notice.png">
+		                    <div id="noRead"></div>
+		                </a>
+		            </li>
+       		 </c:if>  
+         	 
          	 
             <!-- 로그인 전 / 후 -->
             <c:choose>
@@ -71,6 +84,8 @@
                   <li><a href="logout.me">로그아웃</a></li>
                </c:otherwise>
             </c:choose>
+            
+         
             
             
             
