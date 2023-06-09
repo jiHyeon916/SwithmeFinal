@@ -59,7 +59,7 @@
 			MEMBER
 		WHERE	
 		<if test="condition == 'memberId'">
-			MEMBER_ID
+			MEMBER_ID 
 		</if>
 		<if test="condition == 'nickName'">
 			NICKNAME
