@@ -51,6 +51,48 @@
 	
 	</select>
 	
+	<!-- 검색한 키워드가 포함된  -->
+	<select id="selectMemberSearchCount" resultType="_int" parameterType="hashmap">
+		SELECT
+			COUNT(*)
+		FROM
+			MEMBER
+		WHERE	
+		<if test="condition == 'memberId'">
+			MEMBER_ID
+		</if>
+		<if test="condition == 'nickName'">
+			NICKNAME
+		</if>
+			LIKE '%' || #{keyword} || '%'		
+	</select>
+	
+	<!-- 검색결과 ArrayList -->
+	<select id="selectMemberSearchList" parameterType="hashmap" resultMap="memberResultSet">
+			SELECT
+				MEMBER_ID 		
+				,MEMBER_NAME	
+				,NICKNAME		
+				,TO_CHAR(MEMBER_ENROLL_DATE, 'YYYY-MM-DD') AS MEMBER_ENROLL_DATE	
+				,MEMBER_STATUS			
+			FROM	
+				MEMBER
+			WHERE
+			<if test="condition == 'memberId'">
+				MEMBER_ID
+			</if>
+			<if test="condition == 'nickName'">
+					NICKNAME
+			</if>
+					LIKE '%' || #{keyword} || '%'		
+	        ORDER 
+	            BY 
+	                MEMBER_ENROLL_DATE DESC
+			
+	
+	
+	
+	</select>
 	
 	
 	
