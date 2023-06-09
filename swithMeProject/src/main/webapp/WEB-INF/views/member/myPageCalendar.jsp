@@ -52,6 +52,9 @@ a:hover {
 	margin-top: 80px;
 	background-color: pink;
 }
+.page-blank2 {
+	margin-top: 50px;
+}
 
 .mySide {
 	position: fixed;
@@ -97,6 +100,23 @@ a:hover {
   color: rgb(60, 60, 255);
   text-decoration: none;
 }
+
+#selectRed{
+	display:inline;
+	width : 50px;
+	height : 50px;
+	boader : 1px solid red;
+}
+
+.selectColors>div:hover{
+	transform: scale(1.2);
+}
+
+.selectColor.hover{
+border: 1px solid black;
+}
+
+
 </style>
 
 
@@ -111,6 +131,7 @@ a:hover {
 		<div class="mySide">
 			<jsp:include page="myMenuBar.jsp" />
 		</div>
+		
 
 		<div class="content">
 			<div class="block">
@@ -118,6 +139,7 @@ a:hover {
 					<button onclick="location.href='calendar.me'">일정 </button>
 					<button onclick="location.href='toDoList.me'">오늘의 할 일</button>
 				</div>
+				<div class="page-blank2"></div>
 				<div id='calendar'></div>
 			</div>
 			<br>
@@ -138,6 +160,19 @@ a:hover {
                 </div>
                 <div class="modal-body">
                     <div class="form-group">
+                    	<label for="taskId" class="col-form-label">색 선택</label>
+                    	<div class="selectColors">
+	                    	<input type="radio" name="Color" value="#80f0c1ea" id="Color1" style="display:none;" checked>
+	                    	<div class="selectColor" style="display:inline-block;width : 50px;height : 50px;border : 1px solid #80f0c1ea; background-color:#80f0c1ea; "></div> &nbsp;&nbsp;
+	                    	<input type="radio" name="Color" value="lightpink" id="Color2" style="display:none;">
+                    		<div class="selectColor" style="display:inline-block;width : 50px;height : 50px;border : 1px solid lightpink; background-color:lightpink;"></div>&nbsp;&nbsp;
+	                    	<input type="radio" name="Color" value="lightgoldenrodyellow" id="Color3" style="display:none;">
+                    		<div class="selectColor" style="display:inline-block;width : 50px;height : 50px;border : 1px solid lightgoldenrodyellow; background-color:lightgoldenrodyellow;"></div>&nbsp;&nbsp;
+	                    	<input type="radio" name="Color" value="lightblue" id="Color4" style="display:none;">
+                    		<div class="selectColor" style="display:inline-block;width : 50px;height : 50px;border : 1px solid lingtblue; background-color:lightblue;"></div>&nbsp;&nbsp;
+	                    	<input type="radio" name="Color" value="lightgrey" id="Color5" style="display:none;">
+                    		<div class="selectColor" style="display:inline-block;width : 50px;height : 50px;border : 1px solid lightgrey; background-color:lightgrey;"></div> &nbsp;&nbsp;
+                    	</div>
                         <label for="taskId" class="col-form-label">일정 제목</label>
                         <input type="text" class="form-control" id="calendar_title" name="calendar_title">
                         <label for="taskId" class="col-form-label">일정 내용</label>
@@ -225,7 +260,8 @@ a:hover {
 	            		  memberId : '${ loginMember.memberId }',
 	            		  calendarContent : $('#calendar_content').val(),
 	            		  startDay : $('#calendar_start_date').val(),
-	            		  endDay : $('#calendar_end_date').val()
+	            		  endDay : $('#calendar_end_date').val(),
+          				  color :  $('input[name=Color]:checked').val()
 	            	  },
 	            	  success : function(result){
 	            		  alert('일정이 추가되었습니다.');
@@ -331,8 +367,7 @@ a:hover {
 	    		                    ,calendarContent : item.calendarContent
 	    		                    ,start : item.startDay
 	    		                    ,end : enddate
-	    		                    ,color : '#80f0c1ea'
-	    		                    ,allDay : false
+	    		                    ,color : item.color
 	    		            	});
 	    		            });
 	    		         }
@@ -348,7 +383,17 @@ a:hover {
 	
 	    calendar.render();
 	  });
-	  
+	
+	$(function(){
+		$('.selectColor').on('click',function(){
+			var selectColor = $(this).prev();
+			var selectColor2= $(this);
+			selectColor.attr('checked', true);
+			selectColor2.addClass('hover');
+		})
+	})
+	
+		
 
 
 </script>

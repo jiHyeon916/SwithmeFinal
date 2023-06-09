@@ -13,7 +13,6 @@ public class Calendar {
 	private String endDay;
 	private String calendarTitle;
 	private String calendarContent;
-	private String textColor;
-	private String backgroundColor;
+	private String color;
 	
 }

@@ -22,8 +22,7 @@
 			,TO_char(END_DAY, 'YYYY-MM-DD') AS "END_DAY"
 			,CALENDAR_TITLE
 			,CALENDAR_CONTENT
-			,TEXTCOLOR
-			,BACKGROUNDCOLOR
+			,COLOR
 		FROM
 			CALENDAR
 		WHERE
@@ -36,9 +35,9 @@
 		INSERT
 		INTO 
 			CALENDAR
-			(CALENDAR_NO, MEMBER_ID, START_DAY, END_DAY, CALENDAR_TITLE, CALENDAR_CONTENT)
+			(CALENDAR_NO, MEMBER_ID, START_DAY, END_DAY, CALENDAR_TITLE, CALENDAR_CONTENT, COLOR)
 		VALUES
-			(SEQ_CALENDAR_NO.NEXTVAL, #{memberId}, #{startDay}, #{endDay}, #{calendarTitle}, #{calendarContent})
+			(SEQ_CALENDAR_NO.NEXTVAL, #{memberId}, #{startDay}, #{endDay}, #{calendarTitle}, #{calendarContent}, #{color})
 	</insert>
 	
 	<!-- 일정 삭제 -->
