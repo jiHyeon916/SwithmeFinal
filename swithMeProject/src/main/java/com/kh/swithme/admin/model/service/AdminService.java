@@ -9,6 +9,9 @@ import com.kh.swithme.member.model.vo.Member;
 
 public interface AdminService {
 	
+	
+	//지현
+	
 	//회원들의 count조회(페이징처리_
 	public int selectMemberCount();
 
@@ -21,5 +24,6 @@ public interface AdminService {
 	//검색결과 페이징
 	public ArrayList<Member> selectMemberSearchList(HashMap<String, String> map, PageInfo pi);
 	
-
+	//회원 정지
+	public int memberStop(String memberId);
 }

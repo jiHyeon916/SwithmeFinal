@@ -88,12 +88,18 @@
 	        ORDER 
 	            BY 
 	                MEMBER_ENROLL_DATE DESC
-			
-	
-	
 	
 	</select>
 	
+	<!-- 회원 정지 -->
+	<update id="memberStop" parameterType="string">
+		UPDATE
+      			MEMBER
+      		SET
+      			MEMBER_STATUS = 'N'
+      		WHERE
+      			MEMBER_ID = #{memberId}
+	</update>
 	
 	
 	

@@ -40,5 +40,10 @@ public class AdminDao {
 		return (ArrayList)sqlSession.selectList("adminMapper.selectMemberSearchList", map, rowBounds);
 	}
 
+	public int memberStop(SqlSessionTemplate sqlSession, String memberId) {
+		return sqlSession.update("adminMapper.memberStop",memberId);
+				
+	}
+
 
 }

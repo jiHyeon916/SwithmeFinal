@@ -20,6 +20,11 @@ public class AdminServiceImpl implements AdminService {
 	@Autowired
 	private SqlSessionTemplate sqlSession;
 	
+	
+	
+	
+	//지현
+	
 	//회원들의 count조회(페이징)
 	@Override
 	public int selectMemberCount() {
@@ -41,6 +46,13 @@ public class AdminServiceImpl implements AdminService {
 	public ArrayList<Member> selectMemberSearchList(HashMap<String, String> map, PageInfo pi) {
 		return adminDao.selectMemberSearchList(sqlSession, map,pi);
 	}
+	//회원정지
+	@Override
+	public int memberStop(String memberId) {
+		return adminDao.memberStop(sqlSession,memberId);
+	}
+	
+	
 	
 	
 	

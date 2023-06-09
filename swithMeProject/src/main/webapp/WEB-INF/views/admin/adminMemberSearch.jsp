@@ -61,7 +61,7 @@
           border-radius : 5px;
     }
      #adminMemberForm{
-        margin-left:255px;
+        margin-left:260px;
      }
      
      #adminStopBtn{
@@ -154,37 +154,72 @@
                       <c:otherwise>
                                             
                              <c:forEach items="${searchList }" var="m">
-                               <tr>
+                               <tr id="#adminMemberTable">
                                    <td>#no</td>
-                                   <td>${m.memberId }</td>
+                                   <td class="memId">${m.memberId }</td>
                                    <td>${m.memberName }</td>
                                    <td>${m.nickName }</td>
                                    <td>${m.memberEnrollDate }</td>
                                    <td>${m.memberStatus }</td>
-                                      <c:choose>
-                                         <c:when test="${m.memberStatus eq 'Y'}">
-                                            <td><button id="adminStopBtn">정지</button></td>
-                                         </c:when>
-                                         <c:otherwise>
-                                            <td><button id="adminFreeBtn">정지</button></td>
-                                         </c:otherwise>
-                                      </c:choose>   
+                                   <td><button id="adminStopBtn" 
+                                   		style="background-color:${m.memberStatus == 'Y'?'red':'gray'}" >정지</button></td>
                                   </tr>
                                  </c:forEach>
                               </c:otherwise>   
                            </c:choose>
                        </tbody>
-                    </table>
-                    
-                    
                     
                     <script>
-                          $(function() {
+                    
+                    	
+                    
+                    	$(function() {
+                    		
+                    		
+                    		//adminStopBtn을 클릭했을 때 빨간색이면 알럿창을 띄운 후 확인 누르면 탈퇴.
+                    	
+                    			if($('#adminStopBtn').click(function() {
+                    				$('#adminStopBtn').css('background-color')
+                    					console.log('성공');
+                    				}));
+                    			});
+                    		
+                    
+                    	
+                    	
+                    	
+                    	$(function() {
+                    		$('#adminMemberTable').click(function() {
+                    			
+                    		  var memberId = $('#adminMemberTable').children('.memId').html();
+                    		  alert(memberId);
+                    		});
+                    	});
+                    	
+                    	
+                    	/*
+                    	
+                    	function memberInfo(e){
+                    		var memberId= $(e).children('.memId').html();
+                    		alert(memberId);
+                    	}
+                    	
+                    	
+                    	*/
+                    	
+                    	
+                    	
+			/*
+                        $(function() {
+                      	  
+                      	  $('#adminMemberTable > tbody > tr').click(function() {
+                      		 
+                      		  	location.href="memberDetailInfo.ad"; // +++ 사용자의 아이디와 함께 넘기기
+                      	  });
+                           
+                        })
+                 */
                              
-                          })
-                   
-                             
-                       <%--회원목록에 커서 올릴 때 회색으로 변하게 하고 누르면 상세페이지로 가기 => 클릭 시 회원의 아이디 값 같이 넘기기 --%>
                     
                     
                 
@@ -206,6 +241,11 @@
                               
                     
                     </script>
+                    
+                    
+                 </table>
+                    
+                    
                     
                
                  
