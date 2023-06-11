@@ -32,7 +32,10 @@ public class AdminController {
 		return "admin/itemManagement";
 	}
 	
-	
+	@RequestMapping("memberDetailInfo.ad")
+	public String memberDetailInfo() {
+		return "admin/memberDetailInfo";
+	}
 	
 	
 	
@@ -67,22 +70,28 @@ public class AdminController {
 		   						   String condition 
 		   						   ,ModelAndView mv 
 		   						   ) {
-      
+	   //System.out.println(currentPage);
+	   //System.out.println(keyword);
+	   //System.out.println(condition);
 	 
 	   //Map에 String 2개를 담기.(키워드값, 옵션 담기)
 	   HashMap<String, String> map = new HashMap();
 	   map.put("condition", condition);
 	   map.put("keyword", keyword);
 	   
+	  // System.out.println(adminService.selectMemberSearchCount(map));
+	   
+	   
 	   //페이징처리(키워드가 포함된 글의 개수)
 	   PageInfo pi = Pagination.getPageInfo(adminService.selectMemberSearchCount(map), currentPage, 5, 10);
      
-	  ArrayList<Member> memList =  adminService.selectMemberSearchList(map,pi);
-	  // System.out.println(memList);
+	   //System.out.println(pi);
+	   ArrayList<Member> searchList =  adminService.selectMemberSearchList(map,pi);
+	   //System.out.println(searchList);
 	   
 	   
 	   //페이징 처리된 결과ArrayList
-	   mv.addObject("searchList",memList); //list결과->key값 searchList
+	   mv.addObject("searchList",searchList); //list결과->key값 searchList
 	   mv.addObject("pi",pi);
 	   mv.addObject("keyword", keyword);
 	   mv.addObject("condition", condition);
@@ -96,5 +105,11 @@ public class AdminController {
       return mv;
    }
 	
+   
+   //회원 정지 
+   @RequestMapping("memberStop.ad")
+   public void memberStop(String memberId) {
+	   System.out.println(memberId);
+   }
 	
 }
