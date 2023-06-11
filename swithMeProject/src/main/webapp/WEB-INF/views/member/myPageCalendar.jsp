@@ -113,7 +113,7 @@ a:hover {
 }
 
 .selectColor.hover{
-border: 1px solid black;
+	border: 1px solid black;
 }
 
 
@@ -162,16 +162,16 @@ border: 1px solid black;
                     <div class="form-group">
                     	<label for="taskId" class="col-form-label">색 선택</label>
                     	<div class="selectColors">
-	                    	<input type="radio" name="Color" value="#80f0c1ea" id="Color1" style="display:none;" checked>
-	                    	<div class="selectColor" style="display:inline-block;width : 50px;height : 50px;border : 1px solid #80f0c1ea; background-color:#80f0c1ea; "></div> &nbsp;&nbsp;
+	                    	<input type="radio" name="Color" value="#80f0c1ea" id="Color1" style="display:none;"checked>
+	                    	<div class="selectColor" style="display:inline-block;width : 50px;height : 50px;background-color:#80f0c1ea; "></div> &nbsp;&nbsp;
 	                    	<input type="radio" name="Color" value="lightpink" id="Color2" style="display:none;">
-                    		<div class="selectColor" style="display:inline-block;width : 50px;height : 50px;border : 1px solid lightpink; background-color:lightpink;"></div>&nbsp;&nbsp;
+                    		<div class="selectColor" style="display:inline-block;width : 50px;height : 50px;background-color:lightpink;"></div>&nbsp;&nbsp;
 	                    	<input type="radio" name="Color" value="lightgoldenrodyellow" id="Color3" style="display:none;">
-                    		<div class="selectColor" style="display:inline-block;width : 50px;height : 50px;border : 1px solid lightgoldenrodyellow; background-color:lightgoldenrodyellow;"></div>&nbsp;&nbsp;
+                    		<div class="selectColor" style="display:inline-block;width : 50px;height : 50px;background-color:lightgoldenrodyellow;"></div>&nbsp;&nbsp;
 	                    	<input type="radio" name="Color" value="lightblue" id="Color4" style="display:none;">
-                    		<div class="selectColor" style="display:inline-block;width : 50px;height : 50px;border : 1px solid lingtblue; background-color:lightblue;"></div>&nbsp;&nbsp;
+                    		<div class="selectColor" style="display:inline-block;width : 50px;height : 50px;background-color:lightblue;"></div>&nbsp;&nbsp;
 	                    	<input type="radio" name="Color" value="lightgrey" id="Color5" style="display:none;">
-                    		<div class="selectColor" style="display:inline-block;width : 50px;height : 50px;border : 1px solid lightgrey; background-color:lightgrey;"></div> &nbsp;&nbsp;
+                    		<div class="selectColor" style="display:inline-block;width : 50px;height : 50px;background-color:lightgrey;"></div> &nbsp;&nbsp;
                     	</div>
                         <label for="taskId" class="col-form-label">일정 제목</label>
                         <input type="text" class="form-control" id="calendar_title" name="calendar_title">
@@ -339,7 +339,7 @@ border: 1px solid black;
 	    		        		console.log('실패');
 	    		        	}
 	    		        })
-	    			 atg.event.remove();
+	    			 arg.event.remove();
 	    		 }
 	    	  });
 	    	  
@@ -357,20 +357,20 @@ border: 1px solid black;
 	    		            var events = [];
 	    		            if(result!=null){
 	    		            	 $.each(result, function(index, item) {
-	                                 var enddate=item.endDay;
-	                                  if(enddate==null){
-	                                      enddate=item.startdate;
-	                                  }  
-	    		                events.push({
-	    		                	calendarNo : item.calendarNo
-	    		                    ,title : item.calendarTitle
-	    		                    ,calendarContent : item.calendarContent
-	    		                    ,start : item.startDay
-	    		                    ,end : enddate
-	    		                    ,color : item.color
+	                                var enddate=item.endDay;
+	                                if(enddate==null){
+	                                    enddate=item.startdate;
+	                                }  
+	    		               		events.push({
+										calendarNo : item.calendarNo
+										,title : item.calendarTitle
+										,calendarContent : item.calendarContent
+										,start : item.startDay
+										,end : enddate
+										,color : item.color
+									});
 	    		            	});
-	    		            });
-	    		         }
+	    		        	}
 	    		            console.log(events);
 	    		            successCallback(events); 
 	    			  },
@@ -384,14 +384,18 @@ border: 1px solid black;
 	    calendar.render();
 	  });
 	
+	//색상 선택
 	$(function(){
-		$('.selectColor').on('click',function(){
+		$('#Color1').next().addClass('hover');
+		$('.selectColor').click(function(){
 			var selectColor = $(this).prev();
-			var selectColor2= $(this);
+			var selectColor2 = $(this);
+			$('input[name=Color]:checked').removeAttr('checked');
+			$('.selectColor').removeClass('hover');
 			selectColor.attr('checked', true);
 			selectColor2.addClass('hover');
-		})
-	})
+			});
+		});
 	
 		
 

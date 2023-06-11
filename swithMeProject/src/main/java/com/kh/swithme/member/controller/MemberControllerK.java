@@ -50,6 +50,37 @@ public class MemberControllerK {
 		return memberService.updateSchedule(cl);
 	}
 	
+	//투두리스트
+	@RequestMapping("toDoList.me")
+	public String toDoListMain() {
+		return "member/myPageToDoList";
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="selectTodoList", produces="application/json; charset=UTF-8")
+	public String selectTodoList(TodoList td) {
+		return new Gson().toJson(memberService.selectTodoList(td));
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="insertTodoList")
+	public int insertTodoList(TodoList td) {
+		return memberService.insertTodoList(td);
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="checkTodoList.me")
+	public int checkTodoList(int todoNo) {
+		return memberService.checkTodoList(todoNo);
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="uncheckTodoList.me")
+	public int uncheckTodoList(int todoNo) {
+		return memberService.uncheckTodoList(todoNo);
+	}
+	
+	
 	
 	
 	

@@ -13,6 +13,13 @@
 		<result column="TEXTCOLOR" property="textColor" />
 		<result column="BACKGROUNDCOLOR" property="backgroundColor" />
 </resultMap>
+	<resultMap id="TodoListResultSet" type="todoList">
+		<result column="TODO_NO" property="todoNo" />
+		<result column="MEMBER_ID" property="memberId" />
+		<result column="TODO_DATE" property="todoDate" />
+		<result column="TODO_CONTENT" property="todoContent" />
+		<result column="TODO_STATUS" property="todoStatus" />
+	</resultMap>
 	<!-- 희재 -->
 	<!-- 일정 조회 -->
 	<select id="selectMyCalendarlList" parameterType="string" resultMap="CalendarResultSet">
@@ -64,6 +71,56 @@
 			CALENDAR_NO=#{calendarNo}
 		AND
 			MEMBER_ID=#{memberId}
+	</update>
+	
+	<!-- todoList 리스트 조회 -->
+	<select id="selectTodoList" parameterType="todoList" resultMap="TodoListResultSet" >
+		SELECT 
+			TODO_NO
+			,TODO_DATE
+			,TODO_CONTENT
+			,TODO_STATUS
+		FROM
+			TODOLIST
+		WHERE
+			MEMBER_ID=#{memberId}
+		AND
+			TODO_DATE=#{todoDate}
+	</select>
+	
+	<!-- todoList 추가 -->
+	<insert id="insertTodoList" parameterType="TodoList">
+		INSERT
+		INTO
+			TODOLIST
+		VALUES
+			(
+			SEQ_TODO_NO.NEXTVAL
+			,#{memberId}
+			,#{todoDate}
+			,#{todoContent}
+			,'Y'
+			)
+	</insert>
+	
+	<!-- todoList 체크 -->
+	<update id="checkTodoList" parameterType="_int">
+		UPDATE
+			TODOLIST
+		SET
+			TODO_STATUS='N'
+		WHERE
+			TODO_NO=#{todoNo}
+	</update>
+	
+	<!-- todoList 안체크 -->
+	<update id="uncheckTodoList" parameterType="_int">
+		UPDATE
+			TODOLIST
+		SET
+			TODO_STATUS='Y'
+		WHERE
+			TODO_NO=#{todoNo}
 	</update>
 	
 	

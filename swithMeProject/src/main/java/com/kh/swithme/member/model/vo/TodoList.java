@@ -1,5 +1,12 @@
 package com.kh.swithme.member.model.vo;
 
-public class TodoList {
+import lombok.Data;
 
+@Data
+public class TodoList {
+	private int todoNo;
+	private String memberId;
+	private String todoDate;
+	private String todoContent;
+	private String todoStatus;
 }

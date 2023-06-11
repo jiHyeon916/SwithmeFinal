@@ -64,5 +64,28 @@ public interface MemberService {
 	// calendar - 일정 수정
 	int updateSchedule(Calendar cl);
 	
+	// todoList
+	// todoList 조회(캘린더, 리스트)
+	ArrayList<TodoList> selectTodoList(TodoList td);
+	ArrayList<Calendar> selectTodoCalendarList(Calendar cl);
+	
+	// 완료 카운트
+	int completeTodo(int todoNo);
+	
+	//todoList 추가
+	int insertTodoList(TodoList td);
+	
+	//todoList 체크
+	int checkTodoList(int todoNo);
+	
+	//todoList uncheck
+	int uncheckTodoList(int todoNo);
+	
+	// todoList 삭제
+	int deleteTodoList(int todoNo);
+	
+	// todoList 수정
+	int updateTodoList(TodoList td);
+	
 	  
 }
