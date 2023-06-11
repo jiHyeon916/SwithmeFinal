@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.kh.swithme.member.model.dao.MemberDao;
 import com.kh.swithme.member.model.vo.Calendar;
 import com.kh.swithme.member.model.vo.Member;
+import com.kh.swithme.member.model.vo.TodoList;
 
 @Service
 public class MemberServiceImpl implements MemberService{

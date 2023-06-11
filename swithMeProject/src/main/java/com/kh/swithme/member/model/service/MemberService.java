@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import com.kh.swithme.member.model.vo.Calendar;
 import com.kh.swithme.member.model.vo.Member;
+import com.kh.swithme.member.model.vo.TodoList;
 
 public interface MemberService {
 	
