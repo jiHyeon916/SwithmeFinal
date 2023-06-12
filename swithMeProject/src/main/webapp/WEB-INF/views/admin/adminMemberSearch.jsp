@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
      <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+     
 <!DOCTYPE html>
 <html>
 <head>
@@ -8,6 +9,8 @@
 <title>Insert title here</title>
 <link rel="stylesheet" href="resources/css/admin/adminPageMain.css">
 <link rel="stylesheet" href="resources/css/member/myPoint.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+
 </head>
 <style>
  
@@ -54,7 +57,6 @@
         border-color:rgb(3, 195, 115);
         outline: none;
         border-radius : 5px;
-        
     }
     
     #adminMemberForm  > select {
@@ -72,7 +74,6 @@
         background-color : red;
         color : white;    
      }
-     
      #adminFreeBtn{
         border: none;
         border-radius: 5px;
@@ -85,7 +86,6 @@
      #adminMemberTable > tbody > tr:hover{
         cursor:pointer;
         background-color:rgb(238, 238, 238);
-        
      }
    
 </style>
@@ -143,8 +143,8 @@
                              <th> </th>
                          </tr>
                     </thead>
+                    
                     <tbody>
-                       
                        <c:choose>
                           <c:when test="${empty searchList }">
                              <tr>
@@ -152,103 +152,134 @@
                              </tr>
                           </c:when>
                       <c:otherwise>
-                                            
                              <c:forEach items="${searchList }" var="m">
                                <tr id="#adminMemberTable">
                                    <td>#no</td>
-                                   <td class="memId">${m.memberId }</td>
+                                   <td><a href="memberDetailInfo.ad?memberId=${m.memberId }">${m.memberId }</a></td>
                                    <td>${m.memberName }</td>
                                    <td>${m.nickName }</td>
                                    <td>${m.memberEnrollDate }</td>
-                                   <td>${m.memberStatus }</td>
-                                   <td><button id="adminStopBtn" 
-                                   		style="background-color:${m.memberStatus == 'Y'?'red':'gray'}" >정지</button></td>
+                                   <td class="memberStatus">${m.memberStatus }</td>
+                                   <td><button onclick="adminStopBtn(this);" id="adminStopBtn"
+                                         style="background-color:${m.memberStatus == 'Y'?'red':'gray'}" 
+                                         data-member-id="${m.memberId}">정지</button></td>
                                   </tr>
                                  </c:forEach>
                               </c:otherwise>   
                            </c:choose>
                        </tbody>
+                    </table>
                     
-                    <script>
-                    
-                    	
-                    
-                    	$(function() {
-                    		
-                    		
-                    		//adminStopBtn을 클릭했을 때 빨간색이면 알럿창을 띄운 후 확인 누르면 탈퇴.
-                    	
-                    			if($('#adminStopBtn').click(function() {
-                    				$('#adminStopBtn').css('background-color')
-                    					console.log('성공');
-                    				}));
-                    			});
-                    		
-                    
-                    	
-                    	
-                    	
-                    	$(function() {
-                    		$('#adminMemberTable').click(function() {
-                    			
-                    		  var memberId = $('#adminMemberTable').children('.memId').html();
-                    		  alert(memberId);
-                    		});
-                    	});
-                    	
-                    	
-                    	/*
-                    	
-                    	function memberInfo(e){
-                    		var memberId= $(e).children('.memId').html();
-                    		alert(memberId);
-                    	}
-                    	
-                    	
-                    	*/
-                    	
-                    	
-                    	
-			/*
-                        $(function() {
-                      	  
-                      	  $('#adminMemberTable > tbody > tr').click(function() {
-                      		 
-                      		  	location.href="memberDetailInfo.ad"; // +++ 사용자의 아이디와 함께 넘기기
-                      	  });
-                           
-                        })
-                 */
-                             
-                    
-                    
-                
-                          
-                             
-                          //여기서 정지버튼 누른회원의 아이디값을 넘거야하는데 어떻게 넘길 것인지 ? 
-                                               
-                                         
-                                         
-                                         
-                                         
-                                         
+                 <script>
+
+                 
+                  //원래 색깔로 조건주려했는데 안됨. 
+                  
+                    function adminStopBtn(button) { 
+                       
+                     
+                       //var memberId = $(button).closest('tr').children('.memberId').text();
+                       var memberId = $(button).data('memberId');
+                       //var memberId = $(button).children('.memberId').text(); 
+                    console.log(memberId);
+                       
+                       //memberStatus의 값 뽑아내기 접근하기. 
+                      // var memberStatus = $(button).closest('tr').children('.memberStatus').text();
+                       
+                       
+                   // console.log(memberStatus);
+                       
+                          $.ajax({
+                             url : 'memberStatusSelect.ad',
+                             data :{memberId : memberId},
+                             success : function(result){
+                                
+                                if(result == 'N'){ // 회원 조회 
                                    
+                                   if(confirm('회원을 정지 해제시키겠습니까?')) {
                                       
-                                   
-                    
-                          //'Y'의 정지버튼을 눌렀을 때 'N'으로 바뀌게 
+                                      $.ajax({ // 회원 정지 해제
+                                         
+                                         url : 'adminMemberStopFree.ad',
+                                         data : {memberId : memberId},
+                                         success : function(result) {
+                                            if(result == 'Y') {//성공
+                                               $(button).css('background-color','red');
+            //memberStatus선택해서 N으로 바꾸기 안되는지 ? . .                            
+                                    location.reload();
+                                            
+                                               alert('정지 해제되었습니다.');
+                                            }
+                                         },error : function() {alert('정지해제 실패 ');}
+                                       });
+                                        }
+                                }else{
+                                   if(confirm('회원을 정지시키겠습니까?')) {
+                                      
+                                       $.ajax({ // 회원 정지 
+                                         url : 'adminMemberStop.ad',
+                                         data : {memberId : memberId},
+                                         success : function(result) {
+                                            if(result == 'Y') {//성공
+                                               $(button).css('background-color','gray');
+                                               //memberStatus.text('Y');
+                                               
+                                    location.reload();
+                                               
+                                               alert('정지되었습니다.');
+                                            }
+                                         },error : function(){alert('정지 실패');}
+                                        });
+                                       }
+                                      }
+                                    }
+                                   });
+                                  }
+                  
+                  
+                  
+                 
+                     
+                 /*
+                        
+                   
+               //버튼눌러도 넘어가는 부분 해결하기 . . ! 아니면 아이디를 눌러야 넘어가게 할건지 ?  / NO게시판 번호 매기기 
+                 
+                     $(function() {
+                        
+                           $('#adminMemberTable > tbody > tr').click(function() {
                           
-                              
+                             var memberId = $(this).children('.memberId').text(); //memberId값 
+                             console.log(memberId);
+                         
+                             
+                              location.href="memberDetailInfo.ad?memberId=" + memberId;
+                        });
+                }); 
+                         
+                   */
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+          
+                   
+                               
+              
+                 </script>
                     
-                    </script>
                     
-                    
-                 </table>
                     
                     
                     
                
-                 <!-- 테스트테스트!!!!!!!!!!!!!!!!!! -->
+                 
                  
                  
                  
@@ -256,7 +287,7 @@
                  
             <br><br>
             
-            <!-- 페이징 처리 --> 
+            <!-- 페이징 처리 --> <!-- 매핑값으로 다시 가기 때문에 키값과 컨디션값을 같이 넘겨줘야함.!  -->
             <div class="paBtn">
             
                <!-- 현재페이지가 1이면 이전버튼 작동 x 아니면 현재페이지 -1 작동 -->

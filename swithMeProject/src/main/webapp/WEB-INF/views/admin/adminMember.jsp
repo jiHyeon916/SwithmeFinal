@@ -74,7 +74,7 @@
                   <div class="block">
                      
                      
-               <form action="search.mem" method="post" id="adminMemberForm">
+               <form action="adminMemberSearch.ad" method="post" id="adminMemberForm">
          
                      <input type="hidden" name="currentPage" value="1">
          

@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.kh.swithme.admin.model.dao.AdminDao;
 import com.kh.swithme.admin.model.vo.QNAReply;
-import com.kh.swithme.board.model.vo.Board;
+import com.kh.swithme.band.model.vo.memberDetailInfo;
 import com.kh.swithme.common.model.vo.PageInfo;
 import com.kh.swithme.member.model.vo.Member;
 import com.kh.swithme.member.model.vo.QNA;
@@ -26,7 +26,7 @@ public class AdminServiceImpl implements AdminService {
    
    
    
-   //지현
+ //지현
    
    //회원들의 count조회(페이징)
    @Override
@@ -67,12 +67,12 @@ public class AdminServiceImpl implements AdminService {
    }
 
    //회원 디테일 조회정보(select)
-	@Override
-	public ArrayList<Board> memberDetailInfo(String memberId) {
-		return adminDao.memberDetailInfo(sqlSession, memberId);
-	}
-	   
-	   
+   @Override
+   public ArrayList<memberDetailInfo> memberDetailInfo(String memberId) {
+      return (ArrayList)adminDao.memberDetailInfo(sqlSession, memberId);
+   }
+      
+      
 	
 	// 이유진 ----------------------------------------
 	

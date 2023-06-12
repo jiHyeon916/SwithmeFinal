@@ -13,6 +13,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.google.gson.Gson;
 import com.kh.swithme.admin.model.service.AdminService;
 import com.kh.swithme.admin.model.vo.QNAReply;
+import com.kh.swithme.band.model.vo.memberDetailInfo;
 import com.kh.swithme.common.model.vo.PageInfo;
 import com.kh.swithme.common.template.Pagination;
 import com.kh.swithme.member.model.vo.Member;
@@ -34,7 +35,6 @@ public class AdminController {
    public String adminItemListView() {
       return "admin/itemManagement";
    }
-   
    
    
    
@@ -129,18 +129,45 @@ public class AdminController {
      return adminService.memberStop(memberId) > 0 ? 'Y' : 'N';
    }
    
-   
+   /*
    //회원 디테일 조회정보(select)
    @RequestMapping("memberDetailInfo.ad")
-   public String memberDetailInfo(String memberId) {
+   public ModelAndView memberDetailInfo(String memberId, ModelAndView mv) {
       
       //System.out.println(memberId);
+    
+      ArrayList<Board> memberBoardList = adminService.memberDetailInfo(memberId);
+      mv.addObject("memberBoardList", memberBoardList);
+       mv.setViewName("admin/memberDetailInfo");
+       return mv;
+   }*/
+   
+   
+   //회원 디테일 조회정보(select)
+   
+   @RequestMapping("memberDetailInfo.ad")
+   public ModelAndView memberDetailInfo(String memberId, ModelAndView mv) {
       
-     adminService.memberDetailInfo(memberId);
+     System.out.println(memberId);
       
-      return "admin/memberDetailInfo";
+      ArrayList<memberDetailInfo> list = adminService.memberDetailInfo(memberId);
+      
+      System.out.println(list);
+      
+      mv.addObject("list",list);
+      mv.setViewName("admin/memberDetailInfo");
+      return mv;
    }
    
+   /*
+   //디테일뷰로 가 
+   @RequestMapping("memberDetailInfoList.ad")
+   public String memberDetailInfoList() {
+      
+      return "admin/memberDetailInfo";
+            
+   }
+   */
    
    
    // 이유진 ------------------------------------------------------------

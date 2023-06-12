@@ -10,9 +10,7 @@
 
 	<typeAliases>
 		<typeAlias type="com.kh.swithme.admin.model.vo.Report" alias="report" />
-		<typeAlias type="com.kh.swithme.band.model.vo.SBand" alias="sband" />
 		<typeAlias type="com.kh.swithme.band.model.vo.memberDetailInfo" alias="memberDetailInfo" />
-		<typeAlias type="com.kh.swithme.band.model.vo.Band" alias="band" />
 		<typeAlias type="com.kh.swithme.band.model.vo.BandBoard" alias="bandBoard" />
 		<typeAlias type="com.kh.swithme.band.model.vo.BandMember" alias="bandMember" />
 		<typeAlias type="com.kh.swithme.band.model.vo.BandReply" alias="bandReply" />
@@ -36,6 +34,7 @@
 		<typeAlias type="com.kh.swithme.member.model.vo.QNA" alias="qna" />
 		<typeAlias type="com.kh.swithme.member.model.vo.Room" alias="room" />
 		<typeAlias type="com.kh.swithme.member.model.vo.TodoList" alias="todoList" />
+		<typeAlias type="com.kh.swithme.member.model.vo.Alarm" alias="Alarm" />
 	</typeAliases>
 	
 	<mappers>
