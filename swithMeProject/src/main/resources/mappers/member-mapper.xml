@@ -12,7 +12,8 @@
 		<result column="CALENDAR_CONTENT" property="calendarContent" />
 		<result column="TEXTCOLOR" property="textColor" />
 		<result column="BACKGROUNDCOLOR" property="backgroundColor" />
-</resultMap>
+	</resultMap>
+	
 	<resultMap id="TodoListResultSet" type="todoList">
 		<result column="TODO_NO" property="todoNo" />
 		<result column="MEMBER_ID" property="memberId" />
@@ -20,6 +21,47 @@
 		<result column="TODO_CONTENT" property="todoContent" />
 		<result column="TODO_STATUS" property="todoStatus" />
 	</resultMap>
+	
+	<resultMap id="pointResultSet" type="point">
+		<result column="MEMBER_ID"		property="memberId" />
+		<result column="POINT_SCORE"	property="pointScore" />
+		<result column="POINT_DETAIL"	property="pointDetail" />
+		<result column="POINT_STATUS"	property="pointStatus" />
+		<result column="POINT_TIME"		property="pointTime" />
+	</resultMap>
+	
+	<resultMap id="alarmResultSet" type="alarm">
+		<result column="LALRM_NO"			property="alarmNo" />
+		<result column="ALARM_MEMBER_ID"	property="alarmMemberId" />
+		<result column="ALARM_BOARD_NO"		property="alarmBoardNo" />
+		<result column="ALARM_CATEGORY"		property="alarmCategory" />
+		<result column="ALARM_DATE"			property="alarmDate" />
+		<result column="ALARM_STATUS"		property="alarmStatus" />
+		<result column="ALARM_SORT"			property="alarmSort" />
+	</resultMap>
+	
+	<resultMap id="qnaResultSet" type="qna">
+		<result column="QNA_NO"			property="qnaNo" />
+		<result column="MEMBER_ID"		property="memberId" />
+		<result column="QNA_TITLE"		property="qnaTitle" />
+		<result column="QNA_CONTENT"	property="qnaContent" />
+		<result column="QNA_DATE"		property="qnaDate" />
+		<result column="QNA_STATUS"		property="qnaStatus" />
+	</resultMap>
+	
+	<resultMap id="boardResultSet" type="board">
+		<result column="BOARD_NO"		property="boardNo" />
+		<result column="MEMBER_ID"		property="memberId" />
+		<result column="BOARD_TYPE"		property="boardType" />
+		<result column="CATEGORY"		property="category" />
+		<result column="BOARD_TITLE"	property="boardTitle" />
+		<result column="BOARD_CONTENT"	property="boardContent" />
+		<result column="CREATE_DATE"	property="createDate" />
+		<result column="BOARD_STATUS"	property="boardStatus" />
+		<result column="BOARD_COUNT"	property="boardCount" />
+		<result column="SUMMARY"		property="summary" />
+	</resultMap>
+	
 	<!-- 희재 -->
 	<!-- 일정 조회 -->
 	<select id="selectMyCalendarlList" parameterType="string" resultMap="CalendarResultSet">
@@ -400,6 +442,231 @@
 		
 	
 	<!-- 유진 -->
+	
+	<!-- 토탈포인트 -->
+	<select id="selectTotalPoint" parameterType="string" resultType="_int">
+		SELECT A - B
+		  FROM (SELECT DISTINCT
+		               CASE WHEN (SELECT COUNT(*)
+		                            FROM POINT
+		                           WHERE POINT_STATUS = 'Y'
+		                             AND MEMBER_ID = #{memberId} ) > 0
+		                    THEN (SELECT DISTINCT SUM(POINT_SCORE) OVER(PARTITION BY POINT_STATUS ORDER BY POINT_STATUS)
+		                            FROM POINT
+		                           WHERE POINT_STATUS = 'Y'
+		                             AND MEMBER_ID = #{memberId} )
+		                    ELSE 0
+		                     END AS "A", MEMBER_ID
+		         FROM POINT
+		        WHERE MEMBER_ID = #{memberId} )
+		  JOIN (SELECT DISTINCT
+		                CASE WHEN (SELECT COUNT(*)
+		                             FROM POINT
+		                            WHERE POINT_STATUS = 'N'
+		                              AND MEMBER_ID = #{memberId} ) > 0 
+		                     THEN (SELECT DISTINCT SUM(POINT_SCORE) OVER(PARTITION BY POINT_STATUS ORDER BY POINT_STATUS)
+		                             FROM POINT
+		                            WHERE POINT_STATUS = 'N'
+		                              AND MEMBER_ID = #{memberId} )
+		                     ELSE 0
+		                      END AS "B", MEMBER_ID
+		         FROM POINT
+		        WHERE MEMBER_ID = #{memberId} ) USING (MEMBER_ID)
+	</select>
 
+	<!-- 마이페이지 메인 포인트내역(최신3개) -->
+	<select id="selectPointList3" parameterType="string" resultMap="pointResultSet">
+		SELECT *
+		  FROM (SELECT ROWNUM, A.*
+		          FROM (SELECT POINT_DETAIL, POINT_STATUS, POINT_SCORE
+		                  FROM POINT
+		                 WHERE MEMBER_ID = #{memberId}
+		                 ORDER
+		                    BY POINT_TIME DESC) A)
+		 WHERE ROWNUM BETWEEN 1 AND 3
+	</select>
+	
+	<!-- 포인트 내역 수 -->
+	<select id="myPointListCount" parameterType="string" resultType="_int">
+		SELECT COUNT(*)
+		  FROM POINT
+		 WHERE MEMBER_ID = #{ memberId }
+	</select>
+	
+	<!-- 사용자의 포인트 리스트 조회 -->
+	<select id="myPointList" parameterType="string" resultMap="pointResultSet">
+		SELECT POINT_STATUS, POINT_SCORE, POINT_DETAIL, TO_CHAR(POINT_TIME, 'YYYY-MM-DD') "POINT_TIME"
+		  FROM POINT
+		 WHERE MEMBER_ID = #{ memberId }
+		 ORDER
+		    BY POINT_TIME DESC
+	</select>
+	
+	<!-- 오늘 얻은 포인트 가져오기(적립내용만) -->
+	<select id="todayPoint" parameterType="string" resultType="_int">
+		SELECT NVL(MAX(A), 0)
+		  FROM (SELECT distinct SUM(POINT_SCORE) OVER(PARTITION BY POINT_STATUS ORDER BY POINT_STATUS) "A", MEMBER_ID
+		          FROM POINT
+		         WHERE POINT_STATUS = 'Y'
+		           AND MEMBER_ID = 'user03'
+		           AND TO_CHAR(SYSDATE, 'YYYYMMDD') = TO_CHAR(POINT_TIME, 'YYYYMMDD'))
+	</select>
+	
+	<!-- 마이페이지 메인 알림내역(최신5개) -->
+	<select id="selectAlarmList5" parameterType="string" resultMap="alarmResultSet">
+		SELECT *
+		  FROM (SELECT ROWNUM, A.*
+		          FROM (SELECT ALARM_CATEGORY, ALARM_BOARD_NO , SUBSTR(ALARM_NO, 1, 1) "ALARM_SORT", TO_CHAR(ALARM_DATE, 'YYYY-MM-DD HH:MI:SS') "ALARM_DATE"
+		                  FROM BOARD_ALARM
+		                 WHERE ALARM_MEMBER_ID = #{memberId}
+		                 UNION ALL
+		                SELECT ALARM_CATEGORY, ALARM_SB_NO, SUBSTR(ALARM_NO, 1, 1) "ALARM_SORT", TO_CHAR(ALARM_DATE, 'YYYY-MM-DD HH:MI:SS') "ALARM_DATE"
+		                  FROM BAND_ALARM
+		                 WHERE ALARM_MEMBER = #{memberId}
+		                 ORDER 
+		                    BY ALARM_DATE DESC) A)
+		 WHERE ROWNUM BETWEEN 1 AND 5
+	</select>
+
+	<!-- 사용자가 작성한 게시글 수 가져오기 -->
+	<select id="myBoardListCount" parameterType="board" resultType="_int">
+		SELECT COUNT(*)
+		  FROM MAINBOARD
+		 WHERE MEMBER_ID = #{memberId}
+		 <if test="boardType == 'free'">
+		   AND BOARD_TYPE = 'free'
+		 </if>
+		 <if test="boardType == 'info'">
+		   AND BOARD_TYPE = 'info'
+		 </if>
+	</select>
+
+	<!-- 사용자가 작성한 게시글 리스트 조회 -->
+	<select id="myBoardList" parameterType="board" resultMap="boardResultSet">
+		SELECT BOARD_NO
+		      ,MEMBER_ID
+		      ,BOARD_TYPE 
+		      ,CATEGORY
+		      ,BOARD_TITLE
+		      ,BOARD_CONTENT
+		      ,TO_CHAR(CREATE_DATE, 'YYYY-MM-DD') "CREATE_DATE"
+		      ,BOARD_STATUS
+		      ,BOARD_COUNT
+		      ,SUMMARY
+		  FROM MAINBOARD
+		 WHERE MEMBER_ID = #{memberId}
+		<if test="boardType == 'free'">
+		   AND BOARD_TYPE = 'free'
+		 </if>
+		 <if test="boardType == 'info'">
+		   AND BOARD_TYPE = 'info'
+		 </if>	   
+		   AND BOARD_STATUS IN ('Y', 'B')
+	</select>
+
+
+	<!-- 문의글 수 가져오기 -->
+	<select id="selectQnaListCount" parameterType="qna" resultType="_int">
+		SELECT COUNT(*)
+		  FROM QNA
+		<choose>
+			<when test="memberId == 'admin'">
+				<if test="qnaStatus == 'Y'.toString()">
+				 	WHERE QNA_STATUS = 'Y'
+				</if>
+				<if test="qnaStatus == 'N'.toString()">
+				 	WHERE QNA_STATUS = 'N'
+				</if>
+			</when>
+			<otherwise>
+			WHERE MEMBER_ID = #{memberId}
+				<if test="qnaStatus == 'Y'.toString()">
+			   		AND QNA_STATUS = 'Y'
+			 	</if>
+			 	<if test="qnaStatus == 'N'.toString()">
+			   		AND QNA_STATUS = 'N'
+			 	</if>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<!-- 문의글 리스트 가져오기 -->
+	<select id="selectQnaList" parameterType="qna" resultMap="qnaResultSet">
+		SELECT QNA_NO, QNA_TITLE, QNA_CONTENT, TO_CHAR(QNA_DATE, 'YYYY-MM-DD') "QNA_DATE", QNA_STATUS
+		  FROM QNA 
+		 <choose>
+			<when test="memberId == 'admin'">
+				<if test="qnaStatus == 'Y'.toString()">
+				 	WHERE QNA_STATUS = 'Y'
+				</if>
+				<if test="qnaStatus == 'N'.toString()">
+				 	WHERE QNA_STATUS = 'N'
+				</if>
+			</when>
+			<otherwise>
+			WHERE MEMBER_ID = #{memberId}
+				<if test="qnaStatus == 'Y'.toString()">
+			   		AND QNA_STATUS = 'Y'
+			 	</if>
+			 	<if test="qnaStatus == 'N'.toString()">
+			   		AND QNA_STATUS = 'N'
+			 	</if>
+			</otherwise>
+		</choose>
+		 ORDER
+		    BY QNA_NO DESC
+	</select>
+	
+	<!-- 문의글 작성하기 -->
+	<insert id="insertQna" parameterType="qna">
+		INSERT 
+		  INTO QNA
+		  	   (
+		  	   QNA_NO
+	  		  ,MEMBER_ID
+	  		  ,QNA_TITLE 
+	  		  ,QNA_CONTENT 
+	  		  ,QNA_DATE
+	  		  ,QNA_STATUS
+	  		   ) 
+		VALUES 
+			   (
+				SEQ_QNA_NO.NEXTVAL
+			  ,#{memberId}
+			  ,#{qnaTitle}
+			  ,#{qnaContent}
+			  ,SYSDATE 
+			  ,'Y'
+			   )
+	</insert>
+	
+	<!-- 작성한 문의글 번호 가져오기 -->
+	<select id="selectQnaNo" parameterType="string" resultMap="qnaResultSet">
+		SELECT ROWNUM, QNA_NO
+		  FROM QNA
+		 WHERE MEMBER_ID = #{memberId}
+		   AND ROWNUM = 1
+		 ORDER
+		    BY QNA_NO DESC
+	</select>
+	
+	<!-- 문의글 상세보기 -->
+	<select id="qnaDetailView" parameterType="_int" resultMap="qnaResultSet">
+		SELECT QNA_NO, 
+			   MEMBER_ID, 
+			   QNA_TITLE, 
+			   QNA_CONTENT, 
+			   TO_CHAR(QNA_DATE, 'YYYY-MM-DD') "QNA_DATE",
+			   QNA_STATUS
+		  FROM QNA
+		 WHERE QNA_NO = #{ qno }
+	</select>
+	
+	<!-- 문의글 삭제하기 -->
+	<delete id="qnaDelete" parameterType="_int">
+		DELETE
+		  FROM QNA
+		 WHERE QNA_NO = ${ qno }
+	</delete>
 
 </mapper>

@@ -15,10 +15,13 @@ public interface BoardService {
 
 	
 
-	// 페이징처리 - 리스트 카운트
+	//혜린 -----------------------------------------------------------------------------------
+	
+	// 게시글 불러오기
+	// 1. 리스트 카운트
 	int boardListCount(int boardType);
 	
-	// 게시글 조회 - 리스트 불러오기
+	// 2. 리스트 불러오기
 	ArrayList<Board> selectBoardList(int boardType, PageInfo pi);
 	
 	// 게시글 조회 - 조회수 증가
@@ -68,6 +71,27 @@ public interface BoardService {
 	
 	// 게시글 상세 조회 - 대댓글 작성 
 	int reReplyBoard(ReReply rere);
+	
+	// 게시글 작성 
+	int test(Board b);
+	
+	// 태그 인서트 
+	int tagInsert(String tagList);
+	
+	// 태그 검색
+	ArrayList<Board> tagSearch(PageInfo pi, Board bSearch);
+	
+	// 태그 토탈 카운트 
+	int tagCount(Board bSearch);
+	
+	// 카테고리 필터
+	ArrayList<Board> categorySearch(Board b, PageInfo pi);
+	
+	// 글 정렬
+	ArrayList<Board> sortSearch(Board b, PageInfo pi);
+	
+	// 정렬 글 개수 확인 (페이징 처리)
+	int searchCount(Board b);
 	
 	
 	

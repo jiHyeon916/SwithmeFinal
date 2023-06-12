@@ -45,7 +45,7 @@
         <ul id="mainMenu" class="clear">
             <li><a href="freeBoardListView.bo?boardType=1">커뮤니티</a></li>
             <li><a href="freeBoardListView.bo?boardType=2">질문정보</a></li>
-            <li><a href="studyBandListView.bo">스터디밴드</a></li>
+            <li><a href="band">스터디밴드</a></li>
             <li><a href="studyRoomMainView.bo">스터디룸</a></li>
             <li><a href="#">아이템 상점</a></li>
         </ul>
@@ -80,7 +80,7 @@
                   <li><a href="memberEnrollForm.me">회원가입</a></li>
                </c:when>
                <c:otherwise>
-                  <li><label>${loginMember.nickName }님 환영합니다.</label></li>
+	            	<li><label id="loginName" onclick="myPage();">${ loginMember.memberName }</label>님 환영합니다.</li>
                   <li><a href="logout.me">로그아웃</a></li>
                </c:otherwise>
             </c:choose>
@@ -96,6 +96,21 @@
 </header>
 
 <div class="headerblank"></div>
+
+	<script>
+		function myPage(){
+			
+			var user = '${ loginMember.memberId }';
+			
+			if(user == 'admin'){
+				location.href = 'adPage.ad';
+			}
+			else {
+				location.href = 'mypage.me';
+			}
+			
+		}
+	</script>
         
 </body>
 </html>

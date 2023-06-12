@@ -8,9 +8,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.kh.swithme.admin.model.dao.AdminDao;
+import com.kh.swithme.admin.model.vo.QNAReply;
 import com.kh.swithme.board.model.vo.Board;
 import com.kh.swithme.common.model.vo.PageInfo;
 import com.kh.swithme.member.model.vo.Member;
+import com.kh.swithme.member.model.vo.QNA;
 
 @Service
 public class AdminServiceImpl implements AdminService {
@@ -71,6 +73,46 @@ public class AdminServiceImpl implements AdminService {
 	}
 	   
 	   
+	
+	// 이유진 ----------------------------------------
+	
+	// 문의글 리스트 조회 + 페이징처리
+	// 모든 문의글 수 가져오기
+	@Override
+	public int selectQnaListCount(String qnaStatus) {
+		return adminDao.selectQnaListCount(sqlSession, qnaStatus);
+	}
+
+	// 모든 문의글 리스트 조회
+	@Override
+	public ArrayList<QNA> selectQnaList(PageInfo pi, String qnaStatus) {
+		return adminDao.selectQnaList(sqlSession, pi, qnaStatus);
+	}
+	
+	// 문의글 답변 INSERT
+	@Override
+	public int insertQnaReply(QNAReply qr) {
+		return adminDao.insertQnaReply(sqlSession, qr);
+	};
+	
+	// 문의글 답변 목록 출력
+	@Override
+	public ArrayList<QNAReply> selectQnaReply(int qnaNo) {
+		return adminDao.selectQnaReply(sqlSession, qnaNo);
+	};
+	
+	// 문의글 답변여부 상태변화
+	@Override
+	public int qnaStatusUpdate(int qnaNo) {
+		return adminDao.qnaStatusUpdate(sqlSession, qnaNo);
+	};
+	
+	
+	// 문의글 답변 삭제
+	@Override
+	public int qnaReplyDelete(int qnaNo) {
+		return adminDao.qnaReplyDelete(sqlSession, qnaNo);
+	};
    
    
    

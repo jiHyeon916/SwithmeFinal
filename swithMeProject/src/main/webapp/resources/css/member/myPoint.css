@@ -166,7 +166,7 @@ tr:last-child{
 
 /* 페이징버튼 */
 .paBtn{
-	width : 265px;
+	width : 320px;
 	height : 60px;
 	margin : auto;
 }
@@ -179,10 +179,6 @@ tr:last-child{
 	color : rgb(3, 195, 115);
 	margin : 5px;
 	box-sizing : border-box;
-}
-.paBtn > button:first-child{
-	background-color : rgb(3, 195, 115);
-	color : white;
-	border : none; 
-	box-sizing : border-box;
+	text-align : center;
+	
 }

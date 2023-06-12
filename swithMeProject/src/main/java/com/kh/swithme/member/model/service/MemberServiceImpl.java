@@ -6,9 +6,16 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.kh.swithme.board.model.vo.Board;
+import com.kh.swithme.board.model.vo.Reply;
+import com.kh.swithme.common.model.vo.PageInfo;
 import com.kh.swithme.member.model.dao.MemberDao;
+import com.kh.swithme.member.model.vo.Alarm;
 import com.kh.swithme.member.model.vo.Calendar;
 import com.kh.swithme.member.model.vo.Member;
+import com.kh.swithme.member.model.vo.Point;
+import com.kh.swithme.member.model.vo.QNA;
+import com.kh.swithme.member.model.vo.QNA;
 import com.kh.swithme.member.model.vo.TodoList;
 
 @Service
@@ -190,9 +197,110 @@ public class MemberServiceImpl implements MemberService{
 		
 
 	
+	// 이유진 -----------------------------------------------------------------------------------
+
+	// 토탈포인트(사용가능한 포인트)
+	@Override
+	public int selectTotalPoint(String memberId) {
+		return memberDao.selectTotalPoint(sqlSession, memberId);
+	}
+
+	// 마이페이지 메인 - 포인트 내역(최신 3개)
+	@Override
+	public ArrayList<Point> selectPointList3(String memberId) {
+		return memberDao.selectPointList3(sqlSession, memberId);
+	}
+
+	// 포인트 내역 조회 + 페이징처리
+	// 사용자의 포인트 내역 수 가져오기
+	@Override
+	public int myPointListCount(String memberId) {
+		return memberDao.myPointListCount(sqlSession, memberId);
+	};
+	
+	// 사용자의 포인트 리스트 조회
+	@Override
+	public ArrayList<Point> myPointList(PageInfo pi, String memberId){
+		return memberDao.myPointList(sqlSession, pi, memberId);
+	};
+	
+	// 오늘 얻은 포인트 가져오기(적립내용만)
+	@Override
+	public int todayPoint(String memberId) {
+		return memberDao.todayPoint(sqlSession, memberId);
+	};
 	
 	
+	// 마이페이지 메인 - 알림 내역(최신 5개)
+	@Override
+	public ArrayList<Alarm> selectAlarmList5(String memberId) {
+		return memberDao.selectAlarmList5(sqlSession, memberId);
+	}
 	
+	// 사용자가 작성한 게시글 리스트 조회 + 페이징 처리
+	// 사용자가 작성한 게시글 수 가져오기
+	@Override
+	public int myBoardListCount(Board b) {
+		return memberDao.myBoardListCount(sqlSession, b);
+	};
+
+	// 사용자가 작성한 게시글 리스트 조회
+	@Override
+	public ArrayList<Board> myBoardList(PageInfo pi, Board b){
+		return memberDao.myBoardList(sqlSession, pi, b);
+	};
+	
+	
+	// 사용자가 작성한 댓글 리스트 조회 + 페이징 처리
+	// 사용자가 작성한 댓글 수 가져오기	
+	@Override
+	public int myReplyListCount(String memberId) {
+		return 0;
+	};
+	
+	
+	// 사용자가 작성한 댓글 리스트 조회
+	@Override
+	public ArrayList<Reply> myReplyList(PageInfo pi, String memberId){
+		return null;
+	};
+	
+	// 문의글 리스트 조회 + 페이징처리
+	// 사용자가 작성한 게시글 수 가져오기
+	@Override
+	public int selectQnaListCount(QNA qna) {
+		return memberDao.selectQnaListCount(sqlSession, qna);
+	}
+
+	// 사용자가 작성한 문의글 리스트 조회
+	@Override
+	public ArrayList<QNA> selectQnaList(PageInfo pi, QNA qna) {
+		return memberDao.selectQnaList(sqlSession, pi, qna);
+	}
+	
+	// 문의글 작성하기
+	@Override
+	public int insertQna(QNA qna) {
+		return memberDao.insertQna(sqlSession, qna);
+	};
+	
+	// 작성한 문의글 번호 가져오기
+	@Override
+	public QNA selectQnaNo(String memberId) {
+		return memberDao.selectQnaNo(sqlSession, memberId);
+	};
+	
+	// 문의글 상세보기
+	@Override
+	public QNA qnaDetailView(int qno) {
+		return memberDao.qnaDetailView(sqlSession, qno);
+	};
+	
+	// 문의글 삭제하기
+	@Override
+	public int qnaDelete(int qno) {
+		return memberDao.qnaDelete(sqlSession, qno);
+	};
 	
 
 }

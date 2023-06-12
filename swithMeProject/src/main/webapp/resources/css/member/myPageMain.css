@@ -87,6 +87,13 @@ a:hover{
 	border-radius : 5px;
 	color : #cecece;
 }
+.content button:hover{
+	/* background-color : #03c373;
+	color : white;
+	border : none; */
+	color : #03c373;
+	border : 2px solid #03c373;
+}
 .content p{
 	text-align : center;
 	font-size : 15px;
@@ -114,18 +121,49 @@ a:hover{
 	margin-top : 27px;
 	margin-bottom : 30px;
 }
-#mb2>p{
+#PminiList{
+	width : 100%;
+	/* background-color : pink; */
+	height : 100px;
+}
+#PminiList>p{
 	font-size : 17px;
 	line-height : 33px;
 }
 #mb3>h5{
 	color: rgb(94, 94, 94);
-}
-#mb3>p{
 	font-size : 17px;
-	line-height : 34.5px;
 }
-
+#AminiList{
+	width : 100%;
+	/* background-color : pink; */
+	height : 177px;
+}
+#AminiList>p{
+	font-size : 17px;
+	line-height : 35px;
+	text-align : left;
+	padding-left : 10px;
+}
+#AminiList>p:hover{
+	background-color : rgb(207, 254, 227);
+	color : #03c373;
+	border-radius : 5px;
+	cursor : pointer;
+}
+.emptyList{
+	display : block;
+	line-height : 35px;
+	padding-left : 10px;
+	text-align : center;
+	font-size : 15px;
+	color : rgb(160, 160, 160);
+	padding-top : 60px;
+}
+#grass>h5{
+	color: rgb(94, 94, 94);
+	font-size : 17px;
+}
 
 
 

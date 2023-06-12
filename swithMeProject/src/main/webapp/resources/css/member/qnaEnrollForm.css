@@ -73,13 +73,26 @@ textarea[name = 'qnaContent']{
     height: 50px;
     font-size: 16px;
     font-weight: 500;
-    color: white;
-    border: none;
     margin: 20px 10px 0px 10px;
+    border-radius: 8px;
 }
 .qnaBack{
-    background-color: #cecece;
+    border: 1.5px solid rgb(175, 175, 175);
+    color : rgb(175, 175, 175);
+    background-color: white;
+
+}
+.qnaBack:hover{
+    color : white;
+    background-color: rgb(175, 175, 175);
+
 }
 .qnaEnroll{
+    border: 1.5px solid rgb(3, 195, 115);
+    color : rgb(3, 195, 115);
+    background-color: white;
+}
+.qnaEnroll:hover{
+    color : white;
     background-color: rgb(3, 195, 115);
 }

@@ -1,33 +1,57 @@
 @charset "UTF-8";
+@import url(//fonts.googleapis.com/earlyaccess/notosanskr.css);
+@font-face {
+    font-family: 'EF_watermelonSalad';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2210-EF@1.0/EF_watermelonSalad.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'PyeongChang-Bold';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2206-02@1.0/PyeongChang-Bold.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}
+@import url(//fonts.googleapis.com/earlyaccess/notosanskr.css);
 
-
-/* 기본영역 지정 */
-#contentBox{
-    margin: 50px 20px 30px 100px;
-    position: relative;
+/* 공통 */
+.page-blank{
+	margin-top : 80px;
 }
-#contentBox > div:first-child{
-    float: left;
+.mySide{
+	position : fixed;
 }
-.blank{
-    height: 30px;
-}
-.reblank{
-    width: 300px;
-    float: left;
+.content{
+	width : 100%;
+	float:left;
+	padding-left : 250px;
+    margin-bottom: 50px;
 }
 
-/* 썸네일 */
-.thumbnail{
-    width: 900px;
-    height: 150px;
-    overflow: hidden;
-    object-fit: cover;
-    margin-bottom: 20px;
+/* 문의글 작성 페이지 */
+/* 상단 포인트 블럭 */
+.topBlock{
+	height : 55px;
+	padding : 13px 20px;
+	border : 1.5px solid rgb(175, 175, 175);
+	border-radius: 10px;
+	box-sizing : border-box;
+	color : rgb(3, 195, 115);
+	font-size : 16px;
+	font-weight : 500;
+	margin-bottom : 30px;
 }
-.thumbnail img{
-    width: 100%;
+
+/* 내역블록 */
+.block{
+	padding : 25px;
+	border : 1.5px solid rgb(175, 175, 175);
+	border-radius: 10px;
+	box-sizing : border-box;
+	margin : auto;
 }
+
+/* 컨텐츠 */
 
 /* 글 - 글정보(제목,글쓴이,날짜 등등) */
 .writerInfo > img{
@@ -53,48 +77,41 @@
     width: 900px;
     line-height: 36px;
     margin: 30px 0px 80px;
-    word-break:break-all;
 }
-#content_text p {
-    width: 900px;
-    word-break:break-all !important;
+#content_text > p {
+	width : 100%;
 }
 
 /* 카테고리 박스 */
-.categoryBox{
-    font-size: 14px;
-    padding: 20px;
-    width: 900px;
-    background-color: #F8F9FA;
+.post_Btn_Y{
     margin-bottom: 30px;
+	background-color: white;
+    width : 80px;
+    height: 38px;
+	border-radius : 5px;
+	border : 1.5px solid #03c373;
+	color : rgb(3, 195, 115);
 }
-.categoryBox .categoryTitle{
-    width: 100px;
-    display: inline-block;
-}
-.categoryBox .d_category{
-    height: 30px;
-    display: block;
-    margin-bottom: 10px;
-}
-.categoryBox .tagBtn{
-    margin-right: 20px;
-    display: inline-block;
-    background-color: #F0F3F9;
-    padding: 0 10px 0;
-    border-radius: 5px;
+.post_Btn_N{
+    margin-bottom: 30px;
+	background-color: rgb(3, 195, 115);
+    width : 80px;
+    height: 38px;
+	border-radius : 5px;
+	color : white;
+	border : none;
 }
 
 
 /* 댓글 영역 */
 .replyArea{
-    width: 900px;
+    width: 100%;
     padding: 30px;
     background-color: #F8F9FA;
-    margin-bottom: 150px;
+    margin-bottom: 30px;
 }
 .replyArea #replyContent{
-    width: 840px;
+    width: 835px;
     height: 100px;
     border: 1px solid rgb(223, 223, 223);
     padding: 20px;
@@ -226,39 +243,37 @@
     cursor : pointer;
 }
 
+/* 하단 버튼 */
+#myQnaBtn{
+    width : 345px;
+    /* background-color: antiquewhite; */
+    margin: auto;
+}
+.qnaBack, .deleteBtn_yj{
+    width : 150px;
+    height: 50px;
+    font-size: 16px;
+    font-weight: 500;
+    margin: 20px 10px 0px 10px;
+    border-radius: 8px;
+}
+.deleteBtn_yj{
+    border: 1.5px solid rgb(175, 175, 175);
+    color : rgb(175, 175, 175);
+    background-color: white;
 
-/* 사이드바 */
-#contentBox .sideBtn{
-    height: 400px;
-    float: right;
-    position: sticky;
-    top: 150px;
-    left: 0;
 }
-.sideBtn div {
-    width: 70px;
-    height: 70px;
-    border-radius: 50%;
-    border: 1px solid rgb(223, 223, 223);
-    margin-bottom: 5px;
-    text-align: center;
-    cursor : pointer;
+.deleteBtn_yj:hover{
+    color : white;
+    background-color: rgb(175, 175, 175);
+
 }
-.sideBtn > p{
-    text-align: center;
-    font-size: 14px;
-    color: #646464;
-    margin-bottom: 10px;
+.qnaBack{
+    border: 1.5px solid rgb(3, 195, 115);
+    color : rgb(3, 195, 115);
+    background-color: white;
 }
-.sideBtn div img{
-    height: 24px;
-    margin-top: 24px;    
-}
-.sideBtn div:nth-of-type(4) img{
-    height: 25px;
-    margin-top: 22px;
-}
-.sideBtn div:nth-of-type(3) img{
-    height: 25px;
-    margin-top: 22px;
+.qnaBack:hover{
+    color : white;
+    background-color: rgb(3, 195, 115);
 }
