@@ -569,7 +569,7 @@
 	<!-- 글 작성하기 -->
 	<insert id="test" parameterType="board">
 		INSERT INTO MAINBOARD
-		VALUES (SEQ_MAINBOARD.NEXTVAL, #{ memberId }, #{boardType}, #{category}, #{ boardTitle}, #{boardContent}, DEFAULT, DEFAULT, DEFAULT, #{summary})
+		VALUES (SEQ_MAINBOARD.NEXTVAL, #{ memberId }, #{ boardType }, #{ category }, #{ boardTitle }, #{ boardContent }, DEFAULT, DEFAULT, DEFAULT, #{ summary })
 	</insert>
 	
 	<!-- 태그 인서트 하기 -->

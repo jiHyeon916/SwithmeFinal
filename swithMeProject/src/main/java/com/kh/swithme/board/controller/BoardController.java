@@ -278,7 +278,15 @@ public class BoardController {
 		b.setBoardTitle(title);
 		b.setCategory(category);
 		b.setMemberId(memberId);
-		b.setSummary(summary.substring(0, 150));
+		
+		if(summary.length() > 150) {
+			b.setSummary(summary.substring(0, 150));
+		}else {
+			b.setSummary(summary);
+		}
+		
+		System.out.println(b);
+		
 		
 		
 		// 1. 게시글 insert
