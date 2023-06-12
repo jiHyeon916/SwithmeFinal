@@ -3,9 +3,11 @@ package com.kh.swithme.admin.model.service;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import com.kh.swithme.admin.model.vo.QNAReply;
 import com.kh.swithme.board.model.vo.Board;
 import com.kh.swithme.common.model.vo.PageInfo;
 import com.kh.swithme.member.model.vo.Member;
+import com.kh.swithme.member.model.vo.QNA;
 
 
 public interface AdminService {
@@ -37,4 +39,31 @@ public interface AdminService {
    
    //회원 디테일 조회정보
    public ArrayList<Board> memberDetailInfo(String memberId);
+   
+   
+   
+   
+   
+   
+   // 이유진 ----------------------------------------
+   
+   // 문의글 리스트 조회 + 페이징처리
+	// 모든 문의글 수 가져오기
+	int selectQnaListCount(String qnaStatus);
+	// 모든 문의글 리스트 조회
+	ArrayList<QNA> selectQnaList(PageInfo pi, String qnaStatus);
+	
+	// 문의글 답변 INSERT
+	int insertQnaReply(QNAReply qr);
+	
+	// 문의글 답변 목록 출력
+	ArrayList<QNAReply> selectQnaReply(int qnaNo);
+	
+	// 문의글 답변여부 상태변화
+	int qnaStatusUpdate(int qnaNo);
+	
+	// 문의글 답변 삭제
+	int qnaReplyDelete(int qnaNo);
+   
+   
 }

@@ -14,6 +14,8 @@ import com.kh.swithme.member.model.vo.Alarm;
 import com.kh.swithme.member.model.vo.Calendar;
 import com.kh.swithme.member.model.vo.Member;
 import com.kh.swithme.member.model.vo.Point;
+import com.kh.swithme.member.model.vo.QNA;
+import com.kh.swithme.member.model.vo.QNA;
 import com.kh.swithme.member.model.vo.TodoList;
 
 @Service
@@ -263,6 +265,42 @@ public class MemberServiceImpl implements MemberService{
 		return null;
 	};
 	
+	// 문의글 리스트 조회 + 페이징처리
+	// 사용자가 작성한 게시글 수 가져오기
+	@Override
+	public int selectQnaListCount(QNA qna) {
+		return memberDao.selectQnaListCount(sqlSession, qna);
+	}
+
+	// 사용자가 작성한 문의글 리스트 조회
+	@Override
+	public ArrayList<QNA> selectQnaList(PageInfo pi, QNA qna) {
+		return memberDao.selectQnaList(sqlSession, pi, qna);
+	}
+	
+	// 문의글 작성하기
+	@Override
+	public int insertQna(QNA qna) {
+		return memberDao.insertQna(sqlSession, qna);
+	};
+	
+	// 작성한 문의글 번호 가져오기
+	@Override
+	public QNA selectQnaNo(String memberId) {
+		return memberDao.selectQnaNo(sqlSession, memberId);
+	};
+	
+	// 문의글 상세보기
+	@Override
+	public QNA qnaDetailView(int qno) {
+		return memberDao.qnaDetailView(sqlSession, qno);
+	};
+	
+	// 문의글 삭제하기
+	@Override
+	public int qnaDelete(int qno) {
+		return memberDao.qnaDelete(sqlSession, qno);
+	};
 	
 
 }
