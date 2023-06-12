@@ -8,6 +8,7 @@
 <title>Insert title here</title>
 <link rel="stylesheet" href="resources/css/admin/adminPageMain.css">
 <link rel="stylesheet" href="resources/css/member/myPoint.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
 </head>
 <style>
  
@@ -25,7 +26,10 @@
     }
     #adminMemberTable th{
         width: 150px;
-        padding-right: 10px;
+        padding-left: 30px;
+    }
+    #adminMemberTable{
+    	margin:auto;
     }
     #adminMemberTable th, td{
         border: 1px solid rgb(205, 203, 203);
@@ -59,6 +63,25 @@
      	width:20px;
      	height:20px;
      }
+     .memAdDetailBtn > button{
+     	background-color:white;
+     	border-color:gray;
+     	width:80px;
+     	height:40px;
+     	border-radius:5px;
+     	margin-left:10px;
+     	outline:none;
+          	     	
+     }
+     
+ 	 .memAdDetailBtn > button:focus{
+ 	 	border-color:rgb(3, 195, 115);
+        outline: none;
+        background-color :rgb(3, 195, 115);
+ 	 }
+ 	  .memAdDetailBtn > button:hover{
+ 	  	border-color:rgb(3, 195, 115);
+ 	  }
 
 </style>
 <body>
@@ -78,7 +101,9 @@
                <div class="block">
 					<div>
 					회원 정보(select해오기)
-					</div>         
+					</div>
+					
+                              
                      
                <form action="memberDetailSearch.ad" method="post" id="memberDetailSearch">
          
@@ -91,9 +116,21 @@
          
                      <input type="text" name="keyword">
                      <button type="submit" id="adminMemberBtn">검색</button>
-         
                  </form>
                  <br><br><br>
+                 
+                 
+                 
+				<div class="memAdDetailBtn">
+					
+                  	<button onclick="memberBoardList();">게시글</button>
+                  	<button>댓글</button>
+                  	
+               </div>
+               
+                 <br><br>
+                 
+                 
                  <table id="adminMemberTable">
                     <thead>
                          <tr>
@@ -105,26 +142,70 @@
                          </tr>
                     </thead>
                     <tbody>
-                    	
+                    <!--  
+                    	<c:forEach items="${memberBoardList }" var= "b">
 	                         <tr>
-	                             <td>#No</td>
-	                             <td>#제목</td>
-	                             <td>#내용</td>
-	                             <td>#날짜</td>
+	                             <td>${b.boardNo }</td>
+	                             <td>${b.boardTitle }</td>
+	                             <td>${b.boardContent }</td>
+	                             <td>${b.createDate }</td>
 	                             <td><input type="checkbox" name="admemBoardChkDel" id="admemBoardChkDel"></input></td>
 	                         </tr>
-                         
+                       </c:forEach>  
+                       -->
                     </tbody>
                  </table>
             <br><br>
             
-            	<script>
-            		$(function() {
-            			$('#adminMemberTable > tbody > tr').click(function() {
-            				location.href='#admin상세정보 페이지 만들어서 넣기 ';
-            			});
-            		});
-            	</script>
+            
+            <script>
+            
+            	function memberBoardList() {
+            		
+            			$.ajax({
+            				
+            				url: 'memberDetailInfo.ad',
+            				data:{memberId : '${m.memberId}'},
+            				success: function(result) {
+            					
+            					console.log(result);
+            					
+            					
+            					
+            					//result = '';
+            					
+            					
+            					
+            				},error:() => {
+            					console.log('실패');
+            				}
+            				
+            			})
+            	}
+            
+            
+            </script>
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
             
             
             <!-- 페이징처리 -->
