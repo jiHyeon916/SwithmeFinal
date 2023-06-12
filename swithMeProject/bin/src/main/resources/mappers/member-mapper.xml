@@ -1,0 +1,405 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="memberMapper">
+	<resultMap id="CalendarResultSet" type="calendar">
+		<result column="CALENDAR_NO" property="calendarNo" />
+		<result column="MEMBER_ID" property="memberId" />
+		<result column="START_DAY" property="startDay" />
+		<result column="END_DAY" property="endDay" />
+		<result column="CALENDAR_TITLE" property="calendarTitle" />
+		<result column="CALENDAR_CONTENT" property="calendarContent" />
+		<result column="TEXTCOLOR" property="textColor" />
+		<result column="BACKGROUNDCOLOR" property="backgroundColor" />
+</resultMap>
+	<resultMap id="TodoListResultSet" type="todoList">
+		<result column="TODO_NO" property="todoNo" />
+		<result column="MEMBER_ID" property="memberId" />
+		<result column="TODO_DATE" property="todoDate" />
+		<result column="TODO_CONTENT" property="todoContent" />
+		<result column="TODO_STATUS" property="todoStatus" />
+	</resultMap>
+	<!-- 희재 -->
+	<!-- 일정 조회 -->
+	<select id="selectMyCalendarlList" parameterType="string" resultMap="CalendarResultSet">
+		SELECT
+			CALENDAR_NO
+			,TO_char(START_DAY, 'YYYY-MM-DD') AS "START_DAY"
+			,TO_char(END_DAY, 'YYYY-MM-DD') AS "END_DAY"
+			,CALENDAR_TITLE
+			,CALENDAR_CONTENT
+			,COLOR
+		FROM
+			CALENDAR
+		WHERE
+			MEMBER_ID= #{memberId}
+		AND
+			TYPE='C'
+	</select>
+	
+	<!-- 일정 추가 -->
+	<insert id="addSchedule" parameterType="Calendar">
+		INSERT
+		INTO 
+			CALENDAR
+			(CALENDAR_NO, MEMBER_ID, START_DAY, END_DAY, CALENDAR_TITLE, CALENDAR_CONTENT, COLOR, TYPE)
+		VALUES
+			(SEQ_CALENDAR_NO.NEXTVAL, #{memberId}, #{startDay}, #{endDay}, #{calendarTitle}, #{calendarContent}, #{color}, 'C' )
+	</insert>
+	
+	<!-- 일정 삭제 -->
+	<delete id="deleteSchedule" parameterType="Calendar">
+		DELETE
+		FROM
+			CALENDAR
+		WHERE
+			CALENDAR_NO=#{calendarNo}
+		AND
+			MEMBER_ID=#{memberId}
+		AND
+			TYPE='C'
+	</delete>
+	
+	<!-- 일정 수정 -->
+	<update id="updateScehdule" parameterType="Calendar">
+		UPDATE
+			CALENDAR
+		SET
+			CALENDAR_TITLE=#{calendarTitle}
+			,CALENDAR_CONTENT=#{calendarContent}
+			,START_DAY=#{startDay}
+			,END_DAY=#{endDay}
+		WHERE
+			CALENDAR_NO=#{calendarNo}
+		AND
+			MEMBER_ID=#{memberId}
+		AND
+			TYPE='C'
+	</update>
+	
+	<!-- todoList 리스트 조회 -->
+	<select id="selectTodoList" parameterType="todoList" resultMap="TodoListResultSet" >
+		SELECT 
+			TODO_NO
+			,TODO_DATE
+			,TODO_CONTENT
+			,TODO_STATUS
+		FROM
+			TODOLIST
+		WHERE
+			MEMBER_ID=#{memberId}
+		AND
+			TODO_DATE=#{todoDate}
+	</select>
+	
+	<!-- todoList 추가 -->
+	<insert id="insertTodoList" parameterType="TodoList">
+		INSERT
+		INTO
+			TODOLIST
+		VALUES
+			(
+			SEQ_TODO_NO.NEXTVAL
+			,#{memberId}
+			,#{todoDate}
+			,#{todoContent}
+			,'Y'
+			)
+	</insert>
+	
+	<!-- todoList 체크 -->
+	<update id="checkTodoList" parameterType="_int">
+		UPDATE
+			TODOLIST
+		SET
+			TODO_STATUS='N'
+		WHERE
+			TODO_NO=#{todoNo}
+	</update>
+	
+	<!-- todoList 안체크 -->
+	<update id="uncheckTodoList" parameterType="_int">
+		UPDATE
+			TODOLIST
+		SET
+			TODO_STATUS='Y'
+		WHERE
+			TODO_NO=#{todoNo}
+	</update>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<!-- 지현 -->
+	
+		<!-- 아이디 체크용 쿼리  -->
+		<select id="idCheck" resultType="_int"><!-- v파라미터다시 -->
+			SELECT
+				COUNT(*)
+			FROM
+				MEMBER
+			WHERE	
+				MEMBER_ID = #{checkId}
+				
+		</select>
+		
+		<!-- 닉네임 체크용 쿼리 -->
+		<select id="nickCheck" resultType="_int" parameterType="string">
+			SELECT
+				COUNT(*)
+			FROM
+				MEMBER
+			WHERE
+				NICKNAME = #{checkNick}
+			
+		</select>
+		
+		<!-- 이메일 중복 체크용 쿼리 -->
+		<select id="emailCheck" resultType="_int" parameterType="string">
+			SELECT 
+				COUNT(*)
+			FROM
+				MEMBER
+			WHERE
+				MEMBER_EMAIL = #{checkEmail}	
+			
+		</select>
+		
+		<insert id="joinMember"  parameterType="member">
+			INSERT
+				INTO
+					MEMBER
+					(
+					MEMBER_ID
+					,MEMBER_PWD
+					,MEMBER_NAME
+					,MEMBER_EMAIL
+					,NICKNAME
+					
+					)
+				VALUES
+				(
+					#{memberId}
+					,#{memberPwd}
+					,#{memberName}
+					,#{memberEmail}
+					,#{nickName}
+				)
+		</insert>
+		
+		<!-- 회원가입 시 포인트 추가 -->
+		<insert id="joinPoint" parameterType="member">
+			INSERT
+				INTO
+					POINT
+						(
+						MEMBER_ID
+						,POINT_SCORE
+						,POINT_DETAIL
+						,POINT_STATUS
+						,POINT_TIME
+						)
+					VALUES
+						(
+						#{memberId}
+						,500
+						,'회원가입'
+						, 'Y'
+						, SYSDATE
+						)	
+					
+		
+		</insert>
+		 <!-- 로그인 -->
+	      <select id="loginMember" parameterType="member" resultType="member">
+	         SELECT 
+	               MEMBER_ID             memberId
+	               ,MEMBER_PWD          memberPwd
+	               ,MEMBER_NAME         memberName
+	               ,MEMBER_EMAIL         memberEmail
+	               ,NICKNAME            nickName
+	               ,MEMBER_ENROLL_DATE      memberEnrollDate
+	               ,MEMBER_STATUS         memberStatus
+	            FROM   
+	               MEMBER
+	            WHERE
+	               MEMBER_ID = #{memberId}
+	            AND
+	               MEMBER_STATUS = 'Y'   
+	         
+	      </select>
+	      <!-- 로그인 시 출석 POINT 조회 -->
+	      <select id="loginPointChk" parameterType="member" resultType="_int">
+	         SELECT
+	               COUNT(*)
+	            FROM
+	               POINT
+	            WHERE
+	               MEMBER_ID = #{memberId}
+	               AND 
+	                  POINT_DETAIL = '출석'
+	               AND 
+	                  TO_CHAR(POINT_TIME,'YYYYMMDD') = TO_CHAR(SYSDATE,'YYYYMMDD')
+	      
+	      </select>
+	      
+	      <!-- 로그인시 포인트 insert -->
+	      <insert id="loginPointInsert" parameterType="member">
+	         INSERT
+	            INTO
+	               POINT
+	               (MEMBER_ID
+	               ,POINT_SCORE
+	               ,POINT_DETAIL
+	               ,POINT_STATUS
+	               ,POINT_TIME)
+	            VALUES
+	               (
+	               #{memberId}
+	               ,30
+	               ,'출석'
+	               ,'Y'
+	               ,SYSDATE
+	               )   
+	      </insert>
+	      
+	      <!-- 아이디 찾기 -->
+	      <select id="memberSerchId" parameterType="member" resultType="member">
+	         SELECT
+	               MEMBER_ID       memberId
+	            FROM
+	               MEMBER
+	            WHERE
+	               MEMBER_NAME = #{memberName}
+	            AND
+	               MEMBER_EMAIL = #{memberEmail}   
+	            AND 
+	                MEMBER_STATUS = 'Y'      
+	            
+	      </select>
+	      
+      	<!-- 회원탈퇴 -->
+      	<update id="deleteMember" parameterType="member">
+      		UPDATE
+      			MEMBER
+      		SET
+      			MEMBER_STATUS = 'N'
+      		WHERE
+      			MEMBER_ID = #{memberId}
+      		
+      	</update>
+      	
+      	<!-- 기존 비밀번호 확인  // -->
+      	<select id="memberPwdChk" parameterType="string" resultType="_int">
+      		SELECT
+      			COUNT(*)
+      		FROM
+      			MEMBER
+      		WHERE		
+      			MEMBER_ID = ${memberId}
+      		AND
+      			MEMBER_PWD = ${memberEpwdChk}	
+      	</select>
+
+      	
+      	<!-- 정보수정 -->
+      	<update id="updateMember" parameterType="member">
+      		UPDATE
+      			MEMBER
+      		SET	
+      			MEMBER_PWD = #{memberPwd}
+      			,MEMBER_NAME = #{memberName}
+      			,MEMBER_EMAIL = #{memberEmail}
+      			,NICKNAME = #{nickName}
+      		WHERE
+      			MEMBER_ID = #{memberId}			
+      	</update>
+      	
+      	
+      	<!-- 비밀번호 찾기(회원이 입력한 값이 일치한지 확인) -->
+      	<select id="memberSearchPwd" parameterType="member" resultType="member">
+      	  	SELECT
+      	  		MEMBER_ID 	memberId
+      	  		,MEMBER_EMAIL memberEmail
+      	  	FROM
+      	  		MEMBER
+      	  	WHERE
+        	  	MEMBER_ID = #{memberId}
+      	  	AND
+      	  		MEMBER_EMAIL = #{memberEmail}	
+      	  	AND 
+      	  		MEMBER_STATUS = 'Y'				
+      	</select>
+      	
+      	
+      	
+      	<!-- 이메일 임시번호 저장 -->
+      	<update id="sendMailInsert" parameterType="member">
+      		UPDATE
+      				MEMBER
+      			SET
+      				MEMBER_PWD = #{memberPwd}
+      			WHERE
+      				MEMBER_EMAIL = #{memberEmail}	
+      	</update>
+		
+	
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	
+	<!-- 유진 -->
+
+
+</mapper>

@@ -1,0 +1,132 @@
+@charset "UTF-8";
+@import url(//fonts.googleapis.com/earlyaccess/notosanskr.css);
+@font-face {
+    font-family: 'EF_watermelonSalad';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2210-EF@1.0/EF_watermelonSalad.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'PyeongChang-Bold';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2206-02@1.0/PyeongChang-Bold.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}
+@import url(//fonts.googleapis.com/earlyaccess/notosanskr.css);
+
+/* 초기화 */
+* {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    color: #292929;
+    font-family: 'Noto Sans KR', sans-serif;
+    /* font-family: 'Noto Sans KR', sans-serif; */
+    text-decoration: none;
+}
+
+p{
+    margin: 0;
+}
+
+h1 {
+    padding: 0;
+    margin: 0;
+}
+
+a{
+    text-decoration: none;
+    color: #292929;
+    list-style: none;
+}
+
+a:hover{
+    text-decoration: none;
+    color: #292929;
+}
+
+/* 공통 */
+.page-blank{
+	margin-top : 80px;
+	background-color : pink;
+}
+.mySide{
+	position : fixed;
+}
+.content{
+	width : 100%;
+	float:left;
+	padding-left : 250px;
+}
+
+/* 아이템페이지 */
+#character{
+	width : 250px;
+	height : 250px;
+	padding : 25px;
+	border : 1.5px solid rgb(175, 175, 175);
+	border-radius: 10px;
+	box-sizing : border-box;
+	margin : auto;
+}
+.block{
+	padding : 25px;
+	border : 1.5px solid rgb(175, 175, 175);
+	border-radius: 10px;
+	box-sizing : border-box;
+	margin : auto;
+	margin-top : 30px;
+}
+.myBtn>button{
+	display : inline-block;
+	width : 80px;
+	height : 38px;
+	background-color : white;
+	border : 1.5px solid #cecece;
+	border-radius : 5px;
+	color : #cecece;
+	margin-right : 10px;
+}
+.myBtn>button:first-child {
+	border : 1.5px solid rgb(3, 195, 115);
+	color : rgb(3, 195, 115);
+}
+#myItem td{
+	/* border : 1px solid black; */
+	padding : 30px 12px;
+	text-align : center;
+}
+#myItem td>p{
+	color : #a3a3a3;
+}
+#myItem div{
+	width : 200px;
+	height : 200px;
+	background-color : pink;
+	margin : 15px auto;
+	overflow:hidden;
+	
+}
+#myItem div>img{
+	width : 100%;
+	height : 100%;
+	object-fit : cover;
+}
+#myItem td>button{
+	width : 60px;
+	height : 30px;
+	background-color : white;
+	border : 1px solid #a3a3a3;
+	border-radius : 3px;
+	color : #a3a3a3;
+	font-size : 14px;
+	margin : 0 3px;
+}
+#myItem td>button:hover{
+	border : 1px solid rgb(3, 195, 115);
+	color : rgb(3, 195, 115);
+}
+#testBtn{
+	background-color : rgb(3, 195, 115);
+	color : white;
+}

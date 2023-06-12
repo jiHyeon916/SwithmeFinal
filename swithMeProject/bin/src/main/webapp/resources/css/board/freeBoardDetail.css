@@ -1,0 +1,260 @@
+@charset "UTF-8";
+
+
+/* 기본영역 지정 */
+#contentBox{
+    margin: 50px 20px 30px 100px;
+    position: relative;
+}
+#contentBox > div:first-child{
+    float: left;
+}
+.blank{
+    height: 30px;
+}
+.reblank{
+    width: 300px;
+    float: left;
+}
+
+/* 썸네일 */
+.thumbnail{
+    width: 900px;
+    height: 150px;
+    overflow: hidden;
+    object-fit: cover;
+    margin-bottom: 20px;
+}
+.thumbnail img{
+    width: 100%;
+}
+
+/* 글 - 글정보(제목,글쓴이,날짜 등등) */
+.writerInfo > img{
+    width: 80px;
+    height: 80px;
+    float: left;
+    border-radius: 50px;
+    background-color: black;
+    margin-right: 30px;
+}
+.writerInfo > div{
+    padding: 20px 20px 24px;
+    border-bottom: 1px solid rgb(224, 224, 224);
+}
+.writerInfo > div > div > p {
+    float: left;
+    font-size: 14px;
+    margin-right: 20px;
+}
+
+/* 컨텐츠 박스 */
+#content_text {
+    width: 900px;
+    line-height: 36px;
+    margin: 30px 0px 80px;
+}
+
+/* 카테고리 박스 */
+.categoryBox{
+    font-size: 14px;
+    padding: 20px;
+    width: 900px;
+    height: 100px;
+    background-color: #F8F9FA;
+    margin-bottom: 30px;
+}
+.categoryBox .categoryTitle{
+    width: 100px;
+    display: inline-block;
+}
+.categoryBox .d_category{
+    height: 30px;
+    display: block;
+    margin-bottom: 10px;
+}
+.categoryBox .tagBtn{
+    margin-right: 20px;
+    display: inline-block;
+    background-color: #F0F3F9;
+    padding: 0 10px 0;
+    border-radius: 5px;
+}
+
+
+/* 댓글 영역 */
+.replyArea{
+    width: 900px;
+    padding: 30px;
+    background-color: #F8F9FA;
+    margin-bottom: 150px;
+}
+.replyArea #replyContent{
+    width: 840px;
+    height: 100px;
+    border: 1px solid rgb(223, 223, 223);
+    padding: 20px;
+    resize: none;
+}
+.replyArea #replyContent::placeholder{
+    font-size: 14px;
+}
+.replyArea #replyBtn{
+    width: 840px;
+    height: 30px;
+    font-size: 14px;
+    background-color: #f1f1f1;
+    border: 1px solid rgb(223, 223, 223);
+    border-radius: 5px;
+    margin-bottom: 40px;
+}
+
+
+/* 댓글 리스트  */
+.replyWrap .replyList .rInfo{
+    margin : 20px 0 12px 0;
+}
+.replyWrap .replyList .rInfo p{
+    float: left;
+    margin-right: 20px;
+}
+.replyWrap .replyList .rInfo p:first-child{
+    font-size: 16px;
+}
+.replyWrap .replyList .rInfo p:nth-child(2){
+    color: #b1b1b1;
+    font-size: 13px;
+    line-height: 26px;
+}
+.replyWrap .replyList .rInfo p:last-child{
+    float: right;
+    font-size: 14px;
+    margin-right: 0;
+    margin-bottom: 0;
+}
+
+.replyWrap .rCon{
+    margin-bottom: 20px;
+}
+
+
+.replyWrap .rrInfo{
+    padding-bottom: 20px;
+    border-bottom: 1px solid rgb(223, 223, 223);
+}
+.replyWrap .replyList:last-child .rrInfo{
+    border-bottom: none;
+}
+
+.replyWrap .rrInfo p{
+    font-size: 14px;
+    float: left;
+    color: #646464;
+}
+.replyWrap .rrInfo p:last-child{
+    float: right;
+}
+
+/* 대댓글 영역 */
+.replyWrite{
+    display: none;
+}
+.replyWrite > textarea{
+    margin-top: 20px;
+}
+.replyWrite > textarea,
+.replyWrite > button{
+    width: 790px !important;
+    margin-left: 55px;
+}
+.reReArea{
+    margin-left: 50px;
+    display: block;
+}
+.reReArea > div{
+    padding-top: 20px;
+}
+.reReArea > div > div,
+.reReArea > div > img{
+    float: left;
+}
+.reReArea > div > img{
+    position: absolute;
+    width: 20px;
+    left: 45px;
+    margin: 10px 10px 0px 0px;
+}
+.reReArea > div{
+    padding-bottom: 20px;
+    border-bottom: 1px solid rgb(223, 223, 223);
+}
+.reReArea .rRL{
+    width: 790px;
+}
+.reReArea .rRL > div{
+    margin-bottom: 10px;
+}
+.reReArea .rRL div p{
+    float: left;
+    margin-right: 20px;
+    line-height: 20px;
+}
+.reReArea .rRL div p:nth-child(2){
+    color: #b1b1b1;
+    font-size: 13px;
+}
+.reReArea .rRL div p:last-child{
+    float: right;
+    margin-right: 0;
+    font-size: 14px;
+    color: #646464;
+}
+
+
+.replyWrite textarea{
+    width: 860px;
+    height: 100px;
+    border: 1px solid rgb(223, 223, 223);
+    padding: 20px;
+    resize: none;
+}
+.rereplyCount{
+    cursor : pointer;
+}
+
+
+/* 사이드바 */
+#contentBox .sideBtn{
+    height: 400px;
+    float: right;
+    position: sticky;
+    top: 150px;
+    left: 0;
+}
+.sideBtn div {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    border: 1px solid rgb(223, 223, 223);
+    margin-bottom: 5px;
+    text-align: center;
+    cursor : pointer;
+}
+.sideBtn > p{
+    text-align: center;
+    font-size: 14px;
+    color: #646464;
+    margin-bottom: 10px;
+}
+.sideBtn div img{
+    height: 24px;
+    margin-top: 24px;    
+}
+.sideBtn div:nth-of-type(4) img{
+    height: 25px;
+    margin-top: 22px;
+}
+.sideBtn div:nth-of-type(3) img{
+    height: 25px;
+    margin-top: 22px;
+}

@@ -1,0 +1,540 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="boardMapper">
+
+<resultMap id="boardResultSet" type="board">
+		<result column="BOARD_NO" property="boardNo" />
+		<result column="MEMBER_ID" property="memberId" />
+		<result column="BOARD_TYPE" property="boardType" />
+		<result column="CATEGORY" property="category" />
+		<result column="BOARD_TITLE" property="boardTitle" />
+		<result column="BOARD_CONTENT" property="boardContent" />
+		<result column="CREATE_DATE" property="createDate" />
+		<result column="BOARD_STATUS" property="status" />
+		<result column="BOARD_COUNT" property="count" />
+	</resultMap>
+	
+	<resultMap id="replyResultMap" type="reply">
+		<result column="BOARD_REPLY_NO" property="boardReplyNo" />
+		<result column="BOARD_NO" property="boardNo" />
+		<result column="MEMBER_ID" property="memberId" />
+		<result column="BOARD_REPLY_CONTENT" property="boardReplyContent" />
+		<result column="BOARD_REPLY_FILE" property="boardReplyFile" />
+		<result column="BOARD_REPLY_CREATE_DATE" property="createDate" />
+		<result column="BOARD_STATUS" property="status" />
+	</resultMap>
+	
+	<!-- 대댓글  -->
+	<resultMap id="reReplyResultMap" type="rereply">
+		<result column="BOARD_RE_REPLY_NO" property="reReplyNo" />
+		<result column="BOARD_REPLY_NO" property="replyNo" />
+		<result column="MEMBER_ID" property="memberId" />
+		<result column="BOARD_REPLY2_CONTENT" property="reReplyContent" />
+		<result column="BOARD_REPLY2_CREATE_DATE" property="createDate" />
+		<result column="BOARD_REPLY2_FILE" property="reReplyFile" />
+		<result column="STATUS" property="status" />
+	</resultMap>
+	
+	<!-- 스터디룸 -->
+	<resultMap id="sRoomResultSet" type="studyRoom">
+		<result column="SR_NO" property="studyRoomNo" />
+		<result column="SR_NAME" property="studyRoomName"/>
+		<result column="SR_LOCATION" property="studyRoomLocation" />
+		<result column="SR_ADDRESS" property="studyRoomAddress" />
+		<result column="SR_LAT" property="studyRoomLat" />
+		<result column="SR_LNG" property="studyRoomLng" />
+		<result column="SR_PHONE" property="studyRoomPhone" />
+		<result column="SR_INTRODUCE" property="studyRoomIntroduce" />
+		<result column="SR_CREATEDATE" property="studyRoomCreatedate" />
+		<result column="SR_WEBSITE" property="studyRoomWebsite" />
+		
+	
+	</resultMap>
+	
+	<!-- 희재 -->
+	<!-- 스터디룸 게시글 수 -->
+	<select id="sRoomListCount" resultType="_int">
+		SELECT 
+			COUNT(*)
+		FROM
+			BOARD_STUDYROOM
+	</select>
+	
+	<!-- 스터디룸 메인 리스트 -->
+	<select id="selectSRoomList" resultType="StudyRoom">
+		SELECT 
+			SR_NO studyRoomNo
+			,SR_NAME studyRoomName
+			,SR_LOCATION studyRoomLocation
+			,SR_ADDRESS studyRoomAddress
+			,SR_PHONE studyRoomPhone
+			,SR_LAT studyRoomLat
+			,SR_LNG studyRoomLng
+			,CHANGE_NAME titleImg
+		FROM
+			BOARD_STUDYROOM
+		JOIN
+			ATTACH ON(BOARD_STUDYROOM.SR_NO = ATTACH.REF_NO)
+        WHERE
+            FILE_LEVEL=1
+		ORDER
+		BY
+			SR_CREATEDATE DESC
+	</select>
+	
+	<!-- 스터디룸 상세 보기 -->
+	<select id="selectStudyRoom" parameterType="_int" resultMap="sRoomResultSet">
+		SELECT 
+			SR_NO
+			,SR_NAME
+			,SR_LOCATION
+			,SR_ADDRESS
+			,SR_LAT
+			,SR_LNG
+			,SR_PHONE
+			,SR_INTRODUCE
+			,SR_WEBSITE
+		FROM
+			BOARD_STUDYROOM
+		WHERE
+			SR_NO=#{studyRoomNo}
+	
+	</select>
+	
+	<select id="selectSRoomAttachList" parameterType="_int" resultType="Attach">
+		SELECT
+			FILE_NO fileNo
+			,CHANGE_NAME changeName
+			,FILE_LEVEL fileLeve
+			,REF_NO refNo
+		FROM
+		 	ATTACH
+		WHERE
+			 REF_NO = #{studyRoomNo}
+		AND
+			FIELD = 2
+	</select>
+	
+	<!-- 스터디룸 리뷰 보기 -->
+	<select id="selectStudyRoomReviewList" resultType="SRoomReview">
+		SELECT
+		    REVIEW_NO reviewNo
+		    ,SR_NO studyroomNo
+		    ,MEMBER_ID memberId
+		    ,REVIEW_CONTENT reviewContent
+		    ,REVIEW_STAR reviewStar
+		    ,REVIEW_DATE reviewDate
+		FROM 
+		    BOARD_SROOM_REVIEW
+		WHERE
+		    SR_NO = #{studyRoomNo}
+	</select>
+	
+	<!-- 스터디룸 리뷰 등록 -->
+	<insert id="insertStudyRoomReview" parameterType="SRoomReview">
+		INSERT
+		INTO
+			BOARD_SROOM_REVIEW
+			(
+			REVIEW_NO, 
+			SR_NO, 
+			MEMBER_ID, 
+			REVIEW_CONTENT, 
+			REVIEW_STAR
+			)
+		VALUES 
+			(
+			SEQ_REIVEW_NO.NEXTVAL, 
+			#{studyRoomNo}, 
+			#{memberId}, 
+			#{reviewContent}, 
+			#{reviewStar}
+			)
+	</insert>
+	
+	<!-- 스터디룸 리뷰 불러오기 -->
+	<select id="selectStudyRoomReview" resultType="SRoomReview">
+		SELECT
+			REVIEW_NO reviewNo
+			, MEMBER_ID memberId
+			, REVIEW_CONTENT reviewContent
+			, REVIEW_STAR reviewStar
+		FROM
+			BOARD_SROOM_REVIEW
+		WHERE
+			REVIEW_NO = #{reviewNo}	
+	</select>
+	
+	
+	
+	<!-- 스터디룸 리뷰 수정 -->
+	<update id="updateStudyRoomReview" parameterType="SRoomReview">
+		UPDATE
+			BOARD_SROOM_REVIEW
+		SET
+			REVIEW_CONTENT=#{reviewContent}
+			,REVIEW_DATE=SYSDATE
+        WHERE
+            REVIEW_NO = #{reviewNo}
+	</update>
+	
+	<!-- 스터디룸 리뷰 삭제 -->
+	<delete id="deleteStudyRoomReview">
+		DELETE 
+		FROM 	
+			BOARD_SROOM_REVIEW
+		WHERE
+			REVIEW_NO=#{reviewNo}
+	
+	</delete>
+	
+	<!-- 스터디룸 전체 주소 조회 -->
+	<select id="selectAddress" resultMap="sRoomResultSet">
+		SELECT 
+			SR_LAT
+			,SR_LNG
+		FROM
+			BOARD_STUDYROOM
+	</select>
+	
+	<!-- 스터디룸 검색 -->
+	<select id="studyRoomSearch" parameterType="hashmap" resultType="studyRoom">
+		SELECT 
+			SR_NO studyRoomNo
+			,SR_NAME studyRoomName
+			,SR_LOCATION studyRoomLocation
+			,SR_ADDRESS studyRoomAddress
+			,SR_PHONE studyRoomPhone
+			,CHANGE_NAME titleImg
+		FROM
+			BOARD_STUDYROOM
+		JOIN
+			ATTACH ON(BOARD_STUDYROOM.SR_NO = ATTACH.REF_NO)
+        WHERE
+            FILE_LEVEL=1
+			<if test="searchSelect == '10'">
+				AND SR_LOCATION='강원'
+			</if>
+			<if test="searchSelect == '20'">
+				AND SR_LOCATION='경기'
+			</if>
+			<if test="searchSelect == '30'">
+				AND SR_LOCATION='경남'
+			</if>
+			<if test="searchSelect == '40'">
+				AND SR_LOCATION='경북'
+			</if>
+			<if test="searchSelect == '50'">
+				AND SR_LOCATION='광주'
+			</if>
+			<if test="searchSelect == '60'">
+				AND SR_LOCATION='대구' 
+			</if>
+			<if test="searchSelect == '70'">
+				AND SR_LOCATION='대전'
+			</if>
+			<if test="searchSelect == '80'">
+				AND SR_LOCATION='부산'
+			</if>
+			<if test="searchSelect == '90'">
+				AND SR_LOCATION='서울'
+			</if>
+			<if test="searchSelect == '11'">
+				AND SR_LOCATION='세종'
+			</if>
+			<if test="searchSelect == '12'">
+				AND SR_LOCATION='울산'
+			</if>
+			<if test="searchSelect == '13'">
+				AND SR_LOCATION='인천' 
+			</if>
+			<if test="searchSelect == '14'">
+				AND SR_LOCATION='전남'
+			</if>
+			<if test="searchSelect == '15'">
+				AND SR_LOCATION='전북'
+			</if>
+			<if test="searchSelect == '16'">
+				AND SR_LOCATION='제주'
+			</if>
+			<if test="searchSelect == '17'">
+				AND SR_LOCATION='충남'
+			</if>
+			<if test="searchSelect == '18'">
+				AND SR_LOCATION ='충북'
+			</if>
+			AND
+				SR_NAME LIKE '%' || #{searchText} || '%'
+			ORDER
+			BY
+				SR_CREATEDATE DESC
+	</select>
+	<!-- 혜린 -->
+	
+
+
+	<!-- 게시글 수  -->
+	<select id="boardListCount" parameterType="_int" resultType="_int">
+		SELECT
+			  COUNT(*)
+		FROM
+			  MAINBOARD
+		WHERE
+			  <if test="boardType == 1">
+			  BOARD_TYPE = 'free'
+			  </if>
+			   <if test="boardType == 2">
+			  BOARD_TYPE = 'info'
+			  </if>
+		  AND
+		  	  BOARD_STATUS = 'Y'
+	</select>
+	
+	<!-- 게시글 리스트 불러오기 -->
+	<select id="boardListSelect" parameterType="_int" resultMap="boardResultSet">
+		SELECT
+              BOARD_NO
+             ,NICKNAME AS "MEMBER_ID"
+             ,CATEGORY
+             ,BOARD_TITLE
+             ,SUMMARY
+             ,TO_CHAR(CREATE_DATE, 'YYYY-MM-DD HH24:MI') AS "CREATE_DATE"
+             ,BOARD_COUNT
+		  FROM
+              MAINBOARD
+		  JOIN
+		      MEMBER USING(MEMBER_ID)
+		 WHERE
+		      BOARD_STATUS = 'Y'
+		   AND
+		   	  <if test="boardType == 1">
+		   	  BOARD_TYPE = 'free'
+			  </if>
+			  <if test="boardType == 2">
+		   	  BOARD_TYPE = 'info'
+			  </if>
+		 ORDER
+		    BY
+	          CREATE_DATE DESC
+	</select>
+	<update id="boardCountUp">
+		UPDATE 
+                MAINBOARD
+        SET
+               BOARD_COUNT = BOARD_COUNT + 1
+ 		WHERE
+               BOARD_NO = #{ boardNo }
+
+	</update>
+	<!-- 자유게시판 게시글 수 조회  -->
+	<select id="freeCount" resultType="_int">
+		SELECT
+			  COUNT(*)
+		  FROM
+		  	  MAINBOARD
+		 WHERE
+		 	  BOARD_TYPE = 'free'
+		 
+	</select>
+	
+	<!-- 게시판 상세 조회  -->
+	<select id="boardDetail" parameterType="_int" resultMap="boardResultSet">
+		SELECT
+		 	  BOARD_NO
+	         ,BOARD_TITLE
+	         ,BOARD_CONTENT
+	         ,NICKNAME AS "MEMBER_ID"
+	         ,CATEGORY
+	         ,TO_CHAR(CREATE_DATE, 'YYYY-MM-DD HH24:MI') AS "CREATE_DATE"
+	 	 FROM
+	          MAINBOARD
+		 JOIN
+	          MEMBER USING(MEMBER_ID)
+	    WHERE
+	    	  BOARD_NO = #{ boardNo }
+	</select>
+	
+	<!-- ******** 멤버아이디 로그인 유저로 교체 필요 함!!! *********  -->
+	<!-- 게시판 좋아요, 북마크 여부 -->
+	<select id="likeStatus" resultType="_int">
+		SELECT
+			  COUNT(*)
+		  FROM
+		  	  BOARD_LB
+		 WHERE
+		      MEMBER_ID ='hyerin'
+		   AND
+		      STATUS_LB='L'
+		   AND
+		      BOARD_NO = #{ boardNo }
+	</select>
+	
+	<!-- 좋아요 수 확인  -->
+	<select id="likeCount" parameterType="_int" resultType="_int">
+		SELECT
+			  COUNT(*)
+		  FROM
+		  	  BOARD_LB
+		 WHERE
+		 	  BOARD_NO = #{ boardNo }
+		   AND
+		   	  STATUS_LB = 'L'
+	</select>
+	
+	<!-- 좋아요 하기  -->
+	<insert id="likeBoard" parameterType="_int">
+		INSERT
+		  INTO
+		  	  BOARD_LB
+		VALUES
+			  (
+			  #{ boardNo }
+			 ,'hyerin' <!-- 나중에 로그인 유저 -->
+			 ,'L'
+			  )
+	</insert>
+	
+	<!-- 좋아요 삭제하기 -->
+	<delete id="removeLike" parameterType="_int">
+		DELETE
+		      BOARD_LB
+		 WHERE
+		 	  MEMBER_ID = 'hyerin'
+		   AND
+		   	  BOARD_NO = #{ boardNo }
+		   AND
+		      STATUS_LB = 'L'
+	</delete>
+	
+	<!-- 북마크 상태 확인  -->
+	<select id="bookStatus" resultType="_int">
+		SELECT COUNT(*) 
+		  FROM BOARD_LB 
+		 WHERE MEMBER_ID ='hyerin'
+		   AND BOARD_NO = #{ boardNo }
+		   AND STATUS_LB = 'B'
+	</select>
+	
+	<!-- 북마크 하기   -->
+	<insert id="bookBoard" parameterType="_int">
+		INSERT
+		  INTO
+		  	  BOARD_LB
+		VALUES
+			  (
+			  #{ boardNo }
+			 ,'hyerin' <!-- 나중에 로그인 유저 -->
+			 ,'B'
+			  )
+	</insert>
+	
+	<!-- 북마크 삭제하기 -->
+	<delete id="removeBook" parameterType="_int">
+		DELETE
+			  BOARD_LB
+		 WHERE
+		 	  BOARD_NO = #{ boardNo }
+		   AND
+		   	  MEMBER_ID = 'hyerin'
+		   AND
+			  STATUS_LB = 'B'
+	</delete>
+	
+	<!-- 북마크 카운트  -->
+	<select id="bookCount" parameterType="_int" resultType="_int">
+		SELECT
+			  COUNT(*)
+		  FROM
+		  	  BOARD_LB
+		 WHERE
+		 	  BOARD_NO = #{ boardNo }
+		   AND
+		   	  STATUS_LB = 'B'
+	</select>
+	
+	<!-- 댓글 수 카운트  -->
+	<select id="replyCount" parameterType="_int" resultType="_int">
+		SELECT
+			  COUNT(*)
+		  FROM
+		  	  BOARD_REPLY
+		 WHERE
+		 	  BOARD_NO = #{ boardNo }
+	</select>
+	
+	<!-- 댓글 가져오기 -->
+	<select id="replyList" parameterType="_int" resultMap="replyResultMap">
+		SELECT
+              BOARD_REPLY_NO
+             ,BOARD_NO
+             ,NICKNAME AS "MEMBER_ID"
+             ,BOARD_REPLY_CONTENT
+             ,BOARD_REPLY_FILE
+             ,TO_CHAR(BOARD_REPLY_CREATE_DATE, 'YYYY-MM-DD HH24:MI') AS "BOARD_REPLY_CREATE_DATE"
+ 		  FROM
+              BOARD_REPLY
+    	  JOIN
+              MEMBER USING(MEMBER_ID)
+		 WHERE
+              BOARD_STATUS = 'Y'
+           AND
+           	  BOARD_NO = #{ boardNo }
+	</select>
+	
+	<!-- 대댓글 리스트 가져오기 -->
+	<select id="reReplyList" parameterType="_int" resultMap="reReplyResultMap">
+		SELECT
+			  BOARD_RE_REPLY_NO
+			 ,BOARD_REPLY_NO
+			 ,MEMBER_ID
+			 ,BOARD_REPLY2_CONTENT
+			 ,BOARD_REPLY2_CREATE_DATE
+			 ,BOARD_REPLY2_FILE
+		  FROM
+		 	  BOARD_RE_REPLY
+		 WHERE
+		 	  STATUS = 'Y'
+		   AND
+		   	  BOARD_REPLY_NO = #{ replyNo }
+	</select>
+	
+	<!-- 댓글 작성하기 -->
+	<insert id="insertReply">
+		INSERT
+		  INTO 
+			  BOARD_REPLY
+		VALUES
+			  (
+			  SEQ_BOARD_REPLY.NEXTVAL
+			 ,#{ boardNo }
+			 ,'hyerin' <!-- 나중에 수정 -->
+			 ,#{ boardReplyContent } 
+			 ,NULL
+			 ,DEFAULT
+			 ,DEFAULT
+			 )
+	</insert>
+	
+	<!-- 대댓글 작성하기  -->
+	<insert id="reReplyBoard" parameterType="rereply">
+		INSERT
+		  INTO
+		  	  BOARD_RE_REPLY
+		VALUES
+			  (
+			  SEQ_BOARD_RE_REPLY.NEXTVAL
+			 ,#{ replyNo }
+			 ,'hyerin'
+			 ,#{ reReplyContent }
+			 ,SYSDATE
+			 ,NULL <!-- 파일 있으면 나중에 처리해야함 지금은 파일을 뒷전으로... -->
+			 ,DEFAULT
+			 )
+	</insert>
+	
+	
+	
+	
+</mapper>

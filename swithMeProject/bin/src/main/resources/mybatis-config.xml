@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration 
+	PUBLIC "-//mybatis.org//DTD Config 3.0//EN" 
+	"https://mybatis.org/dtd/mybatis-3-config.dtd" >
+<configuration>
+
+	<settings>
+		<setting name="jdbcTypeForNull" value="NULL" />
+	</settings>
+
+	<typeAliases>
+		<typeAlias type="com.kh.swithme.admin.model.vo.Report" alias="report" />
+		<typeAlias type="com.kh.swithme.band.model.vo.Band" alias="band" />
+		<typeAlias type="com.kh.swithme.band.model.vo.BandBoard" alias="bandBoard" />
+		<typeAlias type="com.kh.swithme.band.model.vo.BandMember" alias="bandMember" />
+		<typeAlias type="com.kh.swithme.band.model.vo.BandReply" alias="bandReply" />
+		<typeAlias type="com.kh.swithme.board.model.vo.Attach" alias="attach" />
+		<typeAlias type="com.kh.swithme.board.model.vo.Board" alias="board" />
+		<typeAlias type="com.kh.swithme.board.model.vo.HashTag" alias="hashTag" />
+		<typeAlias type="com.kh.swithme.board.model.vo.Item" alias="item" />
+		<typeAlias type="com.kh.swithme.board.model.vo.Reply" alias="reply" />
+		<typeAlias type="com.kh.swithme.board.model.vo.ReReply" alias="rereply" />
+		<typeAlias type="com.kh.swithme.board.model.vo.SRoomReview" alias="SRoomReview" />
+		<typeAlias type="com.kh.swithme.board.model.vo.StudyRoom" alias="studyRoom" />
+		<typeAlias type="com.kh.swithme.member.model.vo.BandAlarm" alias="bandAlarm" />
+		<typeAlias type="com.kh.swithme.member.model.vo.BandBookMark" alias="bandBookMark" />
+		<typeAlias type="com.kh.swithme.member.model.vo.BoardAlarm" alias="boardAlarm" />
+		<typeAlias type="com.kh.swithme.member.model.vo.Calendar" alias="calendar" />
+		<typeAlias type="com.kh.swithme.member.model.vo.Chat" alias="chat" />
+		<typeAlias type="com.kh.swithme.member.model.vo.Member" alias="member" />
+		<typeAlias type="com.kh.swithme.member.model.vo.MemberItem" alias="memberItem" />
+		<typeAlias type="com.kh.swithme.member.model.vo.Point" alias="point" />
+		<typeAlias type="com.kh.swithme.member.model.vo.QNA" alias="qna" />
+		<typeAlias type="com.kh.swithme.member.model.vo.Room" alias="room" />
+		<typeAlias type="com.kh.swithme.member.model.vo.TodoList" alias="todoList" />
+	</typeAliases>
+	
+	<mappers>
+		<mapper resource="/mappers/admin-mapper.xml" />
+		<mapper resource="/mappers/band-mapper.xml" />
+		<mapper resource="/mappers/board-mapper.xml" />
+		<mapper resource="/mappers/member-mapper.xml" />
+	</mappers>
+   
+</configuration>
