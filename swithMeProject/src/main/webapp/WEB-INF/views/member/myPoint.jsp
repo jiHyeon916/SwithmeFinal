@@ -11,7 +11,7 @@
 	<jsp:include page="../common/header.jsp" />
 	
 	<div class="page-blank"></div>
-		
+		<!-- 이유진 커밋 테스트 -->
 	<div class="wrap clear">
 		<div class="mySide">
 			<jsp:include page="myMenuBar.jsp" />
