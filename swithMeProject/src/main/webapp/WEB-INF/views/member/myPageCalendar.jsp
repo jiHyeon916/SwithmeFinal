@@ -204,6 +204,19 @@ a:hover {
                 </div>
                 <div class="modal-body">
                     <div class="form-group">
+						<label for="taskId" class="col-form-label">색 선택</label>
+                    	<div class="selectColors">
+	                    	<input type="radio" name="Color" value="#80f0c1ea" id="Color1" style="display:none;"checked>
+	                    	<div class="selectColor" style="display:inline-block;width : 50px;height : 50px;background-color:#80f0c1ea; "></div> &nbsp;&nbsp;
+	                    	<input type="radio" name="Color" value="lightpink" id="Color2" style="display:none;">
+                    		<div class="selectColor" style="display:inline-block;width : 50px;height : 50px;background-color:lightpink;"></div>&nbsp;&nbsp;
+	                    	<input type="radio" name="Color" value="lightgoldenrodyellow" id="Color3" style="display:none;">
+                    		<div class="selectColor" style="display:inline-block;width : 50px;height : 50px;background-color:lightgoldenrodyellow;"></div>&nbsp;&nbsp;
+	                    	<input type="radio" name="Color" value="lightblue" id="Color4" style="display:none;">
+                    		<div class="selectColor" style="display:inline-block;width : 50px;height : 50px;background-color:lightblue;"></div>&nbsp;&nbsp;
+	                    	<input type="radio" name="Color" value="lightgrey" id="Color5" style="display:none;">
+                    		<div class="selectColor" style="display:inline-block;width : 50px;height : 50px;background-color:lightgrey;"></div> &nbsp;&nbsp;
+                    	</div>
                         <label for="taskId" class="col-form-label">일정 제목</label>
                         <input type="text" class="form-control" id="detail_calendar_title" name="detail_calendar_title"  disabled >
                         <label for="taskId" class="col-form-label">일정 내용</label>
@@ -233,6 +246,7 @@ a:hover {
 	<script>
 	document.addEventListener('DOMContentLoaded', function() {
 	    var calendarEl = document.getElementById('calendar');
+		var now=moment();
 	    var calendar = new FullCalendar.Calendar(calendarEl, {
 	    	
 	    	headerToolbar : {
@@ -240,8 +254,8 @@ a:hover {
 	            center: 'title',
 	            right: 'next today'
 	    	},
-	
-	      initialDate: new Date().toISOString().substring(0, 10),
+			
+	      initialDate: now.format('YYYY-MM-DD'),
 	      navLinks: true, // can click day/week names to navigate views
 	      selectable: true,
 	      selectMirror: true,

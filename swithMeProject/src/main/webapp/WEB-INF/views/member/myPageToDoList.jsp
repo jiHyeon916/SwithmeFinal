@@ -86,7 +86,7 @@ a:hover {
 #todoDate{height:30%;margin-left: 20px; margin-top:10px;text-align: center;line-height:320%;}
 #checkTodoList{height: 70%; margin-left: 20px;}
 #todoContent{margin-top: 10px;}
-#date2-font{font-size:23px;}
+#date2-font{font-size:20px;}
 #date3-font{font-size:95px;}
 </style>
 
@@ -140,14 +140,14 @@ a:hover {
 
 		document.addEventListener('DOMContentLoaded', function() {
 		  var calendarEl = document.getElementById('calendar');
-	  
+			var now = moment();
 		  var calendar = new FullCalendar.Calendar(calendarEl, {
-			initialDate: '2023-01-12',
+			initialDate: now.format('YYYY-MM-DD'),
 			selectable: true,
 			events: function(info, successCallback, failureCallback) {
 	    	  //캘린더 조회
 			  $.ajax({
-				url:'TodoCalendarList.me',
+				url:'todoCalendarList.me',
 				data:{
 					memberId : '${ loginMember.memberId }'
 				},
@@ -163,7 +163,7 @@ a:hover {
 							});
 						});
 					}
-
+					successCallback(events); 
 				},
 				error : function(){
 					console.log('실패');

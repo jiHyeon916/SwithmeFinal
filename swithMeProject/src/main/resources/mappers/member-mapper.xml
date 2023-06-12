@@ -34,7 +34,8 @@
 			CALENDAR
 		WHERE
 			MEMBER_ID= #{memberId}
- 
+		AND
+			TYPE='C'
 	</select>
 	
 	<!-- 일정 추가 -->
@@ -42,9 +43,9 @@
 		INSERT
 		INTO 
 			CALENDAR
-			(CALENDAR_NO, MEMBER_ID, START_DAY, END_DAY, CALENDAR_TITLE, CALENDAR_CONTENT, COLOR)
+			(CALENDAR_NO, MEMBER_ID, START_DAY, END_DAY, CALENDAR_TITLE, CALENDAR_CONTENT, COLOR, TYPE)
 		VALUES
-			(SEQ_CALENDAR_NO.NEXTVAL, #{memberId}, #{startDay}, #{endDay}, #{calendarTitle}, #{calendarContent}, #{color})
+			(SEQ_CALENDAR_NO.NEXTVAL, #{memberId}, #{startDay}, #{endDay}, #{calendarTitle}, #{calendarContent}, #{color}, 'C' )
 	</insert>
 	
 	<!-- 일정 삭제 -->
@@ -56,6 +57,8 @@
 			CALENDAR_NO=#{calendarNo}
 		AND
 			MEMBER_ID=#{memberId}
+		AND
+			TYPE='C'
 	</delete>
 	
 	<!-- 일정 수정 -->
@@ -71,6 +74,8 @@
 			CALENDAR_NO=#{calendarNo}
 		AND
 			MEMBER_ID=#{memberId}
+		AND
+			TYPE='C'
 	</update>
 	
 	<!-- todoList 리스트 조회 -->
