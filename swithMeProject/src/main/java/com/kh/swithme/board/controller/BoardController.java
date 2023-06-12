@@ -2,6 +2,7 @@ package com.kh.swithme.board.controller;
 
 import java.util.HashMap;
 
+import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -26,6 +27,8 @@ public class BoardController {
 	private BoardServiceImpl boardService;
 	
 	
+	
+	// 혜린
 	/**
 	 * 자유게시판 게시글 수 조회 !!!이거 보드타입별로 따로 조회해야하는거 아님>.!?!?!?
 	 * @return 자유게시판
@@ -56,7 +59,6 @@ public class BoardController {
 			PageInfo pi = Pagination.getPageInfo(boardService.boardListCount(boardType), currentPage, 20, 10);
 			model.addAttribute("pi", pi);
 			model.addAttribute("list", boardService.selectBoardList(boardType, pi));
-			System.out.println(boardService.selectBoardList(boardType, pi));
 			return "board/infoBoardListView";
 		}
 	}
@@ -74,8 +76,18 @@ public class BoardController {
 			status.setLikeStatus(boardService.likeStatus(boardNo));
 			status.setBookStatus(boardService.bookStatus(boardNo));
 			
+			Board b = boardService.boardDetail(boardNo);
+			String tagList = b.getTagList();
+			if(tagList != null) {
+				String[] tag = tagList.split(",");
+				model.addAttribute("tag", tag);
+			}
+			
 			model.addAttribute("status", status);
-			model.addAttribute("b",boardService.boardDetail(boardNo));
+			model.addAttribute("b", b);
+			
+			
+			
 			return "board/freeBoardDetail";
 		}else {
 			return "errorPage";
@@ -191,13 +203,13 @@ public class BoardController {
 	@RequestMapping("insertReply.bo")
 	public String insertReply(int boardNo, String rCon) {
 		
-		System.out.println(boardNo);
-		
 		Reply r = new Reply();
+		
 		r.setBoardNo(boardNo);
 		r.setBoardReplyContent(rCon.replace(System.getProperty("line.separator"), "<br>"));
 		
 		return boardService.insertReply(r) > 0 ? "success" : "fail";
+		
 	}
 	/**
 	 * 댓글 수 카운트
@@ -224,6 +236,172 @@ public class BoardController {
 		rere.setReReplyContent(reReplyCon.replace(System.getProperty("line.separator"), "<br>"));
 		
 		return boardService.reReplyBoard(rere);
+		
+		
+	}
+	
+	
+	/**
+	 * 글 작성하기 페이지로 이동
+	 * @param boardType 보드타입 (1. 자유게시판 / 2.정보게시판) 
+	 * @param model 보드타입에 따라 담겨져 가는 값 (글 작성시 이용하는 폼은 동일하며 타입에 따라 카테고리만 다르게 보여줄 것)
+	 * @return
+	 */
+	@RequestMapping("freeBoardWrite.bo")
+	public String freeBoardWrite(int boardType, Model model) {
+		if(boardType == 1) {
+			model.addAttribute("Btype", "free");
+		}else {
+			model.addAttribute("Btype", "info");
+		}
+		return "board/freeBoardWrite";
+	}
+	
+	/**
+	 * 글 작성
+	 * @param summary 리스트에 보여질 게시글 요약
+	 * @param title 게시글 제목 
+	 * @param category 카테고리 
+	 * @param memberId 작성자 
+	 * @param bCon 글 내용  
+	 * @param tagList 태그 리스트 
+	 * @param Btype 보드 타입 (1.자유게시판 / 2.정보 게시판)
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value="test.bo")
+	public String test(String summary, String title, String category, String memberId, String bCon, String tagList, String Btype) {
+		
+		Board b = new Board();
+		b.setBoardType(Btype);
+		b.setBoardContent(bCon);
+		b.setBoardTitle(title);
+		b.setCategory(category);
+		b.setMemberId(memberId);
+		b.setSummary(summary.substring(0, 150));
+		
+		
+		// 1. 게시글 insert
+		if(boardService.test(b) > 0) {
+			// 게시글 insert 성공시 태그 유무 확인 후 insert
+			if(tagList != null) {
+				boardService.tagInsert(tagList);
+			}
+			return "success";
+		}else {
+			return "fail";
+		}
+	}
+	
+	/**
+	 * 태그 검색 
+	 * @param model key가 포함된 게시글 리스트
+	 * @param bSearch 검색을 위해 데이터 가공 *key = 검색어 / boardType = 어느 게시판에서 검색했는지 / keyType 태그인지 검색인지 *
+	 * @return
+	 */
+	@RequestMapping("tagSearch.bo")
+	public String tagSearch(@RequestParam(value="cPage", defaultValue="1") int currentPage, String key, String boardType, String keyType, Model model) {
+		
+		Board bSearch = new Board();
+		bSearch.setKey(key);
+		bSearch.setKeyType(keyType);
+		bSearch.setBoardType(boardType);
+		
+		PageInfo pi = Pagination.getPageInfo(boardService.tagCount(bSearch), currentPage, 20, 10);
+		
+		model.addAttribute("pi", pi);
+		model.addAttribute("list", boardService.tagSearch(pi, bSearch));
+		model.addAttribute("key", key);
+		model.addAttribute("keyType", keyType);
+		
+		String[] sInfo = {key, Integer.toString(boardService.tagCount(bSearch))};
+		model.addAttribute("searchTotal", sInfo);
+		
+		return "board/freeBoardListView";
+		
+	}
+
+	
+	/**
+	 * 검색 후 카테고리 필터 기능 
+	 * @param keyType 현재 전체게시판인지 태그 검색창인지 키워드검색창인지 구분값 
+	 * @param keyValue 키워드 
+	 * @param boardType free인지 info인지 구분값 
+	 * @param category 보고싶은 카테고리 
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value="categorySearch.bo", produces="application/json; charset=UTF-8")
+	public String categorySearch(@RequestParam(value="cPage", defaultValue="1") int currentPage,
+								 String keyValue, String boardType, String category, String keyType) {
+		
+		Board b = new Board();
+		b.setKey(keyValue);
+		b.setBoardType(boardType);
+		b.setCategory(category);
+		b.setKeyType(keyType);
+		
+		
+		PageInfo pi = Pagination.getPageInfo(boardService.searchCount(b), currentPage, 20, 10);
+		
+		JSONObject jobj = new JSONObject();
+		jobj.put("list", boardService.categorySearch(b, pi));
+		jobj.put("pi", pi);
+		
+		return new Gson().toJson(jobj);
+	}
+	
+	/**
+	 * 글 정렬하기 
+	 * @param keyValue
+	 * @param boardType
+	 * @param category
+	 * @param keyType
+	 * @param sort
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value="sort.bo", produces="application/json; charset=UTF-8")
+	public String sortSearch(@RequestParam(value="cPage", defaultValue="1") int currentPage,
+							String keyValue, String boardType, String category, String keyType, String sort) {
+		
+		Board b = new Board();
+		b.setKey(keyValue);
+		b.setBoardType(boardType);
+		b.setCategory(category);
+		b.setKeyType(keyType);
+		b.setBoardContent(sort); // 선택한 정렬이 뭔지 임시로 값 담아서 전
+		
+		PageInfo pi = Pagination.getPageInfo(boardService.searchCount(b), currentPage, 20, 10);
+		
+		
+		JSONObject jobj = new JSONObject();
+		jobj.put("list", boardService.sortSearch(b, pi));
+		jobj.put("pi", pi);
+		
+		return new Gson().toJson(jobj);
+		
+	}
+	
+	
+	
+	/**
+	 * 스터디밴드 게시글 리스트 보기
+	 * @return
+	 */
+	@RequestMapping("band")
+	public String studyBandListView() {
+		return "board/studyBandBoardListView";
+	}
+	
+	
+	/**
+	 * 스터디 모집하기 글 작성 화면
+	 * @return
+	 */
+	@RequestMapping("studyWrite.bo")
+	public String studyWrite() {
+		return "board/studyBoardWrite";
 	}
 	
 	

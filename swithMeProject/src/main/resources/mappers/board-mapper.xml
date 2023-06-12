@@ -4,7 +4,7 @@
     "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="boardMapper">
 
-<resultMap id="boardResultSet" type="board">
+	<resultMap id="boardResultSet" type="board">
 		<result column="BOARD_NO" property="boardNo" />
 		<result column="MEMBER_ID" property="memberId" />
 		<result column="BOARD_TYPE" property="boardType" />
@@ -14,6 +14,10 @@
 		<result column="CREATE_DATE" property="createDate" />
 		<result column="BOARD_STATUS" property="status" />
 		<result column="BOARD_COUNT" property="count" />
+		<result column="SUMMARY" property="summary" />
+		<result column="HASHTAG_NAME" property="tagList" />
+		<result column="LIKECOUNT" property="likeCount" />
+		<result column="COMMENTCOUNT" property="commentCount" />
 	</resultMap>
 	
 	<resultMap id="replyResultMap" type="reply">
@@ -36,6 +40,9 @@
 		<result column="BOARD_REPLY2_FILE" property="reReplyFile" />
 		<result column="STATUS" property="status" />
 	</resultMap>
+	
+	
+	
 	
 	<!-- 스터디룸 -->
 	<resultMap id="sRoomResultSet" type="studyRoom">
@@ -271,10 +278,14 @@
 			BY
 				SR_CREATEDATE DESC
 	</select>
-	<!-- 혜린 -->
 	
-
-
+	
+	
+	
+	
+	
+	
+	<!-- 혜린 -->
 	<!-- 게시글 수  -->
 	<select id="boardListCount" parameterType="_int" resultType="_int">
 		SELECT
@@ -292,23 +303,39 @@
 		  	  BOARD_STATUS = 'Y'
 	</select>
 	
+	
 	<!-- 게시글 리스트 불러오기 -->
 	<select id="boardListSelect" parameterType="_int" resultMap="boardResultSet">
 		SELECT
-              BOARD_NO
-             ,NICKNAME AS "MEMBER_ID"
-             ,CATEGORY
-             ,BOARD_TITLE
-             ,SUMMARY
-             ,TO_CHAR(CREATE_DATE, 'YYYY-MM-DD HH24:MI') AS "CREATE_DATE"
-             ,BOARD_COUNT
-		  FROM
-              MAINBOARD
-		  JOIN
-		      MEMBER USING(MEMBER_ID)
-		 WHERE
-		      BOARD_STATUS = 'Y'
-		   AND
+	          A.BOARD_NO
+	         ,NICKNAME MEMBER_ID
+	         ,CATEGORY
+	         ,BOARD_TITLE
+	         ,BOARD_CONTENT
+	         ,TO_CHAR(CREATE_DATE, 'YYYY-MM-DD HH24:MI') AS "CREATE_DATE"
+	         ,BOARD_COUNT
+	         ,BOARD_TYPE
+	         ,SUMMARY
+	         ,COUNT(STATUS_LB)OVER(PARTITION BY B.BOARD_NO) LIKECOUNT
+	         ,(COUNT(BOARD_REPLY_CONTENT)OVER(PARTITION BY C.BOARD_NO)) + (NVL(REREPLY,0)) COMMENTCOUNT
+  		 FROM
+          	 MAINBOARD A
+  		 JOIN
+          	 MEMBER USING(MEMBER_ID)
+	LEFT JOIN
+            (SELECT BOARD_NO,STATUS_LB
+             FROM BOARD_LB 
+             WHERE STATUS_LB = 'L') B  ON (A.BOARD_NO = B.BOARD_NO)
+	LEFT JOIN
+             BOARD_REPLY C ON(C.BOARD_NO = A.BOARD_NO)
+	LEFT JOIN
+            (SELECT COUNT(BOARD_NO) REREPLY, BOARD_NO
+             FROM BOARD_RE_REPLY
+             JOIN BOARD_REPLY USING(BOARD_REPLY_NO)
+             GROUP BY BOARD_NO) D ON(D.BOARD_NO = A.BOARD_NO)
+		WHERE
+      		 A.BOARD_STATUS = 'Y'
+		  AND
 		   	  <if test="boardType == 1">
 		   	  BOARD_TYPE = 'free'
 			  </if>
@@ -319,6 +346,7 @@
 		    BY
 	          CREATE_DATE DESC
 	</select>
+	
 	<update id="boardCountUp">
 		UPDATE 
                 MAINBOARD
@@ -344,14 +372,18 @@
 		SELECT
 		 	  BOARD_NO
 	         ,BOARD_TITLE
+	         ,BOARD_TYPE
 	         ,BOARD_CONTENT
 	         ,NICKNAME AS "MEMBER_ID"
 	         ,CATEGORY
 	         ,TO_CHAR(CREATE_DATE, 'YYYY-MM-DD HH24:MI') AS "CREATE_DATE"
+             ,HASHTAG_NAME
 	 	 FROM
 	          MAINBOARD
 		 JOIN
 	          MEMBER USING(MEMBER_ID)
+         LEFT JOIN
+              HASHTAG_BRIDGE USING(BOARD_NO)
 	    WHERE
 	    	  BOARD_NO = #{ boardNo }
 	</select>
@@ -533,6 +565,279 @@
 			 ,DEFAULT
 			 )
 	</insert>
+	
+	<!-- 글 작성하기 -->
+	<insert id="test" parameterType="board">
+		INSERT INTO MAINBOARD
+		VALUES (SEQ_MAINBOARD.NEXTVAL, #{ memberId }, #{boardType}, #{category}, #{ boardTitle}, #{boardContent}, DEFAULT, DEFAULT, DEFAULT, #{summary})
+	</insert>
+	
+	<!-- 태그 인서트 하기 -->
+	<insert id="tagInsert">
+		INSERT INTO HASHTAG_BRIDGE VALUES(SEQ_MAINBOARD.CURRVAL, #{ tagList })
+	</insert>
+	
+	<!-- 검색 하기  -->
+	<select id="tagSearch" resultMap="boardResultSet">
+	
+		SELECT
+	          A.BOARD_NO
+	         ,NICKNAME MEMBER_ID
+	         ,CATEGORY
+	         ,BOARD_TITLE
+	         ,BOARD_CONTENT
+	         ,TO_CHAR(CREATE_DATE, 'YYYY-MM-DD HH24:MI') AS "CREATE_DATE"
+	         ,BOARD_COUNT
+	         ,BOARD_TYPE
+	         ,SUMMARY
+	         ,COUNT(STATUS_LB)OVER(PARTITION BY B.BOARD_NO) LIKECOUNT
+	         ,(COUNT(BOARD_REPLY_CONTENT)OVER(PARTITION BY C.BOARD_NO)) + (NVL(REREPLY,0)) COMMENTCOUNT
+  		 FROM
+          	 MAINBOARD A
+  		 JOIN
+          	 MEMBER USING(MEMBER_ID)
+	LEFT JOIN
+            (SELECT BOARD_NO,STATUS_LB
+             FROM BOARD_LB 
+             WHERE STATUS_LB = 'L') B  ON (A.BOARD_NO = B.BOARD_NO)
+	LEFT JOIN
+             BOARD_REPLY C ON(C.BOARD_NO = A.BOARD_NO)
+	LEFT JOIN
+            (SELECT COUNT(BOARD_NO) REREPLY, BOARD_NO
+             FROM BOARD_RE_REPLY
+             JOIN BOARD_REPLY USING(BOARD_REPLY_NO)
+             GROUP BY BOARD_NO) D ON(D.BOARD_NO = A.BOARD_NO)
+    LEFT JOIN
+             HASHTAG_BRIDGE F ON(F.BOARD_NO = A.BOARD_NO)     
+		WHERE
+      		 A.BOARD_STATUS = 'Y'
+		  AND
+		   	  BOARD_TYPE = #{ boardType }
+	  <choose>
+      	<when test="keyType == 'tag'">
+       	AND
+        HASHTAG_NAME LIKE '%' || #{ key } || '%'
+       	</when>
+       	<otherwise>
+        AND
+         (BOARD_CONTENT LIKE '%' || #{ key } || '%'
+        OR
+        BOARD_TITLE LIKE '%' || #{ key } || '%' )
+        </otherwise>
+      </choose>
+         
+		 ORDER
+		    BY
+	          CREATE_DATE DESC
+	
+	</select>
+	
+	<!-- 태그 검색 리스트 수  -->
+	<select id="tagCount" resultType="_int">
+		SELECT
+              COUNT(*)
+         FROM
+              MAINBOARD
+    LEFT JOIN
+              HASHTAG_BRIDGE USING(BOARD_NO)
+		WHERE
+              BOARD_STATUS = 'Y'
+    	  AND
+              BOARD_TYPE = #{ boardType }
+              
+      <choose>
+      <when test="keyType == 'tag'">
+         AND
+             HASHTAG_NAME LIKE '%' || #{ key } || '%'
+      </when>
+      <otherwise>
+         AND
+             ( BOARD_CONTENT LIKE '%' || #{ key } || '%'
+          OR
+          	 BOARD_TITLE LIKE '%' || #{ key } || '%' )
+      </otherwise>
+      </choose>
+      
+	</select>
+	
+	<!-- 카테고리 필터 검색 결과 -->
+	<select id="categorySearch" resultMap="boardResultSet">
+		SELECT
+	          A.BOARD_NO
+	         ,NICKNAME MEMBER_ID
+	         ,CATEGORY
+	         ,BOARD_TITLE
+	         ,BOARD_CONTENT
+	         ,TO_CHAR(CREATE_DATE, 'YYYY-MM-DD HH24:MI') AS "CREATE_DATE"
+	         ,BOARD_COUNT
+	         ,BOARD_TYPE
+	         ,SUMMARY
+	         ,COUNT(STATUS_LB)OVER(PARTITION BY B.BOARD_NO) LIKECOUNT
+	         ,(COUNT(BOARD_REPLY_CONTENT)OVER(PARTITION BY C.BOARD_NO)) + (NVL(REREPLY,0)) COMMENTCOUNT
+  		 FROM
+          	 MAINBOARD A
+  		 JOIN
+          	 MEMBER USING(MEMBER_ID)
+	LEFT JOIN
+            (SELECT BOARD_NO,STATUS_LB
+             FROM BOARD_LB 
+             WHERE STATUS_LB = 'L') B  ON (A.BOARD_NO = B.BOARD_NO)
+	LEFT JOIN
+             BOARD_REPLY C ON(C.BOARD_NO = A.BOARD_NO)
+	LEFT JOIN
+            (SELECT COUNT(BOARD_NO) REREPLY, BOARD_NO
+             FROM BOARD_RE_REPLY
+             JOIN BOARD_REPLY USING(BOARD_REPLY_NO)
+             GROUP BY BOARD_NO) D ON(D.BOARD_NO = A.BOARD_NO)
+    LEFT JOIN
+             HASHTAG_BRIDGE F ON(F.BOARD_NO = A.BOARD_NO)     
+		WHERE
+      		 A.BOARD_STATUS = 'Y'
+	  <if test="keyType != ''">
+	      <choose>
+	      	<when test="keyType == 'tag'">
+	      	 AND HASHTAG_NAME LIKE  '%' || #{ key } || '%'
+	      	</when>
+	      	<otherwise>
+	      	 AND ( BOARD_CONTENT LIKE  '%' || #{ key } || '%'
+	      	 OR BOARD_TITLE LIKE  '%' || #{ key } || '%' )
+	      	</otherwise>
+	      </choose>
+      </if>
+		  AND
+             BOARD_TYPE = #{ boardType }
+             
+      <if test="category != '전체보기'">
+          AND
+          	 CATEGORY = #{ category }
+      </if>
+      
+		 ORDER
+		    BY
+	          CREATE_DATE DESC
+	</select>
+	
+	<!-- 카테고리 필터 검색 결과 -->
+	<select id="sortSearch" resultMap="boardResultSet">
+		SELECT DISTINCT
+	          A.BOARD_NO
+	         ,NICKNAME MEMBER_ID
+	         ,CATEGORY
+	         ,BOARD_TITLE
+	         ,BOARD_CONTENT
+	         ,TO_CHAR(CREATE_DATE, 'YYYY-MM-DD HH24:MI') AS "CREATE_DATE"
+	         ,BOARD_COUNT
+	         ,BOARD_TYPE
+	         ,SUMMARY
+	         ,COUNT(STATUS_LB)OVER(PARTITION BY B.BOARD_NO) LIKECOUNT
+	         ,(COUNT(BOARD_REPLY_CONTENT)OVER(PARTITION BY C.BOARD_NO)) + (NVL(REREPLY,0)) COMMENTCOUNT
+  		 FROM
+          	 MAINBOARD A
+  		 JOIN
+          	 MEMBER USING(MEMBER_ID)
+	LEFT JOIN
+            (SELECT BOARD_NO,STATUS_LB
+             FROM BOARD_LB 
+             WHERE STATUS_LB = 'L') B  ON (A.BOARD_NO = B.BOARD_NO)
+	LEFT JOIN
+             BOARD_REPLY C ON(C.BOARD_NO = A.BOARD_NO)
+	LEFT JOIN
+            (SELECT COUNT(BOARD_NO) REREPLY, BOARD_NO
+             FROM BOARD_RE_REPLY
+             JOIN BOARD_REPLY USING(BOARD_REPLY_NO)
+             GROUP BY BOARD_NO) D ON(D.BOARD_NO = A.BOARD_NO)
+    LEFT JOIN
+             HASHTAG_BRIDGE F ON(F.BOARD_NO = A.BOARD_NO)     
+		WHERE
+      		 A.BOARD_STATUS = 'Y'
+      	  AND
+             BOARD_TYPE = #{ boardType }
+	  <if test="keyType != ''">
+	      <choose>
+	      	<when test="keyType == 'tag'">
+	      	 AND HASHTAG_NAME LIKE  '%' || #{ key } || '%'
+	      	</when>
+	      	<otherwise>
+	      	 AND ( BOARD_CONTENT LIKE  '%' || #{ key } || '%'
+	      	 OR BOARD_TITLE LIKE  '%' || #{ key } || '%' )
+	      	</otherwise>
+	      </choose>
+      </if>
+		  
+      <if test="category != '전체보기'">
+          AND
+          	 CATEGORY = #{ category }
+      </if>
+
+      <if test="boardContent == 'count'">
+      ORDER
+         BY
+           BOARD_COUNT DESC
+      </if>
+      <if test="boardContent == 'createDate'">
+      ORDER
+         BY
+           CREATE_DATE DESC
+      </if>
+      <if test="boardContent == 'comment'">
+      ORDER
+     	   BY
+     	   	 COMMENTCOUNT DESC
+      </if>
+      <if test="boardContent == 'like'">
+      ORDER
+     	   BY
+     	   	 LIKECOUNT DESC
+      </if>
+		
+	</select>
+	
+	
+	<!-- 정렬 글 수 확인 -->
+	<select id="searchCount" resultType="_int">
+		
+		SELECT
+	         COUNT(*)
+  		 FROM
+          	 MAINBOARD A
+  		 JOIN
+          	 MEMBER USING(MEMBER_ID)
+	LEFT JOIN
+            (SELECT BOARD_NO,STATUS_LB
+             FROM BOARD_LB 
+             WHERE STATUS_LB = 'L') B  ON (A.BOARD_NO = B.BOARD_NO)
+	LEFT JOIN
+             BOARD_REPLY C ON(C.BOARD_NO = A.BOARD_NO)
+	LEFT JOIN
+            (SELECT COUNT(BOARD_NO) REREPLY, BOARD_NO
+             FROM BOARD_RE_REPLY
+             JOIN BOARD_REPLY USING(BOARD_REPLY_NO)
+             GROUP BY BOARD_NO) D ON(D.BOARD_NO = A.BOARD_NO)
+    LEFT JOIN
+             HASHTAG_BRIDGE F ON(F.BOARD_NO = A.BOARD_NO)     
+		WHERE
+      		 A.BOARD_STATUS = 'Y'
+      	  AND
+             BOARD_TYPE = #{ boardType }
+	  <if test="keyType != ''">
+	      <choose>
+	      	<when test="keyType == 'tag'">
+	      	 AND HASHTAG_NAME LIKE  '%' || #{ key } || '%'
+	      	</when>
+	      	<otherwise>
+	      	 AND (BOARD_CONTENT LIKE  '%' || #{ key } || '%'
+	      	 OR BOARD_TITLE LIKE  '%' || #{ key } || '%')
+	      	</otherwise>
+	      </choose>
+      </if>
+		  
+      <if test="category != '전체보기'">
+          AND
+          	 CATEGORY = #{ category }
+      </if>
+	  
+		
+	</select>
 	
 	
 	

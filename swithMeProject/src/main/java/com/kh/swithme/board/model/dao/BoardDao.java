@@ -76,6 +76,34 @@ public class BoardDao {
 	public int reReplyBoard(SqlSessionTemplate sqlSession, ReReply rere) {
 		return sqlSession.insert("boardMapper.reReplyBoard", rere);
 	}
+	public int tagInsert(SqlSessionTemplate sqlSession, String tagList) {
+		return sqlSession.insert("boardMapper.tagInsert", tagList);
+	}
+	
+	public int test(SqlSessionTemplate sqlSession, Board b) {
+		return sqlSession.insert("boardMapper.test", b);
+	}
+	public ArrayList<Board> tagSearch(SqlSessionTemplate sqlSession, PageInfo pi, Board bSearch) {
+		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
+		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
+		return (ArrayList)sqlSession.selectList("boardMapper.tagSearch", bSearch, rowBounds);
+	}
+	public int tagCount(SqlSessionTemplate sqlSession, Board bSearch) {
+		return sqlSession.selectOne("boardMapper.tagCount", bSearch);
+	}
+	public ArrayList<Board> categorySearch(SqlSessionTemplate sqlSession, Board b, PageInfo pi) {
+		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
+		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
+		return (ArrayList)sqlSession.selectList("boardMapper.categorySearch", b, rowBounds);
+	}
+	public ArrayList<Board> sortSearch(SqlSessionTemplate sqlSession, Board b, PageInfo pi) {
+		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
+		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
+		return (ArrayList)sqlSession.selectList("boardMapper.sortSearch", b, rowBounds);
+	}
+	public int searchCount(SqlSessionTemplate sqlSession, Board b) {
+		return sqlSession.selectOne("boardMapper.searchCount", b);
+	}
 
 
 

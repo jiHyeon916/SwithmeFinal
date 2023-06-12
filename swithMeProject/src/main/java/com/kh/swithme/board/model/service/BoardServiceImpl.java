@@ -31,8 +31,8 @@ public class BoardServiceImpl implements BoardService {
 
 
 
-	// 혜린
-
+	//혜린 -----------------------------------------------------------------------------------
+	
 	@Override
 	public int boardListCount(int boardType) {
 		return boardDao.boardListCount(sqlSession, boardType);
@@ -104,6 +104,34 @@ public class BoardServiceImpl implements BoardService {
 	@Override
 	public int reReplyBoard(ReReply rere) {
 		return boardDao.reReplyBoard(sqlSession, rere);
+	}
+	@Override
+	public int test(Board b) {
+		return boardDao.test(sqlSession, b);
+	}
+	@Override
+	public int tagInsert(String tagList) {
+		return boardDao.tagInsert(sqlSession, tagList);
+	}
+	@Override
+	public ArrayList<Board> tagSearch(PageInfo pi, Board bSearch) {
+		return boardDao.tagSearch(sqlSession, pi, bSearch);
+	}
+	@Override
+	public int tagCount(Board bSearch) {
+		return boardDao.tagCount(sqlSession, bSearch);
+	}
+	@Override
+	public ArrayList<Board> categorySearch(Board b, PageInfo pi) {
+		return boardDao.categorySearch(sqlSession, b, pi);
+	}
+	@Override
+	public ArrayList<Board> sortSearch(Board b, PageInfo pi) {
+		return boardDao.sortSearch(sqlSession, b, pi);
+	}
+	@Override
+	public int searchCount(Board b) {
+		return boardDao.searchCount(sqlSession, b);
 	}
 
 
