@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -41,14 +43,16 @@
                             <span class="categoryTitle">Category</span>
                             <span>${ b.category }</span>
                         </div>
+
+                        <c:if test="${ not empty tag }">
                         <div class="clear d_tag">
                             <span class="categoryTitle">Tag</span>
-                            <span class="tagBtn">#스윗미</span>
-                            <span class="tagBtn">#자기개발</span>
-                            <span class="tagBtn">#책</span>
-                            <span class="tagBtn">#명언</span>
-                            <span class="tagBtn">#안녕하세요</span>
+                            <c:forEach items="${ tag }" var="t">
+                                <span class="tagBtn" onclick="tagSearch(this)">#${ t }</span>
+                            </c:forEach>
                         </div>
+                        </c:if>
+                        
                     </div>
 
                    
@@ -330,7 +334,7 @@
             })
         }
 
-        //reReply
+        //대댓글 달기 
         function reReply(reReplyNo, e){
 
             $.ajax({
@@ -351,6 +355,7 @@
             })
         }
 
+        // 대댓글 리스트 가져오기
         function reReplyList(replyNo) {
             $.ajax({
                 url: 'reReplyList.bo',
@@ -380,6 +385,15 @@
                     console.log('대댓글 불러오기 실패');
                 }
             }); 
+        }
+
+        //태그 검색 
+        function tagSearch(e){
+            var keyword = $(e).text();
+            var keyword2 = keyword.replace('#', '');
+            var boardType = '${ b.boardType }'
+
+            location.href="tagSearch.bo?key=" + keyword2 + '&boardType=' + boardType + '&keyType=tag';
         }
 
 
