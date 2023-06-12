@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -11,7 +12,7 @@
 	<jsp:include page="../common/header.jsp" />
 	
 	<div class="page-blank"></div>
-		<!-- 이유진 커밋 테스트 -->
+		
 	<div class="wrap clear">
 		<div class="mySide">
 			<jsp:include page="myMenuBar.jsp" />
@@ -22,20 +23,21 @@
 			
 			<div id="todayPoint">
 				<div>오늘 얻은 포인트</div>
-				<p>25</p>
+				<p>${ todayPoint }</p>
 				<span>point</span>
 			</div><!-- 
 		 --><div id="totalPoint">
 		 		<div>사용 가능한 포인트</div>
-				<p>500</p>
+				<p>${ totalPoint }</p>
 				<span>point</span>
 			</div>
 			
 			<div class="block">
-				<div class="myBtn">
+				<!-- <div class="myBtn">
+					<button>포인트내역</button>
 					<button>적립내역</button>
 					<button>사용내역</button>
-				</div>
+				</div> -->
 				
 				<table id="pointList">
 					<thead>
@@ -47,46 +49,93 @@
 						</tr>
 					</thead>				
 					<tbody>
-						<tr>
-							<td>2023-05-05</td>
-							<td>+20</td>
-							<td>출석체크 포인트 지급</td>
-							<td>300p</td>
-						</tr>
-						<tr>
-							<td>2023-05-05</td>
-							<td>+20</td>
-							<td>출석체크 포인트 지급</td>
-							<td>300p</td>
-						</tr>
-						<tr>
-							<td>2023-05-05</td>
-							<td>+20</td>
-							<td>출석체크 포인트 지급</td>
-							<td>300p</td>
-						</tr>
-						<tr>
-							<td>2023-05-05</td>
-							<td>+20</td>
-							<td>출석체크 포인트 지급</td>
-							<td>300p</td>
-						</tr>
+						<c:if test="${ list.get(0).pointStatus eq 'Y' }">
+							<c:set var="originPoint" value="${ totalPoint + list.get(0).pointScore }" />
+						</c:if>
+						<c:if test="${ list.get(0).pointStatus eq 'N' }">
+							<c:set var="originPoint" value="${ totalPoint - list.get(0).pointScore }" />
+						</c:if>
+						
+						<c:forEach items="${ list }" var="p">
+						<c:choose>
+							<c:when test="${ p.pointStatus eq 'Y' }">
+								<c:set var="originPoint" value="${ originPoint - p.pointScore }" />
+							</c:when>
+							<c:otherwise>
+								<c:set var="originPoint" value="${ originPoint + p.pointScore }" />
+							</c:otherwise>
+						</c:choose>
+							<tr>
+								
+								<td>${ p.pointTime }</td>
+								
+								<c:choose>
+									<c:when test="${ p.pointStatus eq 'Y' }">
+										<td>+ ${ p.pointScore }</td>
+									</c:when>
+									<c:otherwise>
+										<td>- ${ p.pointScore }</td>
+									</c:otherwise>
+								</c:choose>
+								
+								<td>${ p.pointDetail }</td>
+								<td>${ originPoint }</td>
+							</tr>
+						</c:forEach>
 					</tbody>
 				</table>
 				
-				<div class="paBtn">
-					<button>1</button>
-					<button>2</button>
-					<button>3</button>
-					<button>4</button>
-					<button>5</button>
-				</div>
-				
+                <div class="paBtn">
+                	<c:choose>
+                      <c:when test="${ pi.currentPage eq 1 }">
+                          <button disabled style="border : 1px solid rgb(175, 175, 175); color : rgb(175, 175, 175);">&lt;</button>
+                       </c:when>
+                       <c:otherwise>
+                           <button onclick="location.href='point.me?cPage=${ pi.currentPage -1 }'">&lt;</button>
+                       </c:otherwise>
+                    </c:choose>
+                    
+                    <c:forEach begin="${ pi.startPage }" end="${ pi.endPage }" var="p">
+                    	<c:choose>
+                    		<c:when test="${ p eq pi.currentPage }">
+		                       <button disabled style="background-color : rgb(3, 195, 115); color : white; " onclick="location.href='point.me?cPage=${ p }'">${ p }</button>
+                    		</c:when>
+                    		<c:otherwise>
+		                       <button onclick="location.href='point.me?cPage=${ p }'">${ p }</button>
+                    		</c:otherwise>
+                    	</c:choose>
+                    </c:forEach>
+                    
+                    <c:choose>
+                      <c:when test="${ pi.currentPage eq pi.maxPage }">
+                          <button disabled style="border : 1px solid rgb(175, 175, 175); color : rgb(175, 175, 175);">&gt;</button>
+                       </c:when>
+                       <c:otherwise>
+                          <button onclick="location.href='point.me?cPage=${ pi.currentPage + 1 }'">&gt;</button>
+                       </c:otherwise>
+                    </c:choose>
+				</div>				
 			</div>
 			
 			<br><br><br>
 		</div>
 	</div>
+	
+	<script>
+		$(function(){
+			
+		}); // $function
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</script>
 
 
 </body>
