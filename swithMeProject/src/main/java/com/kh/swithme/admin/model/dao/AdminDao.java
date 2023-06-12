@@ -7,9 +7,11 @@ import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
+import com.kh.swithme.admin.model.vo.QNAReply;
 import com.kh.swithme.board.model.vo.Board;
 import com.kh.swithme.common.model.vo.PageInfo;
 import com.kh.swithme.member.model.vo.Member;
+import com.kh.swithme.member.model.vo.QNA;
 
 @Repository
 public class AdminDao {
@@ -61,6 +63,42 @@ public class AdminDao {
 	}
 	   
    
+	
+	
+	// 이유진 ----------------------------------------
+	
+	// 문의글 리스트 조회 + 페이징처리
+	// 모든 문의글 수 가져오기
+	public int selectQnaListCount(SqlSessionTemplate sqlSession, String qnaStatus) {
+		return sqlSession.selectOne("adminMapper.selectQnaListCount", qnaStatus);
+	};
+	
+	// 모든 문의글 리스트 조회
+	public ArrayList<QNA> selectQnaList(SqlSessionTemplate sqlSession, PageInfo pi, String qnaStatus){
+		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
+		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
+		return (ArrayList)sqlSession.selectList("adminMapper.selectQnaList", qnaStatus, rowBounds);
+	};
+	
+	// 문의글 답변 INSERT
+	public int insertQnaReply(SqlSessionTemplate sqlSession, QNAReply qr) {
+		return sqlSession.insert("adminMapper.insertQnaReply", qr);
+	};
+	
+	// 문의글 답변 목록 출력
+	public ArrayList<QNAReply> selectQnaReply(SqlSessionTemplate sqlSession, int qnaNo){
+		return (ArrayList)sqlSession.selectList("adminMapper.selectQnaReply", qnaNo);
+	};
+	
+	// 문의글 답변여부 상태변화
+	public int qnaStatusUpdate(SqlSessionTemplate sqlSession, int qnaNo) {
+		return sqlSession.update("adminMapper.qnaStatusUpdate", qnaNo);
+	};
+	
+	// 문의글 답변 삭제
+	public int qnaReplyDelete(SqlSessionTemplate sqlSession, int qnaNo) {
+		return sqlSession.delete("adminMapper.qnaReplyDelete", qnaNo);
+	}
 
 
 }
