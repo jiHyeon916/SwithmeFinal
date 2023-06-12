@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="adminMapper">
+	<!-- 희재 -->
+	
+	
+	
+	
+	
+	
+	
+	
+	<!-- 지현 -->
+	
+	<resultMap type="member" id="memberResultSet">
+		<result column="MEMBER_ID" property="memberId" />
+		<result column="MEMBER_PWD" property="memberPwd" />
+		<result column="MEMBER_NAME" property="memberName" />
+		<result column="MEMBER_EMAIL" property="memberEmail" />
+		<result column="NICKNAME" property="nickName" />
+		<result column="MEMBER_ENROLL_DATE" property="memberEnrollDate" />
+		<result column="MEMBER_STATUS" property="memberStatus" />
+	</resultMap>
+	
+	
+	<!-- 회원들의 count 조회(페이징) -->
+	<select id="selectMemberCount" resultType="_int">
+		SELECT
+			COUNT(*)
+		FROM
+			MEMBER	
+	</select>
+	
+	
+	
+	<!-- 회원들 모두 조회 -->
+	<select id="adminMemberList" resultMap="memberResultSet">
+			SELECT
+			MEMBER_ID 		
+			,MEMBER_NAME	
+			,NICKNAME		
+			,TO_CHAR(MEMBER_ENROLL_DATE, 'YYYY-MM-DD') AS MEMBER_ENROLL_DATE	
+			,MEMBER_STATUS			
+		FROM	
+			MEMBER
+        ORDER 
+            BY 
+                MEMBER_ENROLL_DATE DESC
+	
+	</select>
+	
+	<!-- 검색한 키워드가 포함된  -->
+	<select id="selectMemberSearchCount" resultType="_int" parameterType="hashmap">
+		SELECT
+			COUNT(*)
+		FROM
+			MEMBER
+		WHERE	
+		<if test="condition == 'memberId'">
+			MEMBER_ID 
+		</if>
+		<if test="condition == 'nickName'">
+			NICKNAME
+		</if>
+			LIKE '%' || #{keyword} || '%'		
+	</select>
+	
+	<!-- 검색결과 ArrayList -->
+	<select id="selectMemberSearchList" parameterType="hashmap" resultMap="memberResultSet">
+			SELECT
+				MEMBER_ID 		
+				,MEMBER_NAME	
+				,NICKNAME		
+				,TO_CHAR(MEMBER_ENROLL_DATE, 'YYYY-MM-DD') AS MEMBER_ENROLL_DATE	
+				,MEMBER_STATUS			
+			FROM	
+				MEMBER
+			WHERE
+			<if test="condition == 'memberId'">
+				MEMBER_ID
+			</if>
+			<if test="condition == 'nickName'">
+					NICKNAME
+			</if>
+					LIKE '%' || #{keyword} || '%'		
+	        ORDER 
+	            BY 
+	                MEMBER_ENROLL_DATE DESC
+	
+	</select>
+	
+	<!-- 회원 정지 -->
+	<update id="memberStop" parameterType="string">
+		UPDATE
+      			MEMBER
+      		SET
+      			MEMBER_STATUS = 'N'
+      		WHERE
+      			MEMBER_ID = #{memberId}
+	</update>
+	
+	
+	
+	
+	
+	
+	
+	<!-- 유진 -->
+
+
+</mapper>
