@@ -10,7 +10,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.google.gson.Gson;
 import com.kh.swithme.admin.model.service.AdminService;
+import com.kh.swithme.admin.model.vo.QNAReply;
 import com.kh.swithme.common.model.vo.PageInfo;
 import com.kh.swithme.common.template.Pagination;
 import com.kh.swithme.member.model.vo.Member;
@@ -138,5 +140,35 @@ public class AdminController {
       
       return "admin/memberDetailInfo";
    }
+   
+   
+   
+   // 이유진 ------------------------------------------------------------
+   
+   // 문의글 답변 INSERT
+	@ResponseBody
+	@RequestMapping("qnaAnswer")
+	public String insertQnaReply(QNAReply qr) {
+		return adminService.insertQnaReply(qr) > 0 ? "success" : "fail";
+
+	}
+	
+	// 문의글 답변 목록 출력
+	@ResponseBody
+	@RequestMapping(value="qnaAnswerList", produces="application/json; charset=UTF-8")
+	public String selectQnaReply(int qnaNo) {
+		return new Gson().toJson(adminService.selectQnaReply(qnaNo));
+
+	}
+	
+	// 문의글 답변여부 상태변화
+	@ResponseBody
+	@RequestMapping("qnaAnswerUpdate")
+	public String qnaStatusUpdate(int qnaNo) {
+		return adminService.qnaStatusUpdate(qnaNo) > 0 ? "success" : "fail";
+	}
+   
+   
+   
    
 }
