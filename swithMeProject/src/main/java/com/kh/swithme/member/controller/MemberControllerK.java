@@ -61,11 +61,11 @@ public class MemberControllerK {
 	public String selectTodoList(TodoList td) {
 		return new Gson().toJson(memberService.selectTodoList(td));
 	}
-	
+	/*
 	@ResponseBody
 	@RequestMapping(value="todoCalendarList.me", produces="application/json; charset=UTF-8")
 	public String todoCalendarList() 
-		
+		*/
 	
 	
 	@ResponseBody
