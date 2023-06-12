@@ -1,0 +1,250 @@
+@charset "UTF-8";
+
+body{
+    background-color: #fafafa;
+}
+
+p{
+    margin: 0;
+}
+
+input:focus{
+    outline: none;
+}
+
+
+#F_writer_content{
+    margin: 50px;
+    margin-bottom: 100px;
+}
+#F_writer_content h3{
+    padding-bottom: 20px;
+    border-bottom: 1px solid rgb(190, 190, 190);
+    margin-bottom: 30px;
+    font-size: 24px;
+}
+#F_writer_content input{
+    height: 46px;
+    border: 1px solid rgb(202, 202, 202);
+    border-radius: 5px;
+    padding: 0 5px 0 5px;
+}
+#F_writer_content .left,
+#F_writer_content .right{
+    float: left;
+}
+
+#F_writer_content .left{
+    width: 860px;
+    margin-right: 40px;
+}
+
+#F_writer_content .left input{
+    width: 860px;
+    margin-bottom: 30px;
+}
+
+#F_writer_content .left textarea{
+    width: 860px;
+    height: 400px;
+    border: 1px solid rgb(202, 202, 202);
+    border-radius: 5px;
+}
+
+#F_writer_content .right{
+    width: 300px;
+}
+
+
+
+
+
+
+
+/* 카테고리 */
+#freeCategorySelect > ul > li{
+    display: none;
+    background-color: #a07878;
+    padding: 5px;
+    
+}
+#freeCategory {
+    position: relative;
+    width: 300px;
+}
+#freeCategory .btn-select {
+    width: 100%;
+    padding: 11px 30px 11px 14px;
+    font-size: 13px;
+    line-height: 20px;
+    margin-bottom: 25px;
+    background-color: #fff;
+    border: 1px solid #C4C4C4;
+    box-sizing: border-box;
+    border-radius: 5px;
+    cursor: pointer;
+    text-align: left;
+    background: url("images/icon-Triangle-down.png") center right 14px no-repeat;
+    /* 말줄임 */
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+  }
+  
+#freeCategory .list-member {
+    display: none;
+    position: absolute;
+    width: 100%;
+    top: 49px;
+    left: 0;
+    border: 1px solid #C4C4C4;
+    box-sizing: border-box;
+    box-shadow: 4px 4px 14px rgba(0, 0, 0, 0.15);
+    border-radius: 10px;
+  }
+  
+#freeCategory .btn-select.on {
+    background: url("images/icon-Triangle-up.png") center right 14px no-repeat;
+  }
+  
+#freeCategory .btn-select.on+.list-member {
+    display: block;
+  }
+  
+#freeCategory .list-member li {
+    height: 40px;
+    padding: 5px 8px;
+    box-sizing: border-box;
+    font-size: 13px;
+    background-color: #fff;
+    border-radius: 10px;
+  }
+  
+#freeCategory .list-member li button {
+    width: 100%;
+    padding: 7px 10px;
+    border: none;
+    background-color: #fff;
+    border-radius: 8px;
+    cursor: pointer;
+    text-align: center;
+    /* 말줄임 */
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+  }
+  #freeCategory .list-member li:last-child{
+    margin-bottom: 5px;
+  }
+
+#freeCategory .list-member li button:hover,
+#freeCategory .list-member li button:focus {
+    background-color: #eaeaea;
+  }
+
+.ck-editor__editable { 
+    height: 400px !important;
+}
+
+#F_writer_content .right select{
+    height: 46px;
+}
+
+
+
+
+
+/* 태그 입력 칸 */
+#F_writer_content .right #tagBox{
+    width: 300px;
+    height: 100px;
+    border: 1px solid rgb(223, 223, 223);
+    border-radius: 5px;
+    margin: 5px 0 40px 0;
+    overflow-x:auto;
+    padding: 10px;
+}
+#F_writer_content .right #tagBox div,
+#F_writer_content .right #tagBox ul{
+    float: left;
+}
+#F_writer_content .right #tagBox input{
+    float: left;
+    width: 100px;
+    height: 35px;
+    border: none;
+    font-size: 16px;
+    padding: -5px 3px -5px;
+}
+#F_writer_content .right #tagBox input:focus{
+    outline: none;
+}
+#F_writer_content .right #tagBox #tagList {
+    display: none;
+    margin-bottom: 5px;
+}
+#F_writer_content .right #tagBox #tagList .tag{
+    padding: 3px 10px 3px;
+    background-color: rgb(239, 253, 227);
+    border-radius: 10px;
+    float: left;
+    margin : 3px;
+    border: 1px solid rgb(223,223,223);
+    font-size: 15px;
+}
+#F_writer_content .right #tagBox #tagList .tag img{
+    width: 8px;
+    margin: -3px 0 0 10px;
+    text-align: center;
+    cursor: pointer;
+}
+#F_writer_content .right #tagBox #box{
+    height: 30px;
+    width: 200px;
+    background-color: red;
+}
+
+#F_writer_content .right input{
+    width: 300px;
+}
+#F_writer_content .right .fileArea,
+#F_writer_content .right .thumbnailArea{
+    width: 300px;
+    height: 100px;
+    background-color: #f5f5f5;
+    margin-bottom: 20px;
+    border-radius: 5px;
+}
+#F_writer_content .right .thumbnailArea{
+    height: 80px;
+}
+
+
+
+
+/* 파일 업로드 */
+#F_writer_content .uploadBtnArea p,
+#F_writer_content .uploadBtnArea button
+{
+    float: left;
+    margin-bottom: 10px;
+}
+
+#F_writer_content .uploadBtnArea button{
+    float: right;
+    width: 80px;
+    height: 26px;
+    font-size: 15px;
+    background-color: #e6e6e6;
+    border-radius: 5px;
+    border: none;
+}
+
+#F_writer_content .right > button{
+    width: 300px;
+    height: 46px;
+    background-color: #c7efb0;
+    border: none;
+    border-radius: 5px;
+    margin-bottom: 20px;
+}

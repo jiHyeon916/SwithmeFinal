@@ -62,12 +62,27 @@
 #topBoard #topBoard2 > div:first-child{
     margin-bottom: 16px;
 }
+#topBoard #topBoard1,
+#topBoard #topBoard3{
+    cursor: pointer;
+}
 
 #topBoard #topBoard1{
     width: 280px;
     margin-right: 20px;
     background: url('../../images/board/cute2.png') no-repeat center #cff0ed;
 }
+
+#topBoard #topBoard1 .F_sm_smr,
+#topBoard #topBoard3 .F_sm_smr{
+    margin: 20px 0 20px 0;
+    line-height: 20px !important;
+}
+#topBoard #topBoard1 .F_sm_tag,
+#topBoard #topBoard3 .F_sm_tag{
+    font-size: 13px;
+}
+
 
 #topBoard #topBoard2{
     width: 600px;
@@ -100,6 +115,7 @@
     border: 1px solid rgb(191, 191, 191);
     height: 36px;
     border-radius: 5px;
+    width: 240px;
 }
 #searchBox > div > img{
     width: 20px;
@@ -294,7 +310,7 @@
     margin-bottom: 8px;
 }
 .freeBoardList .freelist > p{
-    margin-bottom: 5px;
+    margin-bottom: 15px;
 }
 
 #F_category,
@@ -321,11 +337,12 @@
 }
 #F_Content{
 	display : block;
-	overflow : hidden;
-	text-overflow : ellipsis;
-	white-space : nowrap;
 	width : 1180px;
-    margin-bottom : 16px;
+}
+.over{
+	overflow : hidden;
+    text-overflow : ellipsis;
+	white-space : nowrap;
 }
 
 #F_like li,
@@ -380,8 +397,11 @@
     justify-content: center;
 }
 #pagingBar ul li{
+    width: 20px;
+    text-align: center;
     margin-right: 20px;
     float: left;
+    cursor: pointer;
 }
 #pagingBar ul li:last-child{
     margin-right: 0;

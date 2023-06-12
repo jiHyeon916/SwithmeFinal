@@ -53,6 +53,11 @@
     width: 900px;
     line-height: 36px;
     margin: 30px 0px 80px;
+    word-break:break-all;
+}
+#content_text p {
+    width: 900px;
+    word-break:break-all !important;
 }
 
 /* 카테고리 박스 */
@@ -60,7 +65,6 @@
     font-size: 14px;
     padding: 20px;
     width: 900px;
-    height: 100px;
     background-color: #F8F9FA;
     margin-bottom: 30px;
 }
