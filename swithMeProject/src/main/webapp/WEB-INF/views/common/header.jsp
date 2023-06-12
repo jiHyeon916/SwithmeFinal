@@ -80,7 +80,7 @@
                   <li><a href="memberEnrollForm.me">회원가입</a></li>
                </c:when>
                <c:otherwise>
-                  <li><label>${loginMember.nickName }님 환영합니다.</label></li>
+	            	<li><label id="loginName" onclick="myPage();">${ loginMember.memberName }</label>님 환영합니다.</li>
                   <li><a href="logout.me">로그아웃</a></li>
                </c:otherwise>
             </c:choose>
@@ -96,6 +96,21 @@
 </header>
 
 <div class="headerblank"></div>
+
+	<script>
+		function myPage(){
+			
+			var user = '${ loginMember.memberId }';
+			
+			if(user == 'admin'){
+				location.href = 'adPage.ad';
+			}
+			else {
+				location.href = 'mypage.me';
+			}
+			
+		}
+	</script>
         
 </body>
 </html>

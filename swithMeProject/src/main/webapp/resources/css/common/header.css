@@ -128,3 +128,8 @@ header{
     top: 2px;
     right: 2px;
 }
+#loginName:hover {
+	color : rgb(3, 195, 115);
+	font-weight : 500;
+	cursor : pointer;
+}
