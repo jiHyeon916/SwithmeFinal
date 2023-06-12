@@ -508,7 +508,7 @@
 		  FROM (SELECT distinct SUM(POINT_SCORE) OVER(PARTITION BY POINT_STATUS ORDER BY POINT_STATUS) "A", MEMBER_ID
 		          FROM POINT
 		         WHERE POINT_STATUS = 'Y'
-		           AND MEMBER_ID = 'user03'
+		           AND MEMBER_ID = #{ memberId }
 		           AND TO_CHAR(SYSDATE, 'YYYYMMDD') = TO_CHAR(POINT_TIME, 'YYYYMMDD'))
 	</select>
 	
