@@ -152,7 +152,7 @@ public class MemberControllerL {
     * @param m
     * @return
     */
-   @RequestMapping("login.me")
+   @PostMapping("login.me")
    public ModelAndView loginMember(Member m, ModelAndView model, HttpSession session) {
       
       Member loginMember = memberService.loginMember(m); // DB에 저장되어있는 회원정보 가져오기

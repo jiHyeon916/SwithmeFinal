@@ -58,7 +58,7 @@
          <result column="SB_NO" property="sbNo"/>
          <result column="MEMBER_ID" property="memberId" />
          <result column="SB_TITLE" property="sbTitle" />
-         <result column="SB_INTRODICE" property="sbIntroduce" />
+         <result column="SB_INTRODUCE" property="sbIntroduce" />
          <result column="CREATE_DATE" property="createDate" />
    </resultMap>
   
@@ -145,9 +145,6 @@
    </select>
    
    
-   
-   
-   
    <!-- 회원 정지 해제  -->
    <update id="memberStopFree" parameterType="string">
       UPDATE
@@ -186,6 +183,8 @@
                 M.MEMBER_ID = #{memberId}
               AND 
                 B.MEMBER_ID IS NOT NULL
+              AND 
+              	BOARD_STATUS = 'Y'  
          
    </select>
    
@@ -203,9 +202,30 @@
          WHERE
              M.MEMBER_ID = #{memberId}
              AND S.MEMBER_ID IS NOT NULL
+             AND SB_STATUS = 'Y'
+             
                 
     </select>
+    
+    <!-- 회원정보조회 -->
+   <select id="memberInfo" parameterType="string" resultType="member">
+   		SELECT
+   			MEMBER_ID		memberId
+   			,MEMBER_PWD		memberPwd
+   			,MEMBER_NAME	memberName
+   			,MEMBER_EMAIL	memberEmail
+   			,NICKNAME		nickName
+   			,MEMBER_ENROLL_DATE	memberEnrollDate
+   			,MEMBER_STATUS	memberStatus
+   		FROM
+   			MEMBER
+   		WHERE
+   			MEMBER_ID = #{memberId}	
+   			
+   		 
    
+   
+   </select>
   
     
    
