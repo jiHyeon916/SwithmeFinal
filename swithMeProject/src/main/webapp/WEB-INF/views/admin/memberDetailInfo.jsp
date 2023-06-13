@@ -151,7 +151,6 @@
                      <button onclick="memberReplyList();">댓글</button>
                      <button id="detailDeleteBtn">삭제</button>
                </div>
-               this 부모 동위 tbody
                
                  <br><br>
                  
@@ -284,35 +283,46 @@
                }
              */
              
-          /*    
+            
          
              $(function() {
-            	 $('#detailDeleteBtn').on('click',(function() {
+            	 
+            	 
+            	 
+            	 $('#detailDeleteBtn').on('click',function() {
             		 
+            	 var boardNo = $(this).parent().next().next().next().children('tbody').children('tr').children('td').eq(0).text();
+            		console.log(boardNo);
             		
             		if($('#adminMemberTable input[name=BoardChkDel]:checked').length == 0) {
             			
             				alert('선택된 글이 없습니다.');
+            				
             		}else{
             			
-            			$.ajax({
-            					url : 'detailDelete.ad',
-            					
-            			});
+            			confirm('선택된 글을 삭제하시겠습니까 ?');
+            			
+            				$.ajax({
+            						url :'deleteBoardDetail.ad',
+            						data : {boardNo : boardNo},
+            						success: function(result){
+            							
+            							if(result == 'Y') {
+            								alert('삭제되었습니다.');
+            								location.reload();
+            							}else{
+            								alert('삭제에 실패하였습니다.');
+            							}
+            							
+            							
+            						},error: () => {console.log('실패');}
+            				});
             			
             		}
-         
-            		 	
-            		 
-            		  
-            		
-            		 
-            		 
-            		 
-            		 
-            	 })
+          
+            	 });
              }); 
-             */
+             
             </script>
             
             

@@ -210,8 +210,12 @@ public class AdminController {
 	 */
   
   
-  
-  
+  @ResponseBody
+  @RequestMapping("deleteBoardDetail.ad")
+  public char memberReplyList(int boardNo) {
+	  
+	  return adminService.deleteBoardDetail(boardNo) > 0 ? 'Y' : 'N';
+  }
   
   
   
