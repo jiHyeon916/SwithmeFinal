@@ -239,10 +239,17 @@
    		WHERE
    			MEMBER_ID = #{memberId}	
    			
-   		 
-   
-   
    </select>
+   
+   <update id="deleteBoardDetail" parameterType="_int">
+   		UPDATE
+   			MAINBOARD
+   		SET
+   			BOARD_STATUS = 'N'
+   		WHERE
+   			BOARD_NO = #{boardNo}		
+   
+   </update>
   
     
    
