@@ -839,7 +839,7 @@
 		
 	</select>
 	
-	<!-- 게시글 수정하기 -->
+	<!-- 게시글 수정하기 (보드 조회) -->
 	<select id="boardModifyView" resultMap="boardResultSet">
 		SELECT
 			  BOARD_NO
@@ -848,15 +848,39 @@
 			 ,BOARD_TITLE
 			 ,BOARD_CONTENT
 			 ,CATEGORY
+			 ,HASHTAG_NAME
 		  FROM
 		  	  MAINBOARD
 		  JOIN
 		      MEMBER USING(MEMBER_ID)
+		  JOIN
+		      HASHTAG_BRIDGE USING(BOARD_NO)
 		 WHERE
 		      BOARD_STATUS = 'Y'
 		   AND
 		      BOARD_NO = #{ boardNo }
 	</select>
+	
+	<!-- 게시글 수정하기  -->
+	<update id="boardModify" parameterType="board">
+		UPDATE
+			  MAINBOARD
+		   SET
+		      BOARD_TITLE = #{ boardTitle }
+		     ,BOARD_CONTENT = #{ boardContent }
+		     ,CATEGORY = #{ category }
+		 WHERE
+		      BOARD_NO = #{ boardNo }
+	</update>
+	
+	<update id="tagUpdate">
+		UPDATE
+			  HASHTAG_BRIDGE
+		   SET
+		   	  HASHTAG_NAME = #{ tagList }
+		 WHERE
+		 	  BOARD_NO = #{ boardNo }
+	</update>
 	
 	
 	

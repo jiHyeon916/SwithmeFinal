@@ -96,19 +96,34 @@
 
     <script>
 
+        // 로드
         $(function(){
+    
             $('.note-editable').html('${ b.boardContent }');
-            console.log('${ b }');
+            $('input[type="file"]').css('display', 'none');
+    
+            let tag = '${ b.tagList }';
+            console.log(tag);
+
+            let tagSplit = tag.split(',');
+            console.log(tagSplit);
+
+            for(var i = 0; i < tagSplit.length - 1; i++){
+                var value = '<li class="tag">' + tagSplit[i] + '<img src="resources/images/board/tagClose.png" onclick="removeTag(this)"></li>';   
+                $('#tagList').append(value);
+                $('#tagList').css('display', 'block');
+                $('#tagBox input').val('');
+            }
+            
 
 
             // 카테고리 박스
-            const btn = document.querySelector('.btn-select');
-            const list = document.querySelector('.list-member');
+                const btn = document.querySelector('.btn-select');
+                const list = document.querySelector('.list-member');
 
+                btn.innerText = '${ b.category }';
 
-            btn.innerText = '${ b.category }';
-
-            btn.addEventListener('click', () => {
+                btn.addEventListener('click', () => {
                 btn.classList.toggle('on');
             });
             list.addEventListener('click', (event) => {
@@ -117,20 +132,22 @@
                     btn.classList.remove('on');
                 }
             });
-
+    
             // 태그박스 클릭하면 포커스 맞춰주기 
             $('#tagBox').click(function(){
                 $('#tagBox input').focus();
             })
-
+    
+     
         })
-
+    
+    
         // 섬머노트 변경사항
         $('#summernote').summernote({
             tabsize: 2,
             height: 480,
             toolbar: [
-            // [groupName, [list of button]]
+              // [groupName, [list of button]]
                 ['fontname', ['fontname']],
                 ['fontsize', ['fontsize']],
                 ['style', ['bold', 'italic', 'underline','strikethrough', 'clear']],
@@ -144,7 +161,7 @@
             fontSizes: ['8','9','10','11','12','14','16','18','20','22','24','28','30','36','50','72'],
             // callbacks: {
             //   onImageUpload : function(files, editor, welEditable){
-
+    
             //         // 파일 업로드(다중업로드를 위해 반복문 사용)
             //         for (var i = files.length - 1; i >= 0; i--) {
             //             uploadSummernoteImageFile(files[i],
@@ -152,8 +169,100 @@
             //             }
             //         }
             //     } 
-        });
+          });
+    
+    
+    
+          // 글 작성하기
+          function text(){
+            
+            // 태그 문자열로 만들기 
+            var tag = document.getElementsByClassName('tag')
+            tagAtrr = '';
+            
+            $(tag).each(function(index, item){
+                let tata = $(item).text();
+                tagAtrr += (tata + ',')
+            });
+    
+            $.ajax({
+                
+                url : 'boardModify.bo',
+                type : 'post',
+                data : {
+                    boardNo : '${ b.boardNo }',
+                    bCon : $('.note-editable').html(),
+                    summary : $('.note-editable').text(),
+                    title : $('#title').val(),
+                    category : $('.btn-select').text(),
+                    tagList : tagAtrr
+                },
+                success : function(r){
+                    if(r == 'success'){
+                        alert('글 작성 성공');
+                        location.href="freeBoardListView.bo?boardType=1";
+                    }
+                },
+                error : function(){
+                    console.log('ajax통신 실패');
+                }
+            })
+        }
+    
+        
+        function tagtext(e){
+    
+            var tag = document.getElementsByClassName('tag');
+            var event =  window.event.keyCode
+            var value = '';
+            var lastTag = '';
+            var realTag = '';
+    
+            if(event == 13 || event == 32 || event == 8 ){
+                var tag = ($(e).val());
+                value += '<li class="tag">' + tag + '<img src="resources/images/board/tagClose.png" onclick="removeTag(this)"></li>';   
+    
+                // 중복된 태그인지 확인 중복이면 지우고, 중복 아니면 추가하기
+                let r = tagCheck(tag);
+    
+                if(r == 1){
+                    $('#tagBox input').val('');
+                }else{
+                    $('#tagList').append(value)
+                    $('#tagList').css('display', 'block');
+                    $('#tagBox input').val('');
+                }
+    
+            }
+    
+        }
+    
+    
+        // 태그지우기 
+        function removeTag(e){
+            $(e).parent().remove('');
+        }
+        
+        // 중복태그 자동으로 없애기
+        function tagCheck(e){
+            
+            var tag = document.getElementsByClassName('tag');
+            //var lastTag = $('.tag').last();
+            var result = '';
+    
+            if(tag.length > 0){
+                $(tag).each(function(index, item){
+                    if($(item).text() === e){
+                        result = 1;
+                    }else{
+                        result = 2;
+                    }
+                });
+            }
+    
+            return result;
+        }
+        
+        </script>
 
-
-
-    </script>
+   
