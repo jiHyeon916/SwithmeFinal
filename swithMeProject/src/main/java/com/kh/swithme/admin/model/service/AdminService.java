@@ -51,6 +51,8 @@ public interface AdminService {
 	   //회원 board 글 삭제
 	    public int deleteBoardDetail(int boardNo);
 	    
+	    //회원 band 글 삭제
+	    public int deleteBanddDetail(int boardNo);
 	    
 	    
 	    
@@ -78,6 +80,7 @@ public interface AdminService {
 	
 	// 문의글 답변 삭제
 	int qnaReplyDelete(int qnaNo);
+
    
    
 }

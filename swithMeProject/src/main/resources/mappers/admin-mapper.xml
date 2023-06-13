@@ -250,8 +250,33 @@
    			BOARD_NO = #{boardNo}		
    
    </update>
+   <update id="deleteBandDetail" parameterType="_int">
+	   	UPDATE
+	   			SBAND
+	   		SET
+	   			SB_STATUS = 'N'
+	   		WHERE
+	   			SB_NO = #{boardNo}	
+   
+   </update>
   
     
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
    
    
    

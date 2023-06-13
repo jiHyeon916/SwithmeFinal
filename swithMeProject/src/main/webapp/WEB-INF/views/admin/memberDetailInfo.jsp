@@ -288,20 +288,61 @@
              $(function() {
             	 
             	 
+            	 var boardNo = $(this).parent().next().next().next().children('tbody').children('tr').children('td').eq(0).text();
+            		console.log(boardNo);
+            		
+            	 
+            	 $('#detailDeleteBtn').on('click',function() {
+            		 
+            		if($('#adminMemberTable input[name=BoardChkDel]:checked')
+            				.length == 0) {
+            			
+            				alert('선택된 글이 없습니다.');
+            				
+            		}else{
+            			
+            			if(confirm('선택된 글을 삭제하시겠습니까 ?')){
+            				
+            				$.ajax({
+            						url :'deleteBoardDetail.ad',
+            						data : {boardNo : boardNo},
+            						success: function(result){
+            							
+            							if(result == 'Y') {
+            								alert('삭제되었습니다.');
+            								location.reload();
+            								
+            							}else{
+            								alert('삭제에 실패하였습니다.');
+            							}
+            							
+            							
+            						},error: () => {console.log('실패');}
+            				});
+            			}            			
+            			
+            		}
+          
+            	 });
+             }); 
+             
+             
+             
+ 		 	$(function() {
             	 
             	 $('#detailDeleteBtn').on('click',function() {
             		 
             	 var boardNo = $(this).parent().next().next().next().children('tbody').children('tr').children('td').eq(0).text();
             		console.log(boardNo);
             		
-            		if($('#adminMemberTable input[name=BoardChkDel]:checked').length == 0) {
+            		if($('#adminMemberTable input[name=BandChkDel]:checked').length == 0) {
             			
             				alert('선택된 글이 없습니다.');
             				
             		}else{
             			
-            			confirm('선택된 글을 삭제하시겠습니까 ?');
-            			
+            			if(confirm('선택된 글을 삭제하시겠습니까 ?')) {
+            				
             				$.ajax({
             						url :'deleteBoardDetail.ad',
             						data : {boardNo : boardNo},
@@ -317,11 +358,14 @@
             							
             						},error: () => {console.log('실패');}
             				});
+            			}
+            			
             			
             		}
           
             	 });
-             }); 
+             });  
+             
              
             </script>
             

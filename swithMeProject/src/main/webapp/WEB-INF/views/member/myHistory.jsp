@@ -124,18 +124,24 @@
 				}
 			};
 			
-			function itemType(){
+			function itemType(items){
 				// 게시판 / 댓글 버튼 표시
-				$('.myPost').removeClass('noneSpan').addClass('selectSpan');
-				$('.myReply').removeClass('selectSpan').addClass('noneSpan');
+				if(items == 'board'){
+					$('.myPost').removeClass('noneSpan').addClass('selectSpan');
+					$('.myReply').removeClass('selectSpan').addClass('noneSpan');
+				} else {
+					$('.myReply').removeClass('noneSpan').addClass('selectSpan');
+					$('.myPost').removeClass('selectSpan').addClass('noneSpan');
+				}
 			}
 		
 			
 			// 게시판 / 댓글 선택
 			let items = '';
 			function selectItem(itemtest){
-				items = itemtest;
-				selectBoard('free');
+				items = itemtest; // 변수 대입
+				itemType(items); // 버튼 표시
+				selectBoard('free'); // 리스트 뽑기
 			};
 			
 			
@@ -144,6 +150,7 @@
 			// 커뮤니티 / 질문정보 선택
 			function selectBoard(board){
 				
+				boardType(board);
 				
 				$.ajax({
 					url : 'historySelectBoard',
@@ -174,9 +181,6 @@
 								$('.myPost').removeClass('noneSpan').addClass('selectSpan');
 								$('.myReply').removeClass('selectSpan').addClass('noneSpan');
 								
-								// 커뮤니티 / 질문정보 버튼 표시
-								boardType(typeBtn);
-								
 								for(let i in jList){
 									console.log(jList[i].boardNo);
 									
@@ -202,9 +206,6 @@
 								// 게시판 / 댓글 버튼 표시
 								$('.myReply').removeClass('noneSpan').addClass('selectSpan');
 								$('.myPost').removeClass('selectSpan').addClass('noneSpan');
-								
-								// 커뮤니티 / 질문정보 버튼 표시
-								boardType(typeBtn);
 								
 								for(let i in jList){
 									console.log(jList[i].boardNo);

@@ -124,6 +124,11 @@ public class AdminDao {
 		return sqlSession.delete("adminMapper.qnaReplyDelete", qnaNo);
 	}
 
+	public int deleteBandDetail(SqlSessionTemplate sqlSession, int boardNo) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
 
 	}
 
