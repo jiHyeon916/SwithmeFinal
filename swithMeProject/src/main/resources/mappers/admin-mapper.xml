@@ -13,7 +13,7 @@
    
    
  
-   <!-- 지현 -->
+    <!-- 지현 -->
    
    <resultMap type="member" id="memberResultSet">
       <result column="MEMBER_ID" property="memberId" />
@@ -28,13 +28,32 @@
    
    
    
-   <resultMap type="memberDetailInfo" id="memberDetailInfoReesultSet">
+   
+      <resultMap type="memberDetailInfo" id="memberDetailInfoReesultSet">
          <result column="BOARD_NO" property="boardNo" />
          <result column="MEMBER_ID" property="memberId" />
          <result column="BOARD_TITLE" property="boardTitle" />
          <result column="BOARD_CONTENT" property="boardContent"/>
          <result column="CREATE_DATE" property="boardCreateDate" />
    
+         <result column="SB_NO" property="sbNo"/>
+         <result column="MEMBER_ID" property="memberId" />
+         <result column="SB_TITLE" property="sbTitle" />
+         <result column="SB_INTRODICE" property="sbIntroduce" />
+         <result column="CREATE_DATE" property="sbandCreateDate" />
+   </resultMap>
+  
+   
+   
+   
+   <resultMap type="band" id="bandResultSet">
+         <result column="BOARD_NO" property="boardNo" />
+         <result column="MEMBER_ID" property="memberId" />
+         <result column="BOARD_TITLE" property="boardTitle" />
+         <result column="BOARD_CONTENT" property="boardContent"/>
+         <result column="CREATE_DATE" property="boardCreateDate" />
+   </resultMap>
+   <resultMap type="sband" id="sbandResultSet" >
          <result column="SB_NO" property="sbNo"/>
          <result column="MEMBER_ID" property="memberId" />
          <result column="SB_TITLE" property="sbTitle" />
@@ -149,30 +168,43 @@
    </update>
    
    
-   <!-- 회원 상세정보 조회 -->
-   <select id="memberDetailInfo" parameterType="string" resultMap="memberDetailInfoReesultSet">
-      SELECT
-               BOARD_NO
+   <!-- 회원 상세정보 조회(mainBoard) -->
+   <select id="memberDetailBand" parameterType="string" resultMap="bandResultSet">
+         SELECT
+                BOARD_NO
                 ,B.MEMBER_ID
-               ,BOARD_TITLE
-               ,BOARD_CONTENT
-               ,TO_CHAR(B.CREATE_DATE, 'YYYY-MM-DD') AS MAINBOARD_CREATEDATE
-                ,SB_NO
-                ,S.MEMBER_ID
-                ,SB_TITLE
-                ,SB_INTRODUCE
-                ,TO_CHAR(S.CREATE_DATE, 'YYYY-MM-DD') AS SB_CREATEDATE 
+                ,BOARD_TITLE
+                ,BOARD_CONTENT
+               ,B.CREATE_DATE          
             FROM
-               MEMBER M, MAINBOARD B, SBAND S
+                MEMBER M
+            JOIN
+                MAINBOARD B ON M.MEMBER_ID = B.MEMBER_ID
+            
             WHERE
-                M.MEMBER_ID = B.MEMBER_ID
-             AND   
-                M.MEMBER_ID = S.MEMBER_ID(+)
-            AND
-                M.MEMBER_ID = #{memberId}   
-                
+                M.MEMBER_ID = #{memberId}
+              AND 
+                B.MEMBER_ID IS NOT NULL
          
    </select>
+   
+    <select id="memberDetailSband" parameterType="string" resultMap="sbandResultSet">
+          SELECT
+             SB_NO
+             ,S.MEMBER_ID
+             ,SB_TITLE
+             ,SB_INTRODUCE
+             ,S.CREATE_DATE
+         FROM 
+             MEMBER M
+         JOIN
+             SBAND S ON (S.MEMBER_ID = M.MEMBER_ID)
+         WHERE
+             M.MEMBER_ID = #{memberId}
+             AND S.MEMBER_ID IS NOT NULL
+                
+    </select>
+   
   
     
    

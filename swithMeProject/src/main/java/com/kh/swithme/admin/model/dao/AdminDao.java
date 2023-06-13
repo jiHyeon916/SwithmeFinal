@@ -8,7 +8,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.kh.swithme.admin.model.vo.QNAReply;
-import com.kh.swithme.band.model.vo.memberDetailInfo;
+import com.kh.swithme.band.model.vo.Band;
 import com.kh.swithme.common.model.vo.PageInfo;
 import com.kh.swithme.member.model.vo.Member;
 import com.kh.swithme.member.model.vo.QNA;
@@ -17,7 +17,7 @@ import com.kh.swithme.member.model.vo.QNA;
 public class AdminDao {
 
 		//지현
-	   //회원들 전체 수 
+	 //회원들 전체 수 
 	   public int selectMemberCount(SqlSessionTemplate sqlSession) {
 	      return sqlSession.selectOne("adminMapper.selectMemberCount");
 	   }
@@ -58,10 +58,14 @@ public class AdminDao {
 	      return sqlSession.update("adminMapper.memberStop", memberId);
 	   }
 
-	      //회원 디테일 조회정보(select)
-	   public ArrayList<memberDetailInfo> memberDetailInfo(SqlSessionTemplate sqlSession, String memberId) {
-	      return (ArrayList)sqlSession.selectList("adminMapper.memberDetailInfo", memberId);
+	      //회원 디테일 조회정보(select) band
+	   public ArrayList<Band> memberDetailBand(SqlSessionTemplate sqlSession, String memberId) {
+	      return (ArrayList)sqlSession.selectList("adminMapper.memberDetailBand", memberId);
 	   }
+	   //회원 디테일 조회정보(select) Sband
+	   public ArrayList memberDetailSband(SqlSessionTemplate sqlSession, String memberId) {
+	      return (ArrayList)sqlSession.selectList("adminMapper.memberDetailSband", memberId);
+	}
 	      
    
 	

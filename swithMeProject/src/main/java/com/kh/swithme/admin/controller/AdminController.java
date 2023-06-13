@@ -136,8 +136,8 @@ public class AdminController {
       
       //System.out.println(memberId);
     
-      ArrayList<Board> memberBoardList = adminService.memberDetailInfo(memberId);
-      mv.addObject("memberBoardList", memberBoardList);
+	   ArrayList<Board> memberBoardList = adminService.memberDetailInfo(memberId);
+	   mv.addObject("memberBoardList", memberBoardList);
        mv.setViewName("admin/memberDetailInfo");
        return mv;
    }*/
@@ -147,25 +147,27 @@ public class AdminController {
    
    @RequestMapping("memberDetailInfo.ad")
    public ModelAndView memberDetailInfo(String memberId, ModelAndView mv) {
-      
-     System.out.println(memberId);
-      
-      ArrayList<memberDetailInfo> list = adminService.memberDetailInfo(memberId);
-      
-      System.out.println(list);
-      
-      mv.addObject("list",list);
-      mv.setViewName("admin/memberDetailInfo");
-      return mv;
+	   System.out.println(memberId);
+	      
+	      ArrayList<Band> list = adminService.memberDetailBand(memberId);
+	      ArrayList<Sband> Slist = adminService.memberDetailSband(memberId);
+	      
+	      System.out.println(list);
+	      
+	      mv.addObject("list",list);
+	      mv.addObject("Slist",Slist);
+	      mv.setViewName("admin/memberDetailInfo");
+	      return mv;
+	   }
    }
    
    /*
    //디테일뷰로 가 
    @RequestMapping("memberDetailInfoList.ad")
    public String memberDetailInfoList() {
-      
-      return "admin/memberDetailInfo";
-            
+	   
+	   return "admin/memberDetailInfo";
+			   
    }
    */
    

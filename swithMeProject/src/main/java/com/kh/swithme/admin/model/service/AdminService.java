@@ -4,7 +4,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import com.kh.swithme.admin.model.vo.QNAReply;
-import com.kh.swithme.band.model.vo.memberDetailInfo;
+import com.kh.swithme.band.model.vo.Band;
+import com.kh.swithme.band.model.vo.Sband;
 import com.kh.swithme.common.model.vo.PageInfo;
 import com.kh.swithme.member.model.vo.Member;
 import com.kh.swithme.member.model.vo.QNA;
@@ -14,7 +15,7 @@ public interface AdminService {
    
    
 	  
-	   //지현
+	//지현
 	   
 	   //회원들의 count조회(페이징처리)
 	   public int selectMemberCount();
@@ -38,9 +39,13 @@ public interface AdminService {
 	   public int memberStop(String memberId);
 	   
 	   
-	   //회원 디테일 조회정보
-	   public ArrayList<memberDetailInfo> memberDetailInfo(String memberId);
-   
+	   //회원 디테일 조회정보(Band)
+	   public ArrayList<Band> memberDetailBand(String memberId);
+	   
+	   //회원 디테일 조회정보(Sband)
+	   public ArrayList<Sband> memberDetailSband(String memberId);
+	   
+	
    
    
    
