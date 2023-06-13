@@ -14,7 +14,7 @@ import com.google.gson.Gson;
 import com.kh.swithme.admin.model.service.AdminService;
 import com.kh.swithme.admin.model.vo.QNAReply;
 import com.kh.swithme.band.model.vo.Band;
-import com.kh.swithme.band.model.vo.Sband;
+import com.kh.swithme.board.model.vo.Board;
 import com.kh.swithme.common.model.vo.PageInfo;
 import com.kh.swithme.common.template.Pagination;
 import com.kh.swithme.member.model.vo.Member;
@@ -150,8 +150,8 @@ public class AdminController {
    public ModelAndView memberDetailInfo(String memberId, ModelAndView mv) {
 	   System.out.println(memberId);
 	      
-	      ArrayList<Band> list = adminService.memberDetailBand(memberId);
-	      ArrayList<Sband> Slist = adminService.memberDetailSband(memberId);
+	      ArrayList<Board> list = adminService.memberDetailBoard(memberId);
+	      ArrayList<Band> Slist = adminService.memberDetailBand(memberId);
 	      
 	      System.out.println(list);
 	      

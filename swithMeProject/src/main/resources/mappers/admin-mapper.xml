@@ -34,31 +34,31 @@
          <result column="MEMBER_ID" property="memberId" />
          <result column="BOARD_TITLE" property="boardTitle" />
          <result column="BOARD_CONTENT" property="boardContent"/>
-         <result column="CREATE_DATE" property="boardCreateDate" />
+         <result column="CREATE_DATE" property="createDate" />
    
          <result column="SB_NO" property="sbNo"/>
          <result column="MEMBER_ID" property="memberId" />
          <result column="SB_TITLE" property="sbTitle" />
          <result column="SB_INTRODICE" property="sbIntroduce" />
-         <result column="CREATE_DATE" property="sbandCreateDate" />
+         <result column="CREATE_DATE" property="createDate" />
    </resultMap>
   
    
    
    
-   <resultMap type="band" id="bandResultSet">
+   <resultMap type="board" id="boardResultSet">
          <result column="BOARD_NO" property="boardNo" />
          <result column="MEMBER_ID" property="memberId" />
          <result column="BOARD_TITLE" property="boardTitle" />
          <result column="BOARD_CONTENT" property="boardContent"/>
-         <result column="CREATE_DATE" property="boardCreateDate" />
+         <result column="CREATE_DATE" property="createDate" />
    </resultMap>
-   <resultMap type="sband" id="sbandResultSet" >
+   <resultMap type="band" id="bandResultSet" >
          <result column="SB_NO" property="sbNo"/>
          <result column="MEMBER_ID" property="memberId" />
          <result column="SB_TITLE" property="sbTitle" />
          <result column="SB_INTRODICE" property="sbIntroduce" />
-         <result column="CREATE_DATE" property="sbandCreateDate" />
+         <result column="CREATE_DATE" property="createDate" />
    </resultMap>
   
    
@@ -169,7 +169,7 @@
    
    
    <!-- 회원 상세정보 조회(mainBoard) -->
-   <select id="memberDetailBand" parameterType="string" resultMap="bandResultSet">
+   <select id="memberDetailBoard" parameterType="string" resultMap="boardResultSet">
          SELECT
                 BOARD_NO
                 ,B.MEMBER_ID
@@ -188,7 +188,7 @@
          
    </select>
    
-    <select id="memberDetailSband" parameterType="string" resultMap="sbandResultSet">
+    <select id="memberDetailBand" parameterType="string" resultMap="bandResultSet">
           SELECT
              SB_NO
              ,S.MEMBER_ID

@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 import com.kh.swithme.admin.model.dao.AdminDao;
 import com.kh.swithme.admin.model.vo.QNAReply;
 import com.kh.swithme.band.model.vo.Band;
-import com.kh.swithme.band.model.vo.Sband;
+import com.kh.swithme.board.model.vo.Board;
 import com.kh.swithme.common.model.vo.PageInfo;
 import com.kh.swithme.member.model.vo.Member;
 import com.kh.swithme.member.model.vo.QNA;
@@ -69,13 +69,13 @@ public class AdminServiceImpl implements AdminService {
 
    //회원 디테일 조회정보(select) band
    @Override
-   public ArrayList<Band> memberDetailBand(String memberId) {
-      return (ArrayList)adminDao.memberDetailBand(sqlSession, memberId);
+   public ArrayList<Board> memberDetailBoard(String memberId) {
+      return (ArrayList)adminDao.memberDetailBoard(sqlSession, memberId);
    }
    //회원 디테일 조회정보(select) sband
    @Override
-   public ArrayList<Sband> memberDetailSband(String memberId) {
-      return (ArrayList)adminDao.memberDetailSband(sqlSession, memberId);
+   public ArrayList<Band> memberDetailBand(String memberId) {
+      return (ArrayList)adminDao.memberDetailBand(sqlSession, memberId);
       
       
    

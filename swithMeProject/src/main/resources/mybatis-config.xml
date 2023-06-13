@@ -11,7 +11,7 @@
    <typeAliases>
       <typeAlias type="com.kh.swithme.admin.model.vo.Report" alias="report" />
       <typeAlias type="com.kh.swithme.band.model.vo.memberDetailInfo" alias="memberDetailInfo" />
-      <typeAlias type="com.kh.swithme.band.model.vo.Sband" alias="sband" />
+      <typeAlias type="com.kh.swithme.board.model.vo.Board" alias="Board" />
       <typeAlias type="com.kh.swithme.band.model.vo.Band" alias="band" />
       <typeAlias type="com.kh.swithme.band.model.vo.BandBoard" alias="bandBoard" />
       <typeAlias type="com.kh.swithme.band.model.vo.BandMember" alias="bandMember" />
