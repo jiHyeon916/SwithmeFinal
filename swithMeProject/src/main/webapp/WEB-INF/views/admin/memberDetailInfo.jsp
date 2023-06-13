@@ -29,7 +29,7 @@
         padding-left: 30px;
     }
     #adminMemberTable{
-    	margin:auto;
+       margin:auto;
     }
     #adminMemberTable th, td{
         border: 1px solid rgb(205, 203, 203);
@@ -60,29 +60,36 @@
      }
      
      #admemBoardChkDel{
-     	width:20px;
-     	height:20px;
+        width:20px;
+        height:20px;
      }
+   
      .memAdDetailBtn > button{
-     	background-color:white;
-     	border-color:gray;
-     	width:80px;
-     	height:40px;
-     	border-radius:5px;
-     	margin-left:10px;
-     	outline:none;
-          	     	
+        background-color:white;
+        width:80px;
+        height:40px;
+        border-radius:5px;
+        margin-left:10px;
+        outline:none;
+        border : 1.5px solid lightgray;
+        color:ligthgray;
      }
      
- 	 .memAdDetailBtn > button:focus{
- 	 	border-color:rgb(3, 195, 115);
+     .memAdDetailBtn > button:focus{
+        border-color:rgb(3, 195, 115);
         outline: none;
-        background-color :rgb(3, 195, 115);
- 	 }
- 	  .memAdDetailBtn > button:hover{
- 	  	border-color:rgb(3, 195, 115);
- 	  }
-
+        color:#03c373;
+        border : 1.5px solid #03c373;
+     }
+      .memAdDetailBtn > button:hover{
+          border-color:rgb(3, 195, 115);
+       	  outline: none;
+          color:#03c373;
+          border : 1.5px solid #03c373;
+      }
+      
+      
+      
 </style>
 <body>
 
@@ -99,10 +106,10 @@
          <div class="topBlock">회원정보</div>
          
                <div class="block">
-					<div>
-					회원 정보(select해오기)
-					</div>
-					
+               <div>
+               회원 정보(select해오기)
+               </div>
+               
                               
                      
                <form action="memberDetailSearch.ad" method="post" id="memberDetailSearch">
@@ -120,13 +127,12 @@
                  <br><br><br>
                  
                  
-                 
-				<div class="memAdDetailBtn">
-					
-                  	<button onclick="memberBoardList();">게시글</button>
-                  	<button>댓글</button>
-                  	
+            <div class="memAdDetailBtn">
+                     <button onclick="memberBoardList();">게시판</button>
+                     <button onclick="memberBandList();">스터디밴드</button>
+                     <button>댓글</button>
                </div>
+               
                
                  <br><br>
                  
@@ -142,46 +148,72 @@
                          </tr>
                     </thead>
                     <tbody>
-                    <!--  
-                    	<c:forEach items="${memberBoardList }" var= "b">
-	                         <tr>
-	                             <td>${b.boardNo }</td>
-	                             <td>${b.boardTitle }</td>
-	                             <td>${b.boardContent }</td>
-	                             <td>${b.createDate }</td>
-	                             <td><input type="checkbox" name="admemBoardChkDel" id="admemBoardChkDel"></input></td>
-	                         </tr>
-                       </c:forEach>  
-                       -->
+                   
+                      
                     </tbody>
                  </table>
             <br><br>
             
-            
+
             <script>
             
-            	function memberBoardList() {
-            		
-            			$.ajax({
-            				
-            				url: 'memberDetailInfo.ad',
-            				data:{memberId : '${m.memberId}'},
-            				success: function(result) {
-            					
-            					console.log(result);
-            					
-            					
-            					
-            					//result = '';
-            					
-            					
-            					
-            				},error:() => {
-            					console.log('실패');
-            				}
-            				
-            			})
-            	}
+               function memberBoardList() {
+                  
+                     $.ajax({
+                        
+                        url: 'memberDetailBoardList.ad',
+                        data:{memberId : '${memberId}'},
+                        success: function(listArr) {
+                        	
+                        console.log(listArr);
+                         let value = "";
+                         
+                        for(let i in listArr) {
+                        	
+                        	
+                        	let list = listArr[i];
+                        	console.log(list);
+                        	
+                        	value 	+= '<tr>' 
+                           		  	 +'<td>' + list.boardNo + '</td>'
+	                           		 +'<td>' + list.boardTitle + '</td>'
+	                           		 +'<td>' + list.boardContent + '</td>'
+	                           		 +'<td>' + list.createDate + '</td>'
+                        			 +'<td>' + '<input type="checkbox" name="BoardChkDel" id="admemBoardChkDel"></input>' + '</td>'
+                        			 +'</tr>'
+                        }
+                        
+                        $('#adminMemberTable tbody').html(value);
+                           
+                        },error:() => {
+                           console.log('실패');
+                        }
+                     })
+                   }
+               
+               
+               function memberBandList() {
+            	   
+            	   
+            	   $.ajax({
+            		   
+            		   	url : 'memberBandList.ad',
+            		   	data:{memberId : '${memberId}'},
+            		   	success : function(listArr) {
+            		   		
+            		   		console.log(listArr);
+            		   		
+            		   		value = "";
+            		   		
+            		   	},error: () => {console.log('실패');}
+            		   
+            	   });
+            	   
+            	   
+            	   
+            	   
+            	   
+               }
             
             
             </script>
@@ -212,35 +244,35 @@
             <div class="paBtn">
             
                <!-- 현재페이지가 1이면 이전버튼 작동 x 아니면 현재페이지 -1 작동 -->
-               	<c:choose>
-               		<c:when test="${pi.currentPage eq 1}" >
-               			<button disabled><a href="#">이전</a></button>
-               		</c:when>
-               		<c:otherwise>
-               			<button><a href="adminMember.ad?amPage=${pi.currentPage - 1 }">이전</a></button>
-               		</c:otherwise>
-               	</c:choose>
-               	
-               	
-               	<c:forEach var="p" begin="${pi.startPage }" end="${pi.endPage }">
-               		<button><a href="adminMember.ad?amPage=${p }">${p }</a></button>
-               	
-               	</c:forEach>
-               	
-               	
-               	<!-- 다음 버튼 만들기 -->
-               	<c:choose>
-               		<c:when test="${pi.currentPage eq pi.maxPage }">
-               			<button disabled><a href="#">다음</a></button>
-               		</c:when>
-               		<c:otherwise>
-               			<button><a href="adminMember.ad?amPage=${pi.currentPage + 1 }">다음</a></button>
-               		</c:otherwise>
-               	</c:choose>
-	            </div>
-	         </div>
-	      </div>
-	   </div>
+                  <c:choose>
+                     <c:when test="${pi.currentPage eq 1}" >
+                        <button disabled><a href="#">이전</a></button>
+                     </c:when>
+                     <c:otherwise>
+                        <button><a href="adminMember.ad?amPage=${pi.currentPage - 1 }">이전</a></button>
+                     </c:otherwise>
+                  </c:choose>
+                  
+                  
+                  <c:forEach var="p" begin="${pi.startPage }" end="${pi.endPage }">
+                     <button><a href="adminMember.ad?amPage=${p }">${p }</a></button>
+                  
+                  </c:forEach>
+                  
+                  
+                  <!-- 다음 버튼 만들기 -->
+                  <c:choose>
+                     <c:when test="${pi.currentPage eq pi.maxPage }">
+                        <button disabled><a href="#">다음</a></button>
+                     </c:when>
+                     <c:otherwise>
+                        <button><a href="adminMember.ad?amPage=${pi.currentPage + 1 }">다음</a></button>
+                     </c:otherwise>
+                  </c:choose>
+               </div>
+            </div>
+         </div>
+      </div>
 <br><br><br><br><br><br><br><br><br>
 </body>
 </html>

@@ -53,6 +53,7 @@
          <result column="BOARD_CONTENT" property="boardContent"/>
          <result column="CREATE_DATE" property="createDate" />
    </resultMap>
+   
    <resultMap type="band" id="bandResultSet" >
          <result column="SB_NO" property="sbNo"/>
          <result column="MEMBER_ID" property="memberId" />
