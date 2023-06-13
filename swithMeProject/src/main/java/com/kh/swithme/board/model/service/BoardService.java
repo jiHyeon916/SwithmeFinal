@@ -102,6 +102,12 @@ public interface BoardService {
 	// 게시글 수정 하기 - 태그 수정하기
 	int tagUpdate(Board tag);
 	
+	// 댓글 수정 하기 ( 댓글 조회)
+	Reply replyModifyView(int replyNo);
+	
+	// 댓글 수정 하기 (업데이트)
+	int replyModify(Reply r);
+	
 	
 	
 ////------------------희재 - 스터디룸 

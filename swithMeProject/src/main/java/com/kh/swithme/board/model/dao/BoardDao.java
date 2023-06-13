@@ -104,7 +104,21 @@ public class BoardDao {
 	public int searchCount(SqlSessionTemplate sqlSession, Board b) {
 		return sqlSession.selectOne("boardMapper.searchCount", b);
 	}
-
+	public Board boardModifyView(SqlSessionTemplate sqlSession, int boardNo) {
+		return sqlSession.selectOne("boardMapper.boardModifyView", boardNo);
+	}
+	public int boardModify(SqlSessionTemplate sqlSession, Board b) {
+		return sqlSession.update("boardMapper.boardModify", b);
+	}
+	public int tagUpdate(SqlSessionTemplate sqlSession, Board tag) {
+		return sqlSession.update("boardMapper.tagUpdate", tag);
+	}
+	public Reply replyModifyView(SqlSessionTemplate sqlSession, int replyNo) {
+		return sqlSession.selectOne("boardMapper.replyModifyView", replyNo);
+	}
+	public int replyModify(SqlSessionTemplate sqlSession, Reply r) {
+		return sqlSession.update("boardMapper.replyModify", r);
+	}
 
 
 
@@ -154,13 +168,5 @@ public class BoardDao {
 	public ArrayList<StudyRoom> studyRoomSearch(SqlSessionTemplate sqlSession, HashMap<String, String> map){
 		return (ArrayList)sqlSession.selectList("boardMapper.studyRoomSearch", map);
 	}
-	public Board boardModifyView(SqlSessionTemplate sqlSession, int boardNo) {
-		return sqlSession.selectOne("boardMapper.boardModifyView", boardNo);
-	}
-	public int boardModify(SqlSessionTemplate sqlSession, Board b) {
-		return sqlSession.update("boardMapper.boardModify", b);
-	}
-	public int tagUpdate(SqlSessionTemplate sqlSession, Board tag) {
-		return sqlSession.update("boardMapper.tagUpdate", tag);
-	}
+	
 }

@@ -873,6 +873,7 @@
 		      BOARD_NO = #{ boardNo }
 	</update>
 	
+	<!-- 게시글 수정하기 (태그 수정) -->
 	<update id="tagUpdate">
 		UPDATE
 			  HASHTAG_BRIDGE
@@ -882,6 +883,28 @@
 		 	  BOARD_NO = #{ boardNo }
 	</update>
 	
+	<!-- 댓글 수정 댓글 조회  -->
+	<select id="replyModifyView" resultMap="replyResultMap">
+		SELECT
+		      BOARD_REPLY_NO
+		     ,BOARD_NO
+		     ,MEMBER_ID
+		     ,BOARD_REPLY_CONTENT
+		  FROM
+		 	  BOARD_REPLY
+		 WHERE
+		 	  BOARD_REPLY_NO = #{ replyNo }
+	</select>
+	
+	<!-- 댓글 수정  -->
+	<update id="replyModify">
+		UPDATE
+			  BOARD_REPLY
+		   SET
+		      BOARD_REPLY_CONTENT = #{ boardReplyContent }
+		 WHERE
+		 	  BOARD_REPLY_NO = #{ boardReplyNo }
+	</update>
 	
 	
 	

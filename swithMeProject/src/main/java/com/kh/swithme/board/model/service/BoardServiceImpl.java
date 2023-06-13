@@ -133,6 +133,26 @@ public class BoardServiceImpl implements BoardService {
 	public int searchCount(Board b) {
 		return boardDao.searchCount(sqlSession, b);
 	}
+	@Override
+	public Board boardModifyView(int boardNo) {
+		return boardDao.boardModifyView(sqlSession, boardNo);
+	}
+	@Override
+	public int boardModify(Board b) {
+		return boardDao.boardModify(sqlSession, b);
+	}
+	@Override
+	public int tagUpdate(Board tag) {
+		return boardDao.tagUpdate(sqlSession, tag);
+	}
+	@Override
+	public Reply replyModifyView(int replyNo) {
+		return boardDao.replyModifyView(sqlSession, replyNo);
+	}
+	@Override
+	public int replyModify(Reply r) {
+		return boardDao.replyModify(sqlSession, r);
+	}
 
 
 
@@ -190,18 +210,7 @@ public class BoardServiceImpl implements BoardService {
 	public ArrayList<StudyRoom> studyRoomSearch(HashMap<String, String> map) {
 		return boardDao.studyRoomSearch(sqlSession, map);
 	}
-	@Override
-	public Board boardModifyView(int boardNo) {
-		return boardDao.boardModifyView(sqlSession, boardNo);
-	}
-	@Override
-	public int boardModify(Board b) {
-		return boardDao.boardModify(sqlSession, b);
-	}
-	@Override
-	public int tagUpdate(Board tag) {
-		return boardDao.tagUpdate(sqlSession, tag);
-	}
+	
 
 
 

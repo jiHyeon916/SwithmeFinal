@@ -218,21 +218,32 @@
                 },
                 success : function(list){
 
+                    var loginMember = '${ sessionScope.loginMember}';
                     let result = '';
-                    let loginCheck = ''
-                    if('${ sessionScope.loginMember}' != '' ){
+                    let loginCheck = '';
+                    let modifyBtn = '';
+                    if(loginMember != '' ){
                         loginCheck = '<textarea cols="30" rows="10"></textarea>';
                     }else{
                         loginCheck = '<textarea cols="30" rows="10" placeholder="로그인 후 이용해주세요." disabled></textarea>';
                     }
+
+                    
+
+                    
                     for(var i in list){
+
+                        if('${ sessionScope.loginMember.nickName}' == list[i].memberId){
+                            modifyBtn = '<div><p onclick="replyModify(' + list[i].boardReplyNo + ');">수정</p><p>삭제</p></div>';
+                        };
+
                         result += '<div class="replyList">'
                                     + '<div class="rInfo clear">'
                                         + '<p>' + list[i].memberId + '</p>'
                                         + '<p>' + list[i].createDate + '</p>'
-                                        + '<p>댓글 삭제</p>'
-                                        + '</div>'
-                                    + '<p class="rCon">' + list[i].boardReplyContent + '</p>'
+                                        + modifyBtn
+                                    + '</div>'
+                                    + '<p class="rCon replyCon' + list[i].boardReplyNo + '">' + list[i].boardReplyContent + '</p>'
                                     + '<div class="rrInfo clear">'
                                         + '<p class="rereplyCount">답글 숨기기</p>'
                                         + '<p class="rereplyWrite">답글 작성</p>'
@@ -247,8 +258,7 @@
                                 + '</div>'
                         
                             reReplyList(list[i].boardReplyNo);
-                        
-                
+
                     }
                     $('.replyWrap').html(result);
 
@@ -314,6 +324,68 @@
             })
         }
 
+        //댓글 수정 하기
+        function replyModify(num){
+            
+            $.ajax({
+                url : 'replyModifyView.bo',
+                data : {
+                    replyNo : num
+                },
+                success : function(r){
+                    console.log(r);
+                    var modifyArea = '<textarea class="replayModify">' + r.boardReplyContent + '</textarea>'
+                                   + '<button class="modify">수정</button>'
+                                   + '<button>취소</button>'
+                    
+                    $('.replyCon' + num ).html(modifyArea);
+
+                    $('.modify').click(function(){
+                        $.ajax({
+                            url : 'replyModify.bo',
+                            data : {
+                                replyNo : num,
+                                replyCon : $('.replayModify').val()
+                            },
+                            success : function(r){
+                                reply();
+                            },
+                            error : function(){
+
+                            }
+
+                        })
+                    })
+                    // const list = document.querySelector('.modify');
+                    // list.addEventListener('click', (event) => {
+                        
+                    //     aelrt(event.prev());
+
+                    //     $.ajax({
+                    //         url : '',
+                    //         data : {
+                    //             replyNo : num,
+                    //             replyCon : event.prev().value()
+                    //         },
+                    //         success : function(r){
+                    //             alert(r);
+                    //             reply();
+                    //         },
+                    //         error : function(){
+
+                    //         }
+
+                    //     })
+                    // });
+                    
+                },
+                error : function(){
+
+                }
+            })
+
+        }
+
         // 좋아요 하기
         function likeBoard(){
 
@@ -340,7 +412,6 @@
                     boardNo : '${ b.boardNo }'
                 },
                 success : function(r){
-                    console.log(r);
                     if(r > 0){
                         bookStatusCheck();
                     }
@@ -365,7 +436,7 @@
                 success : function(r) {
                     $('.replyWrite > textarea').val('');
                     reReplyList(reReplyNo);
-
+                    
                 },
                 error : function(){
 
@@ -389,9 +460,12 @@
                                     +  '<img src="resources/images/board/rereplyimg.png">'
                                     + '<div class="rRL">'
                                         +  '<div class="clear">'
-                                            +  '<p>' + r[i].memberId + '</p>'
-                                            +  '<p>' + r[i].createDate + '</p>' 
-                                            +  '<p>답글 삭제</p>'
+                                            + '<p>' + r[i].memberId + '</p>'
+                                            + '<p>' + r[i].createDate + '</p>' 
+                                            + '<div>'
+                                                + '<p>수정</p>'
+                                                + '<p>삭제</p>'
+                                            + '</div>'
                                         + '</div>'
                                         +  '<p>' + r[i].reReplyContent + '</p>'
                                     + '</div>'
