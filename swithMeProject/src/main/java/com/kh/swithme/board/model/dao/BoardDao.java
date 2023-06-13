@@ -154,4 +154,7 @@ public class BoardDao {
 	public ArrayList<StudyRoom> studyRoomSearch(SqlSessionTemplate sqlSession, HashMap<String, String> map){
 		return (ArrayList)sqlSession.selectList("boardMapper.studyRoomSearch", map);
 	}
+	public Board boardModifyView(SqlSessionTemplate sqlSession, int boardNo) {
+		return sqlSession.selectOne("boardMapper.boardModifyView", boardNo);
+	}
 }

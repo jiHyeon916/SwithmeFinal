@@ -32,7 +32,7 @@
                                 <p class="writerDate">${ b.createDate }</p>
                                 <c:if test="${ sessionScope.loginMember.nickName eq b.memberId}">
                                     <div id="modifyBoard">
-                                        <p>수정</p>
+                                        <p onclick="modifyWirte();">수정</p>
                                         <p>삭제</p>
                                     </div>
                                 </c:if>
@@ -400,6 +400,14 @@
             var boardType = '${ b.boardType }'
 
             location.href="tagSearch.bo?key=" + keyword2 + '&boardType=' + boardType + '&keyType=tag';
+        }
+
+
+        // 글 수정하기 버튼
+        function modifyWirte(){
+            var boardNo = '${ b.boardNo }';
+            location.href='boardModifyView.bo?boardNo=' + boardNo;
+
         }
 
 

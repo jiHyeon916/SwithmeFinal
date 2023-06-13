@@ -308,6 +308,14 @@ public class BoardController {
 		}
 	}
 	
+	
+	@RequestMapping(value="boardModifyView.bo")
+	public String boardModifyView(int boardNo, Model model) {
+		
+		model.addAttribute("b", boardService.boardModifyView(boardNo));
+		return "board/boardModify";
+	}
+	
 	/**
 	 * 태그 검색 
 	 * @param model key가 포함된 게시글 리스트
