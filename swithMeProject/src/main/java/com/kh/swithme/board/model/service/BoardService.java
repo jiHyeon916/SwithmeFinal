@@ -108,6 +108,13 @@ public interface BoardService {
 	// 댓글 수정 하기 (업데이트)
 	int replyModify(Reply r);
 	
+	// 스터디 밴드 모집하기	
+	int studyBandInsert(Board b);
+	
+	// 스터디 멤버 리스트에 방장 넣기
+	int studyMemberInsert(String memberId);
+	
+	
 	
 	
 ////------------------희재 - 스터디룸 

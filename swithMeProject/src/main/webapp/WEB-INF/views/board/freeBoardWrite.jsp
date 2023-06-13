@@ -175,7 +175,6 @@
                 bCon : $('.note-editable').html(),
                 summary : $('.note-editable').text(),
                 title : $('#title').val(),
-                
                 category : $('.btn-select').text(),
                 tagList : tagAtrr,
                 Btype : '${ Btype }'
