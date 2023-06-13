@@ -144,34 +144,46 @@ public class AdminController {
    }*/
    
    
-   //회원 디테일 조회정보(select)
    
+   //디테일info로 이동
    @RequestMapping("memberDetailInfo.ad")
    public ModelAndView memberDetailInfo(String memberId, ModelAndView mv) {
-	   System.out.println(memberId);
-	      
-	      ArrayList<Board> list = adminService.memberDetailBoard(memberId);
-	      ArrayList<Band> Slist = adminService.memberDetailBand(memberId);
-	      
-	      System.out.println(list);
-	      
-	      mv.addObject("list",list);
-	      mv.addObject("Slist",Slist);
-	      mv.setViewName("admin/memberDetailInfo");
-	      return mv;
-	   }
-   
-   
-   /*
-   //디테일뷰로 가 
-   @RequestMapping("memberDetailInfoList.ad")
-   public String memberDetailInfoList() {
+	    
 	   
-	   return "admin/memberDetailInfo";
-			   
+	   mv.addObject("memberId", memberId);
+	   mv.setViewName("admin/memberDetailInfo");
+	   
+	   return mv;
    }
-   */
    
+   
+   
+   //회원 디테일 조회정보(select) board
+   @ResponseBody
+   @RequestMapping(value="memberDetailBoardList.ad", produces="application/json; charset=UTF-8")
+   public String memberDetailBoard(String memberId) {
+	  
+	   System.out.println(memberId);
+	   
+	   ArrayList<Board> list = adminService.memberDetailBoard(memberId);
+	   //ArrayList<Band> Slist = adminService.memberDetailBand(memberId);
+	   
+	   System.out.println(list);
+	   
+	   return new Gson().toJson(list);
+   }
+   
+   
+  @ResponseBody
+  @RequestMapping(value="memberBandList.ad", produces="application/json; charset=UTF-8")
+  public String memberBandList(String memberId) {
+	  
+	  ArrayList<Band> list = adminService.memberDetailBand(memberId);
+	  System.out.println(list);
+	  
+	  return new Gson().toJson(list);
+		
+  }
    
    // 이유진 ------------------------------------------------------------
    

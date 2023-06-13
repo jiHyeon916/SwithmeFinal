@@ -41,11 +41,9 @@ public interface AdminService {
 	   
 	   //회원 디테일 조회정보(Band)
 	   public ArrayList<Board> memberDetailBoard(String memberId);
-	   
+	
 	   //회원 디테일 조회정보(Sband)
 	   public ArrayList<Band> memberDetailBand(String memberId);
-	   
-	
    
    
    
