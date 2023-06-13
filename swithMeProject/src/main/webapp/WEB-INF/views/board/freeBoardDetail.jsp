@@ -336,7 +336,7 @@
                     console.log(r);
                     var modifyArea = '<textarea class="replayModify">' + r.boardReplyContent + '</textarea>'
                                    + '<button class="modify">수정</button>'
-                                   + '<button>취소</button>'
+                                   + '<button class="reset">취소</button>'
                     
                     $('.replyCon' + num ).html(modifyArea);
 
@@ -355,28 +355,11 @@
                             }
 
                         })
+                    });
+
+                    $('.reset').click(function(){
+                        reply();
                     })
-                    // const list = document.querySelector('.modify');
-                    // list.addEventListener('click', (event) => {
-                        
-                    //     aelrt(event.prev());
-
-                    //     $.ajax({
-                    //         url : '',
-                    //         data : {
-                    //             replyNo : num,
-                    //             replyCon : event.prev().value()
-                    //         },
-                    //         success : function(r){
-                    //             alert(r);
-                    //             reply();
-                    //         },
-                    //         error : function(){
-
-                    //         }
-
-                    //     })
-                    // });
                     
                 },
                 error : function(){
