@@ -89,6 +89,12 @@ public class AdminServiceImpl implements AdminService {
   public int deleteBoardDetail(int boardNo) {
 	  return adminDao.deleteBoardDetail(sqlSession,boardNo);
   }
+  //회원 band 글 삭제 
+  @Override
+  public int deleteBandDetail(int boardNo) {
+	  return adminDao.deleteBandDetail(sqlSession,boardNo);
+  }
+  
    
       
       
@@ -132,6 +138,7 @@ public class AdminServiceImpl implements AdminService {
 	public int qnaReplyDelete(int qnaNo) {
 		return adminDao.qnaReplyDelete(sqlSession, qnaNo);
 	}
+
 
 
 

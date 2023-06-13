@@ -148,7 +148,7 @@ public class AdminController {
    
    
    
-   //디테일info로 이동
+   //디테일info로 이동(+회원정보 가지고)
    @RequestMapping("memberDetailInfo.ad")
    public ModelAndView memberDetailInfo(String memberId, HttpSession session, ModelAndView mv) {
 	    
@@ -187,7 +187,7 @@ public class AdminController {
 	   return new Gson().toJson(list);
    }
    
-   
+   //회원 디테일 조회정보(select) band
   @ResponseBody
   @RequestMapping(value="memberBandList.ad", produces="application/json; charset=UTF-8")
   public String memberBandList(String memberId) {
@@ -209,12 +209,22 @@ public class AdminController {
 	 * 
 	 */
   
-  
+  // 회원 board삭제
   @ResponseBody
   @RequestMapping("deleteBoardDetail.ad")
-  public char memberReplyList(int boardNo) {
+  public char deleteBoardDetail(int boardNo) {
 	  
 	  return adminService.deleteBoardDetail(boardNo) > 0 ? 'Y' : 'N';
+  
+  
+  }
+  
+  // 회원 band삭제
+  @ResponseBody
+  @RequestMapping("deleteBandDetail.ad")
+  public char deleteBandDetail(int boardNo) {
+	  
+	  return adminService.deleteBanddDetail(boardNo) > 0 ? 'Y' : 'N';
   }
   
   
