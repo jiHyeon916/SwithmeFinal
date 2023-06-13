@@ -79,6 +79,10 @@ public class AdminDao {
 		   return sqlSession.update("adminMapper.deleteBoardDetail", boardNo);
 	   }
 	   
+	   public int deleteBandDetail(SqlSessionTemplate sqlSession, int boardNo) {
+		   // TODO Auto-generated method stub
+		   return sqlSession.update("adminMapper.deleteBandDetail",boardNo);
+	   }
 	   
 	   
 	   
@@ -124,10 +128,6 @@ public class AdminDao {
 		return sqlSession.delete("adminMapper.qnaReplyDelete", qnaNo);
 	}
 
-	public int deleteBandDetail(SqlSessionTemplate sqlSession, int boardNo) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
 
 
 	}
