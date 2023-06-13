@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import com.kh.swithme.admin.model.vo.QNAReply;
 import com.kh.swithme.band.model.vo.Band;
+import com.kh.swithme.board.model.vo.Board;
 import com.kh.swithme.common.model.vo.PageInfo;
 import com.kh.swithme.member.model.vo.Member;
 import com.kh.swithme.member.model.vo.QNA;
@@ -59,12 +60,12 @@ public class AdminDao {
 	   }
 
 	      //회원 디테일 조회정보(select) band
-	   public ArrayList<Band> memberDetailBand(SqlSessionTemplate sqlSession, String memberId) {
-	      return (ArrayList)sqlSession.selectList("adminMapper.memberDetailBand", memberId);
+	   public ArrayList<Board> memberDetailBoard(SqlSessionTemplate sqlSession, String memberId) {
+	      return (ArrayList)sqlSession.selectList("adminMapper.memberDetailBoard", memberId);
 	   }
 	   //회원 디테일 조회정보(select) Sband
-	   public ArrayList memberDetailSband(SqlSessionTemplate sqlSession, String memberId) {
-	      return (ArrayList)sqlSession.selectList("adminMapper.memberDetailSband", memberId);
+	   public ArrayList<Band> memberDetailBand(SqlSessionTemplate sqlSession, String memberId) {
+	      return (ArrayList)sqlSession.selectList("adminMapper.memberDetailBand", memberId);
 	}
 	      
    
