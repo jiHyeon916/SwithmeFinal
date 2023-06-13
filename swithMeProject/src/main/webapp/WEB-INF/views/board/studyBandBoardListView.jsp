@@ -6,7 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <link rel="stylesheet" href="resources/css/board/studyBandBoardListView.css">
-<title>스터디윗미-질문정보</title>
+<title>스터디윗미-스터디밴드</title>
 </head>
 <body>
 	
