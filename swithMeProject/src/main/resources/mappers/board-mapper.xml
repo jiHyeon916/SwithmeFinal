@@ -541,7 +541,7 @@
 			  (
 			  SEQ_BOARD_REPLY.NEXTVAL
 			 ,#{ boardNo }
-			 ,'hyerin' <!-- 나중에 수정 -->
+			 ,#{ memberId }
 			 ,#{ boardReplyContent } 
 			 ,NULL
 			 ,DEFAULT
@@ -558,7 +558,7 @@
 			  (
 			  SEQ_BOARD_RE_REPLY.NEXTVAL
 			 ,#{ replyNo }
-			 ,'hyerin'
+			 ,#{ memberId }
 			 ,#{ reReplyContent }
 			 ,SYSDATE
 			 ,NULL <!-- 파일 있으면 나중에 처리해야함 지금은 파일을 뒷전으로... -->
@@ -839,7 +839,7 @@
 		
 	</select>
 	
-	<!-- 게시글 수정하기 -->
+	<!-- 게시글 수정하기 (보드 조회) -->
 	<select id="boardModifyView" resultMap="boardResultSet">
 		SELECT
 			  BOARD_NO
@@ -848,15 +848,39 @@
 			 ,BOARD_TITLE
 			 ,BOARD_CONTENT
 			 ,CATEGORY
+			 ,HASHTAG_NAME
 		  FROM
 		  	  MAINBOARD
 		  JOIN
 		      MEMBER USING(MEMBER_ID)
+		  JOIN
+		      HASHTAG_BRIDGE USING(BOARD_NO)
 		 WHERE
 		      BOARD_STATUS = 'Y'
 		   AND
 		      BOARD_NO = #{ boardNo }
 	</select>
+	
+	<!-- 게시글 수정하기  -->
+	<update id="boardModify" parameterType="board">
+		UPDATE
+			  MAINBOARD
+		   SET
+		      BOARD_TITLE = #{ boardTitle }
+		     ,BOARD_CONTENT = #{ boardContent }
+		     ,CATEGORY = #{ category }
+		 WHERE
+		      BOARD_NO = #{ boardNo }
+	</update>
+	
+	<update id="tagUpdate">
+		UPDATE
+			  HASHTAG_BRIDGE
+		   SET
+		   	  HASHTAG_NAME = #{ tagList }
+		 WHERE
+		 	  BOARD_NO = #{ boardNo }
+	</update>
 	
 	
 	

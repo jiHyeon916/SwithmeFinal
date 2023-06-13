@@ -3,6 +3,23 @@
     PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="adminMapper">
+
+	<resultMap id="qnaResultSet" type="qna">
+		<result column="QNA_NO"			property="qnaNo" />
+		<result column="MEMBER_ID"		property="memberId" />
+		<result column="QNA_TITLE"		property="qnaTitle" />
+		<result column="QNA_CONTENT"	property="qnaContent" />
+		<result column="QNA_DATE"		property="qnaDate" />
+		<result column="QNA_STATUS"		property="qnaStatus" />
+	</resultMap>
+
+	<resultMap id="qrResultSet" type="qnaReply">
+		<result column="QNA_REPLY_NO"			property="qnaReplyNo" />
+		<result column="QNA_NO"					property="qnaNo" />
+		<result column="QNA_REPLY_CONTENT"		property="qnaReplyContent" />
+		<result column="QNA_REPLY_CREATE_DATE"	property="qnaReplyCreateDate" />
+	</resultMap>
+	
    <!-- 희재 -->
    
    
@@ -235,7 +252,79 @@
    
    
    
-   <!-- 유진 -->
+	<!-- 유진 -->
+	<!-- 전체 문의글 수 가져오기 -->
+	<select id="selectQnaListCount" resultType="_int">
+		SELECT COUNT(*)
+		  FROM QNA
+		<if test="qnaStatus == 'Y'.toString()">
+		 WHERE QNA_STATUS = 'Y'
+		</if>
+		<if test="qnaStatus == 'N'.toString()">
+		 WHERE QNA_STATUS = 'N'
+		</if>
+	</select>
+	
+	<!-- 문의글 리스트 가져오기 -->
+	<select id="selectQnaList" parameterType="string" resultMap="qnaResultSet">
+		SELECT QNA_NO, QNA_TITLE, QNA_CONTENT, TO_CHAR(QNA_DATE, 'YYYY-MM-DD') "QNA_DATE", QNA_STATUS
+		  FROM QNA
+		<if test="qnaStatus == 'Y'.toString()">
+		 WHERE QNA_STATUS = 'Y'
+		</if>
+		<if test="qnaStatus == 'N'.toString()">
+		 WHERE QNA_STATUS = 'N'
+		</if>
+		 ORDER
+		    BY QNA_NO DESC
+	</select>
+	
+	<!-- 문의글 답변 INSERT -->
+	<insert id="insertQnaReply" parameterType="qnaReply">
+		INSERT 
+		  INTO QNA_REPLY
+		  	   (
+		  	   QNA_REPLY_NO
+	  		  ,QNA_NO
+	  		  ,QNA_REPLY_CONTENT 
+	  		  ,QNA_REPLY_CREATE_DATE
+	  		   ) 
+		VALUES 
+			   (
+				SEQ_QNA_REPLY_NO.NEXTVAL
+			  ,#{qnaNo}
+			  ,#{qnaReplyContent}
+			  ,SYSDATE 
+			   )
+	</insert>
+	
+	<!-- 문의글 답변 목록 출력 -->
+	<select id="selectQnaReply" parameterType="_int" resultMap="qrResultSet">
+		SELECT QNA_REPLY_NO,
+		       QNA_REPLY_CONTENT,
+		       TO_CHAR(QNA_REPLY_CREATE_DATE, 'YYYY-MM-DD HH:MI:SS') "QNA_REPLY_CREATE_DATE"
+		  FROM
+		       QNA_REPLY 
+		 WHERE
+		       QNA_NO = #{ qnaNo }
+	</select>
+	
+	<!-- 문의글 답변여부 상태변화 -->
+	<update id="qnaStatusUpdate" parameterType="_int">
+		UPDATE
+		       QNA
+		   SET
+		       QNA_STATUS = 'N'
+		 WHERE
+		       QNA_NO = #{ qnaNo }
+	</update>
+	
+	<!-- 문의글 답변 삭제 -->
+	<delete id="qnaReplyDelete" parameterType="_int">
+		DELETE
+		  FROM QNA_REPLY
+		 WHERE QNA_NO = ${ qnaNo }
+	</delete>
 
 
 </mapper>

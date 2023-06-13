@@ -204,12 +204,13 @@ public class BoardController {
 	 */
 	@ResponseBody
 	@RequestMapping("insertReply.bo")
-	public String insertReply(int boardNo, String rCon) {
+	public String insertReply(int boardNo, String rCon, String memberId) {
 		
 		Reply r = new Reply();
 		
 		r.setBoardNo(boardNo);
 		r.setBoardReplyContent(rCon.replace(System.getProperty("line.separator"), "<br>"));
+		r.setMemberId(memberId);
 		
 		return boardService.insertReply(r) > 0 ? "success" : "fail";
 		
@@ -233,10 +234,11 @@ public class BoardController {
 	 */
 	@ResponseBody
 	@RequestMapping("reReply.bo")
-	public int reReplyBoard(int replyNo, String reReplyCon) {
+	public int reReplyBoard(int replyNo, String reReplyCon, String memberId) {
 		ReReply rere = new ReReply();
 		rere.setReplyNo(replyNo);
 		rere.setReReplyContent(reReplyCon.replace(System.getProperty("line.separator"), "<br>"));
+		rere.setMemberId(memberId);
 		
 		return boardService.reReplyBoard(rere);
 		
@@ -309,12 +311,7 @@ public class BoardController {
 	}
 	
 	
-	@RequestMapping(value="boardModifyView.bo")
-	public String boardModifyView(int boardNo, Model model) {
-		
-		model.addAttribute("b", boardService.boardModifyView(boardNo));
-		return "board/boardModify";
-	}
+	
 	
 	/**
 	 * 태그 검색 
@@ -406,7 +403,67 @@ public class BoardController {
 		
 	}
 	
+	/**
+	 * 글 수정하기 페이지 이동 
+	 * @param boardNo 수정 원하는 게시글 번호 
+	 * @param model 기존 작성된 보드 정보 
+	 * @return
+	 */
+	@RequestMapping(value="boardModifyView.bo")
+	public String boardModifyView(int boardNo, Model model) {
+		
+		model.addAttribute("b", boardService.boardModifyView(boardNo));
+		return "board/boardModify";
+	}
 	
+	
+	/**
+	 * 게시글 수정하기 
+	 * @param summary
+	 * @param title
+	 * @param category
+	 * @param memberId
+	 * @param bCon
+	 * @param tagList
+	 * @param Btype
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value="boardModify.bo")
+	public String boardModify(String boardNo, String summary, String title, String category, String bCon, String tagList) {
+		
+		Board b = new Board();
+		b.setBoardNo(Integer.parseInt(boardNo));
+		b.setBoardContent(bCon);
+		b.setBoardTitle(title);
+		b.setCategory(category);
+		
+		if(summary.length() > 150) {
+			b.setSummary(summary.substring(0, 150));
+		}else {
+			b.setSummary(summary);
+		}
+		
+		System.out.println(boardNo);
+		System.out.println(b);
+		
+		
+		// 1. 게시글 update
+		if(boardService.boardModify(b) > 0) {
+			// 게시글 update 성공시 태그 유무 확인 후 update
+			if(tagList != null) {
+				Board tag = new Board();
+				tag.setTagList(tagList);
+				tag.setBoardNo(Integer.parseInt(boardNo));
+				
+				boardService.tagUpdate(tag);
+				
+			}
+			return "success";
+		}else {
+			return "fail";
+		}
+	}
 	
 	/**
 	 * 스터디밴드 게시글 리스트 보기

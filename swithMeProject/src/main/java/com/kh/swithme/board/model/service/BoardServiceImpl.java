@@ -194,6 +194,14 @@ public class BoardServiceImpl implements BoardService {
 	public Board boardModifyView(int boardNo) {
 		return boardDao.boardModifyView(sqlSession, boardNo);
 	}
+	@Override
+	public int boardModify(Board b) {
+		return boardDao.boardModify(sqlSession, b);
+	}
+	@Override
+	public int tagUpdate(Board tag) {
+		return boardDao.tagUpdate(sqlSession, tag);
+	}
 
 
 

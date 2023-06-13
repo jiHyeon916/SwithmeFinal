@@ -157,4 +157,10 @@ public class BoardDao {
 	public Board boardModifyView(SqlSessionTemplate sqlSession, int boardNo) {
 		return sqlSession.selectOne("boardMapper.boardModifyView", boardNo);
 	}
+	public int boardModify(SqlSessionTemplate sqlSession, Board b) {
+		return sqlSession.update("boardMapper.boardModify", b);
+	}
+	public int tagUpdate(SqlSessionTemplate sqlSession, Board tag) {
+		return sqlSession.update("boardMapper.tagUpdate", tag);
+	}
 }

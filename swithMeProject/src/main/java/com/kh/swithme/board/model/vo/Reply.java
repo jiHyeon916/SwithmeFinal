@@ -11,4 +11,8 @@ public class Reply {
 	private String boardReplyFile; //BOARD_REPLY_FILE
 	private String createDate; //BOARD_REPLY_CREATE_DATE
 	private String status; //BOARD_STATUS
+	
+	private String boardType;
+	private String boardTitle;
+
 }
