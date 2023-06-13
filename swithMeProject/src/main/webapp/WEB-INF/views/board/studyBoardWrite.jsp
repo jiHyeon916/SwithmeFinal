@@ -128,34 +128,21 @@
 
       // 글 작성하기
       function text(){
-        
-        // 태그 문자열로 만들기 
-        var tag = document.getElementsByClassName('tag')
-        tagAtrr = '';
-        $(tag).each(function(index, item){
-            let tata = $(item).text();
-            tagAtrr += (tata + ',')
-        });
-
-        
-
         $.ajax({
             
-            url : 'test.bo',
+            url : 'studyBandInsert.bo',
             type : 'post',
             data : {
                 memberId : '${ loginUser.memberId }',
                 bCon : $('.note-editable').html(),
                 summary : $('.note-editable').text(),
                 title : $('#title').val(),
-                category : $('.btn-select').text(),
-                tagList : tagAtrr,
-                Btype : '${ Btype }'
+                category : $('.btn-select').text()
             },
             success : function(r){
                 if(r == 'success'){
                     alert('글 작성 성공');
-                    location.href="freeBoardListView.bo?boardType=1";
+                    location.href="studyBand.bo";
                 }
             },
             error : function(){

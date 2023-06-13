@@ -297,10 +297,12 @@ public class BoardController {
 		}
 		
 		
+		System.out.println(tagList);
+		
 		// 1. 게시글 insert
 		if(boardService.test(b) > 0) {
 			// 게시글 insert 성공시 태그 유무 확인 후 insert
-			if(tagList != null) {
+			if(tagList.length() > 3) {
 				boardService.tagInsert(tagList);
 			}
 			return "success";
@@ -511,6 +513,16 @@ public class BoardController {
 		return "board/studyBoardWrite";
 	}
 	
+//	@ResponseBody
+//	@RequestMapping("studyBandInsert.bo")
+//	public String studyBandInsert(String memberId, String bCon, String summary, String title, String category) {
+//		
+//	}
+	
+	/**
+	 * 아이템 보드 리스트 화
+	 * @return
+	 */
 	@RequestMapping("itemBoard")
 	public String itemBoardListView() {
 		return "board/itemBoardList";
