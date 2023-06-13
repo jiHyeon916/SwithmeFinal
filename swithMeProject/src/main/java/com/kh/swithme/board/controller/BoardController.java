@@ -336,7 +336,11 @@ public class BoardController {
 		String[] sInfo = {key, Integer.toString(boardService.tagCount(bSearch))};
 		model.addAttribute("searchTotal", sInfo);
 		
-		return "board/freeBoardListView";
+		if(boardType.equals("free")) {
+			return "board/freeBoardListView";
+		}else {
+			return "board/infoBoardListView";
+		}
 		
 	}
 
@@ -505,6 +509,11 @@ public class BoardController {
 	@RequestMapping("studyWrite.bo")
 	public String studyWrite() {
 		return "board/studyBoardWrite";
+	}
+	
+	@RequestMapping("itemBoard")
+	public String itemBoardListView() {
+		return "board/itemBoardList";
 	}
 	
 	

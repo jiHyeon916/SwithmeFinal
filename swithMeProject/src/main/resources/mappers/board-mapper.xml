@@ -364,7 +364,6 @@
 		  	  MAINBOARD
 		 WHERE
 		 	  BOARD_TYPE = 'free'
-		 
 	</select>
 	
 	<!-- 게시판 상세 조회  -->

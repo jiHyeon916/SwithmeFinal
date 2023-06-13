@@ -47,7 +47,7 @@
             <li><a href="freeBoardListView.bo?boardType=2">질문정보</a></li>
             <li><a href="band">스터디밴드</a></li>
             <li><a href="studyRoomMainView.bo">스터디룸</a></li>
-            <li><a href="#">아이템 상점</a></li>
+            <li><a href="itemBoard">아이템 상점</a></li>
         </ul>
         
         
