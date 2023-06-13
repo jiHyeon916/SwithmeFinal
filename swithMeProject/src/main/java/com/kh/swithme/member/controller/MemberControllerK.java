@@ -54,7 +54,7 @@ public class MemberControllerK {
 	@RequestMapping("toDoList.me")
 	public String toDoListMain() {
 		return "member/myPageToDoList";
-	}
+	}  
 	
 	@ResponseBody
 	@RequestMapping(value="selectTodoList", produces="application/json; charset=UTF-8")
@@ -69,6 +69,11 @@ public class MemberControllerK {
 		
 
 	
+
+//	@ResponseBody
+//	@RequestMapping(value="todoCalendarList.me", produces="application/json; charset=UTF-8")
+//	public String todoCalendarList();
+
 	
 	@ResponseBody
 	@RequestMapping(value="insertTodoList")

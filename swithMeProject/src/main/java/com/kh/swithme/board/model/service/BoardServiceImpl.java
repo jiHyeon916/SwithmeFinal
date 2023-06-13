@@ -153,6 +153,15 @@ public class BoardServiceImpl implements BoardService {
 	public int replyModify(Reply r) {
 		return boardDao.replyModify(sqlSession, r);
 	}
+	@Override
+	public int studyBandInsert(Board b) {
+		return boardDao.studyBandInsert(sqlSession, b);
+	}
+	@Override
+	public int studyMemberInsert(String memberId) {
+		return boardDao.studyMemberInsert(sqlSession, memberId);
+	}
+
 
 
 

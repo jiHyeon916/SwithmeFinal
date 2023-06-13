@@ -182,7 +182,11 @@
             success : function(r){
                 if(r == 'success'){
                     alert('글 작성 성공');
-                    location.href="freeBoardListView.bo?boardType=1";
+                    if('${ Btype }' == 'free' ){
+                        location.href="freeBoardListView.bo?boardType=1";
+                    }else{
+                        location.href="freeBoardListView.bo?boardType=2";
+                    }
                 }
             },
             error : function(){

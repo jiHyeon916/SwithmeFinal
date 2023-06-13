@@ -50,13 +50,16 @@
                         </div>
                 </div>
                 
+                <p class="perTotla">모집인원</p>
+                <input type="number" name="" id="perNum">
                 <div class="uploadBtnArea clear">
                     <p>썸네일</p>
                     <button onclick="thumbNail();">업로드</button>
                 </div>
                 <div class="thumbnailArea"></div>
                 <input type="file" id="fileSelect">
-                 
+                
+
                 <button onclick="test();">취소하기</button>
                 <button id="submit" onclick="text();">작성하기</button>
             </div>
@@ -128,34 +131,22 @@
 
       // 글 작성하기
       function text(){
-        
-        // 태그 문자열로 만들기 
-        var tag = document.getElementsByClassName('tag')
-        tagAtrr = '';
-        $(tag).each(function(index, item){
-            let tata = $(item).text();
-            tagAtrr += (tata + ',')
-        });
-
-        
-
         $.ajax({
             
-            url : 'test.bo',
+            url : 'studyBandInsert.bo',
             type : 'post',
             data : {
-                memberId : '${ loginUser.memberId }',
+                memberId : '${ loginMember.memberId }',
                 bCon : $('.note-editable').html(),
                 summary : $('.note-editable').text(),
                 title : $('#title').val(),
                 category : $('.btn-select').text(),
-                tagList : tagAtrr,
-                Btype : '${ Btype }'
+                perNum : $('#perNum').val()
             },
             success : function(r){
                 if(r == 'success'){
                     alert('글 작성 성공');
-                    location.href="freeBoardListView.bo?boardType=1";
+                    location.href="studyBand.bo";
                 }
             },
             error : function(){

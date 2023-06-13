@@ -18,6 +18,7 @@
 		<result column="HASHTAG_NAME" property="tagList" />
 		<result column="LIKECOUNT" property="likeCount" />
 		<result column="COMMENTCOUNT" property="commentCount" />
+		<result column="SB_RECRUIT_MEM" property="totalPerson" />
 	</resultMap>
 	
 	<resultMap id="replyResultMap" type="reply">
@@ -364,7 +365,6 @@
 		  	  MAINBOARD
 		 WHERE
 		 	  BOARD_TYPE = 'free'
-		 
 	</select>
 	
 	<!-- 게시판 상세 조회  -->
@@ -905,6 +905,39 @@
 		 WHERE
 		 	  BOARD_REPLY_NO = #{ boardReplyNo }
 	</update>
+	
+	<!-- 스터디 밴드 생성(모집) -->
+	<insert id="studyBandInsert">
+		INSERT
+		  INTO
+		      SBAND
+		VALUES
+		      (
+		      SEQ_SR_NO.NEXTVAL
+		     ,#{ memberId }
+		     ,#{ boardTitle }
+		     ,#{ boardContent }
+		     ,'img.null'
+		     ,#{ totalPerson }
+		     ,1
+		     ,'Y'
+		     ,#{ category }
+		     ,SYSDATE
+		     )
+	</insert>
+	
+	<!-- 스터디 방장 넣기 -->
+	<insert id="studyMemberInsert">
+		INSERT
+		  INTO
+		      SBAND_MEMBER
+		VALUES
+			  (
+			  SEQ_SR_NO.CURRVAL
+			 ,#{ memberId }
+			 ,'Y'
+			  )
+	</insert>
 	
 	
 	
