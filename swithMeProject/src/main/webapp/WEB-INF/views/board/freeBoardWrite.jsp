@@ -98,7 +98,7 @@
 
     // 로드
     $(function(){
-        
+
         $('input[type="file"]').css('display', 'none');
 
         // 카테고리 박스
@@ -171,7 +171,7 @@
             url : 'test.bo',
             type : 'post',
             data : {
-                memberId : 'hyerin',
+                memberId : '${ sessionScope.loginMember.memberId }',
                 bCon : $('.note-editable').html(),
                 summary : $('.note-editable').text(),
                 title : $('#title').val(),

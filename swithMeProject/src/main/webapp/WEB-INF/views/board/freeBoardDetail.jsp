@@ -30,6 +30,12 @@
                             <div class="clear">
                                 <p class="writerId">${ b.memberId }</p>
                                 <p class="writerDate">${ b.createDate }</p>
+                                <c:if test="${ sessionScope.loginMember.nickName eq b.memberId}">
+                                    <div id="modifyBoard">
+                                        <p>수정</p>
+                                        <p>삭제</p>
+                                    </div>
+                                </c:if>
                             </div>
                         </div>
                     </div>
