@@ -541,7 +541,7 @@
 			  (
 			  SEQ_BOARD_REPLY.NEXTVAL
 			 ,#{ boardNo }
-			 ,'hyerin' <!-- 나중에 수정 -->
+			 ,#{ memberId }
 			 ,#{ boardReplyContent } 
 			 ,NULL
 			 ,DEFAULT
@@ -558,7 +558,7 @@
 			  (
 			  SEQ_BOARD_RE_REPLY.NEXTVAL
 			 ,#{ replyNo }
-			 ,'hyerin'
+			 ,#{ memberId }
 			 ,#{ reReplyContent }
 			 ,SYSDATE
 			 ,NULL <!-- 파일 있으면 나중에 처리해야함 지금은 파일을 뒷전으로... -->

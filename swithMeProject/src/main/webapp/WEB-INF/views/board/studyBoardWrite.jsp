@@ -8,6 +8,7 @@
     <meta charset="UTF-8">
     <title>without bootstrap</title>
     <link rel="stylesheet" href="resources/css/board/freeBoardWrite.css">
+    <link rel="stylesheet" href="resources/css/board/studyBandWrite.css">
   </head>
   <body>
 
@@ -22,9 +23,9 @@
                 
             <!-- 제목, 컨텐츠 입력 칸 -->
             <div class="left">
-                <p>제목</p>
+                <p>방 제목</p>
                 <input type="text" id="title">
-                <p>내용</p>
+                <p>스터디 소개 내용</p>
                 <textarea name="" id="summernote"></textarea>
             </div>
 
@@ -35,7 +36,7 @@
                         <div id="freeCategory" class="cont-select">
                             <button class="btn-select">전체보기</button>
                             <ul class="list-member">
-                                <li><button type="button">질문</button></li>
+                                <li><button type="button">프론트엔드</button></li>
                                 <li><button type="button">IT</button></li>
                                 <li><button type="button">고시공부</button></li>
                                 <li><button type="button">취업준비</button></li>

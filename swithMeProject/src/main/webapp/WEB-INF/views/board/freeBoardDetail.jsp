@@ -269,7 +269,8 @@
                 url : 'insertReply.bo',
                 data : {
                     boardNo : '${ b.boardNo }',
-                    rCon : $('#replyContent').val()
+                    rCon : $('#replyContent').val(),
+                    memberId : '${ sessionScope.loginMember.memberId }'
                 },
                 type : 'post',
                 success : function(result){
@@ -347,7 +348,8 @@
                 url : 'reReply.bo',
                 data : {
                     replyNo : reReplyNo,
-                    reReplyCon : $(e).prev().val()
+                    reReplyCon : $(e).prev().val(),
+                    memberId : '${ sessionScope.loginMember.memberId }'
                 },
                 success : function(r) {
                     $('.replyWrite > textarea').val('');

@@ -204,12 +204,13 @@ public class BoardController {
 	 */
 	@ResponseBody
 	@RequestMapping("insertReply.bo")
-	public String insertReply(int boardNo, String rCon) {
+	public String insertReply(int boardNo, String rCon, String memberId) {
 		
 		Reply r = new Reply();
 		
 		r.setBoardNo(boardNo);
 		r.setBoardReplyContent(rCon.replace(System.getProperty("line.separator"), "<br>"));
+		r.setMemberId(memberId);
 		
 		return boardService.insertReply(r) > 0 ? "success" : "fail";
 		
@@ -233,10 +234,11 @@ public class BoardController {
 	 */
 	@ResponseBody
 	@RequestMapping("reReply.bo")
-	public int reReplyBoard(int replyNo, String reReplyCon) {
+	public int reReplyBoard(int replyNo, String reReplyCon, String memberId) {
 		ReReply rere = new ReReply();
 		rere.setReplyNo(replyNo);
 		rere.setReReplyContent(reReplyCon.replace(System.getProperty("line.separator"), "<br>"));
+		rere.setMemberId(memberId);
 		
 		return boardService.reReplyBoard(rere);
 		

@@ -1,0 +1,7 @@
+@charset "UTF-8";
+
+
+#F_writer_content .right .thumbnailArea .thumbnailArea{
+    height: 400px;
+    background-color: red;
+}
