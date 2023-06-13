@@ -35,6 +35,7 @@
       <typeAlias type="com.kh.swithme.member.model.vo.QNA" alias="qna" />
       <typeAlias type="com.kh.swithme.member.model.vo.Room" alias="room" />
       <typeAlias type="com.kh.swithme.member.model.vo.TodoList" alias="todoList" />
+        <typeAlias type="com.kh.swithme.member.model.vo.Alarm" alias="alarm" />
    </typeAliases>
    
    <mappers>

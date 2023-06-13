@@ -13,7 +13,8 @@ import org.springframework.web.servlet.ModelAndView;
 import com.google.gson.Gson;
 import com.kh.swithme.admin.model.service.AdminService;
 import com.kh.swithme.admin.model.vo.QNAReply;
-import com.kh.swithme.band.model.vo.memberDetailInfo;
+import com.kh.swithme.band.model.vo.Band;
+import com.kh.swithme.band.model.vo.Sband;
 import com.kh.swithme.common.model.vo.PageInfo;
 import com.kh.swithme.common.template.Pagination;
 import com.kh.swithme.member.model.vo.Member;
@@ -159,7 +160,7 @@ public class AdminController {
 	      mv.setViewName("admin/memberDetailInfo");
 	      return mv;
 	   }
-   }
+   
    
    /*
    //디테일뷰로 가 
