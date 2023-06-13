@@ -839,6 +839,25 @@
 		
 	</select>
 	
+	<!-- 게시글 수정하기 -->
+	<select id="boardModifyView" resultMap="boardResultSet">
+		SELECT
+			  BOARD_NO
+			 ,NICKNAME AS "MEMBER_ID"
+			 ,BOARD_TYPE
+			 ,BOARD_TITLE
+			 ,BOARD_CONTENT
+			 ,CATEGORY
+		  FROM
+		  	  MAINBOARD
+		  JOIN
+		      MEMBER USING(MEMBER_ID)
+		 WHERE
+		      BOARD_STATUS = 'Y'
+		   AND
+		      BOARD_NO = #{ boardNo }
+	</select>
+	
 	
 	
 	

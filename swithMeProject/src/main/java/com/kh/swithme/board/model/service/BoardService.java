@@ -93,6 +93,8 @@ public interface BoardService {
 	// 정렬 글 개수 확인 (페이징 처리)
 	int searchCount(Board b);
 	
+	// 게시글 수정 하기
+	Board boardModifyView(int boardNo);
 	
 	
 	

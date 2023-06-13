@@ -19,6 +19,7 @@
         <div class="wrap">
             <h3>커뮤니티</h3>
             <p>제한 없이, 자유롭게 얘기해요!</p>
+            <p>${ sessionScope.loginMember.memberId }</p>
         </div>
     </div>
 

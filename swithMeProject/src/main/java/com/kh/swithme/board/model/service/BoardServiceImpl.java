@@ -190,6 +190,10 @@ public class BoardServiceImpl implements BoardService {
 	public ArrayList<StudyRoom> studyRoomSearch(HashMap<String, String> map) {
 		return boardDao.studyRoomSearch(sqlSession, map);
 	}
+	@Override
+	public Board boardModifyView(int boardNo) {
+		return boardDao.boardModifyView(sqlSession, boardNo);
+	}
 
 
 

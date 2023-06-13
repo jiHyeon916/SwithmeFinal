@@ -2,6 +2,8 @@ package com.kh.swithme.board.controller;
 
 import java.util.HashMap;
 
+import javax.servlet.http.HttpSession;
+
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -18,6 +20,7 @@ import com.kh.swithme.board.model.vo.Reply;
 import com.kh.swithme.board.model.vo.SRoomReview;
 import com.kh.swithme.common.model.vo.PageInfo;
 import com.kh.swithme.common.template.Pagination;
+import com.kh.swithme.member.model.vo.Member;
 
 @Controller
 public class BoardController {
@@ -248,13 +251,19 @@ public class BoardController {
 	 * @return
 	 */
 	@RequestMapping("freeBoardWrite.bo")
-	public String freeBoardWrite(int boardType, Model model) {
-		if(boardType == 1) {
-			model.addAttribute("Btype", "free");
+	public String freeBoardWrite(int boardType, Model model, HttpSession session) {
+		
+		if((Member)session.getAttribute("loginMember") == null){
+			session.setAttribute("alertMsg", "로그인 후 이용해주세요");
+			return "member/loginForm";
 		}else {
-			model.addAttribute("Btype", "info");
+			if(boardType == 1) {
+				model.addAttribute("Btype", "free");
+			}else {
+				model.addAttribute("Btype", "info");
+			}
+			return "board/freeBoardWrite";
 		}
-		return "board/freeBoardWrite";
 	}
 	
 	/**
@@ -287,8 +296,6 @@ public class BoardController {
 		
 		System.out.println(b);
 		
-		
-		
 		// 1. 게시글 insert
 		if(boardService.test(b) > 0) {
 			// 게시글 insert 성공시 태그 유무 확인 후 insert
@@ -299,6 +306,14 @@ public class BoardController {
 		}else {
 			return "fail";
 		}
+	}
+	
+	
+	@RequestMapping(value="boardModifyView.bo")
+	public String boardModifyView(int boardNo, Model model) {
+		
+		model.addAttribute("b", boardService.boardModifyView(boardNo));
+		return "board/boardModify";
 	}
 	
 	/**
