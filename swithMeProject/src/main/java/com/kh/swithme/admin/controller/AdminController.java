@@ -3,6 +3,8 @@ package com.kh.swithme.admin.controller;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -145,17 +147,29 @@ public class AdminController {
    
    
    
+   
    //디테일info로 이동
    @RequestMapping("memberDetailInfo.ad")
-   public ModelAndView memberDetailInfo(String memberId, ModelAndView mv) {
+   public ModelAndView memberDetailInfo(String memberId, HttpSession session, ModelAndView mv) {
 	    
+	   System.out.println(memberId);
+	   Member m = adminService.memberInfo(memberId);
+	   System.out.println(m);
 	   
-	   mv.addObject("memberId", memberId);
+	   mv.addObject("m", m);
 	   mv.setViewName("admin/memberDetailInfo");
 	   
 	   return mv;
+	  
+	   
+	   
+	   // mv.addObject("memberId", memberId);
+	   //memberId로 회원 정보 가져오기
+	  // mv.setViewName("admin/memberDetailInfo");
+	   
+	  
+	   
    }
-   
    
    
    //회원 디테일 조회정보(select) board
@@ -185,6 +199,33 @@ public class AdminController {
 		
   }
    
+  
+  
+	/*
+	 * @RequestMapping("memberReplyList.ad") public String memberReplyList(String
+	 * memberId) {
+	 * 
+	 * adminService.memberReplyList(memberId) }
+	 * 
+	 */
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
    // 이유진 ------------------------------------------------------------
    
    // 문의글 답변 INSERT

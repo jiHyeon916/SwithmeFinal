@@ -7,6 +7,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.kh.swithme.board.model.vo.Board;
+import com.kh.swithme.board.model.vo.Reply;
 import com.kh.swithme.common.model.vo.PageInfo;
 import com.kh.swithme.member.model.vo.Alarm;
 import com.kh.swithme.member.model.vo.Calendar;
@@ -160,6 +161,18 @@ public class MemberDao {
 		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit() ;
 		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
 		return (ArrayList)sqlSession.selectList("memberMapper.myBoardList", b, rowBounds);
+	};
+
+	// 사용자가 작성한 댓글 수 가져오기	
+	public int myReplyListCount(SqlSessionTemplate sqlSession, Reply r) {
+		return sqlSession.selectOne("memberMapper.myReplyListCount", r);
+	}
+	
+	// 사용자가 작성한 댓글 리스트 조회
+	public ArrayList<Reply> myReplyList(SqlSessionTemplate sqlSession, PageInfo pi, Reply r){
+		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit() ;
+		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
+		return (ArrayList)sqlSession.selectList("memberMapper.myReplyList", r, rowBounds);
 	};
 
 	

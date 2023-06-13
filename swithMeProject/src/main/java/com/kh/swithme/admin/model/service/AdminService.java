@@ -45,6 +45,9 @@ public interface AdminService {
 	   //회원 디테일 조회정보(Sband)
 	   public ArrayList<Band> memberDetailBand(String memberId);
    
+	   
+	   //회원 정보 조회
+	    public Member memberInfo(String memberId);
    
    
    

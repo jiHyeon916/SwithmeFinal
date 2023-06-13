@@ -50,17 +50,33 @@
 	</resultMap>
 	
 	<resultMap id="boardResultSet" type="board">
-		<result column="BOARD_NO"		property="boardNo" />
-		<result column="MEMBER_ID"		property="memberId" />
+		<result column="BOARD_NO" 		property="boardNo" />
+		<result column="MEMBER_ID" 		property="memberId" />
 		<result column="BOARD_TYPE"		property="boardType" />
-		<result column="CATEGORY"		property="category" />
-		<result column="BOARD_TITLE"	property="boardTitle" />
-		<result column="BOARD_CONTENT"	property="boardContent" />
-		<result column="CREATE_DATE"	property="createDate" />
-		<result column="BOARD_STATUS"	property="boardStatus" />
-		<result column="BOARD_COUNT"	property="boardCount" />
-		<result column="SUMMARY"		property="summary" />
+		<result column="CATEGORY" 		property="category" />
+		<result column="BOARD_TITLE" 	property="boardTitle" />
+		<result column="BOARD_CONTENT" 	property="boardContent" />
+		<result column="CREATE_DATE" 	property="createDate" />
+		<result column="BOARD_STATUS" 	property="status" />
+		<result column="BOARD_COUNT" 	property="count" />
+		<result column="SUMMARY" 		property="summary" />
+		<result column="HASHTAG_NAME" 	property="tagList" />
+		<result column="LIKECOUNT" 		property="likeCount" />
+		<result column="COMMENTCOUNT" 	property="commentCount" />
 	</resultMap>
+	
+	<resultMap id="replyResultSet" type="reply">
+		<result column="BOARD_REPLY_NO" 		property="boardReplyNo" />
+		<result column="BOARD_NO" 				property="boardNo" />
+		<result column="MEMBER_ID" 				property="memberId" />
+		<result column="BOARD_REPLY_CONTENT" 	property="boardReplyContent" />
+		<result column="BOARD_REPLY_FILE" 		property="boardReplyFile" />
+		<result column="BOARD_REPLY_CREATE_DATE" property="createDate" />
+		<result column="BOARD_STATUS" 			property="status" />
+		<result column="BOARD_TYPE" 			property="boardType" />
+		<result column="BOARD_TITLE" 			property="boardTitle" />
+	</resultMap>
+
 	
 	<!-- 희재 -->
 	<!-- 일정 조회 -->
@@ -508,7 +524,7 @@
 		  FROM (SELECT distinct SUM(POINT_SCORE) OVER(PARTITION BY POINT_STATUS ORDER BY POINT_STATUS) "A", MEMBER_ID
 		          FROM POINT
 		         WHERE POINT_STATUS = 'Y'
-		           AND MEMBER_ID = #{ memberId }
+		           AND MEMBER_ID = 'user03'
 		           AND TO_CHAR(SYSDATE, 'YYYYMMDD') = TO_CHAR(POINT_TIME, 'YYYYMMDD'))
 	</select>
 	
@@ -543,25 +559,79 @@
 
 	<!-- 사용자가 작성한 게시글 리스트 조회 -->
 	<select id="myBoardList" parameterType="board" resultMap="boardResultSet">
-		SELECT BOARD_NO
-		      ,MEMBER_ID
-		      ,BOARD_TYPE 
-		      ,CATEGORY
-		      ,BOARD_TITLE
-		      ,BOARD_CONTENT
-		      ,TO_CHAR(CREATE_DATE, 'YYYY-MM-DD') "CREATE_DATE"
-		      ,BOARD_STATUS
-		      ,BOARD_COUNT
-		      ,SUMMARY
-		  FROM MAINBOARD
-		 WHERE MEMBER_ID = #{memberId}
-		<if test="boardType == 'free'">
+		SELECT
+		      DISTINCT
+		      A.BOARD_NO
+		     ,NICKNAME MEMBER_ID
+		     ,CATEGORY
+		     ,BOARD_TITLE
+		     ,BOARD_CONTENT
+		     ,TO_CHAR(CREATE_DATE, 'YYYY-MM-DD HH24:MI') AS "CREATE_DATE"
+		     ,BOARD_COUNT
+		     ,BOARD_TYPE
+		     ,SUMMARY 
+		     ,COUNT(STATUS_LB)OVER(PARTITION BY B.BOARD_NO) LIKECOUNT
+		     ,(COUNT(BOARD_REPLY_CONTENT)OVER(PARTITION BY C.BOARD_NO)) + (NVL(REREPLY,0)) COMMENTCOUNT
+		 FROM
+		     MAINBOARD A
+		 JOIN
+		     MEMBER M ON(A.MEMBER_ID = M.MEMBER_ID)
+		LEFT JOIN
+		    (SELECT BOARD_NO,STATUS_LB
+		     FROM BOARD_LB 
+		     WHERE STATUS_LB = 'L') B  ON (A.BOARD_NO = B.BOARD_NO)
+		LEFT JOIN
+		     BOARD_REPLY C ON(C.BOARD_NO = A.BOARD_NO)
+		LEFT JOIN
+		    (SELECT COUNT(BOARD_NO) REREPLY, BOARD_NO
+		     FROM BOARD_RE_REPLY BRR
+		     JOIN BOARD_REPLY BR ON(BRR.BOARD_REPLY_NO = BR.BOARD_REPLY_NO)
+		     GROUP BY BOARD_NO) D ON(D.BOARD_NO = A.BOARD_NO)
+		WHERE
+		     A.BOARD_STATUS = 'Y'
+		  AND
+		     A.MEMBER_ID = #{memberId}
+		 <if test="boardType == 'free'">
 		   AND BOARD_TYPE = 'free'
 		 </if>
 		 <if test="boardType == 'info'">
 		   AND BOARD_TYPE = 'info'
-		 </if>	   
-		   AND BOARD_STATUS IN ('Y', 'B')
+		 </if>
+		 ORDER
+		    BY
+		      CREATE_DATE DESC
+	</select>
+
+	<!-- 사용자가 작성한 댓글 수 가져오기 -->
+	<select id="myReplyListCount" parameterType="reply" resultType="_int">
+		SELECT COUNT(*)
+		  FROM BOARD_REPLY "BR"
+		  JOIN MAINBOARD "B" USING(BOARD_NO)
+		 WHERE BR.MEMBER_ID = #{memberId}
+		   AND BOARD_TYPE = #{boardType}
+	</select>
+	
+	<!-- 사용자가 작성한 댓글 리스트 조회 -->
+	<select id="myReplyList" parameterType="reply" resultMap="replyResultSet">
+		SELECT BR.BOARD_REPLY_NO
+		      ,B.BOARD_NO
+		      ,BR.BOARD_REPLY_CONTENT 
+		      ,TO_CHAR(BOARD_REPLY_CREATE_DATE, 'YYYY-MM-DD') "BOARD_REPLY_CREATE_DATE"
+		      ,B.BOARD_STATUS
+		      ,B.BOARD_TITLE
+		      ,B.BOARD_TYPE
+		  FROM BOARD_REPLY "BR"
+		  JOIN MAINBOARD "B" ON(B.BOARD_NO = BR.BOARD_NO)
+		 WHERE BR.MEMBER_ID = #{ memberId }
+		   AND B.BOARD_STATUS = 'Y'
+		   <if test="boardType == 'free'">
+		   AND BOARD_TYPE = 'free'
+		 </if>
+		 <if test="boardType == 'info'">
+		   AND BOARD_TYPE = 'info'
+		 </if>
+		 ORDER
+    		BY BOARD_REPLY_CREATE_DATE DESC
 	</select>
 
 
@@ -668,5 +738,7 @@
 		  FROM QNA
 		 WHERE QNA_NO = ${ qno }
 	</delete>
+	
+	
 
 </mapper>

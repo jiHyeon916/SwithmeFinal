@@ -77,9 +77,15 @@ public class AdminServiceImpl implements AdminService {
    public ArrayList<Band> memberDetailBand(String memberId) {
       return (ArrayList)adminDao.memberDetailBand(sqlSession, memberId);
       
-      
-   
    }
+  //회원 정보 조회
+  @Override
+  public Member memberInfo(String memberId) {
+     return adminDao.memberInfo(sqlSession, memberId);
+      }
+  
+   
+   
       
       
 	
@@ -121,8 +127,9 @@ public class AdminServiceImpl implements AdminService {
 	@Override
 	public int qnaReplyDelete(int qnaNo) {
 		return adminDao.qnaReplyDelete(sqlSession, qnaNo);
-	};
-   
+	}
+
+
    
    
    
