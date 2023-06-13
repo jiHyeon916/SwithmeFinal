@@ -68,7 +68,12 @@
 
 
                     <div class="replyArea">
+                        <c:if test="${ sessionScope.loginMember != null }">
                         <textarea name="" id="replyContent" placeholder="댓글 내용을 입력해주세요."></textarea>
+                        </c:if>
+                        <c:if test="${ sessionScope.loginMember == null }">
+                        <textarea name="" id="replyContent" placeholder="로그인 후 이용해주세요." disabled></textarea>
+                        </c:if>
                         <button id="replyBtn" onclick="insertReply();">등록</button>
                         <div class="blank"></div>
     
@@ -214,6 +219,12 @@
                 success : function(list){
 
                     let result = '';
+                    let loginCheck = ''
+                    if('${ sessionScope.loginMember}' != '' ){
+                        loginCheck = '<textarea cols="30" rows="10"></textarea>';
+                    }else{
+                        loginCheck = '<textarea cols="30" rows="10" placeholder="로그인 후 이용해주세요." disabled></textarea>';
+                    }
                     for(var i in list){
                         result += '<div class="replyList">'
                                     + '<div class="rInfo clear">'
@@ -229,7 +240,7 @@
                                     
                                     + '<div class="clear reReArea reReplyArea'+ list[i].boardReplyNo + '"></div>'
                                     + '<div class="replyWrite">'
-                                        + '<textarea name="" id="" cols="30" rows="10"></textarea>'
+                                        + loginCheck
                                         + '<button id="replyBtn" onclick="reReply(' + list[i].boardReplyNo + ',this);">답글 등록</button>'
                                     + '</div>'
 
