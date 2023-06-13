@@ -32,22 +32,9 @@
             <div class="right">
                 <div id="freeCategory">
                     <p>카테고리</p>
-                    <c:choose>
-                        <c:when test="${Btype eq 'free'}">
-                            <div id="freeCategory" class="cont-select">
-                                <button class="btn-select">전체보기</button>
-                                <ul class="list-member">
-                                <li><button type="button">전체보기</button></li>
-                                <li><button type="button">공부꿀팁</button></li>
-                                <li><button type="button">자유잡담</button></li>
-                                <li><button type="button">이슈정보</button></li>
-                                </ul>
-                            </div>
-                        </c:when>
-                        <c:otherwise>
-                            <div id="freeCategory" class="cont-select">
-                                <button class="btn-select">전체보기</button>
-                                <ul class="list-member">
+                        <div id="freeCategory" class="cont-select">
+                            <button class="btn-select">전체보기</button>
+                            <ul class="list-member">
                                 <li><button type="button">질문</button></li>
                                 <li><button type="button">IT</button></li>
                                 <li><button type="button">고시공부</button></li>
@@ -58,10 +45,8 @@
                                 <li><button type="button">취업준비</button></li>
                                 <li><button type="button">취업준비</button></li>
                                 <li><button type="button">취업준비</button></li>
-                                </ul>
-                            </div>
-                        </c:otherwise>
-                    </c:choose>
+                            </ul>
+                        </div>
                 </div>
                 
                 <div class="uploadBtnArea clear">
@@ -151,12 +136,14 @@
             tagAtrr += (tata + ',')
         });
 
+        
+
         $.ajax({
             
             url : 'test.bo',
             type : 'post',
             data : {
-                memberId : 'hyerin',
+                memberId : '${ loginUser.memberId }',
                 bCon : $('.note-editable').html(),
                 summary : $('.note-editable').text(),
                 title : $('#title').val(),

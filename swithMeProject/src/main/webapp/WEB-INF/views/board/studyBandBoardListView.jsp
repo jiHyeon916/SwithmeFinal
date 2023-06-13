@@ -43,10 +43,11 @@
                     
                 </div>
                 
-                <button id="freeWrite"><a href="freeBoardWrite.bo?boardType=1">글 작성하기</a></button>
+                <button id="freeWrite"><a href="studyWrite.bo">모집하기</a></button>
             </div>
 
             <div id="studyCategory" class="clear">
+            	<p>고시공부</p>
                 <p>프론트엔드</p>
                 <p>백엔드</p>
                 <p>모바일 앱 개발</p>
