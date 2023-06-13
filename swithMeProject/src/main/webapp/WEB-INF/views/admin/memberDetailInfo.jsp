@@ -26,7 +26,7 @@
     }
     #adminMemberTable th{
         width: 150px;
-        padding-left: 30px;
+        
     }
     #adminMemberTable{
        margin:auto;
@@ -88,6 +88,20 @@
           border : 1.5px solid #03c373;
       }
       
+      #detailDeleteBtn{
+		margin-left:470px;
+		inline:block;
+		background-color : rgb(3, 195, 115);
+		color:white;
+      }
+      .memberDetailInfo{
+      	margin-right:300px;
+      	text-align:center;
+      	padding-top:50px;
+      	inline:block;
+      }
+      
+      
       
       
 </style>
@@ -106,9 +120,13 @@
          <div class="topBlock">회원정보</div>
          
                <div class="block">
-               <div>
-               회원 정보(select해오기)
+               
+               <div class="memberDetailInfo">
+               		<h6>${m.nickName }</h6><br>
+               		<pre>${m.memberId }</pre>
+               		<pre>${m.memberEmail }</pre>
                </div>
+               
                
                               
                      
@@ -130,9 +148,10 @@
             <div class="memAdDetailBtn">
                      <button onclick="memberBoardList();">게시판</button>
                      <button onclick="memberBandList();">스터디밴드</button>
-                     <button>댓글</button>
+                     <button onclick="memberReplyList();">댓글</button>
+                     <button id="detailDeleteBtn">삭제</button>
                </div>
-               
+               this 부모 동위 tbody
                
                  <br><br>
                  
@@ -143,7 +162,7 @@
                              <th>NO</th>
                              <th>제목</th>
                              <th>내용</th>
-                             <th>날짜</th>
+                             <th style="width:200px;">날짜</th>
                              <th></th>
                          </tr>
                     </thead>
@@ -162,12 +181,14 @@
                      $.ajax({
                         
                         url: 'memberDetailBoardList.ad',
-                        data:{memberId : '${memberId}'},
+                        data:{memberId : '${m.memberId}'},
                         success: function(listArr) {
                         	
                         console.log(listArr);
                          let value = "";
                          
+                         if(listArr != null) {
+                        	 
                         for(let i in listArr) {
                         	
                         	
@@ -184,6 +205,11 @@
                         }
                         
                         $('#adminMemberTable tbody').html(value);
+                         }else{
+                        	 
+                        	  $('#adminMemberTable tbody').html('작성된 게시물이 존재하지 않습니다.');
+                         }
+                         
                            
                         },error:() => {
                            console.log('실패');
@@ -192,30 +218,101 @@
                    }
                
                
+               
+               
+               
+               
                function memberBandList() {
             	   
             	   
             	   $.ajax({
             		   
             		   	url : 'memberBandList.ad',
-            		   	data:{memberId : '${memberId}'},
+            		   	data:{memberId : '${m.memberId}'},
             		   	success : function(listArr) {
             		   		
             		   		console.log(listArr);
             		   		
-            		   		value = "";
+            		   		if(listArr != null) {
+            		   			
+            		   			for(let i in listArr) {
+            		   			value = "";	
+            		   			let list = listArr[i];
+            		   			console.log(list);
+            		   			
+            		   			  value  += '<tr>' 
+	                          		  	 +'<td>' + list.sbNo + '</td>'
+		                           		 +'<td>' + list.sbTitle + '</td>'
+		                           		 +'<td>' + list.sbIntroduce + '</td>'
+		                           		 +'<td>' + list.createDate + '</td>'
+	                       				 +'<td>' + '<input type="checkbox" name="BandChkDel" id="admemBoardChkDel"></input>' + '</td>'
+	                       				 +'</tr>'
+            		   			}
+            		   		 $('#adminMemberTable tbody').html(value);
+            		   		
+            		   		}else{
+            		   			
+            		   		 $('#adminMemberTable tbody').html('작성된 게시물이 존재하지 않습니다.');
+            		   		}
             		   		
             		   	},error: () => {console.log('실패');}
-            		   
             	   });
+               };
+               
+               
+       /*         
+               function memberReplyList() {
+            	   
+            	   	$.ajax({
+            	   		
+            	   		url : 'memberReplyList.ad',
+            	   		data : {memberId : '${m.memberId}'},
+            	   		success : function(result) {
+            	   			
+            	   			
+            	   			
+            	   			
+            	   		},error: () => {console.log('실패');}
+            	   	});
+            	   	
+            	   	
             	   
             	   
             	   
             	   
             	   
                }
-            
-            
+             */
+             
+          /*    
+         
+             $(function() {
+            	 $('#detailDeleteBtn').on('click',(function() {
+            		 
+            		
+            		if($('#adminMemberTable input[name=BoardChkDel]:checked').length == 0) {
+            			
+            				alert('선택된 글이 없습니다.');
+            		}else{
+            			
+            			$.ajax({
+            					url : 'detailDelete.ad',
+            					
+            			});
+            			
+            		}
+         
+            		 	
+            		 
+            		  
+            		
+            		 
+            		 
+            		 
+            		 
+            	 })
+             }); 
+             */
             </script>
             
             
@@ -240,7 +337,7 @@
             
             
             
-            <!-- 페이징처리 -->
+      <%--       <!-- 페이징처리 -->
             <div class="paBtn">
             
                <!-- 현재페이지가 1이면 이전버튼 작동 x 아니면 현재페이지 -1 작동 -->
@@ -270,9 +367,13 @@
                      </c:otherwise>
                   </c:choose>
                </div>
+                --%>
+               
+               
+               
             </div>
          </div>
       </div>
-<br><br><br><br><br><br><br><br><br>
+<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>><br>
 </body>
 </html>

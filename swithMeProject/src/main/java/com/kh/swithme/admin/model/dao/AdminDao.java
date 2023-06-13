@@ -68,9 +68,11 @@ public class AdminDao {
 	      return (ArrayList)sqlSession.selectList("adminMapper.memberDetailBand", memberId);
 	}
 	      
-   
+	   //회원 정보 조회
+	   public Member memberInfo(SqlSessionTemplate sqlSession, String memberId) {
+		   return sqlSession.selectOne("adminMapper.memberInfo", memberId);
 	
-	
+	   }
 	// 이유진 ----------------------------------------
 	
 	// 문의글 리스트 조회 + 페이징처리
@@ -106,5 +108,6 @@ public class AdminDao {
 		return sqlSession.delete("adminMapper.qnaReplyDelete", qnaNo);
 	}
 
+	}
 
-}
+
