@@ -41,11 +41,24 @@
 	font-weight : 500;
 	margin-bottom : 30px;
 }
-.topBlock>span{
+
+
+/* .topBlock>span{
     margin-right: 10px;
     cursor: pointer;
     color :rgb(136, 136, 136);
+} */
+.selectSpan{
+	margin-right: 10px;
+    cursor: pointer;
+	color : rgb(3, 195, 115);
 }
+.noneSpan{
+	margin-right: 10px;
+    cursor: pointer;
+	color :rgb(136, 136, 136);
+}
+
 /* .topBlock>span:nth-of-type(1){
     margin-right: 10px;
     color : rgb(3, 195, 115);
@@ -71,8 +84,26 @@
 .post_Btn > button:hover{
 	cursor : pointer;
 }
-.commu,.question{
+/* .freeBtn,.infoBtn{
     background-color: white;
+    width : 80px;
+    height: 38px;
+    border : 1.5px solid #cecece;
+	border-radius : 5px;
+	color : #cecece;
+	margin-right : 10px;
+} */
+.selectBtn{
+	background-color: white;
+    width : 80px;
+    height: 38px;
+	border : 1.5px solid #03c373;
+	border-radius : 5px;
+	color : #03c373;
+	margin-right : 10px;
+}
+.noneBtn{
+	background-color: white;
     width : 80px;
     height: 38px;
     border : 1.5px solid #cecece;
@@ -188,10 +219,7 @@ input[type=checkbox]{
 	box-sizing : border-box;
 	text-align : center;
 }
-.selectBtn{
-	color : #03c373;
-	border : 1.5px solid #03c373;
-}
+
 
 
 

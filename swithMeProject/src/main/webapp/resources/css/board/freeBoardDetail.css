@@ -127,23 +127,28 @@
 .replyWrap .replyList .rInfo{
     margin : 20px 0 12px 0;
 }
-.replyWrap .replyList .rInfo p{
+.replyWrap .replyList .rInfo > p{
     float: left;
     margin-right: 20px;
 }
-.replyWrap .replyList .rInfo p:first-child{
+.replyWrap .replyList .rInfo > div{
+    float: right;
+}
+.replyWrap .replyList .rInfo > div > p {
+    float: left;
+    font-size: 14px;
+    margin-left: 10px;
+    cursor: pointer;
+    color: #646464;
+
+}
+.replyWrap .replyList .rInfo > p:first-child{
     font-size: 16px;
 }
-.replyWrap .replyList .rInfo p:nth-child(2){
+.replyWrap .replyList .rInfo > p:nth-child(2){
     color: #b1b1b1;
     font-size: 13px;
     line-height: 26px;
-}
-.replyWrap .replyList .rInfo p:last-child{
-    float: right;
-    font-size: 14px;
-    margin-right: 0;
-    margin-bottom: 0;
 }
 
 .replyWrap .rCon{
@@ -155,17 +160,38 @@
     padding-bottom: 20px;
     border-bottom: 1px solid rgb(223, 223, 223);
 }
-.replyWrap .replyList:last-child .rrInfo{
-    border-bottom: none;
-}
 
 .replyWrap .rrInfo p{
     font-size: 14px;
     float: left;
     color: #646464;
+    cursor: pointer;
 }
 .replyWrap .rrInfo p:last-child{
     float: right;
+}
+
+/* 댓글 수정 */
+.replayModify{
+    width: 840px;
+    height: 100px;
+    border: 1px solid rgb(223, 223, 223);
+    padding: 10px;
+    margin-bottom: 3px;
+    resize: none;
+}
+.replyWrap .rCon button{
+    width: 410px;
+    border: none;
+    font-size: 13px;
+    padding: 5px;
+    height: 30px;
+    background-color: #f1f1f1;
+    border: 1px solid rgb(223, 223, 223);
+    border-radius: 5px;
+}
+.replyWrap .rCon > button:nth-of-type(1){
+    margin-right: 20px;
 }
 
 /* 대댓글 영역 */
@@ -207,20 +233,24 @@
 .reReArea .rRL > div{
     margin-bottom: 10px;
 }
-.reReArea .rRL div p{
+.reReArea .rRL > div > p{
     float: left;
     margin-right: 20px;
     line-height: 20px;
 }
-.reReArea .rRL div p:nth-child(2){
+.reReArea .rRL > div > p:nth-child(2){
     color: #b1b1b1;
     font-size: 13px;
 }
-.reReArea .rRL div p:last-child{
+.reReArea .rRL div div{
     float: right;
-    margin-right: 0;
-    font-size: 14px;
+}
+.reReArea .rRL div div p{
+    float: left;
+    font-size: 13px;
     color: #646464;
+    margin-left: 10px;
+    cursor: pointer;
 }
 
 

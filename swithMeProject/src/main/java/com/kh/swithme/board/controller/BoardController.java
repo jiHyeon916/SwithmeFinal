@@ -296,7 +296,6 @@ public class BoardController {
 			b.setSummary(summary);
 		}
 		
-		System.out.println(b);
 		
 		// 1. 게시글 insert
 		if(boardService.test(b) > 0) {
@@ -444,10 +443,6 @@ public class BoardController {
 			b.setSummary(summary);
 		}
 		
-		System.out.println(boardNo);
-		System.out.println(b);
-		
-		
 		// 1. 게시글 update
 		if(boardService.boardModify(b) > 0) {
 			// 게시글 update 성공시 태그 유무 확인 후 update
@@ -464,6 +459,34 @@ public class BoardController {
 			return "fail";
 		}
 	}
+	
+	/**
+	 * 댓글 수정하기 (뷰)
+	 * @param replyNo
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value="replyModifyView.bo", produces="application/json; charset=UTF-8")
+	public String replyModifyView(int replyNo) {
+		return new Gson().toJson(boardService.replyModifyView(replyNo));
+	}
+	
+	/**
+	 * 댓글 수정 
+	 * @param replyNo
+	 * @param replyCon
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping("replyModify.bo")
+	public String replyModify(int replyNo, String replyCon) {
+		Reply r = new Reply();
+		r.setBoardReplyNo(replyNo);
+		r.setBoardReplyContent(replyCon.replace(System.getProperty("line.separator"), "<br>"));
+		
+		return boardService.replyModify(r) > 0 ? "success" : "fail";
+	}
+	
 	
 	/**
 	 * 스터디밴드 게시글 리스트 보기

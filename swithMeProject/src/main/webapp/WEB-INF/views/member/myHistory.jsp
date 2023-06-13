@@ -39,8 +39,8 @@
 
 				<!-- 리스트 출력 -->
                 <div class="postList">
-                	<c:if test="${ not empty list }">
-                		<%-- <c:forEach items="${ list }" var="b">
+                	<%-- <c:if test="${ not empty list }">
+                		<c:forEach items="${ list }" var="b">
 	                        <input type="checkbox" name="boardCheck">
                 			<div class="post_block">
         						<input type="hidden" name="bno" value="${ b.boardNo }" />
@@ -56,11 +56,11 @@
 		                            <li class="post_date">${ b.createDate }</li>
 		                        </ul>
 		                    </div>
-                		</c:forEach> --%>
+                		</c:forEach>
                 	</c:if>
                 	<c:if test="${ empty list }">
                 		<span class="emptyList">등록된 게시글이 없습니다.</span>
-                	</c:if>
+                	</c:if> --%>
                 </div>
 				 
                 <!-- 페이징버튼 -->
@@ -123,6 +123,12 @@
 					$('.freeBtn').removeClass('selectBtn').addClass('noneBtn');
 				}
 			};
+			
+			function itemType(){
+				// 게시판 / 댓글 버튼 표시
+				$('.myPost').removeClass('noneSpan').addClass('selectSpan');
+				$('.myReply').removeClass('selectSpan').addClass('noneSpan');
+			}
 		
 			
 			// 게시판 / 댓글 선택
@@ -150,12 +156,17 @@
 						// 필요 변수 선언
 						let jList = jObj.list;
 						let jItem = jObj.item;
-						let typeBtn = jList[0].boardType;
 						cp = jObj.pi.currentPage;
 						
 						console.log(cp);
 						
 						let value = '';
+						
+						if(jList.length == 0){
+							value = '<span class="emptyList">등록된 게시글이 없습니다.</span>';
+						} else {
+							
+							let typeBtn = jList[0].boardType;
 						
 							if(jItem === 'board'){
 								
@@ -176,7 +187,7 @@
 												   + '<div class="post_cate">' + jList[i].category +'</div>'
 												   + '<p class="post_title">' + jList[i].boardTitle + '</p>'
 										  	   + '</div>'
-											   + '<p class="post_con">' + jList[i].boardContent + '</p>'
+											   + '<p class="post_con">' + jList[i].summary + '</p>'
 						                       + '<ul id="post_etc">'
 							                       + '<li>댓글수' + jList[i].commentCount + '</li>'
 						                           + '<li>좋아요' + jList[i].likeCount + '</li>'
@@ -212,6 +223,8 @@
 								}
 								
 							}
+						
+						}
 						
 						$('.postList').html(value);
 						$('.post_Btn > span').html('전체 게시글 수 : ' + jObj.pi.listCount + '개');
