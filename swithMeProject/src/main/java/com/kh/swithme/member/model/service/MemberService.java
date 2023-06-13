@@ -130,10 +130,9 @@ public interface MemberService {
 	
 	// 사용자가 작성한 댓글 리스트 조회 + 페이징 처리
 	// 사용자가 작성한 댓글 수 가져오기
-	int myReplyListCount(String memberId);
+	int myReplyListCount(Reply r);
 	// 사용자가 작성한 댓글 리스트 조회
-	ArrayList<Reply> myReplyList(PageInfo pi, String memberId);
-	
+	ArrayList<Reply> myReplyList(PageInfo pi, Reply r);
 
 	
 	// 문의글 리스트 조회 + 페이징처리

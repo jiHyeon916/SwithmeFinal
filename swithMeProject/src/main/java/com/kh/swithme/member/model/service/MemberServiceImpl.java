@@ -254,15 +254,15 @@ public class MemberServiceImpl implements MemberService{
 	// 사용자가 작성한 댓글 리스트 조회 + 페이징 처리
 	// 사용자가 작성한 댓글 수 가져오기	
 	@Override
-	public int myReplyListCount(String memberId) {
-		return 0;
+	public int myReplyListCount(Reply r) {
+		return memberDao.myReplyListCount(sqlSession, r);
 	};
 	
 	
 	// 사용자가 작성한 댓글 리스트 조회
 	@Override
-	public ArrayList<Reply> myReplyList(PageInfo pi, String memberId){
-		return null;
+	public ArrayList<Reply> myReplyList(PageInfo pi, Reply r){
+		return memberDao.myReplyList(sqlSession, pi, r);
 	};
 	
 	// 문의글 리스트 조회 + 페이징처리

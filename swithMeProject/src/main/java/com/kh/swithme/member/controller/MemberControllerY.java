@@ -2,6 +2,7 @@ package com.kh.swithme.member.controller;
 
 import javax.servlet.http.HttpSession;
 
+import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,6 +14,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.google.gson.Gson;
 import com.kh.swithme.admin.model.service.AdminServiceImpl;
 import com.kh.swithme.board.model.vo.Board;
+import com.kh.swithme.board.model.vo.Reply;
 import com.kh.swithme.common.model.vo.PageInfo;
 import com.kh.swithme.common.template.Pagination;
 import com.kh.swithme.member.model.service.MemberServiceImpl;
@@ -72,24 +74,49 @@ public class MemberControllerY {
 	
 	// 활동내역 페이지
 	@RequestMapping("history.me")
-	public String myHistoryListView(@RequestParam(value="cPage", defaultValue="1") int currentPage,
-									@RequestParam(value="boardType", defaultValue="free") String boardType,
-									HttpSession session,
-									Model model) {
-		
-	String memberId = ((Member)session.getAttribute("loginMember")).getMemberId();
-
-	Board b = new Board();
-	b.setMemberId(memberId);
-	b.setBoardType(boardType);
-		
-	PageInfo pi = Pagination.getPageInfo(memberService.myBoardListCount(b), currentPage, 5, 5);
-		
-	model.addAttribute("pi", pi);
-	model.addAttribute("list", memberService.myBoardList(pi, b));		
-		
+	public String myHistoryListView() {
 		return "member/myHistory";
 	}
+	
+	
+	//
+	// 활동내역 페이지 - 댓글 선택
+	@ResponseBody
+	@RequestMapping(value = "historySelectBoard", produces="application/json; charset=UTF-8")
+	public String myHistorySelectView(@RequestParam(value="cPage", defaultValue="1") int currentPage, String boardType, String item,
+									  Board b, Reply r,
+									  HttpSession session,
+									  Model model) {
+		
+		// 변수선언
+		String memberId = ((Member)session.getAttribute("loginMember")).getMemberId();
+		PageInfo pi = null;
+		JSONObject jObj = new JSONObject();
+		
+		if(item.equals("board")) {
+			// 게시판을 선택했을 경우
+			b.setMemberId(memberId);
+			b.setBoardType(boardType);
+			
+			pi = Pagination.getPageInfo(memberService.myBoardListCount(b), currentPage, 5, 5);
+			
+			jObj.put("list", memberService.myBoardList(pi, b));
+			jObj.put("pi", pi);
+			jObj.put("item", item);
+			
+		} else {
+			// 댓글을 선택했을 경우
+			r.setMemberId(memberId);
+			r.setBoardType(boardType);
+			
+			pi = Pagination.getPageInfo(memberService.myReplyListCount(r), currentPage, 5, 5);
+			
+			jObj.put("list", memberService.myReplyList(pi, r));
+			jObj.put("pi", pi);
+			jObj.put("item", item);
+		}
+		return new Gson().toJson(jObj);
+	};
 	
 	// 문의글 페이지
 	@RequestMapping("qna.me")
