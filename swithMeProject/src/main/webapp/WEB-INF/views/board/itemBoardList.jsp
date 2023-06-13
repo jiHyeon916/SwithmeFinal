@@ -7,6 +7,7 @@
 <head>
 <meta charset="UTF-8">
 <link rel="stylesheet" href="resources/css/board/freeBoardListView.css">
+<link rel="stylesheet" href="resources/css/board/itemBoardView.css">
 <title>Insert title here</title>
 </head>
 <body>
@@ -23,7 +24,67 @@
         </div>
     </div>
 
-    
+    <div class="wrap">
+
+        <div id="sort" class="clear">
+            <div id="freeCategory" class="cont-select" >
+                <button class="btn-select" >전체보기</button>
+                <ul class="list-member">
+                    <li><button type="button" onclick="categorySearch(this.innerText, 1);">전체보기</button></li>
+                    <li><button type="button" onclick="categorySearch(this.innerText, 1);">배경</button></li>
+                    <li><button type="button" onclick="categorySearch(this.innerText, 1);">도구</button></li>
+                    <li><button type="button" onclick="categorySearch(this.innerText, 1);">캐릭터</button></li>
+                    <li><button type="button" onclick="categorySearch(this.innerText, 1);">모자</button></li>
+                </ul>
+            </div>
+            <div id="searchBox" class="clear">
+                <input type="text" id="searchBar" placeholder="키워드 검색" onkeyup="textSearch(this)"><img src="resources/search.png" alt="">
+            </div>
+        </div>
+    </div>
+
+    <!--  -->
+    <div id="itemCon">
+        <div class="wrap clear">
+            <div class="itemList">
+                <div class="itemImg"></div>
+                <p class="itemTitle">보라보라룸</p>
+                <p class="itemPrice">300 point</p>
+            </div>
+            <div class="itemList">
+                <div class="itemImg"></div>
+                <p class="itemTitle">보라보라룸</p>
+                <p class="itemPrice">300 point</p>
+            </div>
+            <div class="itemList">
+                <div class="itemImg"></div>
+                <p class="itemTitle">보라보라룸</p>
+                <p class="itemPrice">300 point</p>
+            </div>
+            <div class="itemList">
+                <div class="itemImg"></div>
+                <p class="itemTitle">보라보라룸</p>
+                <p class="itemPrice">300 point</p>
+            </div>
+            <div class="itemList">
+                <div class="itemImg"></div>
+                <p class="itemTitle">보라보라룸</p>
+                <p class="itemPrice">300 point</p>
+            </div>
+            <div class="itemList">
+                <div class="itemImg"></div>
+                <p class="itemTitle">보라보라룸</p>
+                <p class="itemPrice">300 point</p>
+            </div>
+            <div class="itemList">
+                <div class="itemImg"></div>
+                <p class="itemTitle">보라보라룸</p>
+                <p class="itemPrice">300 point</p>
+            </div>
+
+        </div>
+        
+    </div>
 
 
 
@@ -42,7 +103,43 @@
         </div>
     </div>
 
+
+    <!-- 페이징 바 -->
+    <div id="pagingBar" class="clear">
+        <div class="wrap">
+            <div>
+                
+                <p><img src="resources/images/common/pre.png">pre</p>
+                <p onclick="paging();">next<img src="resources/images/common/next.png"></p>
+            </div>
+            <ul>
+                <li onclick="paging(this);">1</li>
+            </ul>
+        </div>
+    </div>
+
+        
     <jsp:include page="../common/footer.jsp" />
 
+
+
+    <script>
+
+        $(function(){
+            // 카테고리 박스
+            const btn = document.querySelector('.btn-select');
+            const list = document.querySelector('.list-member');
+            btn.addEventListener('click', () => {
+                btn.classList.toggle('on');
+            });
+            list.addEventListener('click', (event) => {
+                if (event.target.nodeName === "BUTTON") {
+                    btn.innerText = event.target.innerText;
+                    btn.classList.remove('on');
+                }
+            });
+        })
+
+    </script>
 </body>
 </html>
