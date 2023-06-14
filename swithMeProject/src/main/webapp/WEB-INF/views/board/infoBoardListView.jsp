@@ -19,7 +19,6 @@
         <div class="wrap">
             <h3>질문정보</h3>
             <p>서로의 지식을 공유하고 공유 받아요!</p>
-            <p>${ sessionScope.loginMember.memberId }</p>
         </div>
     </div>
 

@@ -19,7 +19,6 @@
         <div class="wrap">
             <h3>커뮤니티</h3>
             <p>제한 없이, 자유롭게 얘기해요!</p>
-            <p>${ sessionScope.loginMember.memberId }</p>
         </div>
     </div>
 
@@ -334,6 +333,19 @@
                     location.href=rLink;
                 }
                 
+                // 인기글 5개 조회
+                function boardTop(){
+
+                    $.ajax({
+                        url : "topBoard.bo",
+                        success : function(){
+
+                        },
+                        error : function(){
+
+                        }
+                    })
+                }
 
                 
 
