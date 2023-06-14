@@ -46,7 +46,7 @@
     <!--  -->
     <div id="itemCon">
         <div class="wrap clear">
-            <div class="itemList">
+            <div class="itemList btn-open-popup">
                 <div class="itemImg"></div>
                 <p class="itemTitle">보라보라룸</p>
                 <p class="itemPrice">300 point</p>
@@ -86,6 +86,37 @@
         
     </div>
 
+
+    <!-- 아이템 모달 -->
+    <div class="modal msg1">
+                
+    </div>
+    <div class="modal_body msg1_body">
+        <input type="hidden" name="msgNo" class="msgNo1">
+            <div id="itemImg">
+                <img src="" alt="">
+            </div>
+            <div id="itemIntro">
+                <p class="itemType">배경</p>
+                <div class="mainInfo clear">
+                    <h5>보라보라빔</h5>
+                    <p>1,500point</p>
+                </div>
+                <p class="itemText">아이템 설명! 보라보라보라 빔~~ 뿅뿅!아이템 설명! 보라보라보라 빔~~ 뿅뿅!아이템 설명! 보라보라보라 빔~~ 뿅뿅!</p>
+                
+                <div class="totalPoint clear">
+                    <p>현재 보유 포인트</p>
+                    <p>50,0000 point</p>
+                </div>
+                <div class="itemBtn clear">
+                    <button class="cloesBtn">닫기</button>
+                    <button>구매하기</button>
+                </div>
+            </div>
+            
+        </div>
+        <button id="replyMsg">답변하기</button>
+    </div>
 
 
     <div id="mainButton">
@@ -138,7 +169,46 @@
                     btn.classList.remove('on');
                 }
             });
+
+
+
+
+            // 받은 메세지 모달 띄우기
+            let btnOpenPopup = document.getElementsByClassName('btn-open-popup');
+            const modal = document.querySelector('.msg1');
+           
+            for(var i = 0; i < btnOpenPopup.length; i++){
+                btnOpenPopup[i].addEventListener("click", click);
+                function click(e) {
+	                $('.msg1_body').show().css('z-index','7777');
+	                $('.msg1').show();
+	                $('body').css('overflow','hidden');
+	                $('.msg1').click(function(){
+	                    $('.msg1_body').hide();
+	                    $('.msg1').hide();
+	                    $('body').css('overflow','auto');
+	                });
+	                $('.cloesBtn').click(function(){
+	                    $('.msg1_body').hide();
+	                    $('.msg1').hide();
+	                    $('body').css('overflow','auto');
+	                });
+                    
+                };
+            }
+            
+            // 모달 닫기
+            $('.cloesBtn3').click(function(){
+                $('.send').hide();
+                $('.send_body').hide();
+                $('body').css('overflow','auto');
+            })
+            
         })
+
+        
+
+        
 
     </script>
 </body>
