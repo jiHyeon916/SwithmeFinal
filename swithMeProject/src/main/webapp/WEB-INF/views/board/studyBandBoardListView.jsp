@@ -72,10 +72,12 @@
                 <div class="studyBandId">${ b.memberId }</div>
                 <div class="studyBandInfo">
                     <img src="" alt="dd">
-                    <p class="studyBandName">${b.sbTitle}</p>
-                    <p class="studyBandIntro">
-			${ b.sbIntroduce }
-                    </p>
+                    <div>
+                        <p class="studyBandName">${b.sbTitle}</p>
+                        <p class="studyBandIntro">
+                            ${ b.sbIntroduce }
+                        </p>
+                    </div>
                     <ul class="clear">
                         <li>${ b.sbNowMem } / ${ b.sbRecruitMem }</li>
                         <li class="PostList">참여하기</li>
