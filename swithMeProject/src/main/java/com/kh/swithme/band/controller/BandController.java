@@ -24,6 +24,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.kh.swithme.band.model.service.BandService;
 import com.kh.swithme.band.model.vo.Band;
+import com.kh.swithme.band.model.vo.BandBoard;
 import com.kh.swithme.band.model.vo.BandMember;
 import com.kh.swithme.band.model.vo.BandReply;
 import com.kh.swithme.band.model.vo.BandReport;
@@ -69,7 +70,7 @@ public class BandController {
 		}
 	}
 	
-	// 밴드 게시글 작성
+	// 밴드 게시글
 	// 섬머노트 사진
 	@RequestMapping(value="studyBand.bo/SummerNoteImageFile" , method = RequestMethod.POST)
 	public @ResponseBody JsonObject SummerNoteImageFile(@RequestParam("file") MultipartFile file) {
@@ -94,7 +95,12 @@ public class BandController {
 		}	
 		return jsonObject;
 	}
-	
+	// 밴드 게시글 작성
+	@ResponseBody
+	@RequestMapping(value="studyBand.bo/binsert.sb")
+	public String insertBandBoard(BandBoard bb){
+		return bandService.insertBandBoard(bb) > 0 ? "success" : "fail";
+	}
 	// 밴드 게시글 수정
 	
 	// 밴드 게시글 삭제

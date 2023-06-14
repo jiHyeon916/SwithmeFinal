@@ -159,33 +159,31 @@
             
 	                <!-- Modal body -->
 	                <div class="modal-body1">
-	                    <form action="delete.me" method="post">
-	                 		<br>
-	                        <div class="form-group">
-	                        	<div>
-	                        		<div class="selectType">
-	                        			<select id="">
-											<option value="Y">일반글</option>
-											<option value="N">공지사항</option>
-										</select>
-	                        		</div>
-	                        		<div class="totalDetail1">
-										<textarea id="summernote" name="editordata"></textarea>
-	                        		</div>
-	                        		<div class="fileType">
-	                        			<input type="file" name="file1">
-	                        			<input type="file" name="file2">
-	                        			<input type="file" name="file3">
-	                        			<input type="file" name="file4">
-	                        		</div>
-	                        	</div>
-	                        </div>
-	                        <br>
-	                        <div class="btnGroupMain">
-		                        <button class="enrollConfirm" type="submit">등록하기</button>
-		                        <button class="enrollDismiss" type="button" data-dismiss="modal">취소하기</button>
-	                        </div>
-	                    </form>
+                 		<br>
+                        <div class="form-group">
+                        	<div>
+                        		<div class="selectType">
+                        			<select id="sbCategory" name="sbCategory">
+										<option value="Y" selected>일반글</option>
+										<option value="N">공지사항</option>
+									</select>
+                        		</div>
+                        		<div class="totalDetail1">
+									<textarea id="summernote" name="editordata"></textarea>
+                        		</div>
+                        		<div class="fileType">
+                        			<input type="file" name="file1">
+                        			<input type="file" name="file2">
+                        			<input type="file" name="file3">
+                        			<input type="file" name="file4">
+                        		</div>
+                        	</div>
+                        </div>
+                        <br>
+                        <div class="btnGroupMain">
+	                        <button class="enrollConfirm" id="bandBoardEnroll" type="button">등록하기</button>
+	                        <button class="enrollDismiss" type="button" data-dismiss="modal">취소하기</button>
+                        </div>
 	                </div>
             	</div>
         	</div>
@@ -195,6 +193,7 @@
 			// 썸머노트
 			$(document).ready(function() {
 		        $('#summernote').summernote();
+		        $('button').not('#updateRe').attr('disabled',false);
 		    });
 			
 			$(document).on('click', '.writeStart > button', function(){
@@ -212,10 +211,7 @@
 						['style', ['style']],
 						['font', ['bold', 'underline', 'clear']],
 						['color', ['color']],
-						['para', ['ul', 'ol', 'paragraph']],
-						['table', ['table']],
-						['insert', ['link', 'picture', 'video']],
-						['view', ['fullscreen', 'codeview', 'help']]
+						['para', ['ul', 'ol', 'paragraph']]
 							],
 					callbacks: {
 						onImageUpload : function(files){
@@ -224,6 +220,9 @@
 					}
 				});
 			});
+						// ['table', ['table']],
+						// ['insert', ['link', 'picture', 'video']],
+						// ['view', ['fullscreen', 'codeview', 'help']]
 			
 			// 게시글 사진 영역
 			function sendFile(file, editor){
@@ -243,6 +242,37 @@
 					}
 				});
 			}
+						
+			// 게시글 작성 영역
+			$(document).on('click','#bandBoardEnroll', function(){
+				var query = window.location.search;     
+				var param = new URLSearchParams(query);
+				var sno = param.get('sno');
+				
+				$.ajax({
+					url : 'binsert.sb',
+					type : 'POST',
+					data : {
+							sbNo : sno,
+							memberId : '${ sessionScope.loginMember.memberId }',
+							sbCategory : $("select[name=sbCategory]").val(),
+							sbContent : $('.note-editable').html()	
+					},
+					success : function(result){
+						if(result === 'success'){
+							if($("select[name=sbCategory]").val() == 'Y'){
+								location.href="detail.bo?sno="+sno;
+							} else {
+								location.href="bandNotice.sb?sno="+sno;
+							}							
+						}
+						alert('글작성 성공');
+					},
+					error : function(){
+						console.log('게시글 작성 실패');
+					}
+				})
+			});
 			
 			// 댓글 영역
 			
@@ -303,15 +333,13 @@
 				});
 			}
 			
-			//댓글 수정 영역
+			//댓글 수정 뷰 영역
 			$(document).on('click', '#updateRe', function(){
 				var sbBoardNo = $(this).parent().parent().siblings('.replyBtn').children().last().val();
 				var sbReplyNo = $(this).prev().prev().val();
 				var content = $(this).parent().prev();
 				var totalBtn = $(this).parent();
-	            console.log(content);
-	            console.log(sbBoardNo);
-	            console.log(sbReplyNo);
+				var realThis = $(this);
 
 	        	$.ajax({
 	                url : 'replyModifyView.sb',
@@ -320,43 +348,53 @@
 	                },
 	                success : function(result){
 	                    // console.log(result);
+	                    $('button').not(realThis).attr('disabled',true);
+	                    
 	                    var modifyArea = '<textarea class="replayModify">' + result.sbReplyContent + '</textarea>'
+	                    			   + '<input id="replyNo" type="hidden" value="' + sbReplyNo + '">'
 	                                   + '<button class="reset" type="button">취소</button>'
 	                                   + '<button class="modify" id="updateRee" type="button">저장</button><br><hr>'
 	                   	content.html(modifyArea);
 	                    totalBtn.css('display','none');
 						
-	                    $(document).on('click', '.modify', function(){
-	                        $.ajax({
-	                            url : 'replyModify.sb',
-	                            data : {
-	                            	sbReplyNo : sbReplyNo,
-	                            	sbReplyContent : $('.replayModify').val()
-	                            },
-	                            success : function(result){
-	                            	if(result === 'success'){
-	                            		console.log(result);
-		                            	$('#replyDetailBtn').css('display','show');
-		                            	selectReplyList(sbBoardNo);
-	    							}
-	                            },
-	                            error : function(){
-									console.log('댓글 수정영역 불러오기 실패');
-	                            }
-	                        })
-	                    });
-
-	                    $(document).on('click', '.reset', function(){
-	                    	$('#replyDetailBtn').css('display','show');
-	                    	selectReplyList(sbBoardNo);
-	                    })
 	                },
 	                error : function(){
 						console.log('댓글 수정 실패');
 	                }
 	            })
-
 	        });
+			
+			// 댓글 수정 영역
+            $(document).on('click', '.modify', function(){
+            	var sbBoardNo = $(this).parent().parent().siblings('.replyBtn').children().last().val();
+            	var sbReplyNo = $(this).prev().prev().val();
+            	
+                $.ajax({
+                    url : 'replyModify.sb',
+                    data : {
+                    	sbReplyNo : sbReplyNo,
+                    	sbReplyContent : $('.replayModify').val()
+                    },
+                    success : function(result){
+                    	if(result === 'success'){
+                    		console.log(result);
+                     	$('button').not('#updateRe').attr('disabled',false);
+                     	$('#replyDetailBtn').css('display','show');
+                     	selectReplyList(sbBoardNo);
+						}
+                    },
+                    error : function(){
+						console.log('댓글 수정영역 불러오기 실패');
+                    }
+                })
+            });
+			// 댓글 수정 취소 버튼
+			$(document).on('click', '.reset', function(){
+				var sbBoardNo = $(this).parent().parent().siblings('.replyBtn').children().last().val();
+				$('button').not('#updateRe').attr('disabled',false);
+             	selectReplyList(sbBoardNo);
+			});
+
 
 			// 게시글 삭제 영역
 			$(document).on('click', '#deleteBoard', function(){

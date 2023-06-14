@@ -91,7 +91,7 @@
 							        <div id="image_container">
 							        	<img id="imgProfile" src="${ info.sbChangeName }">
 							     	</div>
-								        <input type="file" id="image" name="reUpfile" onchange="setThumbnail(this);" />
+								        <input type="file" id="image" name="reUpfile" accept="image/*" onchange="setThumbnail(this);" />
 								 </div>
 		                    </div>
 		                        <br>

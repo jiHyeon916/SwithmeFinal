@@ -134,6 +134,10 @@ public class BandDao {
 		return sqlSession.update("bandMapper.updateBandReply", br);
 	}
 
+	public int insertBandBoard(SqlSessionTemplate sqlSession, BandBoard bb) {
+		return sqlSession.insert("bandMapper.insertBandBoard", bb);
+	}
+
 
 
 }
