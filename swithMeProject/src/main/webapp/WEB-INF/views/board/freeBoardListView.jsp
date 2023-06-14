@@ -162,7 +162,10 @@
                 // 게시판 게시글 수 카운팅 
                 function freeBoardCount(){
                     $.ajax({
-                        url : 'freeCount.bo',
+                        url : 'boardCount.bo',
+                        data : {
+                            boardType : 1
+                        },
                         success : function(r) {
                             $('.totalListCount').html('전체 게시글 ' + r + '건');
                         },

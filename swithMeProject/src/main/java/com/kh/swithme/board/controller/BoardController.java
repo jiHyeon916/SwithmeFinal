@@ -38,9 +38,9 @@ public class BoardController {
 	 * @return 자유게시판
 	 */
 	@ResponseBody
-	@RequestMapping("freeCount.bo")
-	public int freeCount() {
-		return boardService.freeCount();
+	@RequestMapping("boardCount.bo")
+	public int boardCount(int boardType) {
+		return boardService.boardCount(boardType);
 	}
 	
 	/**
