@@ -35,9 +35,11 @@
 		        	</div>
 		        	<hr>
 		        	<div class="postBody">
-		        		<p class="writer">
+		        		<div class="writer" id="summary">
 							${ bb.sbContent }
-		        		</p>
+		        		</div>
+		        		<div class="writer" id="summary1">
+		        		</div>
 		        	</div>
 		        	<br>
 		        	<div class="photoBody">
@@ -77,7 +79,7 @@
 				                        		<P id="detailDate"></P>
 	                        				</div>
 	                        				<div class="countDiv">
-					                        	<p id="detailCount"></p> 
+					                        	<div id="detailCount"></div> 
 	                        				</div>
 	                        			</div>
 	                        			<br>	
@@ -98,11 +100,11 @@
 			                        			<c:choose>
 			                        				<c:when test="${ empty loginMember }">
 											        		<textarea class="replyContent" readonly>로그인 후 이용가능합니다.</textarea><br>
-											        		<button type="button" class="replyEnroll">등록</button>
+											        		<button type="button" class="replyEnroll">등록</button> <br>
 			                        				</c:when>
 											     	<c:otherwise>
 											        		<textarea class="replyContent"></textarea><br>
-											        		<button type="button" id="plzBtn" class="replyEnroll">등록</button>
+											        		<button type="button" class="replyEnroll">등록</button> <br>
 											     	</c:otherwise>	
 			                        			</c:choose>
 				                        	<input type="hidden" class="sBoardNoModal" name="bandNo" value="">
@@ -140,7 +142,7 @@
 						$('#detailNickName').text("닉네임 : " + list.memberId);
 						$('#detailDate').text("날짜 : " + list.sbCreateDate);
 						$('#detailCount').text("조회 수 : " + list.sbCount);
-						$('#detailContent').text(list.sbContent);
+						$('#detailContent').html(list.sbContent);
 						$('#sbContent').text(list.sbContent);
 						
 					},
@@ -194,6 +196,17 @@
 			$(document).ready(function() {
 		        $('#summernote').summernote();
 		        $('button').not('#updateRe').attr('disabled',false);
+		        let target = document.getElementById('summary');
+		        let target1 = document.getElementById('summary1');
+		        
+		        const extractTextPattern = /(<([^>]+)>)/gi;
+		        
+		        let src = target.innerHTML;
+
+		        let extractedText = src.replace(extractTextPattern, '');
+		        
+		        target.style.display = 'none';
+		        target1.innerHTML = extractedText;
 		    });
 			
 			$(document).on('click', '.writeStart > button', function(){
@@ -208,11 +221,15 @@
 					placeholder: '내용을 작성하여 주십시요',	//placeholder 설정
 					tabsize: 2,
 					toolbar: [
-						['style', ['style']],
-						['font', ['bold', 'underline', 'clear']],
-						['color', ['color']],
-						['para', ['ul', 'ol', 'paragraph']]
-							],
+						['fontname', ['fontname']],
+			            ['fontsize', ['fontsize']],
+			            ['style', ['bold', 'italic', 'underline','strikethrough', 'clear']],
+			            ['color', ['forecolor','color']],
+			            ['table', ['table']],
+			            ['para', ['ul', 'ol', 'paragraph']],
+			            ['height', ['height']],
+			            ['insert',['picture','video']]
+					],
 					callbacks: {
 						onImageUpload : function(files){
 							sendFile(files[0],this);
@@ -220,9 +237,7 @@
 					}
 				});
 			});
-						// ['table', ['table']],
-						// ['insert', ['link', 'picture', 'video']],
-						// ['view', ['fullscreen', 'codeview', 'help']]
+
 			
 			// 게시글 사진 영역
 			function sendFile(file, editor){

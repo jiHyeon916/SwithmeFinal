@@ -30,12 +30,10 @@ public class BandServiceImpl implements BandService {
 	private SqlSessionTemplate sqlSession;
 	
 	
-	// test
 	@Override
 	public ArrayList<Band> selectTestBand(Band b) {
 		return bandDao.selectTestBand(sqlSession, b);
 	}
-	// test 끝
 	
 	@Override
 	public ArrayList<BandBoard> selectBandList(int sno) {
@@ -169,13 +167,5 @@ public class BandServiceImpl implements BandService {
 	public BandReply replyModifyView(int sbReplyNo) {
 		return bandDao.replyModifyView(sqlSession, sbReplyNo);
 	}
-
-
-
-	
-
-	
-
-	
 
 }
