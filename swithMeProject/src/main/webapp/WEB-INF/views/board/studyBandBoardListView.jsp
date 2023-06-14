@@ -67,11 +67,13 @@
                 <p>재테크</p>
             </div>
 	
+            <div class="clear">
 	    <c:forEach var="b" items="${ list }">
+        
             <div class="studyBandList clear">
                 <div class="studyBandId">${ b.memberId }</div>
                 <div class="studyBandInfo">
-                    <img src="" alt="dd">
+                    <img src="resources/images/board/test.png" alt="dd">
                     <div>
                         <p class="studyBandName">${b.sbTitle}</p>
                         <p class="studyBandIntro">
@@ -86,56 +88,60 @@
                 </div>
             </div>
 	    </c:forEach>
-
-	    <script>
-
-	$(document).on('click', '.PostList', function(){
-		var inputNo = $(this).parent().next().val();
-		
-		location.href = 'studyBand.bo/detail.bo?sno='+inputNo;
-	
-	});
-
-	</script>
+    </div>
 
 
-            <!-- 페이징 바 -->
-			<!-- <div id="pagingBar" class="clear">
-                <div class="wrap">
-                    <div>
-                        <p><img src="resources/images/common/pre.png">pre</p>
-                        <p>next<img src="resources/images/common/next.png"></p>
-                    </div>
-                    <ul>
-                        <c:forEach begin="${ pi.startPage }" end="${ pi.endPage }" var="p">
-                        <li><a href="freeBoardListView.bo?boardType=1&cPage=${ p }">${ p }</a></li>
-                        </c:forEach>
-                    </ul>
+        
+
+	    
+
+
+        <div id="pagingBar" class="clear">
+            <div class="wrap">
+                <div>
+                    <p><img src="resources/images/common/pre.png">pre</p>
+                    <p>next<img src="resources/images/common/next.png"></p>
                 </div>
-            </div> -->
+                <ul>
+                    <c:forEach begin="${ pi.startPage }" end="${ pi.endPage }" var="p">
+                    <li><a href="freeBoardListView.bo?boardType=1&cPage=${ p }">${ p }</a></li>
+                    </c:forEach>
+                </ul>
+            </div>
+        </div>
 
 
-            <script>
-
-                $(function(){
-                    // 카테고리 박스
-                    const btn = document.querySelector('.btn-select');
-                    const list = document.querySelector('.list-member');
-                    btn.addEventListener('click', () => {
-                        btn.classList.toggle('on');
-                    });
-                    list.addEventListener('click', (event) => {
-                        if (event.target.nodeName === "BUTTON") {
-                            btn.innerText = event.target.innerText;
-                            btn.classList.remove('on');
-                        }
-                    });
-
-
-                });
-
-            </script>
+        
 
 
         </div>
+        
     </div>
+
+    <jsp:include page="../common/footer.jsp" />
+
+    <script>
+        $(function(){
+                            // 카테고리 박스
+                            const btn = document.querySelector('.btn-select');
+                            const list = document.querySelector('.list-member');
+                            btn.addEventListener('click', () => {
+                                btn.classList.toggle('on');
+                            });
+                            list.addEventListener('click', (event) => {
+                                if (event.target.nodeName === "BUTTON") {
+                                    btn.innerText = event.target.innerText;
+                                    btn.classList.remove('on');
+                                }
+                            });
+        
+        
+                        });
+            $(document).on('click', '.PostList', function(){
+                var inputNo = $(this).parent().next().val();
+                
+                location.href = 'studyBand.bo/detail.bo?sno='+inputNo;
+            
+            });
+        
+            </script>
