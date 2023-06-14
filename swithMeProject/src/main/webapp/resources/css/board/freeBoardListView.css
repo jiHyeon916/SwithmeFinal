@@ -45,13 +45,11 @@
     font-size: 14px;
 }
 #topBoard .hotBod{
-    display: inline-block;
-    line-height: 20px;
-    margin-bottom: 8px;
+    margin-bottom: 5px;
+    line-height: 26px;
 }
 #topBoard .hotBod:hover{
     cursor: pointer;
-    background-color: #e8ffff;;
 }
 
 #topBoard #topBoard1 > div:first-child,
@@ -88,7 +86,6 @@
     width: 600px;
     margin-right: 20px;
     background:#f4f4f4;
-    /* background-color:  #cff0ed; */
 }
 
 #topBoard #topBoard3{

@@ -28,6 +28,9 @@ public class BoardDao {
 		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
 		return (ArrayList)sqlSession.selectList("boardMapper.boardListSelect", boardType, rowBounds);
 	}
+	public ArrayList<Board> topBoard(SqlSessionTemplate sqlSession){
+		return (ArrayList)sqlSession.selectList("boardMapper.topBoard");
+	}
 	public int boardCountUp(SqlSessionTemplate sqlSession, int boardNo) {
 		return sqlSession.update("boardMapper.boardCountUp", boardNo);
 	}

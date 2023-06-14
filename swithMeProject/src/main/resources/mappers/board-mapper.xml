@@ -348,6 +348,7 @@
 	          CREATE_DATE DESC
 	</select>
 	
+	<!--  조회수 증가 -->
 	<update id="boardCountUp">
 		UPDATE 
                 MAINBOARD
@@ -357,6 +358,22 @@
                BOARD_NO = #{ boardNo }
 
 	</update>
+	
+	<!-- 인기글 top5 -->
+	<select id="topBoard" resultMap="boardResultSet">
+		SELECT *
+		  FROM (
+		  		SELECT
+		              BOARD_NO
+		             ,BOARD_TITLE
+		          FROM
+		              MAINBOARD
+		         ORDER
+		            BY
+		              BOARD_COUNT DESC)
+         WHERE ROWNUM <![CDATA[ < 6 ]]>
+	</select>
+	
 	<!-- 자유게시판 게시글 수 조회  -->
 	<select id="boardCount" resultType="_int">
 		SELECT

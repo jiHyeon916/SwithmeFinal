@@ -194,12 +194,12 @@ margin-bottom: 5px;
 .studyBandList .studyBandId{
     width: 160px;
     border-radius: 20px;
-    margin-bottom: 10px;
     background-color: #f1f1f1;
-    padding-left: 10px;
+    padding: 3px 0px 3px 20px;
+    margin-bottom: 10px;
 }
 .studyBandInfo{
-    height: 240px;
+    height: 230px;
     background-color: #f1f1f1;
     border-radius: 10px;
     padding: 16px;
@@ -217,13 +217,15 @@ margin-bottom: 5px;
 
 
 
-.studyBandInfo > .studyBandName{
+.studyBandInfo div .studyBandName{
     margin: 10px 0 10px 0;
     font-size: 18px;
 }
-.studyBandInfo .studyBandIntro{
+.studyBandInfo div .studyBandIntro{
     font-size: 15px;
-    margin-bottom: 20px;
+    height: 120px;
+    margin-bottom: 5px;
+    overflow: hidden;
 }
 .studyBandInfo ul{
     margin-bottom: 3px;
@@ -272,4 +274,10 @@ margin-bottom: 5px;
 #pagingBar ul li a{
     display: block;
     width: 20px;
+}
+
+/* 참여버트 */
+.PostList:hover{
+    color:rgba(32, 154, 61);
+    cursor: pointer;
 }

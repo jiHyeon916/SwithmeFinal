@@ -66,6 +66,17 @@ public class BoardController {
 			return "board/infoBoardListView";
 		}
 	}
+	
+	/**
+	 * 인기글 top5 조회 
+	 * @param model
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value="topBoard.bo", produces="application/json; charset=UTF-8")
+	public String topBoard() {
+		return new Gson().toJson(boardService.topBoard()); 
+	}
 	/**
 	 * 게시글 상세 보기 
 	 * @param boardNo 조회할 게시글 번호

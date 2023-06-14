@@ -24,6 +24,9 @@ public interface BoardService {
 	// 2. 리스트 불러오기
 	ArrayList<Board> selectBoardList(int boardType, PageInfo pi);
 	
+	// 인기글 불러오기
+	ArrayList<Board> topBoard();
+	
 	// 게시글 조회 - 조회수 증가
 	int boardCountUp(int boardNo);
 	
