@@ -102,17 +102,23 @@ public interface BoardService {
 	// 게시글 수정 하기 - 태그 수정하기
 	int tagUpdate(Board tag);
 	
+	// 게시글 삭제 하기  
+	int boardDelete(int boardNo);
+	
 	// 댓글 수정 하기 ( 댓글 조회)
 	Reply replyModifyView(int replyNo);
 	
 	// 댓글 수정 하기 (업데이트)
 	int replyModify(Reply r);
 	
+
+	
 	// 스터디 밴드 모집하기	
 	int studyBandInsert(Board b);
 	
 	// 스터디 멤버 리스트에 방장 넣기
 	int studyMemberInsert(String memberId);
+	
 	
 	
 	

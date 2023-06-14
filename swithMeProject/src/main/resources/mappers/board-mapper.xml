@@ -883,6 +883,16 @@
 		 	  BOARD_NO = #{ boardNo }
 	</update>
 	
+	<!-- 게시글 삭제하기  -->
+	<update id="boardDelete" parameterType="_int">
+		UPDATE
+	   			MAINBOARD
+	   	   SET
+	   			BOARD_STATUS = 'N'
+	   	 WHERE
+	   			BOARD_NO = #{ boardNo }
+	</update>
+	
 	<!-- 댓글 수정 댓글 조회  -->
 	<select id="replyModifyView" resultMap="replyResultMap">
 		SELECT
@@ -938,6 +948,9 @@
 			 ,'Y'
 			  )
 	</insert>
+	
+	
+	
 	
 	
 	

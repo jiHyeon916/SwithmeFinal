@@ -113,6 +113,9 @@ public class BoardDao {
 	public int tagUpdate(SqlSessionTemplate sqlSession, Board tag) {
 		return sqlSession.update("boardMapper.tagUpdate", tag);
 	}
+	public int boardDelete(SqlSessionTemplate sqlSession, int boardNo) {
+		return sqlSession.update("boardMapper.boardDelete", boardNo);
+	}
 	public Reply replyModifyView(SqlSessionTemplate sqlSession, int replyNo) {
 		return sqlSession.selectOne("boardMapper.replyModifyView", replyNo);
 	}

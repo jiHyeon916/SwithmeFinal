@@ -146,6 +146,10 @@ public class BoardServiceImpl implements BoardService {
 		return boardDao.tagUpdate(sqlSession, tag);
 	}
 	@Override
+	public int boardDelete(int boardNo) {
+		return boardDao.boardDelete(sqlSession, boardNo);
+	}
+	@Override
 	public Reply replyModifyView(int replyNo) {
 		return boardDao.replyModifyView(sqlSession, replyNo);
 	}
