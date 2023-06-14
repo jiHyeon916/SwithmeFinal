@@ -275,11 +275,12 @@
 						
 						let value="";
 						for(let i in result){
-							value += '<div id="replyMem"><input id="replyNo" type="hidden" value="' + result[i].sbReplyNo + '">' 
+							value += '<div id="replyMem">' 
 								   + result[i].memberId +'</div>'
 								   + '<div id="replyDate">' + result[i].sbDate + '</div><br>'
 								   + '<div id="replyContent1">' + result[i].sbReplyContent + '</div>'
-								   + '<div id="replyDetailBtn"><button class="replyEnroll1" type="button">삭제</button>'
+								   + '<div id="replyDetailBtn"><input id="replyNo" type="hidden" value="' + result[i].sbReplyNo + '">'
+								   + '<button class="replyEnroll1" type="button">삭제</button>'
 								   + '<button class="replyEnroll2" type="button" id="updateRe">수정</button><br><hr></div>';
 						};
 						$('.replyBodyDetail').html(value);
@@ -294,10 +295,12 @@
 			//댓글 수정 영역
 			$(document).on('click', '#updateRe', function(){
 				var sbBoardNo = $(this).parent().parent().siblings('.replyBtn').children().last().val();
-				var sbReplyNo = $(this).parent().siblings('#replyMem').children().eq(0).val();
-				var content = $(this).parent().prev().html();
+				var sbReplyNo = $(this).prev().prev().val();
+				var content = $(this).parent().prev();
 				var totalBtn = $(this).parent();
 	            console.log(content);
+	            console.log(sbBoardNo);
+	            console.log(sbReplyNo);
 
 	        	$.ajax({
 	                url : 'replyModifyView.sb',
@@ -308,7 +311,7 @@
 	                    // console.log(result);
 	                    var modifyArea = '<textarea class="replayModify">' + result.sbReplyContent + '</textarea>'
 	                                   + '<button class="reset" type="button">취소</button>'
-	                                   + '<button class="modify" id="updateRee" type="button">수정</button>'
+	                                   + '<button class="modify" id="updateRee" type="button">저장</button><br><hr>'
 	                   	content.html(modifyArea);
 	                    totalBtn.css('display','none');
 						
@@ -321,6 +324,7 @@
 	                            },
 	                            success : function(result){
 	                            	if(result === 'success'){
+	                            		console.log(result);
 		                            	$('#replyDetailBtn').css('display','show');
 		                            	selectReplyList(sbBoardNo);
 	    							}
@@ -367,8 +371,7 @@
 			// 댓글 삭제 영역
 			$(document).on('click', '.replyEnroll1', function(){
 				var sbBoardNo = $(this).parent().parent().siblings('.replyBtn').children().last().val();
-				var sbReplyNo = $(this).parent().siblings('#replyMem').children().eq(0).val();
-				var this2 = $(this).parent().prev();
+				var sbReplyNo = $(this).prev().val();
 				
 				console.log(sbBoardNo);
 				console.log(sbReplyNo);

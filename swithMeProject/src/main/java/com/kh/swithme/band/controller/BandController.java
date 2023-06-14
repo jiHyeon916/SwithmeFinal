@@ -129,10 +129,10 @@ public class BandController {
 	
 	// 밴드 댓글 수정
 	@ResponseBody
-	@RequestMapping(value="studyBand.bo/replyModify.sb", produces="application/json; charset=UTF-8")
+	@RequestMapping(value="studyBand.bo/replyModify.sb")
 	public String updateBandReply(BandReply br, String sbReplyContent) {
 		br.setSbReplyContent(sbReplyContent.replace(System.getProperty("line.separator"), "<br>"));
-		System.out.println(bandService.updateBandReply(br));
+		// System.out.println(bandService.updateBandReply(br));
 		return bandService.updateBandReply(br) > 0 ? "success" : "fail";
 	}
 	
