@@ -134,7 +134,7 @@
                  <table id="adminMemberTable">
                     <thead>
                          <tr>
-                             <th>NO</th>
+                            
                              <th>아이디</th>
                              <th>이름</th>
                              <th>닉네임</th>
@@ -154,7 +154,7 @@
                       <c:otherwise>
                              <c:forEach items="${searchList }" var="m">
                                <tr id="#adminMemberTable">
-                                   <td>#no</td>
+                                   
                                    <td><a href="memberDetailInfo.ad?memberId=${m.memberId }">${m.memberId }</a></td>
                                    <td>${m.memberName }</td>
                                    <td>${m.nickName }</td>

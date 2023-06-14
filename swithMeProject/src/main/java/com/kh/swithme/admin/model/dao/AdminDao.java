@@ -79,8 +79,8 @@ public class AdminDao {
 		   return sqlSession.update("adminMapper.deleteBoardDetail", boardNo);
 	   }
 	   
+	   //회원 band 글 삭제
 	   public int deleteBandDetail(SqlSessionTemplate sqlSession, int boardNo) {
-		   // TODO Auto-generated method stub
 		   return sqlSession.update("adminMapper.deleteBandDetail",boardNo);
 	   }
 	   

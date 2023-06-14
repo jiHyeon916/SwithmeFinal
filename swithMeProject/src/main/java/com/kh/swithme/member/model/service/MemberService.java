@@ -14,7 +14,7 @@ import com.kh.swithme.member.model.vo.TodoList;
 
 public interface MemberService {
 	
-	
+	//지현
 	//�븘�씠�뵒 以묐났 泥댄겕
 	int idCheck(String checkId);
 	

@@ -152,9 +152,9 @@ public class AdminController {
    @RequestMapping("memberDetailInfo.ad")
    public ModelAndView memberDetailInfo(String memberId, HttpSession session, ModelAndView mv) {
 	    
-	   System.out.println(memberId);
+	   //System.out.println(memberId);
 	   Member m = adminService.memberInfo(memberId);
-	   System.out.println(m);
+	   //System.out.println(m);
 	   
 	   mv.addObject("m", m);
 	   mv.setViewName("admin/memberDetailInfo");
@@ -177,12 +177,12 @@ public class AdminController {
    @RequestMapping(value="memberDetailBoardList.ad", produces="application/json; charset=UTF-8")
    public String memberDetailBoard(String memberId) {
 	  
-	   System.out.println(memberId);
+	   //System.out.println(memberId);
 	   
 	   ArrayList<Board> list = adminService.memberDetailBoard(memberId);
 	   //ArrayList<Band> Slist = adminService.memberDetailBand(memberId);
 	   
-	   System.out.println(list);
+	   //System.out.println(list);
 	   
 	   return new Gson().toJson(list);
    }
@@ -193,7 +193,7 @@ public class AdminController {
   public String memberBandList(String memberId) {
 	  
 	  ArrayList<Band> list = adminService.memberDetailBand(memberId);
-	  System.out.println(list);
+	  //System.out.println(list);
 	  
 	  return new Gson().toJson(list);
 		
@@ -212,9 +212,20 @@ public class AdminController {
   // 회원 board삭제
   @ResponseBody
   @RequestMapping("deleteBoardDetail.ad")
-  public char deleteBoardDetail(int boardNo) {
+  public int deleteBoardDetail(int[] boardNo) {
 	  
-	  return adminService.deleteBoardDetail(boardNo) > 0 ? 'Y' : 'N';
+	  int result = 1;
+	  System.out.println(boardNo);
+	  
+	  for(int i = 0; i <boardNo.length; i++) {
+		  result *= adminService.deleteBoardDetail(boardNo[i]);
+		  
+	  }
+	  //System.out.println(result);
+	  
+	 return result;
+	  
+	  //return adminService.deleteBoardDetail(boardNo) > 0 ? 'Y' : 'N';
   
   
   }
@@ -224,7 +235,7 @@ public class AdminController {
   @RequestMapping("deleteBandDetail.ad")
   public char deleteBandDetail(int boardNo) {
 	  
-	  return adminService.deleteBanddDetail(boardNo) > 0 ? 'Y' : 'N';
+	  return adminService.deleteBandDetail(boardNo) > 0 ? 'Y' : 'N';
   }
   
   

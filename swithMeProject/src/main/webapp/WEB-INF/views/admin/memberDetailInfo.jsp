@@ -59,9 +59,10 @@
         margin-left:500px;
      }
      
-     #admemBoardChkDel{
+     #admemBoardChkDel, #admemBandChkDel{
         width:20px;
         height:20px;
+       
      }
    
      .memAdDetailBtn > button{
@@ -81,6 +82,7 @@
         color:#03c373;
         border : 1.5px solid #03c373;
      }
+     
       .memAdDetailBtn > button:hover{
           border-color:rgb(3, 195, 115);
        	  outline: none;
@@ -89,7 +91,7 @@
       }
       
       #detailDeleteBtn{
-		margin-left:470px;
+		margin-left:540px;
 		inline:block;
 		background-color : rgb(3, 195, 115);
 		color:white;
@@ -101,8 +103,16 @@
       	inline:block;
       }
       
+      .selectBtn{
+          border-color:rgb(3, 195, 115)  !important;
+       	  outline: none;
+          color:#03c373;
+          border : 1.5px solid #03c373;
       
+      }
       
+
+    
       
 </style>
 <body>
@@ -143,12 +153,14 @@
                      <button type="submit" id="adminMemberBtn">검색</button>
                  </form>
                  <br><br><br>
-                 
-                 
+           
+           
+           
+           
             <div class="memAdDetailBtn">
-                     <button onclick="memberBoardList();">게시판</button>
-                     <button onclick="memberBandList();">스터디밴드</button>
-                     <button onclick="memberReplyList();">댓글</button>
+                     <button onclick="memberBoardList();" class="memberBoardList" style="margin-left:50px;">게시판</button>
+                     <button onclick="memberBandList();" class="memberBandList">스터디밴드</button>
+                    <!--   <button onclick="memberReplyList();">댓글</button>  -->
                      <button id="detailDeleteBtn">삭제</button>
                </div>
                
@@ -172,9 +184,26 @@
                  </table>
             <br><br>
             
-
+            
+            
+            
+            
+			<!-- 스크립트 조회 / 밴드 / 보드 삭제 -->
             <script>
             
+             	$(function() {
+             		$('.memberBoardList').click();
+             		
+             		
+             	});
+             	
+             	
+             	
+             	
+             	
+             	
+             	
+             	
                function memberBoardList() {
                   
                      $.ajax({
@@ -186,24 +215,30 @@
                         console.log(listArr);
                          let value = "";
                          
-                         if(listArr != null) {
+                         if(listArr.length != 0) {
                         	 
                         for(let i in listArr) {
                         	
                         	
                         	let list = listArr[i];
-                        	console.log(list);
+                        	let test = listArr[i].boardNo;
+                        	//console.log(list);
+                        	console.log(list.boardNo);
                         	
                         	value 	+= '<tr>' 
                            		  	 +'<td>' + list.boardNo + '</td>'
 	                           		 +'<td>' + list.boardTitle + '</td>'
 	                           		 +'<td>' + list.boardContent + '</td>'
 	                           		 +'<td>' + list.createDate + '</td>'
-                        			 +'<td>' + '<input type="checkbox" name="BoardChkDel" id="admemBoardChkDel"></input>' + '</td>'
+                        			 //+'<td>' + '<input type="checkbox" value="' +list.baordbNo + '" name="BoardChkDel" id="admemBoardChkDel"></input>' + '</td>'
+                        			 +'<td>' + '<input type="checkbox" value="' + test + '" name="BoardChkDel" id="admemBoardChkDel"></input>' + '</td>'
                         			 +'</tr>'
+                        
+                        
                         }
                         
                         $('#adminMemberTable tbody').html(value);
+                        $('.memberBoardList').addClass('selectBtn');
                          }else{
                         	 
                         	  $('#adminMemberTable tbody').html('작성된 게시물이 존재하지 않습니다.');
@@ -214,15 +249,10 @@
                            console.log('실패');
                         }
                      })
-                   }
-               
-               
-               
-               
-               
-               
+                   };
+
+                   
                function memberBandList() {
-            	   
             	   
             	   $.ajax({
             		   
@@ -232,22 +262,26 @@
             		   		
             		   		console.log(listArr);
             		   		
-            		   		if(listArr != null) {
+            		   		if(listArr.length != 0) {
             		   			
             		   			for(let i in listArr) {
             		   			value = "";	
             		   			let list = listArr[i];
-            		   			console.log(list);
+            		   			let test = listArr[i].sbNo;
+            		   			console.log(list.sbNo);
+            		   			
             		   			
             		   			  value  += '<tr>' 
 	                          		  	 +'<td>' + list.sbNo + '</td>'
 		                           		 +'<td>' + list.sbTitle + '</td>'
 		                           		 +'<td>' + list.sbIntroduce + '</td>'
 		                           		 +'<td>' + list.createDate + '</td>'
-	                       				 +'<td>' + '<input type="checkbox" name="BandChkDel" id="admemBoardChkDel"></input>' + '</td>'
+	                       				 //+'<td>' + '<input type="checkbox" value="' + list.sbNo + '" name="BandChkDel" id="admemBandChkDel"></input>' + '</td>'
+	                       				 +'<td>' + '<input type="checkbox" value="' + test + '" name="BandChkDel" id="admemBandChkDel"></input>' + '</td>'
 	                       				 +'</tr>'
             		   			}
             		   		 $('#adminMemberTable tbody').html(value);
+            		   		$('.memberBoardList').removeClass('selectBtn');
             		   		
             		   		}else{
             		   			
@@ -255,116 +289,164 @@
             		   		}
             		   		
             		   	},error: () => {console.log('실패');}
-            	   });
-               };
+            	     });
+                  };
                
-               
-       /*         
-               function memberReplyList() {
-            	   
-            	   	$.ajax({
-            	   		
-            	   		url : 'memberReplyList.ad',
-            	   		data : {memberId : '${m.memberId}'},
-            	   		success : function(result) {
-            	   			
-            	   			
-            	   			
-            	   			
-            	   		},error: () => {console.log('실패');}
-            	   	});
-            	   	
-            	   	
-            	   
-            	   
-            	   
-            	   
-            	   
-               }
-             */
-             
             
-         
+                  </script>
+                  
+                  
+                  
+                  <script>
+                  
+                  
+                  
+        	//삭제 ajax 
              $(function() {
+	            	
             	 
-            	 
-            	 var boardNo = $(this).parent().next().next().next().children('tbody').children('tr').children('td').eq(0).text();
-            		console.log(boardNo);
-            		
-            	 
+            	 //$('#detailDeleteBtn').
+	            
             	 $('#detailDeleteBtn').on('click',function() {
-            		 
-            		if($('#adminMemberTable input[name=BoardChkDel]:checked')
-            				.length == 0) {
-            			
-            				alert('선택된 글이 없습니다.');
-            				
-            		}else{
-            			
-            			if(confirm('선택된 글을 삭제하시겠습니까 ?')){
-            				
-            				$.ajax({
-            						url :'deleteBoardDetail.ad',
-            						data : {boardNo : boardNo},
-            						success: function(result){
-            							
-            							if(result == 'Y') {
-            								alert('삭제되었습니다.');
-            								location.reload();
-            								
-            							}else{
-            								alert('삭제에 실패하였습니다.');
-            							}
-            							
-            							
-            						},error: () => {console.log('실패');}
-            				});
-            			}            			
-            			
-            		}
-          
-            	 });
-             }); 
-             
-             
-             
- 		 	$(function() {
-            	 
-            	 $('#detailDeleteBtn').on('click',function() {
-            		 
-            	 var boardNo = $(this).parent().next().next().next().children('tbody').children('tr').children('td').eq(0).text();
-            		console.log(boardNo);
             		
-            		if($('#adminMemberTable input[name=BandChkDel]:checked').length == 0) {
-            			
-            				alert('선택된 글이 없습니다.');
+            	 console.log($('input[type=checkbox]:checked').val());
+            		// var boardNo = $(this).parent().next().next().next().children('tbody').children('tr').children('td').eq(0).val();
+            		//console.log(boardNo);
+            		
+            		
+            		
+            		//console.log(boardNo);
+	            	var boardChk = $('#adminMemberTable input[name=BoardChkDel]:checked');
+	            	var bandChk =$('#adminMemberTable input[name=BandChkDel]:checked');
+	            	console.log(boardChk);
+	            	console.log(bandChk);
+	            	//boardNo = ${list.boardNo};
+	            	//sbandNo = ${list.sbNo};
+	            	
+            	 
+            		 
+	            	if(boardChk.length == 0 && bandChk.length == 0) {
+                    	 
+                 	 	alert('선택된 글이 없습니다.');
+                 	 	return;
+            		 
+            		 }else{
+            			  let chkArr = [];
+            			  let yes = confirm('선택된 글을 삭제하시겠습니까?');
+            			 
+            			if(yes) {
+            				console.log('들어옴');
+            				if($('#adminMemberTable input[name=BoardChkDel]:checked').each(function(index, i){
+            					
+            					chkArr[index] = $(this).val();
+            					
+            				}));
             				
-            		}else{
-            			
-            			if(confirm('선택된 글을 삭제하시겠습니까 ?')) {
+            					$.ajax({
+        	 						url :'deleteBoardDetail.ad',
+        	 						data : {boardNo : chkArr},
+        	 						success: function(result){
+        	 							
+        	 							if(result > 0) {
+        	 								alert('삭제되었습니다.');
+        	 								location.reload();
+        	 								
+        	 							}else{
+        	 								alert('삭제에 실패하였습니다.');
+        	 								
+        	 							}
+        	 						},error: () => {console.log('실패');}
+        	 					});
             				
-            				$.ajax({
-            						url :'deleteBoardDetail.ad',
-            						data : {boardNo : boardNo},
-            						success: function(result){
-            							
-            							if(result == 'Y') {
-            								alert('삭제되었습니다.');
-            								location.reload();
-            							}else{
-            								alert('삭제에 실패하였습니다.');
-            							}
-            							
-            							
-            						},error: () => {console.log('실패');}
-            				});
+            					console.log(chkArr);
+            					
+            					
+            				
+            				
+            				}
             			}
-            			
-            			
-            		}
-          
+            		 }) 
             	 });
-             });  
+             
+            					//console.log($('#adminMemberTable input[name=BoardChkDel]').is(":checked").val());
+            			
+            					
+            					
+            					
+            				/* alert('dd');
+            				let chkArr = [];
+            				console.log(boardChk); */
+            				
+        					
+        			/* 	
+            			let chkArr = [];
+    					boardChk.each(function(index,i)){
+    					chkArr[index] = boardNo;
+    						
+    					}
+        				 */
+            				
+            			
+            			 
+           
+	            		
+             
+            /*  if(boardChk.length == 0 && bandChk.length == 0) {
+            	 
+            	 	alert('선택된 글이 없습니다.');
+            	 	return;
+            	 	
+             }if($('#adminMemberTable input[name=BoardChkDel]').is(":checked")) {
+	            		 
+            	 if(confirm('선택된 글을 삭제하시겠습니까?')){
+            		 
+	            		 $.ajax({
+	 						url :'deleteBoardDetail.ad',
+	 						data : {boardNo : boardNo},
+	 						success: function(result){
+	 							
+	 							if(result == 'Y') {
+	 								alert('삭제되었습니다.');
+	 								location.reload();
+	 								
+	 							}else{
+	 								alert('삭제에 실패하였습니다.');
+	 								
+	 							}
+	 						},error: () => {console.log('실패');}
+	 					});
+            		 
+            	 }
+            		 
+            	 }else if(bandChk){
+            		 
+            		 if(confirm('선택된 글을 삭제하시겠습니까?')) {
+            			 
+	            		 $.ajax({
+	            			 
+	            			 url :'deleteBandDetail.ad', 
+	            			 data : {boardNo : boardNo},
+		 						success: function(result){
+		 							
+		 							if(result == 'Y') {
+		 								alert('삭제되었습니다.');
+		 								location.reload();
+		 								
+		 							}else{
+		 								alert('삭제에 실패하였습니다.');
+		 							}
+		 						},error: () => {console.log('실패');}
+		 					});
+	            		 }
+            		 
+            			 
+            			 
+            			 
+            		 };
+            		  */
+            		 
+            	 
+             
              
              
             </script>

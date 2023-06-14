@@ -23,9 +23,14 @@
     #adminMemberBtn:hover{
         cursor: pointer;
     }
+    
+    #adminMemberTable{
+    	margin:auto;
+    }
     #adminMemberTable th{
         width: 150px;
         padding-right: 10px;
+        
     }
     #adminMemberTable th, td{
         border: 1px solid rgb(205, 203, 203);
@@ -54,6 +59,9 @@
      #adminMemberForm{
         margin-left:255px;
      }
+     /* .paBtn{
+     	margin-left:300px;
+     } */
 
 </style>
 <body>
@@ -91,7 +99,6 @@
                  <table id="adminMemberTable">
                     <thead>
                          <tr>
-                             <th>NO</th>
                              <th>아이디</th>
                              <th>이름</th>
                              <th>닉네임</th>
@@ -102,7 +109,6 @@
                     <tbody>
                     	<c:forEach items="${ memList }" var ="m" >
 	                         <tr>
-	                             <td>#No</td>
 	                             <td>${m.memberId }</td>
 	                             <td>${m.memberName }</td>
 	                             <td>${m.nickName }</td>
@@ -129,12 +135,14 @@
                <!-- 현재페이지가 1이면 이전버튼 작동 x 아니면 현재페이지 -1 작동 -->
                	<c:choose>
                		<c:when test="${pi.currentPage eq 1 }">
-               			<button disabled><a href="">이전</a></button>
+               			<button hidden><a href="">이전</a></button>
                		</c:when>
                		<c:otherwise>
                			<button><a href="adminMember.ad?amPage=${pi.currentPage - 1 }">이전</a></button>
                		</c:otherwise>
                	</c:choose>
+               	
+               	
                	
                	
                	<c:forEach var="p" begin="${pi.startPage }" end="${pi.endPage }">
@@ -146,7 +154,7 @@
                	<!-- 다음 버튼 만들기 -->
                	<c:choose>
                		<c:when test="${pi.currentPage eq pi.maxPage }">
-               			<button disabled><a href="#">다음</a></button>
+               			<button hidden><a href="#">다음</a></button>
                		</c:when>
                		<c:otherwise>
                			<button><a href="adminMember.ad?amPage=${pi.currentPage + 1 }">다음</a></button>
