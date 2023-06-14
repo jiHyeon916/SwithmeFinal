@@ -1,0 +1,176 @@
+@charset "UTF-8";
+
+
+.mainDiv{
+	height : 5000px;
+	width: 900px;
+	margin-left:400px;
+}
+.bPostList{
+	border: solid 1px grey;
+	border-radius: 5px;
+	width:650px;
+	margin-bottom:20px;
+}
+.postFooter{
+	width:630px;
+	margin:auto;
+	margin-top:30px;
+}
+.replyBody{
+	float:left;
+
+}
+.hitsBody{
+	float:right;
+
+}
+.postBody, .photoBody{
+	width: 630px;
+	margin:auto;
+}
+.postWriterInfo, .postWriterInfo{
+	width: 630px;
+	margin:auto;
+}
+.writeStart{
+	width:650px;
+}
+.writeBtn{
+	float:right;
+	background-color:rgb(3, 195, 115);
+	border-radius: 5px;	
+	color:white;
+	text-align:center;
+	border:none;
+	width:53px;
+	margin-top:10px;
+}
+.dateDiv{
+	display:inline-block;
+	float:left;
+	margin-left:20px;
+}
+.countDiv{
+	display:inline-block;
+	float:right;
+	margin-right:20px;
+}
+.nicknameDiv{
+	margin-left:20px;
+	margin-top:30px;
+}
+.modal-body1{
+	height:650px;
+}
+.totalDetail{
+	width:765px;
+	border:1px solid;
+	margin:auto;
+	font-size:20px;
+	border-radius:5px;
+}
+.note-editable{
+	height:400px;
+}
+#detailContent{
+	width:725px;
+	border:1px solid;
+	margin:auto;
+}
+#summernote{
+	width:725px;
+	height:300px;
+	resize:none;
+}
+#detailWriterBoard{
+	resize: none;
+	width:725px;
+	height:300px;
+	border:1px solid;
+	margin:auto;
+}
+.photoDiv{
+	width:725px;
+	border:1px solid;
+	margin:auto;
+}
+.btnGroupMain{
+	margin-left:220px;
+}
+/* 댓글 */
+.replyBtn{
+	width:725px;
+	margin:auto;
+}
+.replyContent{
+	width: 725px;
+	resize: none;
+	height: 70px;
+	border-radius: 5px;	
+}
+.replyEnroll{
+	float:right;
+	background-color:rgb(3, 195, 115);
+	border-radius: 5px;	
+	color:white;
+	border:none;
+}
+.totalReply{
+	width:765px;
+	margin:auto;
+	font-size:20px;
+}
+#replyNo{
+	width:25px;
+}
+#replyMem{
+	float:left;
+	font-weight:bold;
+	margin-right:10px;
+	font-size:22px;
+	margin-left:20px;
+}
+#replyDate{
+	font-size:17px;
+	color:#6a6a6c;
+	margin-top:5px;
+}
+#replyContent1{
+	font-size:20px;
+	width:725px;
+	margin:auto;
+}
+#replyDetailBtn{
+	width:725px;
+	margin:auto;
+}
+#updateRe{
+	margin-right:10px;
+}
+.replyEnroll1, .replyEnroll2{
+	float:right;
+	background-color:rgb(222, 228, 225);
+	border-radius: 5px;	
+	border:none;
+	font-size:16px;
+}
+
+.replayModify{
+	width: 723px;
+	resize: none;
+	height: 68px;
+	border-radius: 5px;	
+	margin:auto;
+	
+}
+.modify, .reset{
+	float:right;
+	background-color:rgb(222, 228, 225);
+	border-radius: 5px;	
+	border:none;
+	font-size:16px;
+}
+#updateRee{
+	margin-right:10px;
+}
