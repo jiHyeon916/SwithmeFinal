@@ -66,81 +66,36 @@
                 <p>창업</p>
                 <p>재테크</p>
             </div>
-
+	
+	    <c:forEach var="b" items="${ list }">
             <div class="studyBandList clear">
-                <div class="studyBandId">아이디</div>
+                <div class="studyBandId">${ b.memberId }</div>
                 <div class="studyBandInfo">
                     <img src="" alt="dd">
-                    <p class="studyBandName">매일 책 읽는 방</p>
-                    <p class="studyBandIntro">매일 책 읽는 습관을 만들기 위한 스터디
-                        원을 모집중입니다. 관심 있으신 분들은
-                        부담없이 참여해주시면 감사하겠습니다!
+                    <p class="studyBandName">${b.sbTitle}</p>
+                    <p class="studyBandIntro">
+			${ b.sbIntroduce }
                     </p>
                     <ul class="clear">
-                        <li>모집인원</li>
-                        <li>참여하기</li>
+                        <li>${ b.sbNowMem } / ${ b.sbRecruitMem }</li>
+                        <li class="PostList">참여하기</li>
                     </ul>
+					<input id="sNo" type="hidden" value="${ b.sbNo }" >
                 </div>
             </div>
-            <div class="studyBandList clear">
-                <div class="studyBandId">아이디</div>
-                <div class="studyBandInfo">
-                    <img src="" alt="dd">
-                    <p class="studyBandName">매일 책 읽는 방</p>
-                    <p class="studyBandIntro">매일 책 읽는 습관을 만들기 위한 스터디
-                        원을 모집중입니다. 관심 있으신 분들은
-                        부담없이 참여해주시면 감사하겠습니다!
-                    </p>
-                    <ul class="clear">
-                        <li>모집인원</li>
-                        <li>참여하기</li>
-                    </ul>
-                </div>
-            </div>
-            <div class="studyBandList clear">
-                <div class="studyBandId">아이디</div>
-                <div class="studyBandInfo">
-                    <img src="" alt="dd">
-                    <p class="studyBandName">매일 책 읽는 방</p>
-                    <p class="studyBandIntro">매일 책 읽는 습관을 만들기 위한 스터디
-                        원을 모집중입니다. 관심 있으신 분들은
-                        부담없이 참여해주시면 감사하겠습니다!
-                    </p>
-                    <ul class="clear">
-                        <li>모집인원</li>
-                        <li>참여하기</li>
-                    </ul>
-                </div>
-            </div>
-            <div class="studyBandList clear">
-                <div class="studyBandId">아이디</div>
-                <div class="studyBandInfo">
-                    <img src="" alt="dd">
-                    <p class="studyBandName">매일 책 읽는 방</p>
-                    <p class="studyBandIntro">매일 책 읽는 습관을 만들기 위한 스터디
-                        원을 모집중입니다. 관심 있으신 분들은
-                        부담없이 참여해주시면 감사하겠습니다!
-                    </p>
-                    <ul class="clear">
-                        <li>모집인원</li>
-                        <li>참여하기</li>
-                    </ul>
-                </div>
-            </div>
+	    </c:forEach>
 
+	    <script>
 
+	$(document).on('click', '.PostList', function(){
+		var inputNo = $(this).parent().next().val();
+		
+		location.href = 'studyBand.bo/detail.bo?sno='+inputNo;
+	
+	});
 
+	</script>
 
-        
-            
-            
-            
-            
-            
-            
-            
-            
-        
 
             <!-- 페이징 바 -->
 			<!-- <div id="pagingBar" class="clear">
