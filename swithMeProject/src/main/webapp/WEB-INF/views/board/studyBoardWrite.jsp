@@ -37,9 +37,9 @@
                             <button class="btn-select">전체보기</button>
                             <ul class="list-member">
                                 <li><button type="button">프론트엔드</button></li>
-                                <li><button type="button">IT</button></li>
-                                <li><button type="button">고시공부</button></li>
-                                <li><button type="button">취업준비</button></li>
+                                <li><button type="button">백엔드</button></li>
+                                <li><button type="button">모바일 앱 개발</button></li>
+                                <li><button type="button">프로그래밍 언어</button></li>
                                 <li><button type="button">취업준비</button></li>
                                 <li><button type="button">취업준비</button></li>
                                 <li><button type="button">취업준비</button></li>
@@ -97,35 +97,6 @@
     })
 
 
-    // 섬머노트 변경사항
-    $('#summernote').summernote({
-        placeholder: '내용을 입력해주세요.',
-        tabsize: 2,
-        height: 480,
-        toolbar: [
-          // [groupName, [list of button]]
-            ['fontname', ['fontname']],
-            ['fontsize', ['fontsize']],
-            ['style', ['bold', 'italic', 'underline','strikethrough', 'clear']],
-            ['color', ['forecolor','color']],
-            ['table', ['table']],
-            ['para', ['ul', 'ol', 'paragraph']],
-            ['height', ['height']],
-            ['insert',['picture','video']]
-        ],
-        fontNames: ['Arial', 'Arial Black', 'Comic Sans MS', 'Courier New','맑은 고딕','궁서','굴림체','굴림','돋움체','바탕체'],
-        fontSizes: ['8','9','10','11','12','14','16','18','20','22','24','28','30','36','50','72'],
-        // callbacks: {
-        //   onImageUpload : function(files, editor, welEditable){
-
-        //         // 파일 업로드(다중업로드를 위해 반복문 사용)
-        //         for (var i = files.length - 1; i >= 0; i--) {
-        //             uploadSummernoteImageFile(files[i],
-        //         this);
-        //             }
-        //         }
-        //     } 
-      });
 
 
 
@@ -137,8 +108,7 @@
             type : 'post',
             data : {
                 memberId : '${ loginMember.memberId }',
-                bCon : $('.note-editable').html(),
-                summary : $('.note-editable').text(),
+                bCon : $('#summernote').val(),
                 title : $('#title').val(),
                 category : $('.btn-select').text(),
                 perNum : $('#perNum').val()

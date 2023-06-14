@@ -348,6 +348,7 @@
 	          CREATE_DATE DESC
 	</select>
 	
+	<!--  조회수 증가 -->
 	<update id="boardCountUp">
 		UPDATE 
                 MAINBOARD
@@ -357,14 +358,38 @@
                BOARD_NO = #{ boardNo }
 
 	</update>
+	
+	<!-- 인기글 top5 -->
+	<select id="topBoard" resultMap="boardResultSet">
+		SELECT *
+		  FROM (
+		  		SELECT
+		              BOARD_NO
+		             ,BOARD_TITLE
+		          FROM
+		              MAINBOARD
+		         ORDER
+		            BY
+		              BOARD_COUNT DESC)
+         WHERE ROWNUM <![CDATA[ < 6 ]]>
+	</select>
+	
 	<!-- 자유게시판 게시글 수 조회  -->
-	<select id="freeCount" resultType="_int">
+	<select id="boardCount" resultType="_int">
 		SELECT
 			  COUNT(*)
 		  FROM
 		  	  MAINBOARD
 		 WHERE
-		 	  BOARD_TYPE = 'free'
+		 <choose>
+		 	<when test="boardType == 1">
+		 		BOARD_TYPE = 'free'
+		 	</when>
+		 	<otherwise>
+		 		BOARD_TYPE = 'info'
+		 	</otherwise>
+		 </choose>
+		 	  
 	</select>
 	
 	<!-- 게시판 상세 조회  -->
@@ -883,6 +908,16 @@
 		 	  BOARD_NO = #{ boardNo }
 	</update>
 	
+	<!-- 게시글 삭제하기  -->
+	<update id="boardDelete" parameterType="_int">
+		UPDATE
+	   			MAINBOARD
+	   	   SET
+	   			BOARD_STATUS = 'N'
+	   	 WHERE
+	   			BOARD_NO = #{ boardNo }
+	</update>
+	
 	<!-- 댓글 수정 댓글 조회  -->
 	<select id="replyModifyView" resultMap="replyResultMap">
 		SELECT
@@ -904,6 +939,16 @@
 		      BOARD_REPLY_CONTENT = #{ boardReplyContent }
 		 WHERE
 		 	  BOARD_REPLY_NO = #{ boardReplyNo }
+	</update>
+	
+	<!-- 댓글 삭제하기 -->
+	<update id="replyDelete" parameterType="_int">
+		UPDATE
+	   			BOARD_REPLY
+	   	   SET
+	   			BOARD_STATUS = 'N'
+	   	 WHERE
+	   			BOARD_REPLY_NO = #{replyNo}
 	</update>
 	
 	<!-- 스터디 밴드 생성(모집) -->
@@ -938,6 +983,9 @@
 			 ,'Y'
 			  )
 	</insert>
+	
+	
+	
 	
 	
 	

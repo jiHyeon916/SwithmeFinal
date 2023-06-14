@@ -19,7 +19,6 @@
         <div class="wrap">
             <h3>커뮤니티</h3>
             <p>제한 없이, 자유롭게 얘기해요!</p>
-            <p>${ sessionScope.loginMember.memberId }</p>
         </div>
     </div>
 
@@ -46,11 +45,14 @@
                     <div>
                         <p><b>HOT</b> 전체 인기글</p>
                     </div>
-                    <p class="F_sm_smr hotBod">가치의 고찰 - 가치가 있는 ‘나’를 가치있게 사용하자. (글 적은거 백업파일 찾았어요)</p><br>
+                    <ul id="topList">
+                        
+                    </ul>
+                    <!-- <p class="F_sm_smr hotBod">가치의 고찰 - 가치가 있는 ‘나’를 가치있게 사용하자. (글 적은거 백업파일 찾았어요)</p><br>
                     <p class="F_sm_smr hotBod">2023 강원랜드 전형별 합격 가이드 (feat. 합격 스펙 정보)</p><br>
                     <p class="F_sm_smr hotBod">다른 대학 축제도 재밌나용??</p><br>
                     <p class="F_sm_smr hotBod">후기보니까 기업은행 인턴은 스펙 잘 안본대</p><br>
-                    <p class="F_sm_smr hotBod">밥 먹다가 방구끼는 것도 가정 교육 잘못 받은거야??</p><br>
+                    <p class="F_sm_smr hotBod">밥 먹다가 방구끼는 것도 가정 교육 잘못 받은거야??</p><br> -->
                 </div>
                 <div id="topBoard3">
                     <div>
@@ -133,6 +135,9 @@
             <script>
 
                 $(function(){
+
+                    boardTop();
+
                     // 카테고리 박스
                     const btn = document.querySelector('.btn-select');
                     const list = document.querySelector('.list-member');
@@ -156,13 +161,17 @@
                         $textEncoder.text(strippedText); // 제거된 HTML 태그가 적용된 텍스트로 설정
 
                     });
+
                 })
 
                 
                 // 게시판 게시글 수 카운팅 
                 function freeBoardCount(){
                     $.ajax({
-                        url : 'freeCount.bo',
+                        url : 'boardCount.bo',
+                        data : {
+                            boardType : 1
+                        },
                         success : function(r) {
                             $('.totalListCount').html('전체 게시글 ' + r + '건');
                         },
@@ -331,6 +340,27 @@
                     location.href=rLink;
                 }
                 
+                // 인기글 5개 조회
+                function boardTop(){
+
+                    $.ajax({
+                        url : "topBoard.bo",
+                        success : function(list){
+
+                            console.log(list);
+                            var listTop = '';
+                            for(var i in list){
+                                listTop += '<li class="F_sm_smr hotBod">' + list[i].boardTitle  + '</li>';
+                            }
+
+                            $('#topList').html(listTop);
+                        },
+                        error : function(){
+                            console.log('실패');
+                        }
+                    });
+
+                }
 
                 
 

@@ -20,7 +20,7 @@
 
 /* 컨텐츠영역 */
 #content{
-    height: 2000px;
+    margin-bottom: 100px;
 }
 
 /* 검색  */
@@ -194,16 +194,33 @@ margin-bottom: 5px;
 .studyBandList .studyBandId{
     width: 160px;
     border-radius: 20px;
-    padding: 4px;
+    /* background-color: #f1f1f1; */
+    background-color: #f7f7f7;
+    border: 1px solid rgb(223,223,223);
+    padding: 3px 0px 3px 20px;
     margin-bottom: 10px;
-    background-color: #f1f1f1;
+    transition: 0.5s;
+
 }
 .studyBandInfo{
-    background-color: #f1f1f1;
+    height: 230px;
+    background-color: #fdfdfd;
+    border: 1px solid rgb(223,223,223);
     border-radius: 10px;
     padding: 16px;
     position: relative;
+    transition: 0.5s;
+
+    
 }
+.studyBandList:hover .studyBandInfo, 
+.studyBandList:hover .studyBandId{
+    background-color: #fbfff3;
+    border: 1px solid rgb(124, 210, 143);
+    cursor: pointer;
+    
+}
+
 .studyBandInfo > img{
     width: 100px;
     height: 100px;
@@ -212,17 +229,25 @@ margin-bottom: 5px;
     right: 10px;
     top: -50px;
     position: absolute;
+    object-fit: cover;
 }
 
 
 
-.studyBandInfo > .studyBandName{
+.studyBandInfo div .studyBandName{
     margin: 10px 0 10px 0;
     font-size: 18px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 150px;
+    
 }
-.studyBandInfo .studyBandIntro{
+.studyBandInfo div .studyBandIntro{
     font-size: 15px;
-    margin-bottom: 20px;
+    height: 120px;
+    margin-bottom: 5px;
+    overflow: hidden;
 }
 .studyBandInfo ul{
     margin-bottom: 3px;
@@ -271,4 +296,10 @@ margin-bottom: 5px;
 #pagingBar ul li a{
     display: block;
     width: 20px;
+}
+
+/* 참여버트 */
+.PostList:hover{
+    color:rgba(32, 154, 61);
+    cursor: pointer;
 }

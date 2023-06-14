@@ -28,11 +28,14 @@ public class BoardDao {
 		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
 		return (ArrayList)sqlSession.selectList("boardMapper.boardListSelect", boardType, rowBounds);
 	}
+	public ArrayList<Board> topBoard(SqlSessionTemplate sqlSession){
+		return (ArrayList)sqlSession.selectList("boardMapper.topBoard");
+	}
 	public int boardCountUp(SqlSessionTemplate sqlSession, int boardNo) {
 		return sqlSession.update("boardMapper.boardCountUp", boardNo);
 	}
-	public int freeCount(SqlSessionTemplate sqlSession) {
-		return sqlSession.selectOne("boardMapper.freeCount");
+	public int boardCount(SqlSessionTemplate sqlSession, int boardType) {
+		return sqlSession.selectOne("boardMapper.boardCount", boardType);
 	}
 	public Board boardDetail(SqlSessionTemplate sqlSession, int boardNo){
 		return sqlSession.selectOne("boardMapper.boardDetail", boardNo);
@@ -113,11 +116,17 @@ public class BoardDao {
 	public int tagUpdate(SqlSessionTemplate sqlSession, Board tag) {
 		return sqlSession.update("boardMapper.tagUpdate", tag);
 	}
+	public int boardDelete(SqlSessionTemplate sqlSession, int boardNo) {
+		return sqlSession.update("boardMapper.boardDelete", boardNo);
+	}
 	public Reply replyModifyView(SqlSessionTemplate sqlSession, int replyNo) {
 		return sqlSession.selectOne("boardMapper.replyModifyView", replyNo);
 	}
 	public int replyModify(SqlSessionTemplate sqlSession, Reply r) {
 		return sqlSession.update("boardMapper.replyModify", r);
+	}
+	public int replyDelete(SqlSessionTemplate sqlSession, int replyNo) {
+		return sqlSession.update("boardMapper.replyDelete", replyNo);
 	}
 	public int studyBandInsert(SqlSessionTemplate sqlSession, Board b) {
 		return sqlSession.insert("boardMapper.studyBandInsert", b);

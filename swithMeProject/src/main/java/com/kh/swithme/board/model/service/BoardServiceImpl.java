@@ -42,12 +42,16 @@ public class BoardServiceImpl implements BoardService {
 		return boardDao.boardListSelect(sqlSession, pi, boardType);
 	}
 	@Override
+	public ArrayList<Board> topBoard(){
+		return boardDao.topBoard(sqlSession);
+	}
+	@Override
 	public int boardCountUp(int boardNo) {
 		return boardDao.boardCountUp(sqlSession, boardNo);
 	}
 	@Override
-	public int freeCount() {
-		return boardDao.freeCount(sqlSession);
+	public int boardCount(int boardType) {
+		return boardDao.boardCount(sqlSession, boardType);
 	}
 	@Override
 	public Board boardDetail(int boardNo) {
@@ -146,12 +150,20 @@ public class BoardServiceImpl implements BoardService {
 		return boardDao.tagUpdate(sqlSession, tag);
 	}
 	@Override
+	public int boardDelete(int boardNo) {
+		return boardDao.boardDelete(sqlSession, boardNo);
+	}
+	@Override
 	public Reply replyModifyView(int replyNo) {
 		return boardDao.replyModifyView(sqlSession, replyNo);
 	}
 	@Override
 	public int replyModify(Reply r) {
 		return boardDao.replyModify(sqlSession, r);
+	}
+	@Override
+	public int replyDelete(int replyNo) {
+		return boardDao.replyDelete(sqlSession, replyNo);
 	}
 	@Override
 	public int studyBandInsert(Board b) {

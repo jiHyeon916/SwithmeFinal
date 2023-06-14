@@ -19,7 +19,6 @@
         <div class="wrap">
             <h3>질문정보</h3>
             <p>서로의 지식을 공유하고 공유 받아요!</p>
-            <p>${ sessionScope.loginMember.memberId }</p>
         </div>
     </div>
 
@@ -124,7 +123,10 @@
                 // 게시판 게시글 수 카운팅 
                 function freeBoardCount(){
                     $.ajax({
-                        url : 'infoCount.bo',
+                        url : 'boardCount.bo',
+                        data : {
+                            boardType : 2
+                        },
                         success : function(r) {
                             $('.totalListCount').html('전체 게시글 ' + r + '건');
                         },

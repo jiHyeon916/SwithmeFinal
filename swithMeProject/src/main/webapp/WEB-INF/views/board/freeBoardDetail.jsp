@@ -33,7 +33,7 @@
                                 <c:if test="${ sessionScope.loginMember.nickName eq b.memberId}">
                                     <div id="modifyBoard">
                                         <p onclick="modifyWirte();">수정</p>
-                                        <p>삭제</p>
+                                        <p onclick="deleteBoard();">삭제</p>
                                     </div>
                                 </c:if>
                             </div>
@@ -234,7 +234,7 @@
                     for(var i in list){
 
                         if('${ sessionScope.loginMember.nickName}' == list[i].memberId){
-                            modifyBtn = '<div><p onclick="replyModify(' + list[i].boardReplyNo + ');">수정</p><p>삭제</p></div>';
+                            modifyBtn = '<div><p class="modiCheck" onclick="replyModify(this,' + list[i].boardReplyNo + ');">수정</p><p>삭제</p></div>';
                         };
 
                         result += '<div class="replyList">'
@@ -325,7 +325,7 @@
         }
 
         //댓글 수정 하기
-        function replyModify(num){
+        function replyModify(e, num){
             
             $.ajax({
                 url : 'replyModifyView.bo',
@@ -333,7 +333,9 @@
                     replyNo : num
                 },
                 success : function(r){
-                    console.log(r);
+                    
+                    $(".modiCheck").attr('onclick', null);
+
                     var modifyArea = '<textarea class="replayModify">' + r.boardReplyContent + '</textarea>'
                                    + '<button class="modify">수정</button>'
                                    + '<button class="reset">취소</button>'
@@ -478,6 +480,12 @@
             var boardNo = '${ b.boardNo }';
             location.href='boardModifyView.bo?boardNo=' + boardNo;
 
+        }
+
+        //글 삭제하기 버튼
+        function deleteBoard(){
+            var boardNo = '${ b.boardNo }';
+            location.href='boardDelete.bo?boardNo=' + boardNo;
         }
 
 

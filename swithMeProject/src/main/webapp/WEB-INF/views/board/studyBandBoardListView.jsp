@@ -66,119 +66,82 @@
                 <p>창업</p>
                 <p>재테크</p>
             </div>
-
-            <div class="studyBandList clear">
-                <div class="studyBandId">아이디</div>
-                <div class="studyBandInfo">
-                    <img src="" alt="dd">
-                    <p class="studyBandName">매일 책 읽는 방</p>
-                    <p class="studyBandIntro">매일 책 읽는 습관을 만들기 위한 스터디
-                        원을 모집중입니다. 관심 있으신 분들은
-                        부담없이 참여해주시면 감사하겠습니다!
-                    </p>
-                    <ul class="clear">
-                        <li>모집인원</li>
-                        <li>참여하기</li>
-                    </ul>
-                </div>
-            </div>
-            <div class="studyBandList clear">
-                <div class="studyBandId">아이디</div>
-                <div class="studyBandInfo">
-                    <img src="" alt="dd">
-                    <p class="studyBandName">매일 책 읽는 방</p>
-                    <p class="studyBandIntro">매일 책 읽는 습관을 만들기 위한 스터디
-                        원을 모집중입니다. 관심 있으신 분들은
-                        부담없이 참여해주시면 감사하겠습니다!
-                    </p>
-                    <ul class="clear">
-                        <li>모집인원</li>
-                        <li>참여하기</li>
-                    </ul>
-                </div>
-            </div>
-            <div class="studyBandList clear">
-                <div class="studyBandId">아이디</div>
-                <div class="studyBandInfo">
-                    <img src="" alt="dd">
-                    <p class="studyBandName">매일 책 읽는 방</p>
-                    <p class="studyBandIntro">매일 책 읽는 습관을 만들기 위한 스터디
-                        원을 모집중입니다. 관심 있으신 분들은
-                        부담없이 참여해주시면 감사하겠습니다!
-                    </p>
-                    <ul class="clear">
-                        <li>모집인원</li>
-                        <li>참여하기</li>
-                    </ul>
-                </div>
-            </div>
-            <div class="studyBandList clear">
-                <div class="studyBandId">아이디</div>
-                <div class="studyBandInfo">
-                    <img src="" alt="dd">
-                    <p class="studyBandName">매일 책 읽는 방</p>
-                    <p class="studyBandIntro">매일 책 읽는 습관을 만들기 위한 스터디
-                        원을 모집중입니다. 관심 있으신 분들은
-                        부담없이 참여해주시면 감사하겠습니다!
-                    </p>
-                    <ul class="clear">
-                        <li>모집인원</li>
-                        <li>참여하기</li>
-                    </ul>
-                </div>
-            </div>
-
-
-
-
+	
+            <div class="clear">
+	    <c:forEach var="b" items="${ list }">
         
-            
-            
-            
-            
-            
-            
-            
-            
-        
-
-            <!-- 페이징 바 -->
-			<!-- <div id="pagingBar" class="clear">
-                <div class="wrap">
+            <div class="studyBandList clear">
+                <div class="studyBandId">${ b.memberId }</div>
+                <div class="studyBandInfo">
+                    <img src="resources/images/board/test.png" alt="dd">
                     <div>
-                        <p><img src="resources/images/common/pre.png">pre</p>
-                        <p>next<img src="resources/images/common/next.png"></p>
+                        <p class="studyBandName">${b.sbTitle}</p>
+                        <p class="studyBandIntro">
+                            ${ b.sbIntroduce }
+                        </p>
                     </div>
-                    <ul>
-                        <c:forEach begin="${ pi.startPage }" end="${ pi.endPage }" var="p">
-                        <li><a href="freeBoardListView.bo?boardType=1&cPage=${ p }">${ p }</a></li>
-                        </c:forEach>
+                    <ul class="clear">
+                        <li>${ b.sbNowMem } / ${ b.sbRecruitMem }</li>
+                        <li class="PostList">참여하기</li>
                     </ul>
+					<input id="sNo" type="hidden" value="${ b.sbNo }" >
                 </div>
-            </div> -->
+            </div>
+	    </c:forEach>
+    </div>
 
 
-            <script>
+        
 
-                $(function(){
-                    // 카테고리 박스
-                    const btn = document.querySelector('.btn-select');
-                    const list = document.querySelector('.list-member');
-                    btn.addEventListener('click', () => {
-                        btn.classList.toggle('on');
-                    });
-                    list.addEventListener('click', (event) => {
-                        if (event.target.nodeName === "BUTTON") {
-                            btn.innerText = event.target.innerText;
-                            btn.classList.remove('on');
-                        }
-                    });
+	    
 
 
-                });
+        <div id="pagingBar" class="clear">
+            <div class="wrap">
+                <div>
+                    <p><img src="resources/images/common/pre.png">pre</p>
+                    <p>next<img src="resources/images/common/next.png"></p>
+                </div>
+                <ul>
+                    <c:forEach begin="${ pi.startPage }" end="${ pi.endPage }" var="p">
+                    <li><a href="freeBoardListView.bo?boardType=1&cPage=${ p }">${ p }</a></li>
+                    </c:forEach>
+                </ul>
+            </div>
+        </div>
 
-            </script>
+
+        
 
 
         </div>
+        
     </div>
+
+    <jsp:include page="../common/footer.jsp" />
+
+    <script>
+        $(function(){
+                            // 카테고리 박스
+                            const btn = document.querySelector('.btn-select');
+                            const list = document.querySelector('.list-member');
+                            btn.addEventListener('click', () => {
+                                btn.classList.toggle('on');
+                            });
+                            list.addEventListener('click', (event) => {
+                                if (event.target.nodeName === "BUTTON") {
+                                    btn.innerText = event.target.innerText;
+                                    btn.classList.remove('on');
+                                }
+                            });
+        
+        
+                        });
+            $(document).on('click', '.PostList', function(){
+                var inputNo = $(this).parent().next().val();
+                
+                location.href = 'studyBand.bo/detail.bo?sno='+inputNo;
+            
+            });
+        
+            </script>

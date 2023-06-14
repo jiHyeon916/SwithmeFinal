@@ -1,0 +1,44 @@
+@charset "UTF-8";
+
+.mainDiv{
+	height : 5000px;
+	width: 900px;
+	margin-left:350px;
+}
+.menuInfo{
+	font-size: 30px;
+}
+.bandBlank{
+	width:130px;
+	height:5000px;
+	float:left;
+	color:white;
+}
+.bandMemList{
+	width:700px;
+}
+.bMember{
+	margin-bottom:10px;
+}
+.bMemberBtn{
+	float:right;	
+	background-color:rgb(175, 175, 175);
+	border-radius: 5px;
+	color:white;
+	border:none;
+	font-size:13px;
+	width:55px;
+}
+.bandNic{
+	font-size:17px;
+}
+.bLeader{
+	background-color:rgb(3, 195, 115);
+	border-radius: 5px;	
+	color:white;
+	margin-left:20px;
+	font-size:13px;
+	width:33px;
+	display:inline-block;
+	text-align:center;
+}

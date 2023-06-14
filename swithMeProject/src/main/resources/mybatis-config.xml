@@ -17,6 +17,7 @@
       <typeAlias type="com.kh.swithme.band.model.vo.BandBoard" alias="bandBoard" />
       <typeAlias type="com.kh.swithme.band.model.vo.BandMember" alias="bandMember" />
       <typeAlias type="com.kh.swithme.band.model.vo.BandReply" alias="bandReply" />
+      <typeAlias type="com.kh.swithme.band.model.vo.BandReport" alias="bandReport" />
       <typeAlias type="com.kh.swithme.board.model.vo.Attach" alias="attach" />
       <typeAlias type="com.kh.swithme.board.model.vo.Board" alias="board" />
       <typeAlias type="com.kh.swithme.board.model.vo.HashTag" alias="hashTag" />
@@ -36,7 +37,7 @@
       <typeAlias type="com.kh.swithme.member.model.vo.QNA" alias="qna" />
       <typeAlias type="com.kh.swithme.member.model.vo.Room" alias="room" />
       <typeAlias type="com.kh.swithme.member.model.vo.TodoList" alias="todoList" />
-        <typeAlias type="com.kh.swithme.member.model.vo.Alarm" alias="alarm" />
+      <typeAlias type="com.kh.swithme.member.model.vo.Alarm" alias="alarm" />
    </typeAliases>
    
    <mappers>
