@@ -511,15 +511,17 @@ public class BoardController {
 		}
 	}
 	
-	
+	/*
 	/**
 	 * 스터디밴드 게시글 리스트 보기
 	 * @return
-	 */
+	 *
 	@RequestMapping("studyBand.bo")
 	public String studyBandListView() {
 		return "board/studyBandBoardListView";
 	}
+	
+	*/
 	
 	
 	/**

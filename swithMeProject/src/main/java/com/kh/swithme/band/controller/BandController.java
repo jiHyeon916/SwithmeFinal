@@ -35,6 +35,13 @@ public class BandController {
 	@Autowired
 	private BandService bandService;
 	
+	// 밴드 리스트
+	@RequestMapping("/studyBand.bo")
+	public String selectTestBand(Band b, Model model) {
+		model.addAttribute("list", bandService.selectTestBand(b));
+		return "board/studyBandBoardListView";
+	}
+	
 	// 밴드 사이드바
 	@ResponseBody
 	@RequestMapping(value="studyBand.bo/side.sb", produces="application/json; charset=UTF-8")
