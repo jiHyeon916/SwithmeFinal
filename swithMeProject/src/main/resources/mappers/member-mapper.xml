@@ -549,6 +549,7 @@
 		SELECT COUNT(*)
 		  FROM MAINBOARD
 		 WHERE MEMBER_ID = #{memberId}
+		   AND BOARD_STATUS = 'Y'
 		 <if test="boardType == 'free'">
 		   AND BOARD_TYPE = 'free'
 		 </if>
@@ -609,6 +610,8 @@
 		  JOIN MAINBOARD "B" USING(BOARD_NO)
 		 WHERE BR.MEMBER_ID = #{memberId}
 		   AND BOARD_TYPE = #{boardType}
+		   AND B.BOARD_STATUS = 'Y'
+		   AND BR.BOARD_STATUS = 'Y'
 	</select>
 	
 	<!-- 사용자가 작성한 댓글 리스트 조회 -->
@@ -616,7 +619,7 @@
 		SELECT BR.BOARD_REPLY_NO
 		      ,B.BOARD_NO
 		      ,BR.BOARD_REPLY_CONTENT 
-		      ,TO_CHAR(BOARD_REPLY_CREATE_DATE, 'YYYY-MM-DD') "BOARD_REPLY_CREATE_DATE"
+		      ,TO_CHAR(BOARD_REPLY_CREATE_DATE, 'YYYY-MM-DD HH:MI:SS') "BOARD_REPLY_CREATE_DATE"
 		      ,B.BOARD_STATUS
 		      ,B.BOARD_TITLE
 		      ,B.BOARD_TYPE
@@ -624,6 +627,7 @@
 		  JOIN MAINBOARD "B" ON(B.BOARD_NO = BR.BOARD_NO)
 		 WHERE BR.MEMBER_ID = #{ memberId }
 		   AND B.BOARD_STATUS = 'Y'
+		   AND BR.BOARD_STATUS = 'Y'
 		   <if test="boardType == 'free'">
 		   AND BOARD_TYPE = 'free'
 		 </if>

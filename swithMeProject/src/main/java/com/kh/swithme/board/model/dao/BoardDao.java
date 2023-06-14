@@ -122,6 +122,9 @@ public class BoardDao {
 	public int replyModify(SqlSessionTemplate sqlSession, Reply r) {
 		return sqlSession.update("boardMapper.replyModify", r);
 	}
+	public int replyDelete(SqlSessionTemplate sqlSession, int replyNo) {
+		return sqlSession.update("boardMapper.replyDelete", replyNo);
+	}
 	public int studyBandInsert(SqlSessionTemplate sqlSession, Board b) {
 		return sqlSession.insert("boardMapper.studyBandInsert", b);
 	}

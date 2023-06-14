@@ -916,6 +916,16 @@
 		 	  BOARD_REPLY_NO = #{ boardReplyNo }
 	</update>
 	
+	<!-- 댓글 삭제하기 -->
+	<update id="replyDelete" parameterType="_int">
+		UPDATE
+	   			BOARD_REPLY
+	   	   SET
+	   			BOARD_STATUS = 'N'
+	   	 WHERE
+	   			BOARD_REPLY_NO = #{replyNo}
+	</update>
+	
 	<!-- 스터디 밴드 생성(모집) -->
 	<insert id="studyBandInsert">
 		INSERT
