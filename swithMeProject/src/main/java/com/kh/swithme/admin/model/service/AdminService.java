@@ -15,7 +15,7 @@ public interface AdminService {
    
    
 	  
-	//지현
+		//지현
 	   
 	   //회원들의 count조회(페이징처리)
 	   public int selectMemberCount();
@@ -52,7 +52,7 @@ public interface AdminService {
 	    public int deleteBoardDetail(int boardNo);
 	    
 	    //회원 band 글 삭제
-	    public int deleteBanddDetail(int boardNo);
+	    public int deleteBandDetail(int boardNo);
 	    
 	    
 	    
