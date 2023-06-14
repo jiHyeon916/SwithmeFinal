@@ -70,8 +70,13 @@
 	font-size:20px;
 	border-radius:5px;
 }
+.note-editor{
+	height:300px;
+	width:770px;
+	margin:auto;
+}
 .note-editable{
-	height:400px;
+	height:203px;
 }
 #detailContent{
 	width:725px;
@@ -79,7 +84,7 @@
 	margin:auto;
 }
 #summernote{
-	width:725px;
+	width:700px;
 	height:300px;
 	resize:none;
 }
@@ -97,6 +102,14 @@
 }
 .btnGroupMain{
 	margin-left:220px;
+}
+.selectType{
+	margin-left:14px;
+	margin-bottom : 8px;
+}
+.fileType{
+	margin-left:14px;
+	margin-top:8px;
 }
 /* 댓글 */
 .replyBtn{

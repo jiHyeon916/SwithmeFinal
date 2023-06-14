@@ -163,9 +163,20 @@
 	                 		<br>
 	                        <div class="form-group">
 	                        	<div>
+	                        		<div class="selectType">
+	                        			<select id="">
+											<option value="Y">일반글</option>
+											<option value="N">공지사항</option>
+										</select>
+	                        		</div>
 	                        		<div class="totalDetail1">
-
 										<textarea id="summernote" name="editordata"></textarea>
+	                        		</div>
+	                        		<div class="fileType">
+	                        			<input type="file" name="file1">
+	                        			<input type="file" name="file2">
+	                        			<input type="file" name="file3">
+	                        			<input type="file" name="file4">
 	                        		</div>
 	                        	</div>
 	                        </div>
