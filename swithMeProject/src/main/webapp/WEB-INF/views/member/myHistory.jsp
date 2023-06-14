@@ -32,7 +32,7 @@
                     <button class="freeBtn selectBtn" onclick="selectBoard('free');">커뮤니티</button>
                     <button class="infoBtn noneBtn" onclick="selectBoard('info');">질문정보</button>
                     <span></span>
-                    <button class="deleteBtn_yj">선택삭제</button>
+                    <button class="deleteBtn_yj" onclick="deleteArr();">선택삭제</button>
                 </div>
 				
 				<div id="test"></div>
@@ -103,14 +103,13 @@
         
 	</div>
 	
-	<%-- <c:if test="${ not empty list }">  --%>
 		<script>
 		
 			$(function(){
 
 				selectItem('board');
 				
-			}); // $function
+			});
 			
 		
 			// 커뮤니티 / 질문정보 버튼 표시
@@ -124,8 +123,8 @@
 				}
 			};
 			
+			// 게시판 / 댓글 버튼 표시
 			function itemType(items){
-				// 게시판 / 댓글 버튼 표시
 				if(items == 'board'){
 					$('.myPost').removeClass('noneSpan').addClass('selectSpan');
 					$('.myReply').removeClass('selectSpan').addClass('noneSpan');
@@ -133,8 +132,7 @@
 					$('.myReply').removeClass('noneSpan').addClass('selectSpan');
 					$('.myPost').removeClass('selectSpan').addClass('noneSpan');
 				}
-			}
-		
+			};
 			
 			// 게시판 / 댓글 선택
 			let items = '';
@@ -146,11 +144,13 @@
 			
 			
 			let cp = 1;
+			let chooseBoard = '';
 			
 			// 커뮤니티 / 질문정보 선택
 			function selectBoard(board){
 				
-				boardType(board);
+				boardType(board); 
+				chooseBoard = board;
 				
 				$.ajax({
 					url : 'historySelectBoard',
@@ -165,25 +165,16 @@
 						let jItem = jObj.item;
 						cp = jObj.pi.currentPage;
 						
-						console.log(cp);
-						
 						let value = '';
 						
 						if(jList.length == 0){
 							value = '<span class="emptyList">등록된 게시글이 없습니다.</span>';
 						} else {
-							
 							let typeBtn = jList[0].boardType;
-						
+							
 							if(jItem === 'board'){
 								
-								// 게시판 / 댓글 버튼 표시
-								$('.myPost').removeClass('noneSpan').addClass('selectSpan');
-								$('.myReply').removeClass('selectSpan').addClass('noneSpan');
-								
 								for(let i in jList){
-									console.log(jList[i].boardNo);
-									
 									value += '<input type="checkbox" name="boardCheck">'
 										   + '<div class="post_block">'
 										   	   + '<input type="hidden" name="bno" value="' + jList[i].boardNo + '"/>'
@@ -193,51 +184,103 @@
 										  	   + '</div>'
 											   + '<p class="post_con">' + jList[i].summary + '</p>'
 						                       + '<ul id="post_etc">'
-							                       + '<li>댓글수' + jList[i].commentCount + '</li>'
-						                           + '<li>좋아요' + jList[i].likeCount + '</li>'
-						                           + '<li>조회수' + jList[i].count + '</li>'
+							                       + '<li><img src="resources/images/board/reply.png">' + jList[i].commentCount + '</li>'
+						                           + '<li><img src="resources/images/board/heart.png">' + jList[i].likeCount + '</li>'
+						                           + '<li><img src="resources/images/board/views.png">' + jList[i].count + '</li>'
 						                           + '<li class="post_date">' + jList[i].createDate + '</li>'
 					                       	   + '</ul>'
 										   + '</div>';
-								}
-								
+								};
 							} else {
 								
-								// 게시판 / 댓글 버튼 표시
-								$('.myReply').removeClass('noneSpan').addClass('selectSpan');
-								$('.myPost').removeClass('selectSpan').addClass('noneSpan');
-								
 								for(let i in jList){
-									console.log(jList[i].boardNo);
-									
 									value += '<input type="checkbox" name="boardCheck">'
 										   + '<div class="post_block">'
 										   	   + '<input type="hidden" name="bno" value="' + jList[i].boardNo + '"/>'
+										   	   + '<input type="hidden" name="rno" value="' + jList[i].boardReplyNo + '"/>'
 										   	   + '<div class="post_top">'
 												   + '<p class="post_title">' + jList[i].boardReplyContent + '</p>'
 										  	   + '</div>'
 											   + '<p class="post_con">' + jList[i].boardTitle + '</p>'
 						                       + '<ul id="post_etc">'
+							                       + '<li></li>'
+							                       + '<li></li>'
+							                       + '<li></li>'
 						                           + '<li class="post_date">' + jList[i].createDate + '</li>'
 					                       	   + '</ul>'
 										   + '</div>';
-								}
+								};
 								
-							}
+							};
 						
-						}
+						};
 						
 						$('.postList').html(value);
 						$('.post_Btn > span').html('전체 게시글 수 : ' + jObj.pi.listCount + '개');
 						
 					},
 					error : () => {
-						
+						console.log('없어');
 					}
 				});
 			}; //selectBoard
 			
+			// 해당 게시글 상세 페이지로 이동
+			$(document).on('click', '.post_block', function(){
+				let boardNo = $(this).children().eq(0).val();
+				location.href = 'freeBoardDetail.bo?boardNo=' + boardNo;
+			});
+			
+			// 선택삭제
+			function deleteArr(){
+				console.log(items);
+				console.log(chooseBoard);
+				
+				if($('input[name=boardCheck]:checked').length == 0){
+					alert('삭제할 문의글을 선택해주세요.');
+				} else {
+					let deleteYes = confirm('삭제 후 복구가 불가능합니다. 삭제하시겠습니까?');
+					
+					if(deleteYes){
+						let bnoArr = [];
+						
+						if(items === "board"){
+							$('input[name=boardCheck]:checked').each(function(index, i){
+								bnoArr[index] = $(this).next().children().eq(0).val();
+							});
+						} else {
+							$('input[name=boardCheck]:checked').each(function(index, i){
+								bnoArr[index] = $(this).next().children().eq(1).val();
+							});
+						}			
+						
+						
+						$.ajax({
+							url : 'historyDelete',
+							traditional: true,
+							data : {
+								bnoArr : bnoArr,
+								item : items
+							},
+							success : result => {
+								if(result > 0){
+									selectBoard(chooseBoard);
+								} else {
+									alert('게시글 삭제에 실패하였습니다.');
+								}
+							},
+							error : () => {
+								console.log('실패');
+							}
+						
+						});
+						
+					}
+					
+				}
+				
+			};
+			
 		</script>
-	<%-- </c:if>  --%>
 </body>
 </html>

@@ -31,8 +31,8 @@ public class BoardDao {
 	public int boardCountUp(SqlSessionTemplate sqlSession, int boardNo) {
 		return sqlSession.update("boardMapper.boardCountUp", boardNo);
 	}
-	public int freeCount(SqlSessionTemplate sqlSession) {
-		return sqlSession.selectOne("boardMapper.freeCount");
+	public int boardCount(SqlSessionTemplate sqlSession, int boardType) {
+		return sqlSession.selectOne("boardMapper.boardCount", boardType);
 	}
 	public Board boardDetail(SqlSessionTemplate sqlSession, int boardNo){
 		return sqlSession.selectOne("boardMapper.boardDetail", boardNo);
@@ -112,6 +112,9 @@ public class BoardDao {
 	}
 	public int tagUpdate(SqlSessionTemplate sqlSession, Board tag) {
 		return sqlSession.update("boardMapper.tagUpdate", tag);
+	}
+	public int boardDelete(SqlSessionTemplate sqlSession, int boardNo) {
+		return sqlSession.update("boardMapper.boardDelete", boardNo);
 	}
 	public Reply replyModifyView(SqlSessionTemplate sqlSession, int replyNo) {
 		return sqlSession.selectOne("boardMapper.replyModifyView", replyNo);

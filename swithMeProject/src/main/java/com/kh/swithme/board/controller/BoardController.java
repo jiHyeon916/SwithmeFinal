@@ -11,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.google.gson.Gson;
 import com.kh.swithme.board.model.service.BoardServiceImpl;
@@ -37,9 +38,9 @@ public class BoardController {
 	 * @return 자유게시판
 	 */
 	@ResponseBody
-	@RequestMapping("freeCount.bo")
-	public int freeCount() {
-		return boardService.freeCount();
+	@RequestMapping("boardCount.bo")
+	public int boardCount(int boardType) {
+		return boardService.boardCount(boardType);
 	}
 	
 	/**
@@ -493,6 +494,23 @@ public class BoardController {
 		return boardService.replyModify(r) > 0 ? "success" : "fail";
 	}
 	
+	/**
+	 * 게시글 삭제 
+	 * @param boardNo 삭제할 게시글 넘버 
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping("boardDelete.bo")
+	public String boardDelete(int boardNo, Model model, HttpSession session) {
+		if(boardService.boardDelete(boardNo) > 0) {
+			session.setAttribute("alertMsg", "게시글이 성공적으로 삭제 되었습니다.");
+			return "redirect:freeBoardListView.bo?boardType=1";
+		}else {
+			session.setAttribute("alertMsg", "게시글 삭제에 실패했습니다.");
+			return "redirect:freeBoardDetail.bo?boardNo=" + boardNo ;
+		}
+	}
+	
 	
 	/**
 	 * 스터디밴드 게시글 리스트 보기
@@ -513,6 +531,16 @@ public class BoardController {
 		return "board/studyBoardWrite";
 	}
 	
+	/**
+	 * 스터디 밴드 게시글 
+	 * @param memberId 방장 아이디 
+	 * @param bCon 스터디 소개 내용 
+	 * @param summary 요약 
+	 * @param title 방 이름 
+	 * @param category 방 카테고리 분류 
+	 * @param perNum 모집 인원 
+	 * @return
+	 */
 	@ResponseBody
 	@RequestMapping("studyBandInsert.bo")
 	public String studyBandInsert(String memberId, String bCon, String summary, String title, String category, int perNum) {

@@ -33,7 +33,7 @@
                                 <c:if test="${ sessionScope.loginMember.nickName eq b.memberId}">
                                     <div id="modifyBoard">
                                         <p onclick="modifyWirte();">수정</p>
-                                        <p>삭제</p>
+                                        <p onclick="deleteBoard();">삭제</p>
                                     </div>
                                 </c:if>
                             </div>
@@ -478,6 +478,12 @@
             var boardNo = '${ b.boardNo }';
             location.href='boardModifyView.bo?boardNo=' + boardNo;
 
+        }
+
+        //글 삭제하기 버튼
+        function deleteBoard(){
+            var boardNo = '${ b.boardNo }';
+            location.href='boardDelete.bo?boardNo=' + boardNo;
         }
 
 

@@ -46,8 +46,8 @@ public class BoardServiceImpl implements BoardService {
 		return boardDao.boardCountUp(sqlSession, boardNo);
 	}
 	@Override
-	public int freeCount() {
-		return boardDao.freeCount(sqlSession);
+	public int boardCount(int boardType) {
+		return boardDao.boardCount(sqlSession, boardType);
 	}
 	@Override
 	public Board boardDetail(int boardNo) {
@@ -144,6 +144,10 @@ public class BoardServiceImpl implements BoardService {
 	@Override
 	public int tagUpdate(Board tag) {
 		return boardDao.tagUpdate(sqlSession, tag);
+	}
+	@Override
+	public int boardDelete(int boardNo) {
+		return boardDao.boardDelete(sqlSession, boardNo);
 	}
 	@Override
 	public Reply replyModifyView(int replyNo) {
