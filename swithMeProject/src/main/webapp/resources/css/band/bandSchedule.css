@@ -1,0 +1,13 @@
+@charset "UTF-8";
+
+.mainDiv{
+	height : 5000px;
+	width: 900px;
+	margin-left:350px;
+}
+.menuInfo{
+	font-size: 30px;
+}
+#calendar{
+	width: 800px;
+}

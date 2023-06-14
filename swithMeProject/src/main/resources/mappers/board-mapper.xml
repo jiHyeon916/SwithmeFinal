@@ -358,13 +358,21 @@
 
 	</update>
 	<!-- 자유게시판 게시글 수 조회  -->
-	<select id="freeCount" resultType="_int">
+	<select id="boardCount" resultType="_int">
 		SELECT
 			  COUNT(*)
 		  FROM
 		  	  MAINBOARD
 		 WHERE
-		 	  BOARD_TYPE = 'free'
+		 <choose>
+		 	<when test="boardType == 1">
+		 		BOARD_TYPE = 'free'
+		 	</when>
+		 	<otherwise>
+		 		BOARD_TYPE = 'info'
+		 	</otherwise>
+		 </choose>
+		 	  
 	</select>
 	
 	<!-- 게시판 상세 조회  -->

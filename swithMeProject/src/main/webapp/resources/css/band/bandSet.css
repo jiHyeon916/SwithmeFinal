@@ -1,0 +1,112 @@
+@charset "UTF-8";
+
+.mainDiv{
+	height : 5000px;
+	width: 900px;
+	margin-left:350px;
+}
+.menuInfo{
+	font-size: 30px;
+}
+.bandBlank{
+	width:130px;
+	height:5000px;
+	float:left;
+	color:white;
+}
+.bandSetList{
+	width:700px;
+}
+.bSet{
+	margin-bottom:10px;
+}
+.bandSetting{
+	font-size:17px;
+}
+.bSetBtn{
+	float:right;	
+	background-color:rgb(175, 175, 175);
+	border-radius: 5px;
+	color:white;
+	border:none;
+	font-size:13px;
+	width:33px;
+}
+/*밴드 정보 변경 */
+
+#introduceText{
+	width: 467px;
+	height: 150px;
+	resize: none;
+	margin:auto;
+	margin-bottom:5px;
+}
+.introduceOpen{
+	width:467px;
+	margin:auto;
+	margin-bottom:5px;
+}
+#introudceName{
+	width:467px;
+	margin:auto;
+	margin-bottom:5px;
+}
+#personP{
+	display:inline-block;
+	width:30px;
+	font-weight: bold;
+	font-size:18px;
+	
+}
+#personC{
+	font-weight: bold;
+	font-size:18px;
+	margin-bottom:9px;
+}
+.personNum{
+	width:60px;
+	text-alian: center;
+	margin-bottom:5px;
+}
+/*밴드 사진 변경*/
+#image_container{
+	width: 200px; 
+	height: 200px; 
+	border-radius: 50%;
+	margin:auto;
+
+}
+#image_container img{ 
+	width: 100%; 
+	height: 100%; 
+	border-radius: 50%;
+	object-fit :cover;
+}
+.thumnail {
+	text-align: center; 
+	display: flex; 
+}
+.thumnail input[type=file]{
+	width:0;
+	height:0;
+	padding:0;
+	overflow:hidden;
+	border:0;
+}
+.thumnail::after{
+	display: block; 
+	content: ''; 
+	clear: both;
+}
+.ptchange p{  
+	font-weight: 600; 
+	color:#999;
+	border: 2px solid;
+	border-radius:5px;
+
+}
+/*밴드 리더 변경*/
+input[type=radio]{
+	float:right;
+}
+	

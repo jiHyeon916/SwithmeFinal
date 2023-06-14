@@ -28,7 +28,7 @@ public interface BoardService {
 	int boardCountUp(int boardNo);
 	
 	// 게시글 조회 - 게시글 카운트
-	int freeCount();
+	int boardCount(int boardType);
 	
 	// 게시글 상세 조회
 	Board boardDetail(int boardNo);

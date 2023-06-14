@@ -46,8 +46,8 @@ public class BoardServiceImpl implements BoardService {
 		return boardDao.boardCountUp(sqlSession, boardNo);
 	}
 	@Override
-	public int freeCount() {
-		return boardDao.freeCount(sqlSession);
+	public int boardCount(int boardType) {
+		return boardDao.boardCount(sqlSession, boardType);
 	}
 	@Override
 	public Board boardDetail(int boardNo) {

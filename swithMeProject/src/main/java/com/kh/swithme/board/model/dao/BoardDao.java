@@ -31,8 +31,8 @@ public class BoardDao {
 	public int boardCountUp(SqlSessionTemplate sqlSession, int boardNo) {
 		return sqlSession.update("boardMapper.boardCountUp", boardNo);
 	}
-	public int freeCount(SqlSessionTemplate sqlSession) {
-		return sqlSession.selectOne("boardMapper.freeCount");
+	public int boardCount(SqlSessionTemplate sqlSession, int boardType) {
+		return sqlSession.selectOne("boardMapper.boardCount", boardType);
 	}
 	public Board boardDetail(SqlSessionTemplate sqlSession, int boardNo){
 		return sqlSession.selectOne("boardMapper.boardDetail", boardNo);

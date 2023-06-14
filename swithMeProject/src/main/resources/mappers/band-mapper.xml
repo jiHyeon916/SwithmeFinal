@@ -4,4 +4,473 @@
     "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="bandMapper">
 	
+	<resultMap id="bandBoardResultSet" type="bandBoard">
+		<result column="sb_no"     	 		 property="sbNo" />
+		<result column="sb_board_no"     	 property="sbBoardNo" />
+		<result column="nickname"     	 	 property="memberId" />
+		<result column="sb_category"     	 property="sbCategory" />
+		<result column="sb_content"     	 property="sbContent" />
+		<result column="sb_create_date"      property="sbCreateDate" />
+		<result column="sb_status"     	 	 property="sbStatus" />
+		<result column="sb_count"     	 	 property="sbCount" />
+		<result column="change_name"      	 property="changeName" />
+		<result column="count"      	 	 property="count" />
+	</resultMap>
+
+	<resultMap id="bandResultSet" type="band">
+		<result column="sb_no"     	 		 property="sbNo" />
+		<result column="nickname"     	 	 property="memberId" />
+		<result column="sb_title"     	 	 property="sbTitle" />
+		<result column="sb_introduce"        property="sbIntroduce" />
+		<result column="sb_change_name"      property="sbChangeName" />
+		<result column="sb_recruit_mem"      property="sbRecruitMem" />
+		<result column="sb_now_mem"     	 property="sbNowMem" />
+		<result column="sb_status"     	 	 property="sbStatus" />
+		<result column="category"     	 	 property="sbCategory" />
+		<result column="create_date"     	 property="createDate" />
+	</resultMap>
+	
+	<resultMap id="bandMemberResultSet" type="bandMember">
+		<result column="sb_no"     	 		 property="sbNo" />
+		<result column="nickname"     	 	 property="memberId" />
+		<result column="banish"     	 	 property="banish" />
+		<result column="sort"        		 property="sort" />
+		<result column="member_id"        	 property="memId" />
+	</resultMap>
+
+	<resultMap id="bandReportResultSet" type="bandReport">
+		<result column="report_no"     	 		 property="reportNo" />
+		<result column="report_member_id"     	 property="reportMemberId" />
+		<result column="total_no"     	 	 	 property="totalNo" />
+		<result column="report_category"         property="reportCategory" />
+		<result column="report_date"        	 property="reportDate" />
+		<result column="report_status"        	 property="reportStatus" />
+		<result column="report_reason"        	 property="reportReason" />
+		<result column="report_content"        	 property="reportContent" />
+	</resultMap>
+
+	<resultMap id="bandReplyResultSet" type="bandReply">
+		<result column="sb_reply_no"     	 		 property="sbReplyNo" />
+		<result column="sb_board_no"     	 	 	 property="sbBoardNo" />
+		<result column="member_id"     				 property="memberId" />
+		<result column="sb_reply_content"        	 property="sbReplyContent" />
+		<result column="sb_date"        	 	  	 property="sbDate" />
+		<result column="reply_status"        		 property="replyStatus" />
+	</resultMap>
+
+	<!-- test -->
+	<select id="selectTestBand" resultMap="bandResultSet">
+		SELECT
+			   	SB_NO
+			   ,NICKNAME
+			   ,SB_TITLE
+			   ,TO_CHAR(CREATE_DATE, 'YYYY-MM-DD') AS "CREATE_DATE"
+			   ,SB_INTRODUCE
+			   ,SB_CHANGE_NAME
+			   ,SB_RECRUIT_MEM
+			   ,SB_NOW_MEM
+		  FROM
+				SBAND
+		  JOIN
+	            MEMBER USING(MEMBER_ID)
+		 WHERE
+				SB_STATUS = 'Y'
+		 ORDER
+		    BY
+				SB_NO DESC
+	</select>
+	<!-- test끝 -->
+	<select id="selectBandList" resultMap="bandBoardResultSet">				
+		SELECT DISTINCT
+			   	B.SB_BOARD_NO
+			   ,NICKNAME
+			   ,SB_CATEGORY
+			   ,TO_CHAR(SB_CREATE_DATE, 'YYYY-MM-DD') AS "SB_CREATE_DATE"
+			   ,SB_CONTENT
+			   ,SB_COUNT
+               ,COUNT(SB_REPLY_CONTENT)OVER(PARTITION BY R.SB_BOARD_NO) COUNT
+		  FROM
+				SBAND_BOARD B
+          LEFT JOIN
+                SBAND_REPLY R ON(R.SB_BOARD_NO = B.SB_BOARD_NO)
+          JOIN
+	            MEMBER M ON(M.MEMBER_ID = B.MEMBER_ID)
+		 WHERE
+				SB_NO = #{sno}
+		   AND
+				SB_CATEGORY = 'Y'
+		   AND
+				SB_STATUS = 'Y'
+		 ORDER
+		    BY
+				SB_BOARD_NO DESC
+	</select>
+	
+	<update id="increaseCount" parameterType="_int">
+		UPDATE
+				SBAND_BOARD
+		   SET
+				SB_COUNT = SB_COUNT + 1
+		 WHERE
+				SB_BOARD_NO = #{sbBoardNo}
+		   AND
+		   		SB_STATUS = 'Y'
+	</update>
+	
+	<select id="selectBandBoard" resultMap="bandBoardResultSet">
+		SELECT
+			   	SB_BOARD_NO
+			   ,NICKNAME
+			   ,SB_CATEGORY
+			   ,TO_CHAR(SB_CREATE_DATE, 'YYYY-MM-DD') AS "SB_CREATE_DATE"
+			   ,SB_CONTENT
+			   ,SB_COUNT
+		  FROM
+				SBAND_BOARD
+		  JOIN
+	            MEMBER USING(MEMBER_ID)
+		 WHERE
+				SB_BOARD_NO = #{sbBoardNo}
+		   AND
+				SB_CATEGORY = 'Y'
+		   AND
+				SB_STATUS = 'Y'
+	</select>
+
+	<select id="selectBandInfo" resultMap="bandResultSet">
+		SELECT 
+				SB_INTRODUCE
+			   ,SB_NO
+			   ,SB_TITLE
+			   ,SB_RECRUIT_MEM
+			   ,SB_NOW_MEM
+			   ,CATEGORY
+			   ,TO_CHAR(CREATE_DATE, 'YYYY-MM-DD') AS "CREATE_DATE"
+			   ,NICKNAME
+			   ,SB_CHANGE_NAME
+		  FROM
+		 		SBAND
+		  JOIN
+		  		MEMBER USING(MEMBER_ID)
+		 WHERE
+		 		SB_NO = #{sbNo}
+		   AND
+		 		SB_STATUS = 'Y'
+	</select>
+	
+	<select id="ajaxSelectBandSideBar" resultMap="bandResultSet">
+		SELECT
+				SB_TITLE
+			   ,SB_CHANGE_NAME
+		  FROM
+				SBAND
+		 WHERE
+				SB_NO = #{sno}
+		   AND
+				SB_STATUS = 'Y'
+	</select>
+	
+	<update id="updateBand">
+
+		UPDATE
+				SBAND
+		   SET
+				SB_TITLE = #{sbTitle}
+			   ,SB_INTRODUCE = #{sbIntroduce}
+			   ,SB_RECRUIT_MEM = #{sbRecruitMem}
+		 WHERE
+				SB_NO = #{sbNo}
+	</update>
+	
+	<select id="selectMemberList" resultMap="bandMemberResultSet">
+		SELECT 
+				A.SB_NO
+			   ,NICKNAME
+			   ,A.MEMBER_ID
+			   ,NVL2(B.MEMBER_ID,'리더','일반') "SORT"
+		  FROM 
+		  		SBAND_MEMBER A
+		  JOIN 
+		  		MEMBER C ON(C.MEMBER_ID = A.MEMBER_ID)
+		  LEFT 
+		  JOIN 
+		  		SBAND B ON(A.MEMBER_ID = B.MEMBER_ID AND A.SB_NO = B.SB_NO)
+		 WHERE 
+		 		A.SB_NO = #{sbNo}
+		   AND
+		 		BANISH = 'Y'
+		 ORDER 
+		    BY 
+		    	SORT ASC, MEMBER_ID ASC
+		
+	</select>
+	
+	<select id="readerList" resultMap="bandMemberResultSet">
+		SELECT 
+				A.SB_NO
+			   ,NICKNAME
+			   ,A.MEMBER_ID
+			   ,NVL2(B.MEMBER_ID,'리더','일반') "SORT"
+		  FROM 
+		  		SBAND_MEMBER A
+		  JOIN 
+		  		MEMBER C ON(C.MEMBER_ID = A.MEMBER_ID)
+		  LEFT 
+		  JOIN 
+		  		SBAND B ON(A.MEMBER_ID = B.MEMBER_ID AND A.SB_NO = B.SB_NO)
+		 WHERE 
+		 		A.SB_NO = #{sno}
+		   AND
+		 		BANISH = 'Y'
+		 ORDER 
+		    BY 
+		    	SORT ASC, MEMBER_ID ASC
+	</select>
+	
+	<update id="updateBandReader">
+		UPDATE
+				SBAND
+		   SET
+               	MEMBER_ID = #{memberId}
+		 WHERE
+        		SB_NO = #{sbNo} 
+	</update>
+	
+	<update id="enrollBandMember">
+		UPDATE
+				SBAND
+		   SET
+				SB_NOW_MEM = SB_NOW_MEM + 1
+		 WHERE
+				SB_NO = #{sbNo}
+	</update>
+	
+	<insert id="insertBandMember" parameterType="bandMember">
+		INSERT
+		  INTO
+				SBAND_MEMBER
+				(
+				SB_NO
+			   ,MEMBER_ID
+				)
+		VALUES
+				(
+				#{sbNo}
+			   ,#{memberId}
+				)
+	</insert>
+	
+	<update id="deleteBandMemberCount">
+		UPDATE
+				SBAND
+		   SET
+				SB_NOW_MEM = SB_NOW_MEM - 1
+		 WHERE
+				SB_NO = #{sbNo}
+	</update>
+	
+	<delete id="deleteBandMember">
+		DELETE
+		  FROM
+				SBAND_MEMBER
+		 WHERE
+		 		SB_NO = #{sbNo}
+		   AND
+		 		MEMBER_ID = #{memberId}
+	</delete>
+	
+	<select id="banishComfirm" resultType="_int">
+		SELECT 
+				COUNT(*)
+		  FROM 
+		  		SBAND_MEMBER 
+		  JOIN 
+		  		MEMBER USING(MEMBER_ID)
+		 WHERE 
+		 		BANISH = 'N'
+		   AND
+		 		MEMBER_ID = #{memberId}
+           AND     
+                SB_NO = #{sbNo}
+	</select>
+	
+	<update id="updateBandMember">
+		UPDATE
+				SBAND_MEMBER
+		   SET
+				BANISH = 'N'
+		 WHERE
+				MEMBER_ID = #{memId}
+		   AND
+				SB_NO = #{sbNo}
+	</update>
+	
+	<select id="ajaxSelectBandReplyList" resultType="bandReply">
+		SELECT
+				SB_REPLY_NO sbReplyNo
+			   ,SB_BOARD_NO sbBoardNo
+			   ,NICKNAME memberId
+			   ,SB_REPLY_CONTENT sbReplyContent
+			   ,SB_DATE sbDate
+			   ,REPLY_STATUS replyStatus
+		 FROM
+				SBAND_REPLY
+		 JOIN
+				MEMBER USING(MEMBER_ID)
+		WHERE
+				REPLY_STATUS = 'Y'
+		  AND
+				SB_BOARD_NO = #{sbBoardNo}
+		ORDER
+		   BY
+				SB_REPLY_NO DESC
+	</select>
+	
+	<insert id="ajaxInsertBandReply" parameterType="bandReply">
+		INSERT
+		  INTO
+		  		SBAND_REPLY
+				(
+				SB_REPLY_NO
+			   ,SB_BOARD_NO
+			   ,MEMBER_ID
+			   ,SB_REPLY_CONTENT
+				)
+		VALUES
+				(
+				SEQ_SB_REPLY_NO.NEXTVAL
+			   ,#{sbBoardNo}
+			   ,#{memberId}
+			   ,#{sbReplyContent}
+				)
+	</insert>
+	
+	<select id="selectBandNoticeList" resultMap="bandBoardResultSet">				
+		SELECT DISTINCT
+			   	B.SB_BOARD_NO
+			   ,NICKNAME
+			   ,SB_CATEGORY
+			   ,TO_CHAR(SB_CREATE_DATE, 'YYYY-MM-DD') AS "SB_CREATE_DATE"
+			   ,SB_CONTENT
+			   ,SB_COUNT
+               ,COUNT(SB_REPLY_CONTENT)OVER(PARTITION BY R.SB_BOARD_NO) COUNT
+		  FROM
+				SBAND_BOARD B
+          LEFT JOIN
+                SBAND_REPLY R ON(R.SB_BOARD_NO = B.SB_BOARD_NO)
+          JOIN
+	            MEMBER M ON(M.MEMBER_ID = B.MEMBER_ID)
+		 WHERE
+				SB_NO = #{sno}
+		   AND
+				SB_CATEGORY = 'N'
+		   AND
+				SB_STATUS = 'Y'
+		 ORDER
+		    BY
+				SB_BOARD_NO DESC
+	</select>
+	
+	<update id="increaseNoticeCount" parameterType="_int">
+		UPDATE
+				SBAND_BOARD
+		   SET
+				SB_COUNT = SB_COUNT + 1
+		 WHERE
+				SB_BOARD_NO = #{sbBoardNo}
+		   AND
+		   		SB_STATUS = 'Y'
+	</update>
+	
+	<select id="selectBandNoticeBoard" resultMap="bandBoardResultSet">
+		SELECT
+			   	SB_BOARD_NO
+			   ,NICKNAME
+			   ,SB_CATEGORY
+			   ,TO_CHAR(SB_CREATE_DATE, 'YYYY-MM-DD') AS "SB_CREATE_DATE"
+			   ,SB_CONTENT
+			   ,SB_COUNT
+		  FROM
+				SBAND_BOARD
+		  JOIN
+	            MEMBER USING(MEMBER_ID)
+		 WHERE
+				SB_BOARD_NO = #{sbBoardNo}
+		   AND
+				SB_CATEGORY = 'N'
+		   AND
+				SB_STATUS = 'Y'
+	</select>
+	
+	<update id="updateBandProfile">
+		UPDATE
+				SBAND
+		   SET
+				SB_CHANGE_NAME = #{sbChangeName}
+		 WHERE
+				SB_NO = #{sbNo}
+	</update>
+	
+	<insert id="insertReport" parameterType="bandReport">
+		INSERT
+		  INTO
+				BOARD_REPORT
+				(
+				REPORT_NO
+			   ,REPORT_MEMBER_ID
+			   ,TOTAL_NO
+			   ,REPORT_CATEGORY
+			   ,REPORT_REASON
+			   ,REPORT_CONTENT
+				)
+		VALUES
+				(
+				SEQ_REPORT_NO.NEXTVAL
+			   ,#{reportMemberId}
+			   ,#{totalNo}
+			   ,'BAND'
+			   ,#{reportReason}
+			   ,#{reportContent}
+				)
+	</insert>
+	
+	<update id="deleteBandBoard">
+		UPDATE
+				SBAND_BOARD
+		   SET
+				SB_STATUS = 'N'
+		 WHERE
+				SB_BOARD_NO = #{sbBoardNo}	
+	</update>
+	
+	<update id="deleteBandReply">
+		UPDATE
+				SBAND_REPLY
+		   SET
+				REPLY_STATUS = 'N'
+		 WHERE
+				SB_REPLY_NO = #{sbReplyNo}	
+	</update>
+	
+	<select id="replyModifyView" resultMap="bandReplyResultSet">
+		SELECT
+				SB_REPLY_NO
+			   ,SB_BOARD_NO
+			   ,MEMBER_ID
+			   ,SB_REPLY_CONTENT
+		  FROM
+				SBAND_REPLY
+		 WHERE
+				SB_REPLY_NO = #{sbReplyNo}
+	</select>
+	
+	<update id="updateBandReply">
+		UPDATE
+				SBAND_REPLY
+		   SET
+				SB_REPLY_CONTENT = #{sbReplyContent}
+		 WHERE
+				SB_REPLY_NO = #{sbReplyNo}
+	</update>
+
 </mapper>
