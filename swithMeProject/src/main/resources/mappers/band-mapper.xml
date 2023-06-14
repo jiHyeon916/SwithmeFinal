@@ -472,5 +472,25 @@
 		 WHERE
 				SB_REPLY_NO = #{sbReplyNo}
 	</update>
-
+	<insert id="insertBandBoard" parameterType="bandBoard">
+		INSERT
+		  INTO
+				SBAND_BOARD
+				(
+				SB_NO
+			   ,SB_BOARD_NO
+			   ,MEMBER_ID
+			   ,SB_CATEGORY
+			   ,SB_CONTENT
+				)
+		VALUES
+				(
+				#{sbNo}
+			   ,SEQ_SB_BOARD_NO.NEXTVAL
+			   ,#{memberId}
+			   ,#{sbCategory}
+			   ,#{sbContent}
+				)
+	</insert>
+	
 </mapper>
