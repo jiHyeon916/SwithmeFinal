@@ -13,6 +13,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.google.gson.Gson;
 import com.kh.swithme.admin.model.service.AdminServiceImpl;
+import com.kh.swithme.board.model.service.BoardServiceImpl;
 import com.kh.swithme.board.model.vo.Board;
 import com.kh.swithme.board.model.vo.Reply;
 import com.kh.swithme.common.model.vo.PageInfo;
@@ -29,6 +30,9 @@ public class MemberControllerY {
 
 	@Autowired
 	private AdminServiceImpl adminService;
+	
+	@Autowired
+	private BoardServiceImpl boardService;
 
 	
 	
@@ -72,15 +76,15 @@ public class MemberControllerY {
 		return "member/chatting";
 	}
 	
-	// 활동내역 페이지
+	
+	// 활동내역 페이지 이동
 	@RequestMapping("history.me")
 	public String myHistoryListView() {
 		return "member/myHistory";
 	}
 	
 	
-	//
-	// 활동내역 페이지 - 댓글 선택
+	// 활동내역 페이지 
 	@ResponseBody
 	@RequestMapping(value = "historySelectBoard", produces="application/json; charset=UTF-8")
 	public String myHistorySelectView(@RequestParam(value="cPage", defaultValue="1") int currentPage, String boardType, String item,
@@ -117,6 +121,28 @@ public class MemberControllerY {
 		}
 		return new Gson().toJson(jObj);
 	};
+	
+	// 활동내역 삭제(배열)
+	@ResponseBody
+	@RequestMapping("historyDelete")
+	public int qnaDelete(int[] bnoArr, String item, Model model) {
+		
+		int result = 1;
+		
+		if(item.equals("board")) {
+			for(int i = 0; i < bnoArr.length; i++) {
+				result *= boardService.boardDelete(bnoArr[i]);
+			}
+		} else {
+			for(int i = 0; i < bnoArr.length; i++) {
+				result *= boardService.replyDelete(bnoArr[i]);
+			}
+		}
+		return result;
+	}
+	
+	
+	
 	
 	// 문의글 페이지
 	@RequestMapping("qna.me")

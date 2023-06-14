@@ -158,6 +158,10 @@ public class BoardServiceImpl implements BoardService {
 		return boardDao.replyModify(sqlSession, r);
 	}
 	@Override
+	public int replyDelete(int replyNo) {
+		return boardDao.replyDelete(sqlSession, replyNo);
+	}
+	@Override
 	public int studyBandInsert(Board b) {
 		return boardDao.studyBandInsert(sqlSession, b);
 	}
