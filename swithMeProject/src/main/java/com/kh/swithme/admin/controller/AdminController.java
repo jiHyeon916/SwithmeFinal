@@ -294,6 +294,45 @@ public class AdminController {
 	public String qnaStatusUpdate(int qnaNo) {
 		return adminService.qnaStatusUpdate(qnaNo) > 0 ? "success" : "fail";
 	}
+	
+	
+	
+	
+	
+	 
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	  // 김희재 ------------------------------------------------------------
+	
+	@RequestMapping("adminStudyBand.ad")
+	public String adminStudyBandMain() {
+		return "admin/adminStudyBand";
+	}
+	
+	
    
    
    
