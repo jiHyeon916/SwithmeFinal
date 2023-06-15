@@ -177,7 +177,7 @@
                              <th></th>
                          </tr>
                     </thead>
-                    <tbody>
+                    <tbody colspan="6">
                    
                       
                     </tbody>
@@ -188,7 +188,7 @@
             
             
             
-			<!-- 스크립트 조회 / 밴드 / 보드 삭제 -->
+			<!-- 스크립트 조회 -->
             <script>
             
              	$(function() {
@@ -215,6 +215,7 @@
                         console.log(listArr);
                          let value = "";
                          $('.memberBoardList').addClass('selectBtn');
+                        
                          if(listArr.length != 0) {
                         	 
                         for(let i in listArr) {
@@ -265,6 +266,8 @@
             		   		console.log(listArr);
             		   		
             		   		let	value = "";	
+            		   		$('.memberBoardList').removeClass('selectBtn');
+            		   		
             		   		if(listArr.length != 0) {
             		   			
             		   			for(let i in listArr) {
@@ -284,7 +287,6 @@
 	                       				 +'</tr>'
             		   			}
             		   		 $('#adminMemberTable tbody').html(value);
-            		   		$('.memberBoardList').removeClass('selectBtn');
             		   		
             		   		
             		   		}else{
@@ -300,7 +302,7 @@
                   </script>
                   
                   
-                  
+                  <!-- / 밴드 / 보드 삭제  -->
                   <script>
                   
                   
