@@ -173,6 +173,15 @@ public class BoardServiceImpl implements BoardService {
 	public int studyMemberInsert(String memberId) {
 		return boardDao.studyMemberInsert(sqlSession, memberId);
 	}
+	@Override
+	public int boardCategoryCount(String category) {
+		return boardDao.boardCategoryCount(sqlSession, category);
+	}
+	@Override
+	public ArrayList<Board> bandCateogoryList(String category, PageInfo pi) {
+		return boardDao.bandCateogoryList(sqlSession, category, pi);
+	}
+	
 
 
 

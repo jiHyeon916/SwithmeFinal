@@ -984,6 +984,47 @@
 			  )
 	</insert>
 	
+	<!-- 스터디 카테고리 별 게시글 수 조회 -->
+	<select id="boardCategoryCount" resultType="_int">
+		SELECT
+			  COUNT(SB_NO)
+			 <!-- ,NICKNAME AS "MEMBER_ID"
+			 ,SB_TITLE
+			 ,SB_INTRODUCE
+			 ,SB_CHANGE_NAME
+			 ,SB_RECRUIT_MEM
+			 ,SB_NOW_MEM
+			 ,CATEGORY -->
+		  FROM
+		  	  SBAND
+		 WHERE
+		 	  SB_STATUS = 'Y'
+		   AND
+		   	  CATEGORY = #{ category }
+	</select>
+	
+	<select id="bandCateogoryList" resultMap="boardResultSet">
+		SELECT
+			  SB_NO AS "BOARD_NO"
+			 ,NICKNAME AS "MEMBER_ID"
+			 ,SB_TITLE AS "BOARD_TITLE"
+			 ,SB_INTRODUCE AS "BOARD_CONTENT"
+			 ,SB_CHANGE_NAME
+			 ,SB_RECRUIT_MEM
+			 ,SB_NOW_MEM
+			 ,CATEGORY
+		  FROM
+		  	  SBAND
+		  JOIN
+		  	  MEMBER USING(MEMBER_ID)
+		 WHERE
+		 	  SB_STATUS = 'Y'
+		   AND
+		   	  CATEGORY = #{ category }
+		 ORDER
+		    BY
+		      CREATE_DATE DESC
+	</select>
 	
 	
 	
