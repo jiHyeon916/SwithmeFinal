@@ -182,7 +182,7 @@ public class AdminController {
 	   ArrayList<Board> list = adminService.memberDetailBoard(memberId);
 	   //ArrayList<Band> Slist = adminService.memberDetailBand(memberId);
 	   
-	   //System.out.println(list);
+	  // System.out.println(list);
 	   
 	   return new Gson().toJson(list);
    }
@@ -251,7 +251,75 @@ public class AdminController {
   
   
   
+  //회원 board 글 검색(게시글 제목)
   
+  @ResponseBody
+  @RequestMapping(value="memBoardSearchTitle.ad",  produces="application/json; charset=UTF-8")
+  public String memBoardSearch(String memberId, String keyword) {
+	  
+	  
+	  HashMap<String, String> map = new HashMap();
+	  map.put("keyword",keyword);
+	  map.put("memberId", memberId);
+	  
+	  ArrayList<Board> list = adminService.memBoardSearch(map);
+	
+	  //System.out.println(list);
+	  
+	 return new Gson().toJson(list);
+  }
+ 
+ 
+  // 회원 board글 검색(게시글 내용)
+   @ResponseBody
+   @RequestMapping(value="memBoardSearchContent.ad", produces="application/json; charset=UTF-8")
+   public String memSearchContent(String memberId, String keyword) {
+	   
+	   //System.out.println(keyword);
+	   HashMap<String, String> map = new HashMap();
+	   map.put("keyword", keyword);
+	   map.put("memberId", memberId);
+	   
+	   ArrayList<Board> list = adminService.memSearchContent(map);
+	   
+	   //System.out.println(list);
+	   
+	   return new Gson().toJson(list);
+   }
+  
+  
+   //회원  band글 검색(게시글 제목)
+   @ResponseBody
+   @RequestMapping(value="memBandSearchTitle.ad", produces="application/json; charset=UTF-8")
+   public String memBandSearchTitle(String memberId, String keyword) {
+	   
+	   HashMap<String, String> map = new HashMap();
+	   map.put("keyword", keyword);
+	   map.put("memberId", memberId);
+	   
+	   ArrayList<Band> list = adminService.memBandSearchTitle(map);
+	   
+	   //System.out.println(list);
+	   
+	   return new Gson().toJson(list);
+   }
+   
+   //회원 band글 검색(게시글 내용)
+   @ResponseBody
+   @RequestMapping(value="memBandSearchContent.ad", produces="application/json; charset=UTF-8")
+   public String memBandSearchContent(String memberId, String keyword) {
+	   
+	   HashMap<String,String> map = new HashMap();
+	   map.put("keyword", keyword);
+	   map.put("memberId", memberId);
+	   
+	   ArrayList<Band> list = adminService.memBandSearchContent(map);
+	   
+	   System.out.println(list);
+	   
+	   return new Gson().toJson(list);
+   }
+   
   
   
   

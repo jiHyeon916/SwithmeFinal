@@ -95,7 +95,30 @@ public class AdminServiceImpl implements AdminService {
 	  return adminDao.deleteBandDetail(sqlSession,boardNo);
   }
   
-   
+  //회원 board글 검색(제목으로)
+  @Override
+	public ArrayList<Board> memBoardSearch(HashMap<String, String> map) {
+		return adminDao.memBoardSearch(sqlSession,map);
+	}
+
+  //회원 board글 검색(내용으로)
+	@Override
+	public ArrayList<Board> memSearchContent(HashMap<String, String> map) {
+		return adminDao.memSearchContent(sqlSession,map);
+	}
+	// 회원 band글 검색(제목으로)
+	@Override
+	public ArrayList<Band> memBandSearchTitle(HashMap<String, String> map) {
+		return adminDao.memBandSearchTitle(sqlSession, map);
+	}
+
+	//회원 band글 검색(내용으로
+	@Override
+	public ArrayList<Band> memBandSearchContent(HashMap<String, String> map) {
+		return adminDao.memBandSearchContent(sqlSession, map);
+	}
+
+	
       
       
 	
@@ -139,6 +162,8 @@ public class AdminServiceImpl implements AdminService {
 		return adminDao.qnaReplyDelete(sqlSession, qnaNo);
 	}
 
+
+	
 
 
 

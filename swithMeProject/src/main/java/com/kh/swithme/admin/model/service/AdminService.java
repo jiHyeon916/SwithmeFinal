@@ -54,11 +54,17 @@ public interface AdminService {
 	    //회원 band 글 삭제
 	    public int deleteBandDetail(int boardNo);
 	    
+	    //회원 board글 검색(제목으로)
+	    public ArrayList<Board> memBoardSearch(HashMap<String, String> map);
 	    
+	    //회원 board글 검색(내용으로)
+	    public ArrayList<Board> memSearchContent(HashMap<String, String> map);
 	    
+	    //회원 band글 검색(제목으로)
+	    public ArrayList<Band> memBandSearchTitle(HashMap<String,String> map);
 	    
-	    
-   
+	    //회원 band글 검색(내용으로)
+	    public ArrayList<Band> memBandSearchContent(HashMap<String, String> map);
    
    
    // 이유진 ----------------------------------------

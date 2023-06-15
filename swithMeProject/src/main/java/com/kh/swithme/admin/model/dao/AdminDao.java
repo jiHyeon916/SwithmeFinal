@@ -83,11 +83,27 @@ public class AdminDao {
 	   public int deleteBandDetail(SqlSessionTemplate sqlSession, int boardNo) {
 		   return sqlSession.update("adminMapper.deleteBandDetail",boardNo);
 	   }
+	 //회원 board글 검색(내용으로)
+	   public ArrayList<Board> memBoardSearch(SqlSessionTemplate sqlSession, HashMap<String, String> map) {
+			// TODO Auto-generated method stub
+			return (ArrayList)sqlSession.selectList("adminMapper.memBoardSearch", map);
+		}
 	   
-	   
-	   
-	   
-	   
+	 //회원 board글 검색(제목으로)
+		public ArrayList<Board> memSearchContent(SqlSessionTemplate sqlSession, HashMap<String, String> map) {
+			return (ArrayList)sqlSession.selectList("adminMapper.memSearchContent", map);
+		}
+		
+		//회원 band글 검색(제목으로)
+		public ArrayList<Band> memBandSearchTitle(SqlSessionTemplate sqlSession, HashMap<String, String> map) {
+			return (ArrayList)sqlSession.selectList("adminMapper.memBandSearchTitle", map);
+		}
+		//회원 band글 검색(제목으로)
+		public ArrayList<Band> memBandSearchContent(SqlSessionTemplate sqlSession, HashMap<String, String> map) {
+			return (ArrayList)sqlSession.selectList("adminMapper.memBandSearchContent", map);
+		}
+
+		
 	   
 	   
 	   
@@ -127,6 +143,9 @@ public class AdminDao {
 	public int qnaReplyDelete(SqlSessionTemplate sqlSession, int qnaNo) {
 		return sqlSession.delete("adminMapper.qnaReplyDelete", qnaNo);
 	}
+
+	
+
 
 
 
