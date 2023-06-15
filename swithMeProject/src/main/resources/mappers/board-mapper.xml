@@ -42,6 +42,20 @@
 		<result column="STATUS" property="status" />
 	</resultMap>
 	
+	<resultMap id="bandResultSet" type="band">
+		<result column="SB_NO" property="sbNo" />
+		<result column="MEMBER_ID" property="memberId" />
+		<result column="SB_TITLE" property="sbTitle" />
+		<result column="SB_INTRODUCE" property="sbIntroduce" />
+		<result column="SB_CHANGE_NAME" property="sbChangeName" />
+		<result column="SB_RECRUIT_MEM" property="sbRecruitMem" />
+		<result column="SB_NOW_MEM" property="sbNowMem" />
+		<result column="SB_STATUS" property="sbStatus" />
+		<result column="CATEGORY" property="sbCategory" />
+		<result column="CREATE_DATE" property="createDate" />
+	</resultMap>
+	
+	
 	
 	
 	
@@ -984,8 +998,100 @@
 			  )
 	</insert>
 	
+	<!-- 스터디 카테고리 별 게시글 수 조회 -->
+	<select id="boardCategoryCount" resultType="_int">
+		SELECT
+			  COUNT(SB_NO)
+		  FROM
+		  	  SBAND
+		 WHERE
+		 	  SB_STATUS = 'Y'
+		   AND
+		   	  CATEGORY = #{ category }
+	</select>
+	
+	<select id="bandCateogoryList" resultMap="bandResultSet">
+		SELECT
+			  SB_NO
+			 ,NICKNAME AS "MEMBER_ID"
+			 ,SB_TITLE
+			 ,SB_INTRODUCE
+			 ,SB_CHANGE_NAME
+			 ,SB_RECRUIT_MEM
+			 ,SB_NOW_MEM
+			 ,CATEGORY
+		  FROM
+		  	  SBAND
+		  JOIN
+		  	  MEMBER USING(MEMBER_ID)
+		 WHERE
+		 	  SB_STATUS = 'Y'
+		   AND
+		   	  CATEGORY = #{ category }
+		 ORDER
+		    BY
+		      CREATE_DATE DESC
+	</select>
+	
+	<!-- 밴드 키워드 검색  -->
+	<select id="bandSearch" resultMap="bandResultSet">
+		SELECT
+              SB_NO
+			 ,NICKNAME AS "MEMBER_ID"
+			 ,SB_TITLE
+			 ,SB_INTRODUCE
+			 ,SB_CHANGE_NAME
+			 ,SB_RECRUIT_MEM
+			 ,SB_NOW_MEM
+			 ,CATEGORY
+   		  FROM
+              SBAND
+      	  JOIN
+              MEMBER USING(MEMBER_ID)
+ 		 WHERE
+              SB_TITLE LIKE '%' || #{ key } ||'%'
+       		OR
+              SB_INTRODUCE LIKE '%' || #{ key } ||'%'
+        	OR
+              CATEGORY LIKE '%' || #{ key } ||'%'
+        	OR
+              NICKNAME LIKE '%' || #{ key } ||'%'
+	</select>
+	
+	<!-- 정보 게시판 : 채택 여부 확인 하기  -->
+	<select id="selectioncheck" resultMap="replyResultMap">
+		SELECT
+              BOARD_REPLY_NO
+             ,NICKNAME AS "MEMBER_ID"
+             ,BOARD_REPLY_CONTENT
+             ,BOARD_REPLY_CREATE_DATE
+   		  FROM
+              MAINBOARD A
+ 	 LEFT JOIN
+              BOARD_REPLY C USING(BOARD_NO)
+     LEFT JOIN
+              PICK_REPLY USING(BOARD_REPLY_NO)
+     LEFT JOIN
+              MEMBER B ON(B.MEMBER_ID = A.MEMBER_ID)
+         WHERE
+              BOARD_NO = #{ boardNo }
+           AND
+              ONE_PICK = 'N'
+   		   AND
+              C.BOARD_STATUS = 'Y'
+	</select>
 	
 	
+	<insert id="selectInsert">
+		INSERT
+		  INTO
+		      PICK_REPLY
+		VALUES
+			  (
+			  #{ replyNo }
+			  ,'N'
+			  )
+	</insert>
 	
 	
 	

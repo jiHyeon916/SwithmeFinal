@@ -11,6 +11,7 @@ import com.kh.swithme.admin.model.dao.AdminDao;
 import com.kh.swithme.admin.model.vo.QNAReply;
 import com.kh.swithme.band.model.vo.Band;
 import com.kh.swithme.board.model.vo.Board;
+import com.kh.swithme.board.model.vo.StudyRoom;
 import com.kh.swithme.common.model.vo.PageInfo;
 import com.kh.swithme.member.model.vo.Member;
 import com.kh.swithme.member.model.vo.QNA;
@@ -139,7 +140,93 @@ public class AdminServiceImpl implements AdminService {
 		return adminDao.qnaReplyDelete(sqlSession, qnaNo);
 	}
 
+	
 
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	// 희재 -----------------------------------------------
+	
+	// 스터디룸 
+	// 스터디룸 리스트 전체 count
+	@Override
+	public int adminStudyRoomListCount() {
+		return adminDao.adminStudyRoomListCount(sqlSession);
+	}
+
+	// 스터디룸 전체 리스트 조회
+	@Override
+	public ArrayList<StudyRoom> selectAllStudyRoomList(PageInfo pi) {
+		return adminDao.selectAllStudyRoomList(sqlSession, pi);
+	}
+
+	// 스터디룸 추가
+	@Override
+	public int insertStudyRoom(StudyRoom sr) {
+		return 0;
+	}
+
+	// 스터디룸 선택 삭제
+	@Override
+	public int deleteCheckStudyRoom(int studyRoomNo) {
+		return adminDao.deleteCheckStudyRoom(sqlSession,studyRoomNo);
+	}
+
+	// 스터디룸 상세보기 삭제
+	@Override
+	public int deleteStudyRoom(int studyRoomNo) {
+		return 0;
+	}
+
+	// 스터디룸 정보 수정
+	@Override
+	public int updateStudyRoom(StudyRoom sr) {
+		return 0;
+	}
+
+	// 스터디밴드 관리
+	// 스터디 목록 조회
+	@Override
+	public ArrayList<Band> selectSBandList(PageInfo pi) {
+		return null;
+	}
+
+	// 스터디 삭제
+	@Override
+	public int deleteStudyBand(int bandNo) {
+		return 0;
+	}
+
+	// 스터디 검색 결과 count
+	@Override
+	public int selectSearchSBandListCount(String keyword) {
+		return 0;
+	}
+
+	// 스터디 검색 결과
+	@Override
+	public ArrayList<Band> selectSearchSBandList(HashMap<String, String> map, PageInfo pi) {
+		return null;
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+
+	
 
 
    

@@ -25,7 +25,7 @@
 		</ul>
 		<ul id="mySide3"> 	
 			<li><a href="history.me">활동정보</a></li>
-			<li><a href="#">북마크</a></li>
+			<li><a href="bookmark.me">북마크</a></li>
 			<li><a href="qna.me">문의글</a></li>
 		</ul>
 	</div>

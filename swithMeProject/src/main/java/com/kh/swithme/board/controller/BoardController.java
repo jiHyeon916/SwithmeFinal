@@ -101,9 +101,13 @@ public class BoardController {
 			model.addAttribute("status", status);
 			model.addAttribute("b", b);
 			
+			if(b.getBoardType().equals("free")) {
+				return "board/freeBoardDetail";
+			}else {
+				return "board/infoBoardDetail";
+			}
 			
 			
-			return "board/freeBoardDetail";
 		}else {
 			return "errorPage";
 		}
@@ -522,19 +526,6 @@ public class BoardController {
 		}
 	}
 	
-	/*
-	/**
-	 * 스터디밴드 게시글 리스트 보기
-	 * @return
-	 *
-	@RequestMapping("studyBand.bo")
-	public String studyBandListView() {
-		return "board/studyBandBoardListView";
-	}
-	
-	*/
-	
-	
 	/**
 	 * 스터디 모집하기 글 작성 화면
 	 * @return
@@ -577,8 +568,39 @@ public class BoardController {
 	}
 	
 	/**
-	 * 아이템 보드 리스트 화
+	 * 밴드 카테고리 
+	 * @param currentPage
+	 * @param category
+	 * @param model
 	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value="bandCateogory", produces="application/json; charset=UTF-8")
+	public String bandCateogory(@RequestParam(value="cPage", defaultValue="1") int currentPage,
+								String category, Model model) {
+		PageInfo pi = Pagination.getPageInfo(boardService.boardCategoryCount(category), currentPage, 20, 10);
+		
+		JSONObject jobj = new JSONObject();
+		jobj.put("list", boardService.bandCateogoryList(category, pi));
+		jobj.put("pi", pi);
+		return new Gson().toJson(jobj);
+	}
+	
+	/**
+	 * 밴드 찾기 (검색어)
+	 * @param key
+	 * @return
+	 */
+	@RequestMapping("bandSearch")
+	public String bandSearch(@RequestParam(value="cPage", defaultValue="1") int currentPage, String key, Model model) {
+		PageInfo pi = Pagination.getPageInfo(boardService.bandSearchCount(key), currentPage, 20, 10);
+		model.addAttribute("list", boardService.bandSearch(key, pi));
+		return "board/studyBandBoardListView";
+		
+	}
+	
+	/**
+	 * 아이템 보드 리스트 페이지로 이동 
 	 */
 	@RequestMapping("itemBoard")
 	public String itemBoardListView() {
@@ -586,6 +608,34 @@ public class BoardController {
 	}
 	
 	
+	/**
+	 * 정보 게시판 : 채택된 글 가져오기 
+	 * @param boardNo 조회한 게시판 번호 
+	 * @return 
+	 */
+	@ResponseBody
+	@RequestMapping(value="selectioncheck", produces="application/json; charset=UTF-8")
+	public String selectioncheck(int boardNo) {
+		
+		Reply r = boardService.selectioncheck(boardNo);
+		
+		if(r == null) {
+			return "NO";
+		}else {
+			return new Gson().toJson(r); 
+		}
+	}
+	
+	/**
+	 * 정보 게시판 : 답변 채택하기 
+	 * @param replyNo 채택할 댓글 번호 
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value="selectInsert")
+	public String selectInsert(int replyNo) {
+		return boardService.selectInsert(replyNo) > 0 ? "success" : "fail";
+	}
 	
 	
 	

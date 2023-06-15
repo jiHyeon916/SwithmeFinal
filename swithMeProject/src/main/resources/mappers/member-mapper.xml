@@ -20,6 +20,7 @@
 		<result column="TODO_DATE" property="todoDate" />
 		<result column="TODO_CONTENT" property="todoContent" />
 		<result column="TODO_STATUS" property="todoStatus" />
+				<result column="ACHIEVEMENT_RATE" property="achievementRate" />	
 	</resultMap>
 	
 	<resultMap id="pointResultSet" type="point">
@@ -76,6 +77,19 @@
 		<result column="BOARD_TYPE" 			property="boardType" />
 		<result column="BOARD_TITLE" 			property="boardTitle" />
 	</resultMap>
+	
+	<resultMap id="MyStudyBandResultSet" type="Band">
+		<result column="SB_NO" property="sbNo" />
+		<result column="MEMBER_ID" property="memberId" />	
+		<result column="SB_TITLE" property="sbTitle" />
+		<result column="SB_INTRODUCE" property="sbIntroduce" />
+		<result column="SB_CHANGE_NAME" property="sbChangeName" />
+		<result column="SB_RECRUIT_MEM" property="sbRecruitMem" />
+		<result column="SB_NOW_MEM" property="sbNowMem" />
+		<result column="SB_STATUS" property="sbStatus" />
+		<result column="CATEGORY" property="category" />
+		<result column="CREATE_DATE" property="createDate" />
+	</resultMap>
 
 	
 	<!-- 희재 -->
@@ -92,8 +106,6 @@
 			CALENDAR
 		WHERE
 			MEMBER_ID= #{memberId}
-		AND
-			TYPE='C'
 	</select>
 	
 	<!-- 일정 추가 -->
@@ -101,9 +113,9 @@
 		INSERT
 		INTO 
 			CALENDAR
-			(CALENDAR_NO, MEMBER_ID, START_DAY, END_DAY, CALENDAR_TITLE, CALENDAR_CONTENT, COLOR, TYPE)
+			(CALENDAR_NO, MEMBER_ID, START_DAY, END_DAY, CALENDAR_TITLE, CALENDAR_CONTENT, COLOR)
 		VALUES
-			(SEQ_CALENDAR_NO.NEXTVAL, #{memberId}, #{startDay}, #{endDay}, #{calendarTitle}, #{calendarContent}, #{color}, 'C' )
+			(SEQ_CALENDAR_NO.NEXTVAL, #{memberId}, #{startDay}, #{endDay}, #{calendarTitle}, #{calendarContent}, #{color} )
 	</insert>
 	
 	<!-- 일정 삭제 -->
@@ -115,8 +127,6 @@
 			CALENDAR_NO=#{calendarNo}
 		AND
 			MEMBER_ID=#{memberId}
-		AND
-			TYPE='C'
 	</delete>
 	
 	<!-- 일정 수정 -->
@@ -132,8 +142,6 @@
 			CALENDAR_NO=#{calendarNo}
 		AND
 			MEMBER_ID=#{memberId}
-		AND
-			TYPE='C'
 	</update>
 	
 	<!-- todoList 리스트 조회 -->
@@ -151,6 +159,21 @@
 			TODO_DATE=#{todoDate}
 	</select>
 	
+	<select id="todoAchievementRateList" parameterType="string" resultMap="TodoListResultSet">
+		SELECT 
+			TO_char(TODO_DATE, 'YYYY-MM-DD') AS TODO_DATE 
+			,ROUND(COUNT(CASE WHEN TODO_STATUS='N' THEN 1 END) / COUNT(TODO_STATUS)*100) AS ACHIEVEMENT_RATE
+		FROM
+			TODOLIST
+		WHERE 
+			MEMBER_ID=#{memberId}
+		GROUP BY TODO_DATE
+		ORDER BY TODO_DATE
+	
+	</select>
+	
+	
+	
 	<!-- todoList 추가 -->
 	<insert id="insertTodoList" parameterType="TodoList">
 		INSERT
@@ -165,6 +188,17 @@
 			,'Y'
 			)
 	</insert>
+	
+	<!-- todoList 삭제 -->
+	<delete id="deleteTask" parameterType="TodoList">
+		DELETE
+		FROM
+			TODOLIST
+		WHERE
+			TODO_NO=#{todoNo}
+		AND
+			MEMBER_ID=#{memberId}
+	</delete>
 	
 	<!-- todoList 체크 -->
 	<update id="checkTodoList" parameterType="_int">
@@ -185,6 +219,94 @@
 		WHERE
 			TODO_NO=#{todoNo}
 	</update>
+	
+	<!-- myStudyBand List 조회 -->
+	<select id="allStudyBandList" parameterType="string" resultMap="MyStudyBandResultSet">
+		SELECT DISTINCT
+			SB_NO
+			,SB_TITLE
+			,SB_INTRODUCE
+			,SB_CHANGE_NAME
+		FROM
+			SBAND
+		WHERE
+			MEMBER_ID=#{memberId}
+	</select>
+	
+	<select id="favoriteStudyBand" parameterType="string" resultMap="MyStudyBandResultSet">
+		SELECT 
+			SB_NO
+		FROM 
+			SBAND_BOOKMARK
+	</select>
+	
+	<!-- 스터디밴드 북마크 추가 -->
+	<insert id="insertSbandBookmark" parameterType="BandBookMark">
+		INSERT
+		INTO
+			SBAND_BOOKMARK
+		VALUES
+			(
+			#{sbNo}
+			,#{memberId}
+			)
+	</insert>
+	
+	<delete id="deleteSbandBookmark" parameterType="BandBookMark">
+		DELETE
+		FROM
+			SBAND_BOOKMARK
+		WHERE
+			SB_NO=#{sbNo}
+		AND
+			MEMBER_ID=#{memberId}
+	</delete>
+	
+	<!-- 북마크 게시글 수  -->
+	<select id="selectBookMarkListCount" parameterType="string" resultType="_int">
+	SELECT COUNT(*)
+	  		 FROM
+	          	 BOARD_LB A
+	  		 JOIN
+	          	 MEMBER USING(MEMBER_ID)
+		LEFT JOIN
+	            (
+	            SELECT BOARD_NO,CATEGORY,BOARD_TITLE ,SUMMARY ,TO_CHAR(CREATE_DATE, 'YYYY-MM-DD') AS "CREATE_DATE" ,BOARD_TYPE 
+	            FROM MAINBOARD 
+	            WHERE BOARD_STATUS='Y') B ON(A.BOARD_NO = B.BOARD_NO)
+	        WHERE
+	            STATUS_LB = 'B'
+	        AND
+	            MEMBER_ID=#{memberId}
+	</select>
+	
+	<!-- 게시글 북마크 조회 -->
+	<select id="selectBoardBookMarkList" parameterType="string" resultMap="boardResultSet">
+		SELECT 
+			A.BOARD_NO
+			,CATEGORY
+			,BOARD_TITLE 
+			,SUMMARY 
+			,TO_CHAR(CREATE_DATE, 'YYYY-MM-DD') AS "CREATE_DATE"
+			,BOARD_TYPE
+		FROM 
+			BOARD_LB A
+		JOIN 
+			MAINBOARD B ON(A.BOARD_NO = B.BOARD_NO)
+		WHERE 
+			STATUS_LB='B'
+		AND 
+			A.MEMBER_ID=#{memberId}
+	</select>
+	
+	<!-- 게시글 북마크 선택 삭제 -->
+	<delete id="deleteBoardBookMark" parameterType="_int">
+		DELETE
+		FROM
+			BOARD_LB
+		WHERE
+			BOARD_NO=#{boardNo}
+	</delete>
 	
 	
 	

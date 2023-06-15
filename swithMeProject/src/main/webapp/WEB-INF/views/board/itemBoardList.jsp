@@ -115,7 +115,6 @@
             </div>
             
         </div>
-        <button id="replyMsg">답변하기</button>
     </div>
 
 

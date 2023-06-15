@@ -7,6 +7,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.kh.swithme.band.model.vo.Band;
 import com.kh.swithme.board.model.dao.BoardDao;
 import com.kh.swithme.board.model.vo.Attach;
 import com.kh.swithme.board.model.vo.Board;
@@ -173,6 +174,31 @@ public class BoardServiceImpl implements BoardService {
 	public int studyMemberInsert(String memberId) {
 		return boardDao.studyMemberInsert(sqlSession, memberId);
 	}
+	@Override
+	public int boardCategoryCount(String category) {
+		return boardDao.boardCategoryCount(sqlSession, category);
+	}
+	@Override
+	public ArrayList<Board> bandCateogoryList(String category, PageInfo pi) {
+		return boardDao.bandCateogoryList(sqlSession, category, pi);
+	}
+	@Override
+	public ArrayList<Band> bandSearch(String key, PageInfo pi) {
+		return boardDao.bandSearch(sqlSession, key, pi);
+	}
+	@Override
+	public int bandSearchCount(String key) {
+		return boardDao.bandSearchCount(sqlSession, key);
+	}
+	@Override
+	public Reply selectioncheck(int boardNo) {
+		return boardDao.selectioncheck(sqlSession, boardNo);
+	}
+	@Override
+	public int selectInsert(int replyNo) {
+		return boardDao.selectInsert(sqlSession, replyNo);
+	}
+	
 
 
 

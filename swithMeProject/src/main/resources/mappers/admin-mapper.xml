@@ -19,9 +19,53 @@
 		<result column="QNA_REPLY_CONTENT"		property="qnaReplyContent" />
 		<result column="QNA_REPLY_CREATE_DATE"	property="qnaReplyCreateDate" />
 	</resultMap>
+
+	<resultMap id="sRoomResultSet" type="studyRoom">
+		<result column="SR_NO" property="studyRoomNo" />
+		<result column="SR_NAME" property="studyRoomName"/>
+		<result column="SR_LOCATION" property="studyRoomLocation" />
+		<result column="SR_ADDRESS" property="studyRoomAddress" />
+		<result column="SR_LAT" property="studyRoomLat" />
+		<result column="SR_LNG" property="studyRoomLng" />
+		<result column="SR_PHONE" property="studyRoomPhone" />
+		<result column="SR_INTRODUCE" property="studyRoomIntroduce" />
+		<result column="SR_CREATEDATE" property="studyRoomCreatedate" />
+		<result column="SR_WEBSITE" property="studyRoomWebsite" />
+	</resultMap>
 	
-   <!-- 희재 -->
-   
+	<!-- 희재 -->
+	<!-- 스터디룸 게시글 수 -->
+	<select id="adminStudyRoomListCount" resultType="_int">
+		SELECT 
+			COUNT(*)
+		FROM
+			BOARD_STUDYROOM
+	</select>
+	
+	<!-- 스터디룸 메인 리스트 -->
+	<select id="selectAllStudyRoomList" resultMap="sRoomResultSet">
+		SELECT 
+			SR_NO 
+			,SR_NAME 
+			,SR_LOCATION
+			,SR_ADDRESS 
+			,SR_PHONE
+		FROM
+			BOARD_STUDYROOM
+		ORDER
+		BY
+			SR_NAME
+	</select>
+	
+	<!-- 스터디룸 삭제 -->
+   	<delete id="deleteCheckStudyRoom" parameterType="_int">
+   		DELETE
+   		FROM
+   			BOARD_STUDYROOM
+   		WHERE
+   			SR_NO=#{studyRoomNo}
+   	</delete>
+   			
    
    
    

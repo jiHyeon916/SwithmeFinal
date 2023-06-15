@@ -6,15 +6,16 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.kh.swithme.band.model.vo.Band;
 import com.kh.swithme.board.model.vo.Board;
 import com.kh.swithme.board.model.vo.Reply;
 import com.kh.swithme.common.model.vo.PageInfo;
 import com.kh.swithme.member.model.dao.MemberDao;
 import com.kh.swithme.member.model.vo.Alarm;
+import com.kh.swithme.member.model.vo.BandBookMark;
 import com.kh.swithme.member.model.vo.Calendar;
 import com.kh.swithme.member.model.vo.Member;
 import com.kh.swithme.member.model.vo.Point;
-import com.kh.swithme.member.model.vo.QNA;
 import com.kh.swithme.member.model.vo.QNA;
 import com.kh.swithme.member.model.vo.TodoList;
 
@@ -160,8 +161,8 @@ public class MemberServiceImpl implements MemberService{
 		}
 		
 		@Override
-		public ArrayList<Calendar> selectTodoCalendarList(Calendar cl) {
-			return null;
+		public ArrayList<TodoList> todoAchievementRateList(String memberId) {
+			return memberDao.todoAchievementRateList(sqlSession, memberId);
 		}
 
 		@Override
@@ -185,13 +186,48 @@ public class MemberServiceImpl implements MemberService{
 		}
 
 		@Override
-		public int deleteTodoList(int todoNo) {
-			return 0;
+		public int deleteTask(TodoList td) {
+			return memberDao.deleteTask(sqlSession, td);
 		}
 
 		@Override
 		public int updateTodoList(TodoList td) {
 			return 0;
+		}
+
+		@Override
+		public ArrayList<Band> allStudyBandList(String memberId) {
+			return memberDao.allStudyBandList(sqlSession, memberId);
+		}
+
+		@Override
+		public ArrayList<Band> favoriteStudyBand(String memberId) {
+			return memberDao.favoriteStudyBand(sqlSession, memberId);
+		}
+
+		@Override
+		public int insertSbandBookmark(BandBookMark bm) {
+			return memberDao.insertSbandBookmark(sqlSession, bm);
+		}
+
+		@Override
+		public int deleteSbandBookmark(BandBookMark bm) {
+			return memberDao.deleteSbandBookmark(sqlSession, bm);
+		}
+
+		@Override
+		public int selectBookMarkListCount(String memberId) {
+			return memberDao.selectBookMarkListCount(sqlSession, memberId);
+		}
+
+		@Override
+		public ArrayList<Board> selectBoardBookMarkList(String memberId, PageInfo pi) {
+			return memberDao.selectBoardBookMarkList(sqlSession, memberId, pi);
+		}
+
+		@Override
+		public int deleteBoardBookMark(int boardNo) {
+			return memberDao.deleteBoardBookMark(sqlSession, boardNo);
 		}
 
 		

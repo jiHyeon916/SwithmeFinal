@@ -9,4 +9,5 @@ public class TodoList {
 	private String todoDate;
 	private String todoContent;
 	private String todoStatus;
+	private int achievementRate;
 }

@@ -6,6 +6,9 @@
 <head>
 <meta charset="UTF-8">
 <link rel="stylesheet" href="resources/css/member/myPageMain.css">
+<link rel="stylesheet" href="resources/css/member/grass.css">
+	<!-- fullcalendar -->
+	<script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js'></script>
 <title>Insert title here</title>
 </head>
 <body>
@@ -38,9 +41,9 @@
 				<button onclick="location.href='alarm.me'">자세히보기</button>
 			</div><!-- 
 		 --><div id="grass">
-				<h5>목표 달성</h5>
+				<h5>목표 달성(미완)</h5>
 				<div id="grassBox">
-					
+					<div id="calendar"></div>
 				</div>
 			</div><!-- 
 		 --><div class="balance">
@@ -50,10 +53,14 @@
 	</div>
 	
 	<script>
+		let sortType = '';
+		let sort = ''; // 게시판 or 스터디밴드 구분용 빈문자열 선언 
+	
 		$(function(){
 			totalPoint(); // 총 포인트 불러오기
 			miniPointList(); // 포인트내역 최신3개
 			miniAlarmList(); // 알림내역 최신 5개
+			dateFormat();
 		}); 
 		
 		
@@ -96,14 +103,14 @@
 		}
 		
 		
+		
 		// 알림 내역
 		function miniAlarmList(){
+
 			$.ajax({
 				url : 'miniAlarmList',
 				data : { memberId : '${loginMember.memberId}' },
 				success : (list) => {
-					//console.log('연결성공');
-					//console.log(list);
 					
 					if(list.length == 0){
 						console.log('sdjkhffsd');
@@ -111,7 +118,6 @@
 						let result = '<span class="emptyList">등록된 알림이 없습니다.</span>';
 						
 						$('#AminiList').html(result);
-						
 						
 					}
 					else{
@@ -127,10 +133,13 @@
 						let value = '';
 						
 						for(let i in list){
+							//sortType = list[i].alarmSort;
 							
-							let sort = ''; // 게시판 or 스터디밴드 구분용 빈문자열 선언 
-							if(list[i].alarmSort == 's'){sort = '[게시판]'}
-							else {sort = '[밴드]'};
+							if(list[i].alarmSort == 's'){
+								sort = '[게시판]'
+							} else {
+								sort = '[밴드]'
+							};
 							
 							let category = '';
 							for(var key in comment){
@@ -141,6 +150,9 @@
 							}
 							
 							value += '<p>'
+								   + '<input type="hidden" name="sortType" value="' + list[i].alarmSort + '" />'
+								   // + '<input type="hidden" name="testType" value="' + list[i].boardType + '" />'
+								   + '<input type="hidden" name="locationBoard" value="' + list[i].alarmBoardNo + '" />'
 								   + sort + ' ' + category
 								   + '</p>'	
 							
@@ -155,11 +167,75 @@
 		}
 		
 		// 알림내역 클릭시 해당하는 게시글로 이동
-		$(document).on('click', $('#AminiList>p'), function(){
-			location.href = '#';
+		$(document).on('click', '#AminiList>p', function(){
+			let board = $(this).children().eq(0).val(); // 게시판인지 밴드인지
+			//let boardType = $(this).children().eq(1).val(); // 커뮤니티인지 질문정보인지
+			let bNo = $(this).children().eq(1).val(); // 보드넘버
+			//console.log(test);
+
+			
+			if(board == 's'){ // 일반게시판일 경우
+				location.href = 'freeBoardDetail.bo?boardNo=' + bNo;
+				/* if(boardType == 'free'){
+				} else {
+					location.href = 'freeBoardDetail.bo?boardNo=' + bNo;
+				} */
+			} else { // 스터디밴드인경우
+				location.href = '/studyBand.bo/detail.bo?sno=' + bNo;
+			}
 		});
 		
+		// 잔디가 가능하냐?
+		function test(){
+			
+		};
 		
+		
+		function dateFormat(){
+			var date = new Date();
+			console.log(date.getFullYear());
+		};
+		
+		document.addEventListener('DOMContentLoaded', function() {
+			  var calendarEl = document.getElementById('calendar');
+
+			  var calendar = new FullCalendar.Calendar(calendarEl, {
+			    headerToolbar: {
+			      left: 'prev,next today',
+			      center: 'title',
+			      right: 'dayGridMonth,timeGridWeek'
+			    },
+			    initialDate: '2023-05-12',
+			    events: [
+					      {
+					        start: '2023-05-11T10:00:00',
+					        end: '2023-05-11T16:00:00',
+					        display: 'background',
+					        color: '#ff9f89'
+					      },
+					      {
+					        start: '2023-05-13T10:00:00',
+					        end: '2023-05-13T16:00:00',
+					        display: 'background',
+					        color: '#ff9f89'
+					      },
+					      {
+					        start: '2023-05-24',
+					        end: '2023-05-28',
+					        overlap: false,
+					        display: 'background'
+					      },
+					      {
+					        start: '2023-05-06',
+					        end: '2023-05-08',
+					        overlap: false,
+					        display: 'background'
+					      }
+					    ]
+			  });
+
+			  calendar.render();
+			});
 	</script>
 	
 
