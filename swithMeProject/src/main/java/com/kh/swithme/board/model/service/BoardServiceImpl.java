@@ -190,6 +190,14 @@ public class BoardServiceImpl implements BoardService {
 	public int bandSearchCount(String key) {
 		return boardDao.bandSearchCount(sqlSession, key);
 	}
+	@Override
+	public Reply selectioncheck(int boardNo) {
+		return boardDao.selectioncheck(sqlSession, boardNo);
+	}
+	@Override
+	public int selectInsert(int replyNo) {
+		return boardDao.selectInsert(sqlSession, replyNo);
+	}
 	
 
 

@@ -151,7 +151,13 @@ public class BoardDao {
 	public int bandSearchCount(SqlSessionTemplate sqlSession, String category) {
 		return sqlSession.selectOne("boardMapper.boardCategoryCount", category);
 	}
-
+	public Reply selectioncheck(SqlSessionTemplate sqlSession, int boardNo) {
+		return sqlSession.selectOne("boardMapper.selectioncheck", boardNo);
+	}
+	public int selectInsert(SqlSessionTemplate sqlSession, int replyNo) {
+		return sqlSession.insert("boardMapper.selectInsert", replyNo);
+	}
+	
 
 
 	// 희재 스터디룸 ------------------------------------------------------------------------
@@ -200,6 +206,7 @@ public class BoardDao {
 	public ArrayList<StudyRoom> studyRoomSearch(SqlSessionTemplate sqlSession, HashMap<String, String> map){
 		return (ArrayList)sqlSession.selectList("boardMapper.studyRoomSearch", map);
 	}
+	
 	
 	
 }

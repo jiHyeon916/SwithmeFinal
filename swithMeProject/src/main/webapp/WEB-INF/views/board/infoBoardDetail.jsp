@@ -76,29 +76,7 @@
                         <div class="blank"></div>
                     </div>
                     <div id="selectReply" class="clear">
-                        <p>채택된 답변</p>
-                        <div id="QImg">
-                            <img src="" alt="">
-                            <p>채택</p>
-                        </div>
-                        <div id="Qcon">
-                            <div class="replyList">
-                                <div class="rInfo clear">
-                                    <p>아메리카노</p>
-                                    <p>2022.03.03</p>
-                                </div>
-                                <p class="rCon replyCon">안뇽안용안뇽안용안뇽안용안뇽안용안뇽안용안뇽안용안뇽안용안뇽안용
-                                    안뇽안용안뇽안용안뇽안용안뇽안용안뇽안용안뇽안용안뇽안용안뇽안용안뇽안용안뇽안용안뇽안용안뇽안용
-                                    안뇽안용안뇽안용안뇽안용안뇽안용안뇽안용안뇽안용안뇽안용안뇽안용안뇽안용안뇽안용안뇽안용안뇽안용
-                                    안뇽안용안뇽안용안뇽안용안뇽안용안뇽안용안뇽안용안뇽안용안뇽안용안뇽안용안뇽안용안뇽안용안뇽안용
-                                    안뇽안용안뇽안용안뇽안용안뇽안용안뇽안용안뇽안용안뇽안용안뇽안용
-                                </p>
-                                <div class="replyWrite">
-                                    <textarea cols="30" rows="10"></textarea>
-                                    <button id="replyBtn">답글 등록</button>
-                                </div>
-                            </div>
-                        </div>
+                        
                     </div>
                     <div class="replyWrap clear">
                         <!-- 댓글 컨텐츠 영역 -->
@@ -144,7 +122,7 @@
             replyCount(); //댓글 수 불러오기 
             likeStatusCheck(); //좋아요 상태 표시
             bookStatusCheck(); //북마크 상태 표시
-            //reReplyList(); //대댓글 리스트 불러오기
+            selectioncheck(); //채택 여부 확인 
 
 
 
@@ -262,7 +240,7 @@
                         result += '<div class="qNoSelect clear">'
                                     + '<div id="QImg">'
                                         + '<img src="" alt="">'
-                                        + '<p>채택</p>'
+                                        + '<p class="oneTime" onclick="wantSelect(this)">채택<input type="hidden" value="'+ list[i].boardReplyNo + '"></p>'
                                     + '</div>'
                                     + '<div id="Qcon">'
                                         +'<div class="replyList">'
@@ -522,6 +500,66 @@
         function deleteBoard(){
             var boardNo = '${ b.boardNo }';
             location.href='boardDelete.bo?boardNo=' + boardNo;
+        }
+
+
+        // 답변 채택 여부 확인 하기 
+        function selectioncheck(){
+            $.ajax({
+                url : 'selectioncheck',
+                data : {
+                    boardNo : '${ b.boardNo }'
+                },
+                success : function(r){
+                    
+                    result = '';
+
+                    if(r != 'NO'){
+                        $('.oneTime').css('display', 'none');
+                        console.log(r);
+
+                        result += '<p>채택된 답변</p>'
+                                + '<div id="QImg"><img src="" alt=""></div>'
+                                + '<div id="Qcon">'
+                                    + '<div class="replyList">'
+                                        + '<div class="rInfo clear" style="margin-bottom:10px;">'
+                                            + '<p>' + r.memberId +'</p>'
+                                            + '<p>' + r.createDate + '</p>'
+                                        + '</div>'
+                                        + '<p class="rCon replyCon">' + r.boardReplyContent + '</p>'
+                                    + '</div>'
+                                + '</div>'
+                    }
+
+                    $('#selectReply').html(result);
+
+                },
+                error : function(){
+                    console.log('채택여부 확인 실패');
+                }
+            })
+        }
+
+        // 답변 채택 하기
+        function wantSelect(e){
+            if(confirm('채택 하시겠습니까? 한번 채택 후 변경 불가능 합니다.')){
+                
+                var selectNum = $(e).children().val();
+
+                $.ajax({
+                    url : 'selectInsert',
+                    data : {
+                        replyNo : selectNum
+                    },
+                    success : function(r){
+                        selectioncheck();                 
+                    },
+                    error : function(){
+                        console.log('통신 실패');
+                    }
+
+                })
+            }
         }
 
 

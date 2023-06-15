@@ -526,19 +526,6 @@ public class BoardController {
 		}
 	}
 	
-	/*
-	/**
-	 * 스터디밴드 게시글 리스트 보기
-	 * @return
-	 *
-	@RequestMapping("studyBand.bo")
-	public String studyBandListView() {
-		return "board/studyBandBoardListView";
-	}
-	
-	*/
-	
-	
 	/**
 	 * 스터디 모집하기 글 작성 화면
 	 * @return
@@ -613,8 +600,7 @@ public class BoardController {
 	}
 	
 	/**
-	 * 아이템 보드 리스트 화
-	 * @return
+	 * 아이템 보드 리스트 페이지로 이동 
 	 */
 	@RequestMapping("itemBoard")
 	public String itemBoardListView() {
@@ -622,6 +608,34 @@ public class BoardController {
 	}
 	
 	
+	/**
+	 * 정보 게시판 : 채택된 글 가져오기 
+	 * @param boardNo 조회한 게시판 번호 
+	 * @return 
+	 */
+	@ResponseBody
+	@RequestMapping(value="selectioncheck", produces="application/json; charset=UTF-8")
+	public String selectioncheck(int boardNo) {
+		
+		Reply r = boardService.selectioncheck(boardNo);
+		
+		if(r == null) {
+			return "NO";
+		}else {
+			return new Gson().toJson(r); 
+		}
+	}
+	
+	/**
+	 * 정보 게시판 : 답변 채택하기 
+	 * @param replyNo 채택할 댓글 번호 
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value="selectInsert")
+	public String selectInsert(int replyNo) {
+		return boardService.selectInsert(replyNo) > 0 ? "success" : "fail";
+	}
 	
 	
 	

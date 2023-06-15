@@ -55,6 +55,9 @@
     color: #58ca88;
     cursor: pointer;
 }
+#selectReply #Qcon{
+    border: 1px solid #58ca88;
+}
 #Qcon{
     border: 1px solid #bbbbbb;
     border-radius: 5px;

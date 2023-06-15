@@ -138,6 +138,12 @@ public interface BoardService {
 	// 밴드 검색 결과 수 
 	int bandSearchCount(String key);
 	
+	// 채택된 게시글 조회하기 
+	Reply selectioncheck(int boardNo);
+	
+	// 답변 채택하기 
+	int selectInsert(int replyNo);
+	
 	
 ////------------------희재 - 스터디룸 
 	// 스터디룸 리스트 카운트
