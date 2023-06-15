@@ -177,7 +177,7 @@
                              <th></th>
                          </tr>
                     </thead>
-                    <tbody>
+                    <tbody colspan="6">
                    
                       
                     </tbody>
@@ -188,7 +188,7 @@
             
             
             
-			<!-- 스크립트 조회 / 밴드 / 보드 삭제 -->
+			<!-- 스크립트 조회 -->
             <script>
             
              	$(function() {
@@ -214,14 +214,15 @@
                         	
                         console.log(listArr);
                          let value = "";
-                         
+                         $('.memberBoardList').addClass('selectBtn');
+                        
                          if(listArr.length != 0) {
                         	 
                         for(let i in listArr) {
                         	
                         	
                         	let list = listArr[i];
-                        	let test = listArr[i].boardNo;
+                        	let boardNo = listArr[i].boardNo;
                         	//console.log(list);
                         	console.log(list.boardNo);
                         	
@@ -231,14 +232,16 @@
 	                           		 +'<td>' + list.boardContent + '</td>'
 	                           		 +'<td>' + list.createDate + '</td>'
                         			 //+'<td>' + '<input type="checkbox" value="' +list.baordbNo + '" name="BoardChkDel" id="admemBoardChkDel"></input>' + '</td>'
-                        			 +'<td>' + '<input type="checkbox" value="' + test + '" name="BoardChkDel" id="admemBoardChkDel"></input>' + '</td>'
+                        			 +'<td>' + '<input type="checkbox" value="' + boardNo + '" name="BoardChkDel" id="admemBoardChkDel"></input>' + '</td>'
                         			 +'</tr>'
                         
                         
                         }
                         
                         $('#adminMemberTable tbody').html(value);
-                        $('.memberBoardList').addClass('selectBtn');
+                        
+                      
+                        
                          }else{
                         	 
                         	  $('#adminMemberTable tbody').html('작성된 게시물이 존재하지 않습니다.');
@@ -262,12 +265,15 @@
             		   		
             		   		console.log(listArr);
             		   		
+            		   		let	value = "";	
+            		   		$('.memberBoardList').removeClass('selectBtn');
+            		   		
             		   		if(listArr.length != 0) {
             		   			
             		   			for(let i in listArr) {
-            		   			value = "";	
+            		   				
             		   			let list = listArr[i];
-            		   			let test = listArr[i].sbNo;
+            		   			let sbNo = listArr[i].sbNo;
             		   			console.log(list.sbNo);
             		   			
             		   			
@@ -277,11 +283,11 @@
 		                           		 +'<td>' + list.sbIntroduce + '</td>'
 		                           		 +'<td>' + list.createDate + '</td>'
 	                       				 //+'<td>' + '<input type="checkbox" value="' + list.sbNo + '" name="BandChkDel" id="admemBandChkDel"></input>' + '</td>'
-	                       				 +'<td>' + '<input type="checkbox" value="' + test + '" name="BandChkDel" id="admemBandChkDel"></input>' + '</td>'
+	                       				 +'<td>' + '<input type="checkbox" value="' + sbNo + '" name="BandChkDel" id="admemBandChkDel"></input>' + '</td>'
 	                       				 +'</tr>'
             		   			}
             		   		 $('#adminMemberTable tbody').html(value);
-            		   		$('.memberBoardList').removeClass('selectBtn');
+            		   		
             		   		
             		   		}else{
             		   			
@@ -296,7 +302,7 @@
                   </script>
                   
                   
-                  
+                  <!-- / 밴드 / 보드 삭제  -->
                   <script>
                   
                   
@@ -331,20 +337,44 @@
                  	 	return;
             		 
             		 }else{
-            			  let chkArr = [];
+            			 
+            			  let boardChkArr = [];
+            			  let bandChkArr = [];
             			  let yes = confirm('선택된 글을 삭제하시겠습니까?');
             			 
             			if(yes) {
             				console.log('들어옴');
-            				if($('#adminMemberTable input[name=BoardChkDel]:checked').each(function(index, i){
+            				
+            				if(boardChk.each(function(index, i){
             					
-            					chkArr[index] = $(this).val();
+            					boardChkArr[index] = $(this).val();
             					
             				}));
             				
+            				console.log(boardChkArr);
+            				
+            				
+            				
+            				
+            				
+            				
+            				if(bandChk.each(function(index,i){
+            					bandChkArr[index] = $(this).val();
+            				}));
+            				
+            				console.log(bandChkArr);
+            					
+            					
+            					
+            					
+            					
+            					
+            					
             					$.ajax({
         	 						url :'deleteBoardDetail.ad',
-        	 						data : {boardNo : chkArr},
+        	 						
+        	 						data : {boardNo : boardChkArr},
+        	 						traditional: true,
         	 						success: function(result){
         	 							
         	 							if(result > 0) {
@@ -357,14 +387,33 @@
         	 							}
         	 						},error: () => {console.log('실패');}
         	 					});
-            				
-            					console.log(chkArr);
             					
             					
-            				
-            				
+            					
+            					
+            					$.ajax({
+        	 						url :'deleteBandDetail.ad',
+        	 						
+        	 						data : {bandNo : bandChkArr},
+        	 						traditional: true,
+        	 						success: function(result){
+        	 							
+        	 							if(result > 0) {
+        	 								alert('삭제되었습니다.');
+        	 								location.reload();
+        	 								
+        	 							}else{
+        	 								alert('삭제에 실패하였습니다.');
+        	 								
+        	 							}
+        	 						},error: () => {console.log('실패');}
+        	 					});
+            			
+            			
+            					}
             				}
-            			}
+            				
+            	
             		 }) 
             	 });
              

@@ -80,6 +80,11 @@ a:hover {
 	border-radius: 5px;
 	margin-right: 10px;
 }
+
+.fc-day-sun a {
+  color: rgb(255, 75, 75);
+  text-decoration: none;
+}
 .todoOuter>div{height:100%;float:left;}
 #todoCalendar{width:65%; height:600px;}
 #todoList{width:35%; height:600px; }
@@ -147,7 +152,7 @@ a:hover {
 			events: function(info, successCallback, failureCallback) {
 	    	  //캘린더 조회
 			  $.ajax({
-				url:'todoCalendarList.me',
+				url:'todoAchievementRate.me',
 				data:{
 					memberId : '${ loginMember.memberId }'
 				},
@@ -155,28 +160,43 @@ a:hover {
 					console.log(result);
 					var events=[];
 					if(result!=null){
-						$.each(result, function(index, item) {
-							events.push({
-								calendarNo : item.calendarNo
-								,start : item.startDay
-								,color : item.color
+	    		        $.each(result, function(index, item) {
+							var backgroundColor='';
+							var achievementRate=item.achievementRate;
+
+							if(0 <= achievementRate && achievementRate < 20){
+								backgroundColor = '#F2FFEB';
+							} else if(20 <= achievementRate && achievementRate < 40){
+								backgroundColor = '#BCFFB5';
+							} else if(40 <= achievementRate && achievementRate < 60){
+								backgroundColor = '#86E57F';
+							} else if(60 <= achievementRate && achievementRate < 80){
+								backgroundColor = '#50AF49';
+							} else if(80 <= achievementRate && achievementRate < 100 ){
+								backgroundColor = '#1A7913';
+							} else {
+								backgroundColor = '#004300';
+							}		
+	    		            events.push({
+								start: item.todoDate, 
+								color: backgroundColor,
+								display:'background'
 							});
-						});
-					}
+	    		        });
+	    		    }
 					successCallback(events); 
 				},
 				error : function(){
 					console.log('실패');
 				}
-			  })
-
+			  });
 	      },
 		  select: function(arg) {
 			//task 조회
 			var date =  moment(arg.startStr).format('YYYY-MM-DD');
 			var date2 = moment(arg.startStr).format('DD');
 			var date3 = moment(arg.startStr).day();
-			console.log(date3);
+
 			switch(date3){
 				case 0 : date3='SUNDAY';break;
 				case 1 : date3='MONDAY';break;
@@ -186,9 +206,8 @@ a:hover {
 				case 5 : date3='FRIDAY';break;
 				case 6 : date3='SATURDAY';break;
 			}
-			console.log(date3);
 			$('#todoDate').html('<span id="date2-font">'+date3+'</span><br><span id="date3-font">'+date2+'</span>');
-	    	$.ajax({
+			$.ajax({
 				url : 'selectTodoList',
 				data : {
 					todoDate : date,
@@ -204,95 +223,122 @@ a:hover {
 							value +='<input type="checkbox" name="checkboxName">&nbsp;';
 						}
 						value += '<label for="check">'+result[i].todoContent+'</label>&nbsp;'
-								+'<button class="deleteTask">삭제</button>&nbsp;<br>';	
+								+'<button class="deleteTask">삭제</button>&nbsp;<br>'
+								+ '<div>';	
 					}
 					$('#todoContent').html(value);
-
-					//task 체크(완료)
-					$('input:checkbox[name=checkboxName]').change(function(){
-						if($('input:checkbox[name=checkboxName]').is(':checked')){
-							console.log('체크박스');
-							$.ajax({
-								url : 'checkTodoList.me',
-								data : {
-									todoNo : $(this).prev().val(),
-								},
-								success : function(){
-									console.log('완료');
-								},
-								error : function(){
-									console.log('실패');
-								}
-							});
-						} else{
-						//task 체크해제
-							console.log('체크박스 해제');
-							$.ajax({
-								url : 'uncheckTodoList.me',
-								data : {
-									todoNo : $(this).prev().val(),
-								},
-								success : function(){
-									console.log('완료 안함');
-								},
-								error : function(){
-									console.log('실패');
-								}
-							});
-						}
-					});
-						
+					taskCheck();
+					addTask();
+					deleteTask();
 				},
 				error : function(){
 					console.log('실패');
 				}
-			}) 
+			}); 
 
-			// task 추가
-			$('#addTask').click(function(){
-				var value="";
-				var task =$('#task').val();
-				if(task!=""){
-					value += '<input type="checkbox" name="checkboxName">&nbsp;'
-							+ '<label for="check">' + task + '</label>&nbsp;'
-							+'<button class="deleteTask">삭제</button>&nbsp;<br>';
-					$('#todoContent').append(value);
-					addTask(task);
-				} else{
-					alert('할 일을 입력하세요.');
-				}
-				$('#task').val("");
-			
-			})
-
-			function addTask(task){
-				console.log(task);
-				$.ajax({
-					url : 'insertTodoList',
-					data : {
-						todoDate : date,
-						memberId : '${loginMember.memberId}',
-						todoContent : task
-					},
-					success : function(list){
-						console.log(list);
-					},
-					error : function(){
-						console.log('실패');
+			//task 체크(완료)
+			function taskCheck(){
+				$('input:checkbox[name=checkboxName]').change(function(){
+					if($('input:checkbox[name=checkboxName]').is(':checked')){
+						console.log($(this).prev().val());
+						$.ajax({
+							url : 'checkTodoList.me',
+							data : {
+								todoNo : $(this).prev().val()
+							},
+							success : function(){
+								console.log('완료');
+							},
+							error : function(){
+								console.log('실패');
+							}
+						});
+					} else{
+						//task 체크해제
+						console.log($(this).prev().val());
+						$.ajax({								
+							url : 'uncheckTodoList.me',
+							data : {
+								todoNo : $(this).prev().val()
+							},
+							success : function(){
+								console.log('완료 안함');
+							},
+							error : function(){
+								console.log('실패');
+							}
+						});
 					}
 				});
-			};
-
-
-
-				
-
-
-
-
-
-	        
 			}
+			
+			function addTask(){
+				// task 추가
+				$('#addTask').click(function(){
+						var value="";
+						var task =$('#task').val();
+						if(task!=""){
+							var date = moment($('#todoDate').text(), 'dddd\nD').format('YYYY-MM-DD');
+							value += '<input type="checkbox" name="checkboxName">&nbsp;'
+									+ '<label for="check">' + task + '</label>&nbsp;'
+									+'<button class="deleteTask">삭제</button>&nbsp;<br>';	
+							$('#todoContent').append(value);
+							console.log(task + date);
+							$.ajax({
+								url : 'insertTodoList',
+								data : {
+									todoDate : date,
+									memberId : '${loginMember.memberId}',
+									todoContent : task
+								},
+								success : function(){
+									console.log('추가 성공');
+									$('#task').val('');
+								},
+								error : function(){
+									console.log('추가 실패');
+								}
+							});
+
+						} else{
+							console.log('입력하세요.');
+						}
+						
+						$('#task').val('');
+						
+					});
+			}
+					
+			function deleteTask(){
+				$('.deleteTask').click(function(){
+						var selectTodoNo = $(this).prev().prev().prev().val();
+						var deleteTaskContent = $(this).prevAll();
+						var deleteBtn = $(this);
+						deleteTaskContent.remove();
+						deleteBtn.remove();
+						$.ajax({
+							url : 'deleteTask.me',
+							data : {
+								todoNo : selectTodoNo,
+								memberId : '${loginMember.memberId}'
+							},
+							success : function(result){
+								console.log(result);
+							},
+							error : function(){
+								console.log('실패');
+							}
+
+						});
+
+					})
+			
+
+
+			}
+					
+			}
+
 	    });
 	
 	    calendar.render();

@@ -6,10 +6,12 @@ import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
+import com.kh.swithme.band.model.vo.Band;
 import com.kh.swithme.board.model.vo.Board;
 import com.kh.swithme.board.model.vo.Reply;
 import com.kh.swithme.common.model.vo.PageInfo;
 import com.kh.swithme.member.model.vo.Alarm;
+import com.kh.swithme.member.model.vo.BandBookMark;
 import com.kh.swithme.member.model.vo.Calendar;
 import com.kh.swithme.member.model.vo.Member;
 import com.kh.swithme.member.model.vo.Point;
@@ -102,16 +104,55 @@ public class MemberDao {
 	public ArrayList<TodoList> selectTodoList(SqlSessionTemplate sqlSession, TodoList td){
 		return (ArrayList)sqlSession.selectList("memberMapper.selectTodoList", td);
 	}
-
+	
+	public ArrayList<TodoList> todoAchievementRateList(SqlSessionTemplate sqlSession, String memberId){
+		return (ArrayList)sqlSession.selectList("memberMapper.todoAchievementRateList", memberId);
+	}
+	
 	public int insertTodoList(SqlSessionTemplate sqlSession, TodoList td) {
 		return sqlSession.insert("memberMapper.insertTodoList", td);
+	}
+	
+	public int deleteTask(SqlSessionTemplate sqlSession, TodoList td) {
+		return sqlSession.delete("memberMapper.deleteTask", td);
 	}
 
 	public int checkTodoList(SqlSessionTemplate sqlSession, int todoNo) {
 		return sqlSession.update("memberMapper.checkTodoList", todoNo);
 	}
+	
 	public int uncheckTodoList(SqlSessionTemplate sqlSession, int todoNo) {
 		return sqlSession.update("memberMapper.uncheckTodoList", todoNo);
+	}
+	
+	public ArrayList<Band> allStudyBandList(SqlSessionTemplate sqlSession, String memberId){
+		return (ArrayList)sqlSession.selectList("memberMapper.allStudyBandList", memberId);
+	}
+	
+	public ArrayList<Band> favoriteStudyBand(SqlSessionTemplate sqlSession, String memberId){
+		return (ArrayList)sqlSession.selectList("memberMapper.favoriteStudyBand", memberId);
+	}
+	
+	public int insertSbandBookmark(SqlSessionTemplate sqlSession, BandBookMark bm) {
+		return sqlSession.insert("memberMapper.insertSbandBookmark", bm);
+	}
+	
+	public int deleteSbandBookmark(SqlSessionTemplate sqlSession, BandBookMark bm) {
+		return sqlSession.insert("memberMapper.deleteSbandBookmark", bm);
+	}
+	
+	public int selectBookMarkListCount(SqlSessionTemplate sqlSession, String memberId) {
+		return sqlSession.selectOne("memberMapper.selectBookMarkListCount", memberId);
+	}
+	
+	public ArrayList<Board> selectBoardBookMarkList(SqlSessionTemplate sqlSession, String memberId, PageInfo pi){
+		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit() ;
+		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
+		return (ArrayList)sqlSession.selectList("memberMapper.selectBoardBookMarkList", memberId, rowBounds);
+	}
+	
+	public int deleteBoardBookMark(SqlSessionTemplate sqlSession, int boardNo) {
+		return sqlSession.delete("memberMapper.deleteBoardBookMark", boardNo);
 	}
 
 

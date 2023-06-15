@@ -80,7 +80,6 @@
 }
 #detailContent{
 	width:725px;
-	border:1px solid;
 	margin:auto;
 }
 #summernote{
@@ -128,6 +127,7 @@
 	border-radius: 5px;	
 	color:white;
 	border:none;
+	margin-bottom:10px;
 }
 .totalReply{
 	width:765px;
