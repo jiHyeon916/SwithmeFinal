@@ -7,6 +7,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -327,6 +328,22 @@ public class AdminController {
 	
 	  // 김희재 ------------------------------------------------------------
 	
+	// 스터디룸 관리
+	// 스터디룸 조회
+	@RequestMapping("adminStudyRoom.ad")
+	public String adminStudyRoomMain(Model model, @RequestParam(value="aPage", defaultValue="1")int currentPage ) {
+		adminService.adminStudyRoomMainList();
+		PageInfo pi = Pagination.getPageInfo(adminService.adminStudyRoomListCount(), currentPage, boardLimit, pageLimit)
+		return "admin/adminStudyRoom";
+	}
+	
+	
+	
+	
+	
+	
+	
+	//스터디밴드
 	@RequestMapping("adminStudyBand.ad")
 	public String adminStudyBandMain() {
 		return "admin/adminStudyBand";
