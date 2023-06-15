@@ -101,8 +101,13 @@ public class BoardController {
 			model.addAttribute("status", status);
 			model.addAttribute("b", b);
 			
+			if(b.getBoardType().equals("free")) {
+				return "board/freeBoardDetail";
+			}else {
+				return "board/infoBoardDetail";
+			}
 			
-			return "board/freeBoardDetail";
+			
 		}else {
 			return "errorPage";
 		}
