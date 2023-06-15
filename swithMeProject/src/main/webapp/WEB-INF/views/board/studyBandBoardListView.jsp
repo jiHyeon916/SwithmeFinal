@@ -27,7 +27,7 @@
             <div id="searchBox" class="clear">
                 <p>전체게시글 300건</p>
                 <div>
-                    <input type="text" placeholder="키워드 검색"><img src="resources/search.png" alt="">
+                    <input type="text" placeholder="키워드 검색" onkeyup="textSearch(this)"><img src="resources/search.png" alt="">
                 </div>
             </div>
 
@@ -153,11 +153,11 @@
                                     + '<div class="studyBandInfo">'
                                         + '<img src="resources/images/board/test.png" alt="dd">'
                                         + '<div>'
-                                            + '<p class="studyBandName">'+ r.list[i].boardTitle + '</p>'
-                                            + '<p class="studyBandIntro">' + r.list[i].boardContent + '</p>'
+                                            + '<p class="studyBandName">'+ r.list[i].sbTitle + '</p>'
+                                            + '<p class="studyBandIntro">' + r.list[i].sbIntroduce + '</p>'
                                         + '</div>'
                                         + '<ul class="clear">'
-                                            + '<li>1 /' + r.list[i].totalPerson + '</li>'
+                                            + '<li>' + r.list[i].sbNowMem + ' / ' + r.list[i].sbRecruitMem + '</li>'
                                             + '<li class="PostList">참여하기</li>'
                                         + '</ul>'
                                         + '<input id="sNo" type="hidden" value="'+ r.list[i].boardNo + '" >'
@@ -175,6 +175,15 @@
 
                 }
             })
+        }
+
+
+
+        // 검색창 
+        function textSearch(e){
+            if(window.event.keyCode == 13){
+                location.href="bandSearch?key=" + $(e).val();
+            }
         }
         
     </script>

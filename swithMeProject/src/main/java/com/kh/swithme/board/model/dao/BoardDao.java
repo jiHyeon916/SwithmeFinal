@@ -7,6 +7,7 @@ import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
+import com.kh.swithme.band.model.vo.Band;
 import com.kh.swithme.board.model.vo.Attach;
 import com.kh.swithme.board.model.vo.Board;
 import com.kh.swithme.board.model.vo.ReReply;
@@ -141,6 +142,14 @@ public class BoardDao {
 		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
 		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
 		return (ArrayList)sqlSession.selectList("boardMapper.bandCateogoryList", category, rowBounds);
+	}
+	public ArrayList<Band> bandSearch(SqlSessionTemplate sqlSession, String key, PageInfo pi) {
+		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
+		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
+		return (ArrayList)sqlSession.selectList("boardMapper.bandSearch", key, rowBounds);
+	}
+	public int bandSearchCount(SqlSessionTemplate sqlSession, String category) {
+		return sqlSession.selectOne("boardMapper.boardCategoryCount", category);
 	}
 
 

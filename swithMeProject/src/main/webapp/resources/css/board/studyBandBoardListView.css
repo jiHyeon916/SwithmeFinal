@@ -25,7 +25,7 @@
 
 /* 검색  */
 #searchBox {
-    margin-bottom: 40px;
+    margin-bottom: 20px;
 }
 #searchBox > P{
     font-size: 20px;
@@ -155,13 +155,15 @@ margin-bottom: 5px;
 
 /* 글작성 버튼 */
 #freeWrite{
-    width: 120px;
-    height: 40px;
+    width: 100px;
+    height: 36px;
     background-color: #03c373;
     border: none;
     border-radius: 5px;
     float: right;
     font-size: 14px;
+}
+#freeWrite a{
     color: #fff;
 }
 

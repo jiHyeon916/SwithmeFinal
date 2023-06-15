@@ -102,7 +102,6 @@ public class BoardController {
 			model.addAttribute("b", b);
 			
 			
-			
 			return "board/freeBoardDetail";
 		}else {
 			return "errorPage";
@@ -591,9 +590,21 @@ public class BoardController {
 		
 		JSONObject jobj = new JSONObject();
 		jobj.put("list", boardService.bandCateogoryList(category, pi));
-		System.out.println(boardService.bandCateogoryList(category, pi));
 		jobj.put("pi", pi);
 		return new Gson().toJson(jobj);
+	}
+	
+	/**
+	 * 밴드 찾기 (검색어)
+	 * @param key
+	 * @return
+	 */
+	@RequestMapping("bandSearch")
+	public String bandSearch(@RequestParam(value="cPage", defaultValue="1") int currentPage, String key, Model model) {
+		PageInfo pi = Pagination.getPageInfo(boardService.bandSearchCount(key), currentPage, 20, 10);
+		model.addAttribute("list", boardService.bandSearch(key, pi));
+		return "board/studyBandBoardListView";
+		
 	}
 	
 	/**
