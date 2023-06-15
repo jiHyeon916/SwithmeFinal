@@ -28,18 +28,8 @@ public class AdminController {
    private AdminService adminService;
    
 
-   // 이유진
-   @RequestMapping("adPage.ad")
-   public String adminPageMain() {
-      return "admin/adminPageMain";
-   }
    
-   @RequestMapping("itemList.ad")
-   public String adminItemListView() {
-      return "admin/itemManagement";
-   }
-   
-   
+	
    
    
    
@@ -263,6 +253,24 @@ public class AdminController {
   
   
    // 이유진 ------------------------------------------------------------
+
+  	// 관리자 메인페이지
+  	@RequestMapping("adPage.ad")
+  	public String adminPageMain() {
+	  	return "admin/adminPageMain";
+  	}
+  
+  	// 관리자 아이템관리 페이지 
+	@RequestMapping("itemList.ad")
+	public String adminItemListView() {
+		return "admin/adminItemListView";
+	}
+  
+  	// 관리자 아이템등록 페이지 
+	@RequestMapping("itemEnrollForm.ad")
+	public String adminItemEnrollForm() {
+		return "admin/adminItemEnrollForm";
+	}
    
    // 문의글 답변 INSERT
 	@ResponseBody
