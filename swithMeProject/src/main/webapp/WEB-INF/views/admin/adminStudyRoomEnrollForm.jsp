@@ -180,109 +180,18 @@ tr:hover{
             	<!-- 상단버튼 -->
                 <div class="post_head">
                     <div id="sRoom_left">
-                        <h4>스터디룸 조회</h4>
-                    </div>
-
-                    <div id="sRoom_right">
-                        <button class="sRoomCreate" onclick="location.href='adminstudyRoomInsert.ad'">추가</button>
-                        <button class="sRoomDelete" onclick="sRoomDelete();">선택 삭제</button>
+                        <h4>스터디룸 등록</h4>
                     </div>
 	         	</div>
 	         	
 	         	<div class="post_list">
-	         		<table id="studyRoomList">
-	         			<thead>
-							<tr>
-								<th></th>
-								<th>NO</th>
-								<th>스터디룸 명</th>
-								<th>지역</th>
-								<th>주소</th>
-								<th>전화번호</th>
-								<th>수정</th>
-							</tr>
-	         			</thead>
-	         			<tbody>
-	         				<c:forEach items="${list}" var="sr" varStatus="status">
-								<tr class="checkSRoom" onclick="check();">
-									<td><input type="checkbox" value="${sr.studyRoomNo}" name="checkSRoom" class="checkDelete"></td>
-									<td>${status.count}</td>
-									<td>${sr.studyRoomName}</td>
-									<td>${sr.studyRoomLocation}</td>
-									<td>${sr.studyRoomAddress}</td>
-									<td>${sr.studyRoomPhone}</td>
-									<td>
-										<button class="updateBtn">수정</button>&nbsp;
-										<button class="updateBtn" onclick="location.href='studyRoomDetail.bo?studyRoomNo=${sr.studyRoomNo}'">상세보기</button>
-									</td>
-	         					</tr>
-	         				</c:forEach>
-	         			</tbody>
-	         		</table>
+	
 	         	</div>
 	         	
 	      </div>
 	   </div>
 
 	   <script>
-		function sRoomCreate(){
-
-		}
-
-		// 스터디룸 선택 삭제
-		function sRoomDelete(){
-			let checkArr=[];
-			$('input[name=checkSRoom]:checked').each(function(index){
-				checkArr[index]=$(this).val();
-			})
-			if($('input[name=checkSRoom]:checked').length == 0){
-				alert('선택된 스터디룸이 없습니다.');
-			} else {
-				if(confirm($('input[name=checkSRoom]:checked').length + '개의 스터디룸을 삭제하시겠습니까?')){
-					$.ajax({
-						url : 'deleteCheckStudyRoom.ad',
-						data : {
-							studyRoomNo : checkArr
-						},
-						success : function(){
-							console.log('삭제 성공');
-							location.reload();
-							alert('스터디룸이 삭제되었습니다.');
-						},
-						error : function(){
-							console.log('삭제 실패');
-						}
-					});
-				}
-			}
-		}
-
-		// 체크박스 선택
-		function check(){
-			$('.checkSRoom').click(function(){
-				if($(this).children().find('input[name=checkSRoom]:checked').length==0){
-					$(this).children().find('input').attr('checked', true);
-					$(this).addClass('hover');
-				} else{
-					$(this).children().find('input').attr('checked', false);
-					$(this).removeClass('hover');
-				}
-			})
-		}
-
-		// 체크박스 선택
-		$(function(){
-			$("input:checkbox").change(function() {
-				let checkTr = $(this).parent().parent();
-				if ( $(this).prop('checked') ) {
-					checkTr.addClass('hover');
-				} else {
-					checkTr.removeClass('hover');
-				}
-			});
-		})
-
-
 
 	   </script>
 

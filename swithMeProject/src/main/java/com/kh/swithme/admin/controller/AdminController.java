@@ -343,7 +343,16 @@ public class AdminController {
 		return "admin/adminStudyRoom";
 	}
 	
+	// 스터디룸 추가
+	@RequestMapping("adminstudyRoomInsert.ad")
+	public String adminstudyRoomInsert() {
+		return "admin/adminStudyRoomEnrollForm";
+	}
 	
+	
+	
+	
+	// 스터디룸 삭제
 	@ResponseBody
 	@RequestMapping(value="deleteCheckStudyRoom.ad", produces="application/json; charset=UTF-8")
 	public int deleteCheckStudyRoom(@RequestParam(value="studyRoomNo[]")int[] studyRoomNo) {
