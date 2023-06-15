@@ -7,6 +7,7 @@ import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
+import com.kh.swithme.band.model.vo.Band;
 import com.kh.swithme.board.model.vo.Attach;
 import com.kh.swithme.board.model.vo.Board;
 import com.kh.swithme.board.model.vo.ReReply;
@@ -142,7 +143,21 @@ public class BoardDao {
 		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
 		return (ArrayList)sqlSession.selectList("boardMapper.bandCateogoryList", category, rowBounds);
 	}
-
+	public ArrayList<Band> bandSearch(SqlSessionTemplate sqlSession, String key, PageInfo pi) {
+		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
+		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
+		return (ArrayList)sqlSession.selectList("boardMapper.bandSearch", key, rowBounds);
+	}
+	public int bandSearchCount(SqlSessionTemplate sqlSession, String category) {
+		return sqlSession.selectOne("boardMapper.boardCategoryCount", category);
+	}
+	public Reply selectioncheck(SqlSessionTemplate sqlSession, int boardNo) {
+		return sqlSession.selectOne("boardMapper.selectioncheck", boardNo);
+	}
+	public int selectInsert(SqlSessionTemplate sqlSession, int replyNo) {
+		return sqlSession.insert("boardMapper.selectInsert", replyNo);
+	}
+	
 
 
 	// 희재 스터디룸 ------------------------------------------------------------------------
@@ -191,6 +206,7 @@ public class BoardDao {
 	public ArrayList<StudyRoom> studyRoomSearch(SqlSessionTemplate sqlSession, HashMap<String, String> map){
 		return (ArrayList)sqlSession.selectList("boardMapper.studyRoomSearch", map);
 	}
+	
 	
 	
 }
