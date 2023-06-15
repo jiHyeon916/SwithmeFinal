@@ -332,8 +332,12 @@ public class AdminController {
 	// 스터디룸 조회
 	@RequestMapping("adminStudyRoom.ad")
 	public String adminStudyRoomMain(Model model, @RequestParam(value="aPage", defaultValue="1")int currentPage ) {
-		adminService.adminStudyRoomMainList();
-		PageInfo pi = Pagination.getPageInfo(adminService.adminStudyRoomListCount(), currentPage, boardLimit, pageLimit)
+		
+		PageInfo pi = Pagination.getPageInfo(adminService.adminStudyRoomListCount(), currentPage, 10, 10);
+		
+		model.addAttribute("list", adminService.selectAllStudyRoomList(pi));
+		model.addAttribute("pi", pi);
+		
 		return "admin/adminStudyRoom";
 	}
 	
