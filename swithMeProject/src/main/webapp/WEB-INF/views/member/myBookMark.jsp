@@ -192,7 +192,7 @@ input[type=checkbox]{
                 	<c:choose>
                 		<c:when test="${ not empty list }">
                 			<c:forEach items="${list}" var="bm">
-                			<div class="post_block">
+                			<div class="post_block" onclick="location.href='freeBoardDetail.bo?boardNo=${ bm.boardNo }'">
                 				<div class="post_top">
 		                            <input type="checkbox" name="bMarkCheck">
 		                            <input type="hidden" value="${bm.boardNo }">

@@ -7,6 +7,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -28,18 +29,8 @@ public class AdminController {
    private AdminService adminService;
    
 
-   // 이유진
-   @RequestMapping("adPage.ad")
-   public String adminPageMain() {
-      return "admin/adminPageMain";
-   }
    
-   @RequestMapping("itemList.ad")
-   public String adminItemListView() {
-      return "admin/itemManagement";
-   }
-   
-   
+	
    
    
    
@@ -331,6 +322,24 @@ public class AdminController {
   
   
    // 이유진 ------------------------------------------------------------
+
+  	// 관리자 메인페이지
+  	@RequestMapping("adPage.ad")
+  	public String adminPageMain() {
+	  	return "admin/adminPageMain";
+  	}
+  
+  	// 관리자 아이템관리 페이지 
+	@RequestMapping("itemList.ad")
+	public String adminItemListView() {
+		return "admin/adminItemListView";
+	}
+  
+  	// 관리자 아이템등록 페이지 
+	@RequestMapping("itemEnrollForm.ad")
+	public String adminItemEnrollForm() {
+		return "admin/adminItemEnrollForm";
+	}
    
    // 문의글 답변 INSERT
 	@ResponseBody
@@ -354,6 +363,86 @@ public class AdminController {
 	public String qnaStatusUpdate(int qnaNo) {
 		return adminService.qnaStatusUpdate(qnaNo) > 0 ? "success" : "fail";
 	}
+	
+	
+	
+	
+	
+	 
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	  // 김희재 ------------------------------------------------------------
+	
+	// 스터디룸 관리
+	// 스터디룸 조회
+	@RequestMapping("adminStudyRoom.ad")
+	public String adminStudyRoomMain(Model model, @RequestParam(value="aPage", defaultValue="1")int currentPage ) {
+		
+		PageInfo pi = Pagination.getPageInfo(adminService.adminStudyRoomListCount(), currentPage, 10, 10);
+		
+		model.addAttribute("list", adminService.selectAllStudyRoomList(pi));
+		model.addAttribute("pi", pi);
+
+		System.out.println(adminService.adminStudyRoomListCount());
+		System.out.println(adminService.selectAllStudyRoomList(pi));
+		return "admin/adminStudyRoom";
+	}
+	
+	// 스터디룸 추가
+	@RequestMapping("adminstudyRoomInsert.ad")
+	public String adminstudyRoomInsert() {
+		return "admin/adminStudyRoomEnrollForm";
+	}
+	
+	
+	
+	
+	// 스터디룸 삭제
+	@ResponseBody
+	@RequestMapping(value="deleteCheckStudyRoom.ad", produces="application/json; charset=UTF-8")
+	public int deleteCheckStudyRoom(@RequestParam(value="studyRoomNo[]")int[] studyRoomNo) {
+		
+		int result = 1;
+		for(int i = 0; i < studyRoomNo.length; i++) {
+			result = adminService.deleteCheckStudyRoom(studyRoomNo[i]);
+		}
+		return result;
+	}
+
+	
+	
+	
+	
+	//스터디밴드
+	@RequestMapping("adminStudyBand.ad")
+	public String adminStudyBandMain() {
+		return "admin/adminStudyBand";
+	}
+	
+	
    
    
    

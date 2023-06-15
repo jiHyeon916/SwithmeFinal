@@ -3,6 +3,7 @@ package com.kh.swithme.board.model.service;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import com.kh.swithme.band.model.vo.Band;
 import com.kh.swithme.board.model.vo.Attach;
 import com.kh.swithme.board.model.vo.Board;
 import com.kh.swithme.board.model.vo.ReReply;
@@ -125,8 +126,23 @@ public interface BoardService {
 	// 스터디 멤버 리스트에 방장 넣기
 	int studyMemberInsert(String memberId);
 	
+	// 스터디 카테 고리별 게시글 수 조회 
+	int boardCategoryCount(String category);
 	
+	// 스터디 카테고리 별 리스트 뽑기 
+	ArrayList<Board> bandCateogoryList(String category, PageInfo pi);
 	
+	// 스터디 밴드 검색 
+	ArrayList<Band> bandSearch(String key, PageInfo pi);
+	
+	// 밴드 검색 결과 수 
+	int bandSearchCount(String key);
+	
+	// 채택된 게시글 조회하기 
+	Reply selectioncheck(int boardNo);
+	
+	// 답변 채택하기 
+	int selectInsert(int replyNo);
 	
 	
 ////------------------희재 - 스터디룸 

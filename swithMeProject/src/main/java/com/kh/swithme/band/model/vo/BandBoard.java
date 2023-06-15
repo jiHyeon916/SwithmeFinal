@@ -15,4 +15,5 @@ public class BandBoard {
 	private String sbCount; // SB_COUNT	NUMBER
 	private String changeName; 
 	private String count;
+	private String keyword; // 검색 키워드
 }

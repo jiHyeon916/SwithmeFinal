@@ -134,8 +134,11 @@
 #listMem{
 	width:420px;
 }
-#mem{
+.mem{
 	float:right;
+}
+.readerPass #listMem:first-child input[type=radio]{
+	display:none;
 }
 .readerPass{
 	width: 430px;
