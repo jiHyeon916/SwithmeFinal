@@ -337,12 +337,24 @@ public class AdminController {
 		
 		model.addAttribute("list", adminService.selectAllStudyRoomList(pi));
 		model.addAttribute("pi", pi);
-		
+
+		System.out.println(adminService.adminStudyRoomListCount());
+		System.out.println(adminService.selectAllStudyRoomList(pi));
 		return "admin/adminStudyRoom";
 	}
 	
 	
-	
+	@ResponseBody
+	@RequestMapping(value="deleteCheckStudyRoom.ad", produces="application/json; charset=UTF-8")
+	public int deleteCheckStudyRoom(@RequestParam(value="studyRoomNo[]")int[] studyRoomNo) {
+		
+		int result = 1;
+		for(int i = 0; i < studyRoomNo.length; i++) {
+			result = adminService.deleteCheckStudyRoom(studyRoomNo[i]);
+		}
+		return result;
+	}
+
 	
 	
 	

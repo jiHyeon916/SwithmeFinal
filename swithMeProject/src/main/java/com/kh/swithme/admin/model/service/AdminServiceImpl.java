@@ -166,7 +166,7 @@ public class AdminServiceImpl implements AdminService {
 	// 스터디룸 전체 리스트 조회
 	@Override
 	public ArrayList<StudyRoom> selectAllStudyRoomList(PageInfo pi) {
-		return null;
+		return adminDao.selectAllStudyRoomList(sqlSession, pi);
 	}
 
 	// 스터디룸 추가
@@ -178,7 +178,7 @@ public class AdminServiceImpl implements AdminService {
 	// 스터디룸 선택 삭제
 	@Override
 	public int deleteCheckStudyRoom(int studyRoomNo) {
-		return 0;
+		return adminDao.deleteCheckStudyRoom(sqlSession,studyRoomNo);
 	}
 
 	// 스터디룸 상세보기 삭제

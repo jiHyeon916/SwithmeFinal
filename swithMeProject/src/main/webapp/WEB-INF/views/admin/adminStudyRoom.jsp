@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+    <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %> 
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -113,11 +115,30 @@
     border: none;
     margin-left: 10px;
 }
+.updateBtn{
+    background-color: lightgray;
+    color: black;
+    width : 50px;
+    height: 30px;
+	border-radius : 5px;
+    border: none;
+    margin-left: 10px;
+}
+ .deleteBtn{
+    background-color: red;
+    color: white;
+    width : 50px;
+    height: 30px;
+	border-radius : 5px;
+    border: none;
+    margin-left: 10px;
+}
 
 /* 테이블 */
 #studyRoomList{
 	width : 100%;
 	margin-bottom : 20px;
+	font-size: smaller;
 }
 #studyRoomList th, td{
 	text-align : center;
@@ -133,6 +154,13 @@ tr{
 tr:last-child{
 	border : none;
 }
+tr.hover{
+	background-color: rgb(207, 254, 227);
+}
+tr:hover{
+	background-color: rgb(207, 254, 227);
+}
+
 
 </style>
 <body>
@@ -165,36 +193,97 @@ tr:last-child{
 	         		<table id="studyRoomList">
 	         			<thead>
 							<tr>
-								<th></th>
 								<th>NO</th>
 								<th>스터디룸 명</th>
 								<th>지역</th>
 								<th>주소</th>
 								<th>전화번호</th>
-								<th>소개</th>
-								<th>수정/삭제</th>
+								<th>수정</th>
 							</tr>
 	         			</thead>
 	         			<tbody>
-	         				<tr>
-	         					<td><input type="checkbox" name="checkSRoom"></td>
-	         					<td>1</td>
-	         					<td>아악</td>
-	         					<td>경기</td>
-	         					<td>주소</td>
-	         					<td>010-6666-3333</td>
-	         					<td>소개글..</td>
-	         					<td>
-	         						<button>수정</button>&nbsp;
-	         						<button>삭제</button>
-	         					</td>
-	         				</tr>
+	         				<c:forEach items="${list}" var="sr" varStatus="status">
+								<tr class="checkSRoom" onclick="check();">
+									<td><input type="checkbox" value="${sr.studyRoomNo}" name="checkSRoom" class="checkDelete">${status.count}</td>
+									<td>${sr.studyRoomName}</td>
+									<td>${sr.studyRoomLocation}</td>
+									<td>${sr.studyRoomAddress}</td>
+									<td>${sr.studyRoomPhone}</td>
+									<td>
+										<button class="updateBtn">수정</button>&nbsp;
+										<button class="updateBtn" onclick="location.href='studyRoomDetail.bo?studyRoomNo=${sr.studyRoomNo}'">상세보기</button>
+									</td>
+	         					</tr>
+	         				</c:forEach>
 	         			</tbody>
 	         		</table>
 	         	</div>
 	         	
 	      </div>
 	   </div>
+
+	   <script>
+		function sRoomCreate(){
+
+		}
+
+		// 스터디룸 선택 삭제
+		function sRoomDelete(){
+			let checkArr=[];
+			$('input[name=checkSRoom]:checked').each(function(index){
+				checkArr[index]=$(this).val();
+			})
+			if($('input[name=checkSRoom]:checked').length == 0){
+				alert('선택된 스터디룸이 없습니다.');
+			} else {
+				if(confirm($('input[name=checkSRoom]:checked').length + '개의 스터디룸을 삭제하시겠습니까?')){
+					$.ajax({
+						url : 'deleteCheckStudyRoom.ad',
+						data : {
+							studyRoomNo : checkArr
+						},
+						success : function(){
+							console.log('삭제 성공');
+							location.reload();
+							alert('스터디룸이 삭제되었습니다.');
+						},
+						error : function(){
+							console.log('삭제 실패');
+						}
+					});
+				}
+			}
+		}
+
+		// 체크박스 선택
+		function check(){
+			$('.checkSRoom').click(function(){
+				if($(this).children().find('input[name=checkSRoom]:checked').length==0){
+					$(this).children().find('input').attr('checked', true);
+					$(this).addClass('hover');
+				} else{
+					$(this).children().find('input').attr('checked', false);
+					$(this).removeClass('hover');
+				}
+			})
+		}
+
+		// 체크박스 선택
+		$(function(){
+			$("input:checkbox").change(function() {
+				let checkTr = $(this).parent().parent();
+				if ( $(this).prop('checked') ) {
+					checkTr.addClass('hover');
+				} else {
+					checkTr.removeClass('hover');
+				}
+			});
+		})
+
+
+
+	   </script>
+
 <br><br><br><br><br><br><br><br><br>
 </body>
 </html>

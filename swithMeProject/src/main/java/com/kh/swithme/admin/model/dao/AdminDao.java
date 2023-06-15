@@ -168,7 +168,9 @@ public class AdminDao {
 
 
 	// 스터디룸 선택 삭제
-
+	public int deleteCheckStudyRoom(SqlSessionTemplate sqlSession, int studyRoomNo) {
+		return sqlSession.delete("adminMapper.deleteCheckStudyRoom", studyRoomNo);
+	}
 
 	// 스터디룸 상세보기 삭제
 
