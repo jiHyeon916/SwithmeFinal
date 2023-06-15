@@ -15,5 +15,6 @@ public class Band {
 	private String sbStatus; // SB_STATUS	CHAR(1 BYTE)
 	private String sbCategory;
 	private String createDate;
+	private String memberIdId;
 
 }

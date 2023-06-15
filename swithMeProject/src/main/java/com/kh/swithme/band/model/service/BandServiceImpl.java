@@ -81,22 +81,8 @@ public class BandServiceImpl implements BandService {
 		return bandDao.deleteBandReply(sqlSession, sbReplyNo);
 	}
 	@Override
-	public ArrayList<BandBoard> selectBandSearchList(HashMap<String, String> map) {
-		return null;
-		
-		/*
-		 * 	@Override
-		public ArrayList<Board> selectSearchList(HashMap<String, String> map) {
-		
-		SqlSession sqlSession = Template.getSqlSession();
-	
-		ArrayList<Board> list = boardDao.selectSearchList(sqlSession, map);
-		
-		sqlSession.close();
-		
-		return list;
-	}
-		 * */
+	public ArrayList<BandBoard> selectBandSearchList(BandBoard bb) {
+		return bandDao.selectBandSearchList(sqlSession, bb);
 	}
 	@Override
 	public int banishComfirm(BandMember bm) {
@@ -166,6 +152,11 @@ public class BandServiceImpl implements BandService {
 	@Override
 	public BandReply replyModifyView(int sbReplyNo) {
 		return bandDao.replyModifyView(sqlSession, sbReplyNo);
+	}
+
+	@Override
+	public ArrayList<BandMember> selectTotalMember() {
+		return bandDao.selectTotalMember(sqlSession);
 	}
 
 }

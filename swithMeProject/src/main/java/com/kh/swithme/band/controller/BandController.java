@@ -4,12 +4,14 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.UUID;
 
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.io.FileUtils;
+import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -46,9 +48,23 @@ public class BandController {
 	// 밴드 사이드바
 	@ResponseBody
 	@RequestMapping(value="studyBand.bo/side.sb", produces="application/json; charset=UTF-8")
-	public String ajaxSelectBandSideBar(int sno) {
+	public String ajaxSelectBandSideBar(int sno, HttpSession session) {
 		
-		return new Gson().toJson(bandService.ajaxSelectBandSideBar(sno));
+		Band bandInfomation = bandService.ajaxSelectBandSideBar(sno);
+		session.setAttribute("bandInfomation", bandInfomation);
+		
+		return new Gson().toJson(bandInfomation);
+	}
+	
+	// 밴드 사이드바 디테일
+	@ResponseBody
+	@RequestMapping(value="studyBand.bo/memberTotal.sb", produces="application/json; charset=UTF-8")
+	public String selectTotalMember(HttpSession session) {
+
+		JSONObject jobj = new JSONObject();
+		jobj.put("memT", bandService.selectTotalMember());
+		
+		return new Gson().toJson(jobj);
 	}
 	
 	// 밴드 디테일
@@ -109,6 +125,17 @@ public class BandController {
 	public String deleteBandBoard(int sbBoardNo) {
 		return new Gson().toJson(bandService.deleteBandBoard(sbBoardNo));
 	}
+
+	// 밴드 게시글 검색
+	@RequestMapping("studyBand.bo/search.sb")
+	public String selectBandSearchList(int sno, BandBoard bb, String keyword, Model model) {
+		bb.setKeyword(keyword);
+		bb.setSbNo(sno);
+
+		model.addAttribute("list", bandService.selectBandSearchList(bb));
+		model.addAttribute("keyword", keyword);
+		return "band/bandMain";
+	}
 	
 	// 밴드 게시글 댓글 리스트
 	@ResponseBody
@@ -121,8 +148,9 @@ public class BandController {
 	// 밴드 댓글 등록
 	@ResponseBody
 	@RequestMapping("studyBand.bo/rinsert.sb")
-	public String ajaxInsertBandReply(BandReply br, String sbReplyContent) {
+	public String ajaxInsertBandReply(BandReply br, String sbReplyContent, int sbBoardNo) {
 		br.setSbReplyContent(sbReplyContent.replace(System.getProperty("line.separator"), "<br>"));
+		br.setSbBoardNo(sbBoardNo);
 		return bandService.ajaxInsertBandReply(br) > 0 ? "success" : "fail";
 	}
 	
@@ -312,8 +340,8 @@ public class BandController {
 	
 	// 밴드 멤버 리스트
 	@RequestMapping(value="studyBand.bo/bandMember.sb", produces="application/json; charset=UTF-8")
-	public String selectMemberList(int sno, Model model) {
-		model.addAttribute("memList", bandService.selectMemberList(sno));
+	public String selectMemberList(int sno, HttpSession session) {
+		session.setAttribute("memList", bandService.selectMemberList(sno));
 		return "band/bandMember";
 	}
 	

@@ -138,6 +138,14 @@ public class BandDao {
 		return sqlSession.insert("bandMapper.insertBandBoard", bb);
 	}
 
+	public ArrayList<BandBoard> selectBandSearchList(SqlSessionTemplate sqlSession, BandBoard bb) {
+		return (ArrayList)sqlSession.selectList("bandMapper.selectBandSearchList", bb);
+	}
+
+	public ArrayList<BandMember> selectTotalMember(SqlSessionTemplate sqlSession) {
+		return (ArrayList)sqlSession.selectList("bandMapper.selectTotalMember");
+	}
+
 
 
 }

@@ -31,7 +31,7 @@
            
             <div id="mainMenu" class="clear">
 				<div id="bandSearchBox">
-                    <input type="text" id="searchBar">
+                    <input type="text" id="searchBar" onkeyup="textSearch(this)">
                     <img src="/swithme/resources/images/band/search.png" alt="" id="searchImg">
                 </div>
             </div>
@@ -53,6 +53,43 @@
     </header>
 
     <div class="headerblank"></div>
+    
+    <script>
+    $(document).on('click', '#searchImg', function(){
+    	keyword = $('#searchBar').val();
+    	
+    	var query = window.location.search;     
+		var param = new URLSearchParams(query);
+		var sbNo = param.get('sno');
+		console.log(sbNo);
+		
+    	location.href = "search.sb?sno=" + sbNo + "&keyword=" + keyword;
+
+    });
+    
+    // 검색창 
+    function textSearch(e){
+        if(window.event.keyCode == 13){
+			keyword = $('#searchBar').val();
+        	
+        	var query = window.location.search;     
+    		var param = new URLSearchParams(query);
+    		var sbNo = param.get('sno');
+
+            location.href="search.sb?sno=" + sbNo + "&keyword=" + keyword;
+        }
+        
+        if($(document).on('click','#searchImg', function(){
+        	keyword = $('#searchBar').val();
+        	
+        	var query = window.location.search;     
+    		var param = new URLSearchParams(query);
+    		var sbNo = param.get('sno');
+    		
+        	location.href = "search.sb?sno=" + sbNo + "&keyword=" + keyword;
+        }));
+    }
+    </script>
 
 </body>
 </html>

@@ -38,8 +38,6 @@
 		        		<div class="writer" id="summary">
 							${ bb.sbContent }
 		        		</div>
-		        		<div class="writer" id="summary1">
-		        		</div>
 		        	</div>
 		        	<br>
 		        	<div class="photoBody">
@@ -104,7 +102,7 @@
 			                        				</c:when>
 											     	<c:otherwise>
 											        		<textarea class="replyContent"></textarea><br>
-											        		<button type="button" class="replyEnroll">등록</button> <br>
+											        		<button type="button" id="plzBtn" class="replyEnroll">등록</button>
 											     	</c:otherwise>	
 			                        			</c:choose>
 				                        	<input type="hidden" class="sBoardNoModal" name="bandNo" value="">
@@ -196,18 +194,17 @@
 			$(document).ready(function() {
 		        $('#summernote').summernote();
 		        $('button').not('#updateRe').attr('disabled',false);
-		        let target = document.getElementById('summary');
-		        let target1 = document.getElementById('summary1');
-		        
+		        var target = document.getElementById('summary');
+
 		        const extractTextPattern = /(<([^>]+)>)/gi;
 		        
-		        let src = target.innerHTML;
+		        var src = target.innerHTML;
 
-		        let extractedText = src.replace(extractTextPattern, '');
+		        var extractedText = src.replace(extractTextPattern, '');
 		        
-		        target.style.display = 'none';
-		        target1.innerHTML = extractedText;
-		    });
+		        target.innerHTML = extractedText;
+						   
+			});
 			
 			$(document).on('click', '.writeStart > button', function(){
 				$('#summernote').summernote({
@@ -294,6 +291,7 @@
 			// 댓글 쓰기 영역
 			$(document).on('click', '#plzBtn', function(){
 				var plzNo = $(this).next().val();
+				console.log(plzNo);
 
 				if($('.replyContent').val().trim() != ''){
 					$.ajax({
