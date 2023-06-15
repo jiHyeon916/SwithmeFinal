@@ -2,10 +2,12 @@ package com.kh.swithme.member.model.service;
 
 import java.util.ArrayList;
 
+import com.kh.swithme.band.model.vo.Band;
 import com.kh.swithme.board.model.vo.Board;
 import com.kh.swithme.board.model.vo.Reply;
 import com.kh.swithme.common.model.vo.PageInfo;
 import com.kh.swithme.member.model.vo.Alarm;
+import com.kh.swithme.member.model.vo.BandBookMark;
 import com.kh.swithme.member.model.vo.Calendar;
 import com.kh.swithme.member.model.vo.Member;
 import com.kh.swithme.member.model.vo.Point;
@@ -59,41 +61,61 @@ public interface MemberService {
    void sendMailInsert(Member m);
    
 	//----------------------희재
-	//calendar 조회
-	ArrayList<Calendar> selectMyCalendarlList(String memberId);
-	
-	// calendar - 일정 추가
-	int addSchedule(Calendar cl);
-	
-	// calendar - 일정 삭제
-	int deleteSchedule(Calendar cl);
-	
-	// calendar - 일정 수정
-	int updateSchedule(Calendar cl);
-	
-	// todoList
-	// todoList 조회(캘린더, 리스트)
-	ArrayList<TodoList> selectTodoList(TodoList td);
-	ArrayList<Calendar> selectTodoCalendarList(Calendar cl);
-	
-	// 완료 카운트
-	int completeTodo(int todoNo);
-	
-	//todoList 추가
-	int insertTodoList(TodoList td);
-	
-	//todoList 체크
-	int checkTodoList(int todoNo);
-	
-	//todoList uncheck
-	int uncheckTodoList(int todoNo);
-	
-	// todoList 삭제
-	int deleteTodoList(int todoNo);
-	
-	// todoList 수정
-	int updateTodoList(TodoList td);
-	
+ //calendar 조회
+ 	ArrayList<Calendar> selectMyCalendarlList(String memberId);
+ 	
+ 	// calendar - 일정 추가
+ 	int addSchedule(Calendar cl);
+ 	
+ 	// calendar - 일정 삭제
+ 	int deleteSchedule(Calendar cl);
+ 	
+ 	// calendar - 일정 수정
+ 	int updateSchedule(Calendar cl);
+ 	
+ 	// todoList
+ 	// todoList 조회(캘린더, 리스트)
+ 	ArrayList<TodoList> selectTodoList(TodoList td);
+ 	ArrayList<TodoList> todoAchievementRateList(String memberId);
+ 	
+ 	// 완료 카운트
+ 	int completeTodo(int todoNo);
+ 	
+ 	//todoList 추가
+ 	int insertTodoList(TodoList td);
+ 	
+ 	//todoList 체크
+ 	int checkTodoList(int todoNo);
+ 	
+ 	//todoList uncheck
+ 	int uncheckTodoList(int todoNo);
+ 	
+ 	// todoList 삭제
+ 	int deleteTask(TodoList td);
+ 	
+ 	// todoList 수정
+ 	int updateTodoList(TodoList td);
+ 	
+ 	// 마이페이지-스터디밴드
+ 	ArrayList<Band> allStudyBandList(String memberId);
+ 	
+ 	// 마이페이지-스터디밴드
+ 	ArrayList<Band> favoriteStudyBand(String memberId);
+ 	
+ 	// 마이페이지-스터디밴드 북마크 추가
+ 	int insertSbandBookmark(BandBookMark bm);
+ 	
+ 	//마이페이지-스터디밴드 북마크 삭제
+ 	int deleteSbandBookmark(BandBookMark bm);
+ 	
+ 	//마이페이지-북마크 Count
+ 	int selectBookMarkListCount(String memberId);
+ 	
+ 	//마이페이지-북마크 리스트 조회
+ 	ArrayList<Board> selectBoardBookMarkList(String memberId, PageInfo pi);
+ 	
+ 	//마이페이지-북마크 삭제
+ 	int deleteBoardBookMark(int boardNo);
 	
 	
 	
