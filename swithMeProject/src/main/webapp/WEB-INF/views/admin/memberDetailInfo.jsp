@@ -271,7 +271,7 @@
 					                 	 		alert('선택된 글이 없습니다.');
 					                 	 		return;
 					                 	 		
-				            		 		else{
+					            		}else{
 						            			 let boardChkArr = [];
 						            			 let bandChkArr = [];
 						            			 let yes = confirm('선택된 글을 삭제하시겠습니까?');
