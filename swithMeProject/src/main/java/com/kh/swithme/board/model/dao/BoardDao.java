@@ -134,6 +134,14 @@ public class BoardDao {
 	public int studyMemberInsert(SqlSessionTemplate sqlSession, String memberId) {
 		return sqlSession.insert("boardMapper.studyMemberInsert", memberId);
 	}
+	public int boardCategoryCount(SqlSessionTemplate sqlSession, String category) {
+		return sqlSession.selectOne("boardMapper.boardCategoryCount", category);
+	}
+	public ArrayList<Board> bandCateogoryList(SqlSessionTemplate sqlSession, String category, PageInfo pi) {
+		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
+		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
+		return (ArrayList)sqlSession.selectList("boardMapper.bandCateogoryList", category, rowBounds);
+	}
 
 
 
@@ -183,5 +191,6 @@ public class BoardDao {
 	public ArrayList<StudyRoom> studyRoomSearch(SqlSessionTemplate sqlSession, HashMap<String, String> map){
 		return (ArrayList)sqlSession.selectList("boardMapper.studyRoomSearch", map);
 	}
+	
 	
 }

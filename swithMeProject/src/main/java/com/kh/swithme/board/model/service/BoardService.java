@@ -125,6 +125,11 @@ public interface BoardService {
 	// 스터디 멤버 리스트에 방장 넣기
 	int studyMemberInsert(String memberId);
 	
+	// 스터디 카테 고리별 게시글 수 조회 
+	int boardCategoryCount(String category);
+	
+	// 스터디 카테고리 별 리스트 뽑기 
+	ArrayList<Board> bandCateogoryList(String category, PageInfo pi);
 	
 	
 	

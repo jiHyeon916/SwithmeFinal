@@ -577,6 +577,26 @@ public class BoardController {
 	}
 	
 	/**
+	 * 밴드 카테고리 
+	 * @param currentPage
+	 * @param category
+	 * @param model
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value="bandCateogory", produces="application/json; charset=UTF-8")
+	public String bandCateogory(@RequestParam(value="cPage", defaultValue="1") int currentPage,
+								String category, Model model) {
+		PageInfo pi = Pagination.getPageInfo(boardService.boardCategoryCount(category), currentPage, 20, 10);
+		
+		JSONObject jobj = new JSONObject();
+		jobj.put("list", boardService.bandCateogoryList(category, pi));
+		System.out.println(boardService.bandCateogoryList(category, pi));
+		jobj.put("pi", pi);
+		return new Gson().toJson(jobj);
+	}
+	
+	/**
 	 * 아이템 보드 리스트 화
 	 * @return
 	 */
