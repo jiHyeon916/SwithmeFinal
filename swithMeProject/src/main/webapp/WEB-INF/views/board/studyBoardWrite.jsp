@@ -132,6 +132,9 @@
                 console.log('ajax통신 실패');
             }
         })
+
+
+        
     }
 
     
@@ -167,6 +170,8 @@
     function thumbNail(){
         $('#fileSelect').click();
     }
+
+
 
     </script>
 

@@ -24,8 +24,8 @@
             </div>
         </div>
         <div class="stbBtn">
-            <button type="submit" class="enrollBtn" data-toggle="modal" data-target="#enrollBandMember">가입하기</button>
-			<input type="hidden" class="readerId" value="">
+        	<button type="submit" class="enrollBtn" data-toggle="modal" data-target="#enrollBandMember">가입하기</button>
+        	<input type="hidden" class="readerId" value="">	
         </div>
         <div>
             <ul id="mainSideMenu" class="clear">
@@ -39,7 +39,7 @@
 	                <li><a id="li4" href="">밴드 일정</a></li>
 	                <li><a id="li5" href="">밴드 멤버</a></li>
 	                <li><a href="#" data-toggle="modal" data-target="#deleteBandMember" >밴드 탈퇴</a></li>
-	                <c:if test="${ bandInfomation.memberIdId eq loginMember.memberId }">
+	                <c:if test="${bandInfomation.memberIdId eq loginMember.memberId}">
 	                	<li><a href="#" data-toggle="modal" data-target="#updaetBandReader">리더 위임</a></li>
 	                </c:if>
 	            </ul>
@@ -212,7 +212,37 @@
 			var param = new URLSearchParams(query);
 			var sno = param.get('sno');
 			
+			if(${ !empty loginMember }){
+				$.ajax({
+					url : 'memberTotal.sb',
+					data : {
+							sno  : sno,
+							memberId : '${loginMember.memberId}'
+					},
+					success : function(bandMem){
+						
+						var value = "";
+						
+						value += "<button type='submit' class='enrollBtn' data-toggle='modal' data-target='#'>글쓰기</button>"
+							  + "<input type='hidden' class='readerId' value=''>"
 
+						if(bandMem != null){
+							if(bandMem.sbNo == sno && bandMem.memId == '${loginMember.memberId}'){
+								
+								$('.clear1').css('display', 'block');
+								$('.stbBtn').html(value);
+							} else {
+								$('.clear1').css('display', 'none');
+							}						
+						} else {
+							$('.clear1').css('display', 'none');
+						}
+					},
+					error : function(){
+						console.log('실패');
+					}
+				});
+			};
 			
 			$.ajax({
 				url : 'side.sb',
@@ -232,7 +262,9 @@
 					$('#totalNo').attr('value', sno);
 					$('.readerId').attr('value', bandInfomation.memberIdId);
 					
-					
+					if(bandInfomation.sbRecruitMem == bandInfomation.sbNowMem){
+						$('.enrollBtn').css('display', 'none');
+					}
 
 					// $('#bandCover').attr('src', result)
 					
@@ -241,20 +273,6 @@
 					console.log('실패');
 				}
 			});
-			
-			$.ajax({
-				url : 'memberTotal.sb',
-				success : function(memT){
-					if((memT.sbNo = ${bandInfomation.sbNo}) && (memT.memberId = ${loginMember.memberId})){
-						$('.clear1').css('display', 'show');
-					} else {
-						$('.clear1').css('display', 'none');
-					}						
-				},
-				error : function(){
-					console.log('실패');
-				}
-			})
 			
 			$.ajax({
 				url : 'reader.sb',

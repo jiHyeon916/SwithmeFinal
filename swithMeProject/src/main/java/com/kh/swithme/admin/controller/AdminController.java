@@ -25,6 +25,7 @@ import com.kh.swithme.admin.model.vo.Item;
 import com.kh.swithme.admin.model.vo.QNAReply;
 import com.kh.swithme.band.model.vo.Band;
 import com.kh.swithme.board.model.vo.Board;
+import com.kh.swithme.board.model.vo.StudyRoom;
 import com.kh.swithme.common.model.vo.PageInfo;
 import com.kh.swithme.common.template.Pagination;
 import com.kh.swithme.member.model.vo.Member;
@@ -476,12 +477,18 @@ public class AdminController {
 		return "admin/adminStudyRoom";
 	}
 	
-	// 스터디룸 추가
+	// 스터디룸 추가 페이지로 이동
 	@RequestMapping("adminstudyRoomInsert.ad")
 	public String adminstudyRoomInsert() {
 		return "admin/adminStudyRoomEnrollForm";
 	}
 	
+	// 스터디룸 추가
+	@ResponseBody
+	@RequestMapping("insertStudyRoom.me")
+	public int insertStudyRoom(StudyRoom sr) {
+		return adminService.insertStudyRoom(sr);
+	}
 	
 	
 	

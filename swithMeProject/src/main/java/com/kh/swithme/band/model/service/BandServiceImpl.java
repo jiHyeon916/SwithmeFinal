@@ -155,8 +155,8 @@ public class BandServiceImpl implements BandService {
 	}
 
 	@Override
-	public ArrayList<BandMember> selectTotalMember() {
-		return bandDao.selectTotalMember(sqlSession);
+	public BandMember selectTotalMember(BandMember bm) {
+		return bandDao.selectTotalMember(sqlSession, bm);
 	}
 
 }

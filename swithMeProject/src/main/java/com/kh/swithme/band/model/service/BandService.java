@@ -28,7 +28,7 @@ public interface BandService {
 	Band ajaxSelectBandSideBar(int sno);
 	
 	//밴드 토탈 멤버확인
-	ArrayList<BandMember> selectTotalMember();
+	BandMember selectTotalMember(BandMember bm);
 	
 	// 밴드 글 작성
 	int insertBandBoard(BandBoard bb);

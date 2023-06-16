@@ -217,7 +217,7 @@ public class AdminServiceImpl implements AdminService {
 	// 스터디룸 추가
 	@Override
 	public int insertStudyRoom(StudyRoom sr) {
-		return 0;
+		return adminDao.insertStudyRoom(sqlSession, sr);
 	}
 
 	// 스터디룸 선택 삭제

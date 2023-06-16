@@ -172,7 +172,7 @@
 
 
 
-            // 받은 메세지 모달 띄우기
+            // 아이템 모달 띄우기
             let btnOpenPopup = document.getElementsByClassName('btn-open-popup');
             const modal = document.querySelector('.msg1');
            

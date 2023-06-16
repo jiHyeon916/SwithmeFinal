@@ -634,7 +634,16 @@ public class BoardController {
 	@ResponseBody
 	@RequestMapping(value="selectInsert")
 	public String selectInsert(int replyNo) {
-		return boardService.selectInsert(replyNo) > 0 ? "success" : "fail";
+		
+		if(boardService.selectInsert(replyNo) > 0) {
+			if(boardService.selectPoint(replyNo) > 0) {
+				return "success";
+			}else {
+				return "fail";
+			}
+		}
+		return "fail";
+		
 	}
 	
 	

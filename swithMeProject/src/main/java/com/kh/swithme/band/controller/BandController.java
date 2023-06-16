@@ -59,12 +59,17 @@ public class BandController {
 	// 밴드 사이드바 디테일
 	@ResponseBody
 	@RequestMapping(value="studyBand.bo/memberTotal.sb", produces="application/json; charset=UTF-8")
-	public String selectTotalMember(HttpSession session) {
+	public String selectTotalMember(@RequestParam(value="memberId", required=false, defaultValue="hello") String memberId,
+									@RequestParam(value="sno", required=false, defaultValue="0")int sno, HttpSession session) {
 
-		JSONObject jobj = new JSONObject();
-		jobj.put("memT", bandService.selectTotalMember());
+		BandMember bm = new BandMember();
+		bm.setSbNo(sno);
+		bm.setMemId(memberId);
 		
-		return new Gson().toJson(jobj);
+		BandMember bandMem = bandService.selectTotalMember(bm);
+		session.setAttribute("bandMem", bandMem);
+		return new Gson().toJson(bandMem); 
+
 	}
 	
 	// 밴드 디테일

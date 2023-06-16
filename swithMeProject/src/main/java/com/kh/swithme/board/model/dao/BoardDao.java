@@ -157,6 +157,9 @@ public class BoardDao {
 	public int selectInsert(SqlSessionTemplate sqlSession, int replyNo) {
 		return sqlSession.insert("boardMapper.selectInsert", replyNo);
 	}
+	public int selectPoint(SqlSessionTemplate sqlSession, int replyNo) {
+		return sqlSession.insert("boardMapper.selectPoint", replyNo);
+	}
 	
 
 
@@ -206,6 +209,7 @@ public class BoardDao {
 	public ArrayList<StudyRoom> studyRoomSearch(SqlSessionTemplate sqlSession, HashMap<String, String> map){
 		return (ArrayList)sqlSession.selectList("boardMapper.studyRoomSearch", map);
 	}
+	
 	
 	
 	

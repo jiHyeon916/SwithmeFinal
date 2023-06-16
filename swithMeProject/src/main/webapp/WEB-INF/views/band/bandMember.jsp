@@ -38,10 +38,11 @@
 								
 								<input type="hidden" class="sNo" name="sbNo" value="">
 								<input type="hidden" id="memId" class="memId" name="memId" value="${ ml.memId }">
-								
-		    					<c:if test="${ ml.sort eq '일반' }">
-			    					<span id="pointT"><button class="bMemberBtn" data-toggle="modal" data-target="#banishBandMember">강제탈퇴</button></span>			
-		    					</c:if>
+								<c:if test="${bandInfomation.memberIdId eq loginMember.memberId}">
+			    					<c:if test="${ ml.sort eq '일반' }">
+				    					<span id="pointT"><button class="bMemberBtn" data-toggle="modal" data-target="#banishBandMember">강제탈퇴</button></span>			
+			    					</c:if>
+								</c:if>
 
 		    				</div>
 		    			</li>
