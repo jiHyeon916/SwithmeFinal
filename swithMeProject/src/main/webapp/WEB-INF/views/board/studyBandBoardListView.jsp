@@ -48,6 +48,7 @@
 
             <div id="studyCategory" class="clear">
             	<p onclick="category(this);">고시공부</p>
+                <p onclick="category(this);">고시공부</p>
                 <p onclick="category(this);">프론트엔드</p>
                 <p onclick="category(this);">백엔드</p>
                 <p onclick="category(this);">모바일 앱 개발</p>

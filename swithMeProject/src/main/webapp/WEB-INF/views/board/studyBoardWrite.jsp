@@ -36,16 +36,25 @@
                         <div id="freeCategory" class="cont-select">
                             <button class="btn-select">전체보기</button>
                             <ul class="list-member">
+                                <li><button type="button">고시공부</button></li>
+                                <li><button type="button">진로</button></li>
                                 <li><button type="button">프론트엔드</button></li>
                                 <li><button type="button">백엔드</button></li>
                                 <li><button type="button">모바일 앱 개발</button></li>
                                 <li><button type="button">프로그래밍 언어</button></li>
-                                <li><button type="button">취업준비</button></li>
-                                <li><button type="button">취업준비</button></li>
-                                <li><button type="button">취업준비</button></li>
-                                <li><button type="button">취업준비</button></li>
-                                <li><button type="button">취업준비</button></li>
-                                <li><button type="button">취업준비</button></li>
+                                <li><button type="button">보안</button></li>
+                                <li><button type="button">네트워크</button></li>
+                                <li><button type="button">클라우드</button></li>
+                                <li><button type="button">인공지능</button></li>
+                                <li><button type="button">CAD / 3D모델링</button></li>
+                                <li><button type="button">UI / UX</button></li>
+                                <li><button type="button">사진 · 영상</button></li>
+                                <li><button type="button">그래픽 디자인</button></li>
+                                <li><button type="button">마케팅 · 기획</button></li>
+                                <li><button type="button">외국어</button></li>
+                                <li><button type="button">취업 · 이직</button></li>
+                                <li><button type="button">창업</button></li>
+                                <li><button type="button">재테크</button></li>
                             </ul>
                         </div>
                 </div>
