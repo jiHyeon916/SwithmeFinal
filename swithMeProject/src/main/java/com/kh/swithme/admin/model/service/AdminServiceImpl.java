@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.kh.swithme.admin.model.dao.AdminDao;
+import com.kh.swithme.admin.model.vo.Item;
 import com.kh.swithme.admin.model.vo.QNAReply;
 import com.kh.swithme.band.model.vo.Band;
 import com.kh.swithme.board.model.vo.Board;
@@ -163,6 +164,24 @@ public class AdminServiceImpl implements AdminService {
 		return adminDao.qnaReplyDelete(sqlSession, qnaNo);
 	}
 
+	
+	// 아이템 등록
+	@Override
+	public int insertItem(Item item) {
+		return adminDao.insertItem(sqlSession, item);
+	};
+	
+	// 아이템 전체수
+	@Override
+	public int selectItemListCount(Item item) {
+		return adminDao.selectItemListCount(sqlSession, item);
+	};
+	
+	// 아이템 리스트
+	@Override
+	public ArrayList<Item> selectItemList(PageInfo pi, Item item){
+		return adminDao.selectItemList(sqlSession, pi, item);
+	}
 	
 
 	
