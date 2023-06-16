@@ -11,21 +11,24 @@
    <typeAliases>
       <typeAlias type="com.kh.swithme.admin.model.vo.Report" alias="report" />
 	  <typeAlias type="com.kh.swithme.admin.model.vo.QNAReply" alias="qnaReply" />
+	  <typeAlias type="com.kh.swithme.admin.model.vo.Item" alias="item" />
+	  
       <typeAlias type="com.kh.swithme.band.model.vo.memberDetailInfo" alias="memberDetailInfo" />
-      <typeAlias type="com.kh.swithme.board.model.vo.Board" alias="Board" />
       <typeAlias type="com.kh.swithme.band.model.vo.Band" alias="band" />
       <typeAlias type="com.kh.swithme.band.model.vo.BandBoard" alias="bandBoard" />
       <typeAlias type="com.kh.swithme.band.model.vo.BandMember" alias="bandMember" />
       <typeAlias type="com.kh.swithme.band.model.vo.BandReply" alias="bandReply" />
       <typeAlias type="com.kh.swithme.band.model.vo.BandReport" alias="bandReport" />
+      
+      <typeAlias type="com.kh.swithme.board.model.vo.Board" alias="Board" />
       <typeAlias type="com.kh.swithme.board.model.vo.Attach" alias="attach" />
       <typeAlias type="com.kh.swithme.board.model.vo.Board" alias="board" />
       <typeAlias type="com.kh.swithme.board.model.vo.HashTag" alias="hashTag" />
-      <typeAlias type="com.kh.swithme.board.model.vo.Item" alias="item" />
       <typeAlias type="com.kh.swithme.board.model.vo.Reply" alias="reply" />
       <typeAlias type="com.kh.swithme.board.model.vo.ReReply" alias="rereply" />
       <typeAlias type="com.kh.swithme.board.model.vo.SRoomReview" alias="SRoomReview" />
       <typeAlias type="com.kh.swithme.board.model.vo.StudyRoom" alias="studyRoom" />
+      
       <typeAlias type="com.kh.swithme.member.model.vo.BandAlarm" alias="bandAlarm" />
       <typeAlias type="com.kh.swithme.member.model.vo.BandBookMark" alias="bandBookMark" />
       <typeAlias type="com.kh.swithme.member.model.vo.BoardAlarm" alias="boardAlarm" />

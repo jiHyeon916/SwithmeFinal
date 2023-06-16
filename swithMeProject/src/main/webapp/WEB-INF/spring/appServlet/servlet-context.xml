@@ -31,6 +31,36 @@
 			<beans:bean class="com.kh.swithme.common.interceptor.LoginInterceptor" id="loginInterceptor"></beans:bean>		
 		</interceptor>
 	</interceptors>	 -->
+	<interceptors>
+		<interceptor>
+			<mapping path="/adPage.ad"/>
+			<mapping path="/adminMember.ad"/>
+			<mapping path="/adminMemberSearch.ad"/>
+			<mapping path="/memberStatusSelect.ad"/>
+			<mapping path="/adminMemberStopFree.ad"/>
+			<mapping path="/memberDetailInfo.ad"/>
+			<mapping path="/memberDetailBoardList.ad"/>
+			<mapping path="/memberBandList.ad"/>
+			<mapping path="/deleteBoardDetail.ad"/>
+			<mapping path="/deleteBandDetail.ad"/>
+			<mapping path="/memBoardSearchTitle.ad"/>
+			<mapping path="/memBoardSearchContent.ad"/>
+			<mapping path="/memBandSearchTitle.ad"/>
+			<mapping path="/memBandSearchContent.ad"/>
+			<mapping path="/qnaAnswer"/>
+			<mapping path="/qnaAnswerList"/>
+			<mapping path="/qnaAnswerUpdate"/>
+			<mapping path="/itemList.ad"/>
+			<mapping path="/selectItemList.ad"/>
+			<mapping path="/itemEnrollForm.ad"/>
+			<mapping path="/insertItem.ad"/>
+			<mapping path="/adminStudyRoom.ad"/>
+			<mapping path="/adminstudyRoomInsert.ad"/>
+			<mapping path="/deleteCheckStudyRoom.ad"/>
+			<mapping path="/adminStudyBand.ad"/>
+			<beans:bean class="com.kh.swithme.common.interceptor.AdminInterceptor" id="adminInterceptor"></beans:bean>		
+		</interceptor>
+	</interceptors>
 	
 	
 </beans:beans>

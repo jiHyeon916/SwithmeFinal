@@ -12,8 +12,8 @@
     font-weight: normal;
     font-style: normal;
 }
-
-
+ 
+ 
 /* 공통 */
 .page-blank{
 	margin-top : 80px;
@@ -41,15 +41,16 @@
 	font-weight : 500;
 	margin-bottom : 30px;
 }
-.topBlock>span{
-    margin-right: 10px;
+
+.selectSpan{
+	margin-right: 10px;
     cursor: pointer;
-    color :rgb(136, 136, 136);
+	color : rgb(3, 195, 115);
 }
-.topBlock>span:nth-of-type(1){
-    margin-right: 10px;
-    color : rgb(3, 195, 115);
+.noneSpan{
+	margin-right: 10px;
     cursor: pointer;
+	color :rgb(136, 136, 136);
 }
 
 /* 내역블록 */
@@ -66,6 +67,7 @@
 .myBtn{
     display: inline-block;
 }
+/*
 .myBtn>button{
 	display : inline-block;
 	width : 80px;
@@ -76,14 +78,18 @@
 	color : #cecece;
 	margin-right : 10px;
 }
+*/
+/* 
 .myBtn>button:first-child {
 	border : 1.5px solid rgb(3, 195, 115);
 	color : rgb(3, 195, 115);
 }
+ */
 .status{
     display: inline-block;
     float: right;
 }
+/* 
 .status>span{
     margin-left: 10px;
     font-size: 14px;
@@ -91,9 +97,40 @@
 }
 .status>span:first-child{
     color: rgb(3, 195, 115);
-}
+} */
+
 .status>span:hover{
     cursor: pointer;
+}
+.noneStatus{
+	margin-left: 10px;
+    font-size: 14px;
+    color:#a3a3a3;
+}
+.selectStatus{
+	margin-left: 10px;
+    font-size: 14px;
+    color: rgb(3, 195, 115);
+}
+
+.selectBtn{
+	background-color: white;
+    width : 80px;
+    height: 38px;
+	border : 1.5px solid #03c373;
+	border-radius : 5px;
+	color : #03c373;
+	margin-right : 10px;
+}
+.noneBtn{
+	display : inline-block;
+	width : 80px;
+	height : 38px;
+	background-color : white;
+	border : 1.5px solid #cecece;
+	border-radius : 5px;
+	color : #cecece;
+	margin-right : 10px;
 }
 
 
@@ -109,7 +146,6 @@
 #myItem div{
 	width : 200px;
 	height : 200px;
-	background-color : pink;
 	margin : 15px auto;
 	overflow:hidden;
 	
@@ -136,4 +172,11 @@
 .testBtn{
 	background-color : rgb(3, 195, 115);
 	color : white;
+}
+.emptyList{	
+	display : block;
+	/* background-color : pink; */
+	text-align : center;
+	margin : 30px auto;
+	color : rgb(160, 160, 160);
 }

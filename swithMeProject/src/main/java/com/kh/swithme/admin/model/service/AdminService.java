@@ -3,6 +3,7 @@ package com.kh.swithme.admin.model.service;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import com.kh.swithme.admin.model.vo.Item;
 import com.kh.swithme.admin.model.vo.QNAReply;
 import com.kh.swithme.band.model.vo.Band;
 import com.kh.swithme.board.model.vo.Board;
@@ -87,6 +88,17 @@ public interface AdminService {
 	
 	// 문의글 답변 삭제
 	int qnaReplyDelete(int qnaNo);
+	
+	// 아이템 등록
+	int insertItem(Item item);
+	
+	// 아이템 전체수
+	int selectItemListCount(Item item);
+	
+	// 아이템 리스트 조회
+	ArrayList<Item> selectItemList(PageInfo pi, Item item);
+	
+	
 
 	
 	
