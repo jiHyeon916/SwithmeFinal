@@ -12,3 +12,12 @@
 #perNum{
     margin-bottom: 20px;
 }
+
+#freeCategory .list-member {
+    background-color: #fff;
+    height: 300px !important;
+    overflow: scroll;
+}
+#freeCategory .list-member::-webkit-scrollbar {
+    display: none;
+}

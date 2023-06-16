@@ -111,7 +111,14 @@
       
       }
       
-
+      .noBoardMessage{
+      
+      	text-align:ceter;
+      	heigth:100%;
+      	display:flex;
+      	justify-content:center;
+      }
+ 
     
       
 </style>
@@ -136,7 +143,7 @@
                
                
                               
-                     
+                    
          	<div style="margin-left:480px;">
                      <input type="hidden" name="currentPage" value="1">
          
@@ -247,7 +254,7 @@
             		   							}
             		   					 $('#adminMemberTable tbody').html(value);
             		   				}else{
-            		   					 $('#adminMemberTable tbody').html('작성된 게시물이 존재하지 않습니다.');
+            		   					 $('#adminMemberTable tbody').html('<div class="noBoardMessage">작성된 게시물이 존재하지 않습니다.</div>');
             		   					}
             		   			},error: () => {console.log('실패');}
             	     		  });

@@ -19,6 +19,16 @@
 		<result column="QNA_REPLY_CONTENT"		property="qnaReplyContent" />
 		<result column="QNA_REPLY_CREATE_DATE"	property="qnaReplyCreateDate" />
 	</resultMap>
+	
+   <resultMap id="itemResultSet" type="item">
+		<result column="ITEM_NO"		property="itemNo" />
+		<result column="ITEM_CATEGORY"	property="itemCategory" />
+		<result column="ITEM_NAME"		property="itemName" />
+		<result column="ITEM_CONTENT"	property="itemContent" />
+		<result column="ITEM_PRICE"		property="itemPrice" />
+		<result column="ITEM_STATUS"	property="itemStatus" />
+		<result column="ITEM_PHOTO"		property="itemPhoto" />
+	</resultMap>
 
 	<resultMap id="sRoomResultSet" type="studyRoom">
 		<result column="SR_NO" property="studyRoomNo" />
@@ -535,6 +545,76 @@
 		  FROM QNA_REPLY
 		 WHERE QNA_NO = ${ qnaNo }
 	</delete>
+
+	<!-- 아이템 등록 -->
+	<insert id="insertItem" parameterType="item">
+		INSERT 
+		  INTO BOARD_ITEM
+		  	   (
+		  	   ITEM_NO
+	  		  ,ITEM_CATEGORY
+	  		  ,ITEM_NAME 
+	  		  ,ITEM_CONTENT
+	  		  ,ITEM_PRICE
+	  		  ,ITEM_STATUS
+	  		  ,ITEM_PHOTO
+	  		   ) 
+		VALUES 
+			   (
+				SEQ_BOARD_ITEM.NEXTVAL
+			  ,#{itemCategory}
+			  ,#{itemName}
+			  ,#{itemContent}
+			  ,#{itemPrice}
+			  ,DEFAULT
+			  ,#{itemPhoto}
+			   )
+	</insert>
+	
+	<!-- 아이템 전체 수 -->
+	<select id="selectItemListCount" parameterType="item" resultType="_int">
+		SELECT COUNT(*)
+		  FROM BOARD_ITEM
+		<choose>
+			<when test="itemCategory != '전체보기'">
+			 WHERE ITEM_CATEGORY = #{ itemCategory }
+				 <if test="itemStatus != 'all'">
+				   AND ITEM_STATUS = #{ itemStatus }
+				 </if>
+			</when>
+			<otherwise>
+				<if test="itemStatus != 'all'">
+				WHERE ITEM_STATUS = #{ itemStatus }
+				 </if>
+			</otherwise>
+		</choose>
+	</select>	
+	
+	<!-- 아이템 리스트 -->
+	<select id="selectItemList" parameterType="item" resultMap="itemResultSet">
+		SELECT ITEM_NO
+		      ,ITEM_CATEGORY
+		      ,ITEM_NAME
+		      ,ITEM_CONTENT
+		      ,ITEM_PRICE
+		      ,ITEM_STATUS
+		      ,ITEM_PHOTO
+		  FROM BOARD_ITEM
+		<choose>
+			<when test="itemCategory != '전체보기'">
+				WHERE ITEM_CATEGORY = #{ itemCategory }	
+				<if test="itemStatus != 'all'">
+				   AND ITEM_STATUS = #{ itemStatus }
+				 </if>
+			</when>
+			<otherwise>
+				<if test="itemStatus != 'all'">
+				  WHERE ITEM_STATUS = #{ itemStatus }
+				 </if>
+			</otherwise>
+		</choose>
+	</select>
+
 
 
 </mapper>

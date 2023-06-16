@@ -7,6 +7,7 @@ import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
+import com.kh.swithme.admin.model.vo.Item;
 import com.kh.swithme.admin.model.vo.QNAReply;
 import com.kh.swithme.band.model.vo.Band;
 import com.kh.swithme.board.model.vo.Board;
@@ -144,8 +145,24 @@ public class AdminDao {
 	public int qnaReplyDelete(SqlSessionTemplate sqlSession, int qnaNo) {
 		return sqlSession.delete("adminMapper.qnaReplyDelete", qnaNo);
 	}
-
 	
+	// 아이템 등록
+	public int insertItem(SqlSessionTemplate sqlSession, Item item) {
+		return sqlSession.insert("adminMapper.insertItem", item);
+	};
+	
+	// 아이템 전체수
+	public int selectItemListCount(SqlSessionTemplate sqlSession, Item item) {
+		return sqlSession.selectOne("adminMapper.selectItemListCount", item);
+	};
+	
+	// 아이템 리스트
+	public ArrayList<Item> selectItemList(SqlSessionTemplate sqlSession, PageInfo pi, Item item){
+		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
+		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
+		return (ArrayList)sqlSession.selectList("adminMapper.selectItemList", item, rowBounds);
+	};
+		
 
 
 

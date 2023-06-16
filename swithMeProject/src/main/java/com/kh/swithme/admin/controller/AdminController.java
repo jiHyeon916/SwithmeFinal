@@ -1,20 +1,27 @@
 package com.kh.swithme.admin.controller;
 
+import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 
 import javax.servlet.http.HttpSession;
 
+import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.google.gson.Gson;
 import com.kh.swithme.admin.model.service.AdminService;
+import com.kh.swithme.admin.model.vo.Item;
 import com.kh.swithme.admin.model.vo.QNAReply;
 import com.kh.swithme.band.model.vo.Band;
 import com.kh.swithme.board.model.vo.Board;
@@ -108,6 +115,10 @@ public class AdminController {
       return m.getMemberStatus();
    }
    
+  
+   
+   
+   
    //회원 정지 해제 (앞단 해야함..)
    @ResponseBody
    @RequestMapping("adminMemberStopFree.ad")
@@ -119,10 +130,18 @@ public class AdminController {
    //회원 정지 
    @ResponseBody
    @RequestMapping("adminMemberStop.ad")
-   public char memberStop(String memberId) {
+   public char memberStop(String memberId, HttpSession session) {
+	   
+		   
+		   return adminService.memberStop(memberId) > 0 ? 'Y' : 'N';
+	   }
+	
+	   
+	   
     //  System.out.println(memberId);
-     return adminService.memberStop(memberId) > 0 ? 'Y' : 'N';
-   }
+     
+     
+   
    
    /*
    //회원 디테일 조회정보(select)
@@ -323,33 +342,20 @@ public class AdminController {
   
   
    // 이유진 ------------------------------------------------------------
-
-  	// 관리자 메인페이지
-  	@RequestMapping("adPage.ad")
-  	public String adminPageMain() {
-	  	return "admin/adminPageMain";
-  	}
-  
-  	// 관리자 아이템관리 페이지 
-	@RequestMapping("itemList.ad")
-	public String adminItemListView() {
-		return "admin/adminItemListView";
+	// 관리자 메인페이지
+	@RequestMapping("adPage.ad")
+	public String adminPageMain() {
+		return "admin/adminPageMain";
 	}
-  
-  	// 관리자 아이템등록 페이지 
-	@RequestMapping("itemEnrollForm.ad")
-	public String adminItemEnrollForm() {
-		return "admin/adminItemEnrollForm";
-	}
-   
-   // 문의글 답변 INSERT
+	
+	// 문의글 답변 INSERT
 	@ResponseBody
 	@RequestMapping("qnaAnswer")
 	public String insertQnaReply(QNAReply qr) {
 		return adminService.insertQnaReply(qr) > 0 ? "success" : "fail";
 
 	}
-	
+
 	// 문의글 답변 목록 출력
 	@ResponseBody
 	@RequestMapping(value="qnaAnswerList", produces="application/json; charset=UTF-8")
@@ -365,8 +371,67 @@ public class AdminController {
 		return adminService.qnaStatusUpdate(qnaNo) > 0 ? "success" : "fail";
 	}
 	
+	// 관리자 아이템관리
+	@RequestMapping("itemList.ad")
+	public String adminItemListView() {
+		return "admin/adminItemListView";
+	}
 	
+	// 관리자 아이템목록
+	@ResponseBody
+	@RequestMapping(value="selectItemList.ad", produces="application/json; charset=UTF-8")
+	public String selectItemListView(@RequestParam(value="cPage", defaultValue="1") int currentPage,
+									 Item item, String itemCategory, String itemStatus, Model model) {
+		
+		item.setItemCategory(itemCategory);
+		item.setItemStatus(itemStatus);
+		
+		PageInfo pi = Pagination.getPageInfo(adminService.selectItemListCount(item), currentPage, 12, 5);
+		
+		JSONObject jObj = new JSONObject();
+		jObj.put("pi", pi);
+		jObj.put("list", adminService.selectItemList(pi, item));
+		
+		return new Gson().toJson(jObj);
+	};
 	
+	// 관리자 아이템등록 페이지
+	@RequestMapping("itemEnrollForm.ad")
+	public String adminItemEnrollForm() {
+		return "admin/adminItemEnrollForm";
+	}
+	
+	// 관리자 아이템등록
+	@RequestMapping("insertItem.ad")
+	public String insertItem(Item item, MultipartFile upFile, HttpSession session, Model model) {
+		if(!upFile.getOriginalFilename().equals("")) {
+			item.setItemPhoto("resources/uploadFiles/item/" + saveFile(upFile, session));
+		}
+		if(adminService.insertItem(item) > 0) {
+			return "redirect:itemList.ad";
+		} else {
+			model.addAttribute("failMsg", "아이템 등록 실패");
+			return "redirect:itemList.ad";
+		}
+	}
+	
+	// 사진 사용 메소드
+	public String saveFile(MultipartFile upfile, HttpSession session) { // 실제 넘어온 파일의 이름을 변경해서 서버에 업로드
+		String originName = upfile.getOriginalFilename();
+		String currentTime = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
+		int ranNum = (int)(Math.random() * 90000 + 10000);
+		String ext = originName.substring(originName.lastIndexOf("."));
+		String changeName = currentTime + ranNum + ext;
+		String savePath = session.getServletContext().getRealPath("/resources/uploadFiles/item/");
+		try {
+			upfile.transferTo(new File(savePath + changeName));
+		} catch (IllegalStateException | IOException e) {
+			e.printStackTrace();
+		}
+		return changeName;
+	}
+	
+		
 	
 	
 	 

@@ -100,7 +100,9 @@
                     <div><img src="resources/images/board/reply.png" alt=""></div>
                     <p class="replyCount"></p>
                     <hr>
-                    <div><img src="resources/images/board/emergency.png" alt=""></div>
+                    <div class="btn-open-popup">
+                        <img src="resources/images/board/emergency.png" alt="">
+                    </div>
                 </div>
             </div>
 
@@ -108,6 +110,36 @@
             <div>
                 
             </div>
+
+
+            <!-- 아이템 모달 -->
+            <div class="modal msg1">
+                        
+            </div>
+            <div class="modal_body msg1_body">
+                <div class="clear">
+                    <h4>신고하기</h4>
+                    <img src="" alt="">
+                </div>
+                <hr>
+                <p class="writer">작성자 | ${sessionScope.loginMember.nickName}</p>
+                <p class="reportTitle">게시글 | ${b.boardTitle}</p>
+                <hr>
+                <h5>사유선택</h5>
+                <div id="resonBox">
+                    <p class="reason"><input type="radio" name="" id=""> 스팸홍보/도배글입니다.</p>
+                    <p class="reason"><input type="radio" name="" id=""> 음란물입니다.</p>
+                    <p class="reason"><input type="radio" name="" id=""> 불법정보를 포함하고 있습니다.</p>
+                    <p class="reason"><input type="radio" name="" id=""> 청소년에게 유해한 내용 입니다.</p>
+                    <p class="reason"><input type="radio" name="" id=""> 청소년에게 유해한 내용 입니다.</p>
+                    <p class="reason"><input type="radio" name="" id=""> 욕설/생명경시/혐오/차별적 표현입니다.</p>
+                    <p class="reason"><input type="radio" name="" id=""> 개인정보 노출 게시물 입니다.</p>
+                </div>
+                <hr>
+                <h5>추가내용</h5>
+                <textarea name="" id="" cols="30" rows="10" placeholder="추가로 기재할 내용을 적어주세요."></textarea>
+                <p class="ment">* 허위 기재 및 무분별한 신고시 불이익이 있을 수 있습니다.</p>
+                <button>신고하기</button>
 
         </div>
     </div>
@@ -124,6 +156,38 @@
             bookStatusCheck(); //북마크 상태 표시
             //reReplyList(); //대댓글 리스트 불러오기
 
+            let btnOpenPopup = document.getElementsByClassName('btn-open-popup');
+            const modal = document.querySelector('.msg1');
+           
+            for(var i = 0; i < btnOpenPopup.length; i++){
+                btnOpenPopup[i].addEventListener("click", click);
+                function click(e) {
+	                $('.msg1_body').show().css('z-index','999999');
+                    $('header').css('z-index', '88888');
+	                $('.msg1').show();
+	                $('body').css('overflow','hidden');
+	                $('.msg1').click(function(){
+	                    $('.msg1_body').hide();
+	                    $('.msg1').hide();
+	                    $('body').css('overflow','auto');
+	                });
+	                $('.cloesBtn').click(function(){
+	                    $('.msg1_body').hide();
+	                    $('.msg1').hide();
+	                    $('body').css('overflow','auto');
+	                });
+                    
+                };
+
+            }
+            
+            // 모달 닫기
+            $('.cloesBtn3').click(function(){
+                $('.send').hide();
+                $('.send_body').hide();
+                $('body').css('overflow','auto');
+            })
+            
 
 
             
@@ -488,6 +552,10 @@
             location.href='boardDelete.bo?boardNo=' + boardNo;
         }
 
+        // 글 신고하기 
+        function report(){
+            
+        }
 
     </script>
 </body>
