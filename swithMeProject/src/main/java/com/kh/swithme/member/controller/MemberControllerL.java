@@ -2,6 +2,7 @@ package com.kh.swithme.member.controller;
 
 import java.text.DecimalFormat;
 import java.text.Format;
+import java.util.ArrayList;
 import java.util.Random;
 
 import javax.mail.MessagingException;
@@ -20,8 +21,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.google.gson.Gson;
 import com.kh.swithme.member.model.service.MemberService;
-import com.kh.swithme.member.model.vo.Mail;
+import com.kh.swithme.member.model.vo.Alarm;
 import com.kh.swithme.member.model.vo.Member;
 
 
@@ -79,7 +81,7 @@ public class MemberControllerL {
    public String profilMember() {
       return "member/myPageProfil";
    }
-   
+
    
    /**아이디 중복체크
     * @param checkId
@@ -293,6 +295,11 @@ public class MemberControllerL {
 	}
 	
 	
+	/** 정보수정
+	 * @param m
+	 * @param session
+	 * @return
+	 */
 	@RequestMapping("update.mem")
 	public String updateMember(Member m, HttpSession session) {
 		
@@ -386,7 +393,7 @@ public class MemberControllerL {
 		
 		Random r = new Random();
 		int i = r.nextInt(100000);
-		Format f = new DecimalFormat("000000"); //0으로된 공백 채우기ㄴ
+		Format f = new DecimalFormat("000000"); //0으로된 공백 채우기
 		String secret = f.format(i);
 		
 		return secret;
@@ -394,6 +401,22 @@ public class MemberControllerL {
 		
 	}
 	
+	
+	
+	//알람 조회
+	@ResponseBody
+	@RequestMapping(value="alarmList.me", produces="application/json; charset=UTF-8")
+	public String selectAlarmList(String memberId) {   //memberId값 어디서 받아옴 ?
+		
+		System.out.println(memberId);
+		
+		ArrayList<Alarm> list = memberService.selectAlarmList(memberId);
+		
+		System.out.println(list);
+		
+		 return new Gson().toJson(list);
+		
+	}
 	
 	
 	

@@ -79,9 +79,14 @@ public class MemberDao {
 	}
 	//임시비밀번호 메일전송(DB에저장)
 	public void sendMailInsert(SqlSessionTemplate sqlSession, Member m) {
-		sqlSession.update("memberMapper.sendMailInsert", m);
+		 sqlSession.update("memberMapper.sendMailInsert", m);
 
 	}
+	//알람 조회
+	public ArrayList<Alarm> selectAlarmList(SqlSessionTemplate sqlSession, String memberId) {
+		return (ArrayList)sqlSession.selectList("memberMapper.selectAlarmList", memberId);
+	}
+
 
 
 	//----------------------희재
@@ -248,6 +253,6 @@ public class MemberDao {
 	public int qnaDelete(SqlSessionTemplate sqlSession, int qno) {
 		return sqlSession.delete("memberMapper.qnaDelete", qno);
 	}
-
+	
 
 }

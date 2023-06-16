@@ -69,21 +69,21 @@
                 
                 <!-- <input type="text" id="tag" onkeyup="tagtext(this)"> -->
 
-                <div class="uploadBtnArea clear">
+                <div class="uploadBtnArea clear fileUp">
                     <p>파일</p>
                     <button>업로드</button>
                 </div>
                 <div class="fileArea"></div>
-                <input type="file" name="" id="">
+                <input type="file" name="file" id="">
 
                 <c:choose>
                     <c:when test="${Btype eq 'free'}">
-                    <div class="uploadBtnArea clear">
+                    <div class="uploadBtnArea clear tumbUp">
                         <p>썸네일</p>
                         <button>업로드</button>
                     </div>
                     <div class="thumbnailArea"></div>
-                    <input type="file">
+                    <input type="file" name="thumb">
                     </c:when>   
                 </c:choose>
                 <button onclick="test();">취소하기</button>
@@ -120,6 +120,13 @@
         })
 
  
+        // 업로드 버튼 
+        $('.fileUp').click(function(){
+            $('input[name=file]').click();
+        });
+        $('.tumbUp').click(function(){
+            $('input[name=thumb]').click();
+        });
     })
 
 

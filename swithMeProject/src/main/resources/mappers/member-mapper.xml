@@ -32,7 +32,7 @@
 	</resultMap>
 	
 	<resultMap id="alarmResultSet" type="alarm">
-		<result column="LALRM_NO"			property="alarmNo" />
+		<result column="ALARM_NO"			property="alarmNo" />
 		<result column="ALARM_MEMBER_ID"	property="alarmMemberId" />
 		<result column="ALARM_BOARD_NO"		property="alarmBoardNo" />
 		<result column="ALARM_CATEGORY"		property="alarmCategory" />
@@ -562,6 +562,18 @@
       			WHERE
       				MEMBER_EMAIL = #{memberEmail}	
       	</update>
+		
+		<select id="selectAlarmList" parameterType="string" resultMap="alarmResultSet">
+		SELECT ALARM_CATEGORY, ALARM_BOARD_NO , SUBSTR(ALARM_NO, 1, 1) "ALARM_SORT", TO_CHAR(ALARM_DATE, 'YYYY-MM-DD HH:MI:SS') "ALARM_DATE", S.ALARM_STATUS
+		                  FROM BOARD_ALARM S
+		                 WHERE ALARM_MEMBER_ID = #{memberId}
+		                 UNION ALL
+		                	SELECT ALARM_CATEGORY, ALARM_SB_NO, SUBSTR(ALARM_NO, 1, 1) "ALARM_SORT", TO_CHAR(ALARM_DATE, 'YYYY-MM-DD HH:MI:SS') "ALARM_DATE", B.ALARM_STATUS
+		                  FROM BAND_ALARM B
+		                 	WHERE ALARM_MEMBER = #{memberId}
+		                 ORDER 
+		                    BY ALARM_DATE DESC
+			</select>
 		
 	
 		
