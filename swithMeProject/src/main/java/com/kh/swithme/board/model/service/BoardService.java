@@ -144,6 +144,12 @@ public interface BoardService {
 	// 답변 채택하기 
 	int selectInsert(int replyNo);
 	
+	// 답변 포인트 지급 
+	int selectPoint(int replyNo);
+	
+	
+	
+	
 	
 ////------------------희재 - 스터디룸 
 	// 스터디룸 리스트 카운트
