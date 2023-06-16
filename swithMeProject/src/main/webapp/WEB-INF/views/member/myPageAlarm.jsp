@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -33,26 +34,8 @@
 						</tr>
 					</thead>				
 					<tbody>
-						<tr>
-							<td>'안녕하세요'게시물에 댓글이 달렸습니다.</td>
-							<td>안읽음</td>
-							<td>2023-05-05</td>
-						</tr>
-						<tr>
-							<td>'내가가입한밴드이름'게시물에 댓글이 작성되었습니다.</td>
-							<td>읽음</td>
-							<td>2023-05-05</td>
-						</tr>
-						<tr>
-							<td>'안녕하세요'게시물에 댓글이 달렸습니다.</td>
-							<td>안읽음</td>
-							<td>2023-05-05</td>
-						</tr>
-						<tr>
-							<td>'안녕하세요'게시물에 댓글이 달렸습니다.</td>
-							<td>읽음</td>
-							<td>2023-05-05</td>
-						</tr>
+					
+					
 					</tbody>
 				</table>
 				<br><br>
@@ -65,6 +48,85 @@
 				</div>
 				
 			</div>
+			
+			<script>
+				
+				let sortType = '';
+				let sort = ''; // 게시판 or 스터디밴드 구분용 빈문자열 선언 
+	
+				var memberId = '${loginMember.memberId}';
+				console.log(memberId);
+				
+				$(function(){
+					
+					AlarmList(); // 알림내역
+					
+				}); 
+				
+				// 알림 내역
+				function AlarmList(){
+
+					$.ajax({
+						url : 'alarmList.me',
+						data : { memberId : '${loginMember.memberId}' },
+						success : (list) => {
+							
+							if(list.length == 0){
+								
+								let result = '<span class="emptyList">등록된 알림이 없습니다.</span>';
+								
+								$('#pointList tbody').html(result);
+								
+							}
+							else{
+								
+								comment = {
+										'댓글' : '댓글이 달렸습니다.',
+										'대댓글' : '대댓글이 달렸습니다.',
+										'채택' : '답변이 채택되었습니다.',
+										'유저태그' : '게시글에 태그되었습니다.',
+										'방장양도' : '방장으로 임명되었습니다.'
+								}
+								
+								let value = '';
+								
+								for(let i in list){
+									//sortType = list[i].alarmSort;
+									
+									if(list[i].alarmSort == 's'){
+										sort = '[게시판]'
+									} else {
+										sort = '[밴드]'
+									};
+									
+									let category = '';
+									
+									for(var key in comment){ //이거 물어보기 
+										if(list[i].alarmCategory == key){
+											category = comment[key];
+											break;
+										}
+									}
+									value += '<tr>'
+										  +	'<td>' + sort + category +  '</td>'
+										  + '<td>' + list[i].alarmStatus + '</td>'
+										  + '<td>' + list[i].alarmDate + '</td>'
+										  + '</tr>'
+									
+									
+									
+								};
+								
+								$('#pointList tbody').html(value);
+							}
+							
+						},
+						error : () => { console.log('연결실패'); }
+					});
+				}
+			
+			</script>
+			
 			
 		
 		</div>

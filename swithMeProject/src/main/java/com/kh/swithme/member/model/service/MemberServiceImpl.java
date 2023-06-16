@@ -125,12 +125,20 @@ public class MemberServiceImpl implements MemberService{
 		}
 
 		/**
-		 *
+		 *메일보내기
 		 */
 		@Override
 		public void sendMailInsert(Member m) {
 			memberDao.sendMailInsert(sqlSession, m);
 		}
+		
+		
+		// 알람 조회
+		@Override
+		public ArrayList<Alarm> selectAlarmList(String memberId) {
+			return memberDao.selectAlarmList(sqlSession, memberId);
+		};
+		
 
 	
 	   
@@ -336,7 +344,8 @@ public class MemberServiceImpl implements MemberService{
 	@Override
 	public int qnaDelete(int qno) {
 		return memberDao.qnaDelete(sqlSession, qno);
-	};
+	}
+
 	
 
 }
