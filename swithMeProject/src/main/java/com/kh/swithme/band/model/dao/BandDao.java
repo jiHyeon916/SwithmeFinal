@@ -142,8 +142,10 @@ public class BandDao {
 		return (ArrayList)sqlSession.selectList("bandMapper.selectBandSearchList", bb);
 	}
 
-	public ArrayList<BandMember> selectTotalMember(SqlSessionTemplate sqlSession) {
-		return (ArrayList)sqlSession.selectList("bandMapper.selectTotalMember");
+	public BandMember selectTotalMember(SqlSessionTemplate sqlSession, BandMember bm) {
+		BandMember num = sqlSession.selectOne("bandMapper.selectTotalMember", bm);
+
+		return num;
 	}
 
 

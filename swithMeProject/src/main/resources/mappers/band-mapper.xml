@@ -166,6 +166,8 @@
 			   ,A.MEMBER_ID
                ,NICKNAME
                ,SB_NO
+               ,SB_RECRUIT_MEM
+			   ,SB_NOW_MEM
 		  FROM
 				SBAND A
           JOIN
@@ -527,14 +529,18 @@
 				SB_BOARD_NO DESC
 	</select>
 	
-	<select id="selectTotalMember" resultMap="bandMemberResultSet">
+	<select id="selectTotalMember" resultType="bandMember">
 		SELECT 
-				SB_NO
-			   ,MEMBER_ID
+				NVL(SB_NO,0) sbNo
+			   ,NVL(MEMBER_ID,'0') memId
 		  FROM 
 		  		SBAND_MEMBER
 		 WHERE 
 		 		BANISH = 'Y'
+		   AND
+		 		SB_NO = #{sbNo}
+		   AND
+		 		MEMBER_ID = #{memId}
 	</select>
 	
 </mapper>

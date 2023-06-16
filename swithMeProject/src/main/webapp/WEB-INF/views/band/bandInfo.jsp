@@ -1,11 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>밴드 정보</title>
 	<!-- InfoCss -->
     <link rel="stylesheet" href="/swithme/resources/css/band/bandInfo.css">
 </head>
@@ -28,10 +28,12 @@
 	    	
 	    	
 	    	<div class="bandInfoList">
-	    		<div>
-	    			<button class="bInfoReader" data-toggle="modal" data-target="#updateProfileBandMember">사진 변경</button>
-	    			<button class="bInfoReader" data-toggle="modal" data-target="#updateIntroduceBandMember">정보 변경</button>
-	    		</div>
+	    		<c:if test="${bandInfomation.memberIdId eq loginMember.memberId}">
+		    		<div class="readerInfo">
+		    			<button class="bInfoReader" data-toggle="modal" data-target="#updateProfileBandMember">사진 변경</button>
+		    			<button class="bInfoReader" data-toggle="modal" data-target="#updateIntroduceBandMember">정보 변경</button>
+		    		</div>
+	    		</c:if>
 	    		<div class="writer">
 	    			<span>
 	       				<strong class="InfoTitle">밴드 소개</strong>
