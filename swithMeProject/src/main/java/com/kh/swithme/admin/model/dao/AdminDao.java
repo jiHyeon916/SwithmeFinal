@@ -201,7 +201,9 @@ public class AdminDao {
 	}
 
 	// 스터디룸 추가
-
+	public int insertStudyRoom(SqlSessionTemplate sqlSession, StudyRoom sr) {
+		return sqlSession.insert("adminMapper.SqlSessionTemplate", sr);
+	}
 
 	// 스터디룸 선택 삭제
 	public int deleteCheckStudyRoom(SqlSessionTemplate sqlSession, int studyRoomNo) {
