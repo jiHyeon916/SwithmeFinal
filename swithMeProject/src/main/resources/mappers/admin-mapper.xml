@@ -557,7 +557,7 @@
 			</when>
 			<otherwise>
 				<if test="itemStatus != 'all'">
-				  AND ITEM_STATUS = #{ itemStatus }
+				WHERE ITEM_STATUS = #{ itemStatus }
 				 </if>
 			</otherwise>
 		</choose>
@@ -582,7 +582,7 @@
 			</when>
 			<otherwise>
 				<if test="itemStatus != 'all'">
-				  AND ITEM_STATUS = #{ itemStatus }
+				  WHERE ITEM_STATUS = #{ itemStatus }
 				 </if>
 			</otherwise>
 		</choose>
