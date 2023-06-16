@@ -107,6 +107,10 @@ public class AdminController {
       return m.getMemberStatus();
    }
    
+  
+   
+   
+   
    //회원 정지 해제 (앞단 해야함..)
    @ResponseBody
    @RequestMapping("adminMemberStopFree.ad")
@@ -118,10 +122,18 @@ public class AdminController {
    //회원 정지 
    @ResponseBody
    @RequestMapping("adminMemberStop.ad")
-   public char memberStop(String memberId) {
+   public char memberStop(String memberId, HttpSession session) {
+	   
+		   
+		   return adminService.memberStop(memberId) > 0 ? 'Y' : 'N';
+	   }
+	
+	   
+	   
     //  System.out.println(memberId);
-     return adminService.memberStop(memberId) > 0 ? 'Y' : 'N';
-   }
+     
+     
+   
    
    /*
    //회원 디테일 조회정보(select)

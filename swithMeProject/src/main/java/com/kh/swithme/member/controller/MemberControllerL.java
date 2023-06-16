@@ -29,7 +29,6 @@ import com.kh.swithme.member.model.vo.Member;
 public class MemberControllerL {
    
    
-   
    @Autowired
    private MemberService memberService;
    
@@ -80,16 +79,6 @@ public class MemberControllerL {
    public String profilMember() {
       return "member/myPageProfil";
    }
-   /*
-   //정보수정 폼으로 이동
-   @RequestMapping("updateEnrollForm.mem")
-   public String updateMember() {
-	   return "member/updateEnrollForm";
-   }
- 
-   */
-   
-   
    
    
    /**아이디 중복체크
