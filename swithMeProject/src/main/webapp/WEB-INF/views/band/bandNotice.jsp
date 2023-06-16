@@ -126,7 +126,7 @@
 						$('#detailNickName').text("닉네임 : " + list.memberId);
 						$('#detailDate').text("날짜 : " + list.sbCreateDate);
 						$('#detailCount').text("조회 수 : " + list.sbCount);
-						$('#detailContent').text(list.sbContent);
+						$('#detailContent').html(list.sbContent);
 						$('#sbContent').text(list.sbContent);
 						
 					},
