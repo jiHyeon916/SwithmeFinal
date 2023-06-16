@@ -134,7 +134,7 @@
                  <table id="adminMemberTable">
                     <thead>
                          <tr>
-                            
+                            <th>NO</th>
                              <th>아이디</th>
                              <th>이름</th>
                              <th>닉네임</th>
@@ -145,6 +145,7 @@
                     </thead>
                     
                     <tbody>
+                    
                        <c:choose>
                           <c:when test="${empty searchList }">
                              <tr>
@@ -152,17 +153,24 @@
                              </tr>
                           </c:when>
                       <c:otherwise>
-                             <c:forEach items="${searchList }" var="m">
+                             <c:forEach items="${searchList }" var="m" varStatus="status">
                                <tr id="#adminMemberTable">
-                                   
+                                   <td>${status.count }</td>
                                    <td><a href="memberDetailInfo.ad?memberId=${m.memberId }">${m.memberId }</a></td>
                                    <td>${m.memberName }</td>
                                    <td>${m.nickName }</td>
                                    <td>${m.memberEnrollDate }</td>
                                    <td class="memberStatus">${m.memberStatus }</td>
+                                   
+                                   
+                                  
                                    <td><button onclick="adminStopBtn(this);" id="adminStopBtn"
                                          style="background-color:${m.memberStatus == 'Y'?'red':'gray'}" 
-                                         data-member-id="${m.memberId}">정지</button></td>
+                                         data-member-id="${m.memberId}">정지</button>
+                                   </td>
+                                  
+                                  
+                                  
                                   </tr>
                                  </c:forEach>
                               </c:otherwise>   
@@ -176,7 +184,9 @@
                   //원래 색깔로 조건주려했는데 안됨. 
                   
                     function adminStopBtn(button) { 
+                	  
                        
+                	  
                      
                        //var memberId = $(button).closest('tr').children('.memberId').text();
                        var memberId = $(button).data('memberId');
@@ -188,12 +198,18 @@
                        
                        
                    // console.log(memberStatus);
+                      
+                   
+                	
+                		
+                	
+                    	   
                        
                           $.ajax({
                              url : 'memberStatusSelect.ad',
                              data :{memberId : memberId},
                              success : function(result){
-                                
+                            	 
                                 if(result == 'N'){ // 회원 조회 
                                    
                                    if(confirm('회원을 정지 해제시키겠습니까?')) {
@@ -234,7 +250,9 @@
                                       }
                                     }
                                    });
-                                  }
+                 
+                  
+                  }
                   
                   
                   

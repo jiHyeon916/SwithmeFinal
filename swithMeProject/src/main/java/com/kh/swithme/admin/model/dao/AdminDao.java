@@ -7,6 +7,7 @@ import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
+import com.kh.swithme.admin.model.vo.Item;
 import com.kh.swithme.admin.model.vo.QNAReply;
 import com.kh.swithme.band.model.vo.Band;
 import com.kh.swithme.board.model.vo.Board;
@@ -68,32 +69,48 @@ public class AdminDao {
 	public ArrayList<Band> memberDetailBand(SqlSessionTemplate sqlSession, String memberId) {
 		return (ArrayList)sqlSession.selectList("adminMapper.memberDetailBand", memberId);
 	}
-
+	
 	//회원 정보 조회
 	public Member memberInfo(SqlSessionTemplate sqlSession, String memberId) {
 		return sqlSession.selectOne("adminMapper.memberInfo", memberId);
 
 	}
-
+	
 	//회원 baord 글 삭제
 	public int deleteBoardDetail(SqlSessionTemplate sqlSession, int boardNo) {
 		return sqlSession.update("adminMapper.deleteBoardDetail", boardNo);
 	}
-
+	
 	//회원 band 글 삭제
 	public int deleteBandDetail(SqlSessionTemplate sqlSession, int boardNo) {
 		return sqlSession.update("adminMapper.deleteBandDetail",boardNo);
 	}
+	//회원 board글 검색(내용으로)
+	public ArrayList<Board> memBoardSearch(SqlSessionTemplate sqlSession, HashMap<String, String> map) {
+		// TODO Auto-generated method stub
+		return (ArrayList)sqlSession.selectList("adminMapper.memBoardSearch", map);
+	}
+	
+	//회원 board글 검색(제목으로)
+	public ArrayList<Board> memSearchContent(SqlSessionTemplate sqlSession, HashMap<String, String> map) {
+		return (ArrayList)sqlSession.selectList("adminMapper.memSearchContent", map);
+	}
+	
+	//회원 band글 검색(제목으로)
+	public ArrayList<Band> memBandSearchTitle(SqlSessionTemplate sqlSession, HashMap<String, String> map) {
+		return (ArrayList)sqlSession.selectList("adminMapper.memBandSearchTitle", map);
+	}
+	//회원 band글 검색(제목으로)
+	public ArrayList<Band> memBandSearchContent(SqlSessionTemplate sqlSession, HashMap<String, String> map) {
+		return (ArrayList)sqlSession.selectList("adminMapper.memBandSearchContent", map);
+	}
 
-
-
-
-
-
-
-
-
-
+		
+	   
+	   
+	   
+	   
+	   
 	// 이유진 ----------------------------------------
 
 	// 문의글 리스트 조회 + 페이징처리
@@ -128,6 +145,25 @@ public class AdminDao {
 	public int qnaReplyDelete(SqlSessionTemplate sqlSession, int qnaNo) {
 		return sqlSession.delete("adminMapper.qnaReplyDelete", qnaNo);
 	}
+	
+	// 아이템 등록
+	public int insertItem(SqlSessionTemplate sqlSession, Item item) {
+		return sqlSession.insert("adminMapper.insertItem", item);
+	};
+	
+	// 아이템 전체수
+	public int selectItemListCount(SqlSessionTemplate sqlSession, Item item) {
+		return sqlSession.selectOne("adminMapper.selectItemListCount", item);
+	};
+	
+	// 아이템 리스트
+	public ArrayList<Item> selectItemList(SqlSessionTemplate sqlSession, PageInfo pi, Item item){
+		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
+		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
+		return (ArrayList)sqlSession.selectList("adminMapper.selectItemList", item, rowBounds);
+	};
+		
+
 
 
 
@@ -165,7 +201,9 @@ public class AdminDao {
 	}
 
 	// 스터디룸 추가
-
+	public int insertStudyRoom(SqlSessionTemplate sqlSession, StudyRoom sr) {
+		return sqlSession.insert("adminMapper.SqlSessionTemplate", sr);
+	}
 
 	// 스터디룸 선택 삭제
 	public int deleteCheckStudyRoom(SqlSessionTemplate sqlSession, int studyRoomNo) {

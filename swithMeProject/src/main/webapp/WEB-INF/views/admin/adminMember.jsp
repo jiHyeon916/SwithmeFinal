@@ -99,6 +99,7 @@
                  <table id="adminMemberTable">
                     <thead>
                          <tr>
+                         	 <th>NO</th>
                              <th>아이디</th>
                              <th>이름</th>
                              <th>닉네임</th>
@@ -107,8 +108,9 @@
                          </tr>
                     </thead>
                     <tbody>
-                    	<c:forEach items="${ memList }" var ="m" >
+                    	<c:forEach items="${ memList }" var ="m" varStatus="status">
 	                         <tr>
+	                         	<td>${status.count }</td>
 	                             <td>${m.memberId }</td>
 	                             <td>${m.memberName }</td>
 	                             <td>${m.nickName }</td>

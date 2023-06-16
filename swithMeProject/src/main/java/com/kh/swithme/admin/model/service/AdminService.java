@@ -3,6 +3,7 @@ package com.kh.swithme.admin.model.service;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import com.kh.swithme.admin.model.vo.Item;
 import com.kh.swithme.admin.model.vo.QNAReply;
 import com.kh.swithme.band.model.vo.Band;
 import com.kh.swithme.board.model.vo.Board;
@@ -55,11 +56,17 @@ public interface AdminService {
 	    //회원 band 글 삭제
 	    public int deleteBandDetail(int boardNo);
 	    
+	    //회원 board글 검색(제목으로)
+	    public ArrayList<Board> memBoardSearch(HashMap<String, String> map);
 	    
+	    //회원 board글 검색(내용으로)
+	    public ArrayList<Board> memSearchContent(HashMap<String, String> map);
 	    
+	    //회원 band글 검색(제목으로)
+	    public ArrayList<Band> memBandSearchTitle(HashMap<String,String> map);
 	    
-	    
-   
+	    //회원 band글 검색(내용으로)
+	    public ArrayList<Band> memBandSearchContent(HashMap<String, String> map);
    
    
    // 이유진 ----------------------------------------
@@ -81,6 +88,17 @@ public interface AdminService {
 	
 	// 문의글 답변 삭제
 	int qnaReplyDelete(int qnaNo);
+	
+	// 아이템 등록
+	int insertItem(Item item);
+	
+	// 아이템 전체수
+	int selectItemListCount(Item item);
+	
+	// 아이템 리스트 조회
+	ArrayList<Item> selectItemList(PageInfo pi, Item item);
+	
+	
 
 	
 	

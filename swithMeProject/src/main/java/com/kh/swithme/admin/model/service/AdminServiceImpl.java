@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.kh.swithme.admin.model.dao.AdminDao;
+import com.kh.swithme.admin.model.vo.Item;
 import com.kh.swithme.admin.model.vo.QNAReply;
 import com.kh.swithme.band.model.vo.Band;
 import com.kh.swithme.board.model.vo.Board;
@@ -96,7 +97,30 @@ public class AdminServiceImpl implements AdminService {
 	  return adminDao.deleteBandDetail(sqlSession,boardNo);
   }
   
-   
+  //회원 board글 검색(제목으로)
+  @Override
+	public ArrayList<Board> memBoardSearch(HashMap<String, String> map) {
+		return adminDao.memBoardSearch(sqlSession,map);
+	}
+
+  //회원 board글 검색(내용으로)
+	@Override
+	public ArrayList<Board> memSearchContent(HashMap<String, String> map) {
+		return adminDao.memSearchContent(sqlSession,map);
+	}
+	// 회원 band글 검색(제목으로)
+	@Override
+	public ArrayList<Band> memBandSearchTitle(HashMap<String, String> map) {
+		return adminDao.memBandSearchTitle(sqlSession, map);
+	}
+
+	//회원 band글 검색(내용으로
+	@Override
+	public ArrayList<Band> memBandSearchContent(HashMap<String, String> map) {
+		return adminDao.memBandSearchContent(sqlSession, map);
+	}
+
+	
       
       
 	
@@ -141,8 +165,29 @@ public class AdminServiceImpl implements AdminService {
 	}
 
 	
+	// 아이템 등록
+	@Override
+	public int insertItem(Item item) {
+		return adminDao.insertItem(sqlSession, item);
+	};
+	
+	// 아이템 전체수
+	@Override
+	public int selectItemListCount(Item item) {
+		return adminDao.selectItemListCount(sqlSession, item);
+	};
+	
+	// 아이템 리스트
+	@Override
+	public ArrayList<Item> selectItemList(PageInfo pi, Item item){
+		return adminDao.selectItemList(sqlSession, pi, item);
+	}
+	
 
 	
+
+
+
 	
 	
 	
@@ -172,7 +217,7 @@ public class AdminServiceImpl implements AdminService {
 	// 스터디룸 추가
 	@Override
 	public int insertStudyRoom(StudyRoom sr) {
-		return 0;
+		return adminDao.insertStudyRoom(sqlSession, sr);
 	}
 
 	// 스터디룸 선택 삭제
@@ -227,6 +272,7 @@ public class AdminServiceImpl implements AdminService {
 	
 
 	
+
 
 
    

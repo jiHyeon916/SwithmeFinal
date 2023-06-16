@@ -198,6 +198,10 @@ public class BoardServiceImpl implements BoardService {
 	public int selectInsert(int replyNo) {
 		return boardDao.selectInsert(sqlSession, replyNo);
 	}
+	@Override
+	public int selectPoint(int replyNo) {
+		return boardDao.selectPoint(sqlSession, replyNo);
+	}
 	
 
 
