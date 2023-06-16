@@ -25,19 +25,28 @@
         </div>
         <div class="stbBtn">
             <button type="submit" class="enrollBtn" data-toggle="modal" data-target="#enrollBandMember">가입하기</button>
-           
+			<input type="hidden" class="readerId" value="">
         </div>
         <div>
             <ul id="mainSideMenu" class="clear">
                 <li><a id="li1" href="">최 신 글</a></li>
                 <li><a id="li2" href="">밴드 정보</a></li>
                 <li><a href="#" data-toggle="modal" data-target="#reportBand">신고 하기</a></li>
-                <li><a id="li3" href="">공지 사항</a></li>
-                <li><a id="li4" href="">밴드 일정</a></li>
-                <li><a id="li5" href="">밴드 멤버</a></li>
-                <li><a href="#" data-toggle="modal" data-target="#deleteBandMember" >밴드 탈퇴</a></li>
-                <li><a href="#" data-toggle="modal" data-target="#updaetBandReader">리더 위임</a></li>
-            </ul>
+			</ul>
+			<c:if test="${ !empty loginMember }">
+				<ul id="mainSideMenu" class="clear1">
+	                <li><a id="li3" href="">공지 사항</a></li>
+	                <li><a id="li4" href="">밴드 일정</a></li>
+	                <li><a id="li5" href="">밴드 멤버</a></li>
+	                <li><a href="#" data-toggle="modal" data-target="#deleteBandMember" >밴드 탈퇴</a></li>
+	                <c:if test="${ bandInfomation.memberIdId eq loginMember.memberId }">
+	                	<li><a href="#" data-toggle="modal" data-target="#updaetBandReader">리더 위임</a></li>
+	                </c:if>
+	            </ul>
+			</c:if>
+        </div>
+        <div>
+
         </div>
         <br><br>	
     </aside>
@@ -121,9 +130,8 @@
 				                    <img src="/swithme/resources/images/band/search.png" alt="" id="searchImg">
 				                </div>
 				                <input type="hidden" id="sNo" class="sno" name="sbNo" value="">
-
 				                <div class="readerPass">
-
+								
 				                </div>
 	                        </div>
 	                        <br><br>
@@ -209,10 +217,10 @@
 			$.ajax({
 				url : 'side.sb',
 				data : { sno : sno },
-				success : function(result){
+				success : function(bandInfomation){
 					// console.log(result);
-					$('#detailSbtTitle').text(result.sbTitle);
-					$('#bandCover').attr('src', result.sbChangeName);					
+					$('#detailSbtTitle').text(bandInfomation.sbTitle);
+					$('#bandCover').attr('src', bandInfomation.sbChangeName);					
 					$('#li1').attr('href',"detail.bo?sno="+sno);
 					$('#li2').attr('href',"bandInfo.sb?sno="+sno);
 					$('#li3').attr('href',"bandNotice.sb?sno="+sno);
@@ -220,8 +228,9 @@
 					$('#li5').attr('href',"bandMember.sb?sno="+sno);
 					$('.sno').attr('value', sno);
 					$('.memberId').attr('value', '${sessionScope.loginMember.memberId}');
-					$('.reportBandName').attr('value', result.sbTitle);
+					$('.reportBandName').attr('value', bandInfomation.sbTitle);
 					$('#totalNo').attr('value', sno);
+					$('.readerId').attr('value', bandInfomation.memberIdId);
 					
 					
 
@@ -234,6 +243,20 @@
 			});
 			
 			$.ajax({
+				url : 'memberTotal.sb',
+				success : function(memT){
+					if((memT.sbNo = ${bandInfomation.sbNo}) && (memT.memberId = ${loginMember.memberId})){
+						$('.clear1').css('display', 'show');
+					} else {
+						$('.clear1').css('display', 'none');
+					}						
+				},
+				error : function(){
+					console.log('실패');
+				}
+			})
+			
+			$.ajax({
 				url : 'reader.sb',
 				data : { sno : sno },
 				success : function(memList){
@@ -242,10 +265,10 @@
 					
 					for(var i in memList){
 						
-						value += "<label id='listMem'><input TYPE='radio' id='mem' name='memberId' value='" + memList[i].memId + "' />" + memList[i].memberId + "</label><br>"
+						value += "<label id='listMem'><input TYPE='radio' class='mem' name='memberId' value='" + memList[i].memId + "' />" + memList[i].memberId + "</label><br>"
 					}
 					$('.readerPass').html(value);
-					$('#mem').eq(0).attr('checked', true);
+					$('.mem').eq(0).attr('checked', true);
 					$('#sNo').attr('value', sno);
 
 				},
@@ -257,8 +280,7 @@
 		
 		$(document).on('click', '#listMem', function(){
 			var mem = $(this).children(0).val();
-			$('#mem').attr('value', mem);
-			console.log($('#mem').val());
+			$('.mem').attr('value', mem);
 			
 		});
 		

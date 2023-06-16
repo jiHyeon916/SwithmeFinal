@@ -27,6 +27,9 @@ public interface BandService {
 	// 밴드 사이드바 
 	Band ajaxSelectBandSideBar(int sno);
 	
+	//밴드 토탈 멤버확인
+	ArrayList<BandMember> selectTotalMember();
+	
 	// 밴드 글 작성
 	int insertBandBoard(BandBoard bb);
 	
@@ -53,7 +56,7 @@ public interface BandService {
 	// 밴드 댓글 갯수 (AJAX) int selectBandReplyCount(int sbNo);
 	
 	// ------------------- 밴드 글 검색 -------------------
-	ArrayList<BandBoard> selectBandSearchList(HashMap<String, String> map);
+	ArrayList<BandBoard> selectBandSearchList(BandBoard bb);
 	
 	
 	// ------------------- 밴드 가입 -------------------

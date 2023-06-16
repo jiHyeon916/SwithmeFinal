@@ -7,6 +7,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -172,7 +173,7 @@ public class AdminController {
 	   ArrayList<Board> list = adminService.memberDetailBoard(memberId);
 	   //ArrayList<Band> Slist = adminService.memberDetailBand(memberId);
 	   
-	   //System.out.println(list);
+	  // System.out.println(list);
 	   
 	   return new Gson().toJson(list);
    }
@@ -241,7 +242,75 @@ public class AdminController {
   
   
   
+  //회원 board 글 검색(게시글 제목)
   
+  @ResponseBody
+  @RequestMapping(value="memBoardSearchTitle.ad",  produces="application/json; charset=UTF-8")
+  public String memBoardSearch(String memberId, String keyword) {
+	  
+	  
+	  HashMap<String, String> map = new HashMap();
+	  map.put("keyword",keyword);
+	  map.put("memberId", memberId);
+	  
+	  ArrayList<Board> list = adminService.memBoardSearch(map);
+	
+	  //System.out.println(list);
+	  
+	 return new Gson().toJson(list);
+  }
+ 
+ 
+  // 회원 board글 검색(게시글 내용)
+   @ResponseBody
+   @RequestMapping(value="memBoardSearchContent.ad", produces="application/json; charset=UTF-8")
+   public String memSearchContent(String memberId, String keyword) {
+	   
+	   //System.out.println(keyword);
+	   HashMap<String, String> map = new HashMap();
+	   map.put("keyword", keyword);
+	   map.put("memberId", memberId);
+	   
+	   ArrayList<Board> list = adminService.memSearchContent(map);
+	   
+	   //System.out.println(list);
+	   
+	   return new Gson().toJson(list);
+   }
+  
+  
+   //회원  band글 검색(게시글 제목)
+   @ResponseBody
+   @RequestMapping(value="memBandSearchTitle.ad", produces="application/json; charset=UTF-8")
+   public String memBandSearchTitle(String memberId, String keyword) {
+	   
+	   HashMap<String, String> map = new HashMap();
+	   map.put("keyword", keyword);
+	   map.put("memberId", memberId);
+	   
+	   ArrayList<Band> list = adminService.memBandSearchTitle(map);
+	   
+	   //System.out.println(list);
+	   
+	   return new Gson().toJson(list);
+   }
+   
+   //회원 band글 검색(게시글 내용)
+   @ResponseBody
+   @RequestMapping(value="memBandSearchContent.ad", produces="application/json; charset=UTF-8")
+   public String memBandSearchContent(String memberId, String keyword) {
+	   
+	   HashMap<String,String> map = new HashMap();
+	   map.put("keyword", keyword);
+	   map.put("memberId", memberId);
+	   
+	   ArrayList<Band> list = adminService.memBandSearchContent(map);
+	   
+	   System.out.println(list);
+	   
+	   return new Gson().toJson(list);
+   }
+   
   
   
   
@@ -294,6 +363,86 @@ public class AdminController {
 	public String qnaStatusUpdate(int qnaNo) {
 		return adminService.qnaStatusUpdate(qnaNo) > 0 ? "success" : "fail";
 	}
+	
+	
+	
+	
+	
+	 
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	  // 김희재 ------------------------------------------------------------
+	
+	// 스터디룸 관리
+	// 스터디룸 조회
+	@RequestMapping("adminStudyRoom.ad")
+	public String adminStudyRoomMain(Model model, @RequestParam(value="aPage", defaultValue="1")int currentPage ) {
+		
+		PageInfo pi = Pagination.getPageInfo(adminService.adminStudyRoomListCount(), currentPage, 10, 10);
+		
+		model.addAttribute("list", adminService.selectAllStudyRoomList(pi));
+		model.addAttribute("pi", pi);
+
+		System.out.println(adminService.adminStudyRoomListCount());
+		System.out.println(adminService.selectAllStudyRoomList(pi));
+		return "admin/adminStudyRoom";
+	}
+	
+	// 스터디룸 추가
+	@RequestMapping("adminstudyRoomInsert.ad")
+	public String adminstudyRoomInsert() {
+		return "admin/adminStudyRoomEnrollForm";
+	}
+	
+	
+	
+	
+	// 스터디룸 삭제
+	@ResponseBody
+	@RequestMapping(value="deleteCheckStudyRoom.ad", produces="application/json; charset=UTF-8")
+	public int deleteCheckStudyRoom(@RequestParam(value="studyRoomNo[]")int[] studyRoomNo) {
+		
+		int result = 1;
+		for(int i = 0; i < studyRoomNo.length; i++) {
+			result = adminService.deleteCheckStudyRoom(studyRoomNo[i]);
+		}
+		return result;
+	}
+
+	
+	
+	
+	
+	//스터디밴드
+	@RequestMapping("adminStudyBand.ad")
+	public String adminStudyBandMain() {
+		return "admin/adminStudyBand";
+	}
+	
+	
    
    
    

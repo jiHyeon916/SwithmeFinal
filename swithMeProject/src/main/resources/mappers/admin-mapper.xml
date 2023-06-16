@@ -19,9 +19,53 @@
 		<result column="QNA_REPLY_CONTENT"		property="qnaReplyContent" />
 		<result column="QNA_REPLY_CREATE_DATE"	property="qnaReplyCreateDate" />
 	</resultMap>
+
+	<resultMap id="sRoomResultSet" type="studyRoom">
+		<result column="SR_NO" property="studyRoomNo" />
+		<result column="SR_NAME" property="studyRoomName"/>
+		<result column="SR_LOCATION" property="studyRoomLocation" />
+		<result column="SR_ADDRESS" property="studyRoomAddress" />
+		<result column="SR_LAT" property="studyRoomLat" />
+		<result column="SR_LNG" property="studyRoomLng" />
+		<result column="SR_PHONE" property="studyRoomPhone" />
+		<result column="SR_INTRODUCE" property="studyRoomIntroduce" />
+		<result column="SR_CREATEDATE" property="studyRoomCreatedate" />
+		<result column="SR_WEBSITE" property="studyRoomWebsite" />
+	</resultMap>
 	
-   <!-- 희재 -->
-   
+	<!-- 희재 -->
+	<!-- 스터디룸 게시글 수 -->
+	<select id="adminStudyRoomListCount" resultType="_int">
+		SELECT 
+			COUNT(*)
+		FROM
+			BOARD_STUDYROOM
+	</select>
+	
+	<!-- 스터디룸 메인 리스트 -->
+	<select id="selectAllStudyRoomList" resultMap="sRoomResultSet">
+		SELECT 
+			SR_NO 
+			,SR_NAME 
+			,SR_LOCATION
+			,SR_ADDRESS 
+			,SR_PHONE
+		FROM
+			BOARD_STUDYROOM
+		ORDER
+		BY
+			SR_NAME
+	</select>
+	
+	<!-- 스터디룸 삭제 -->
+   	<delete id="deleteCheckStudyRoom" parameterType="_int">
+   		DELETE
+   		FROM
+   			BOARD_STUDYROOM
+   		WHERE
+   			SR_NO=#{studyRoomNo}
+   	</delete>
+   			
    
    
    
@@ -183,7 +227,7 @@
    </update>
    
    
-   <!-- 회원 상세정보 조회(mainBoard) -->
+   <!-- 회원이 작성한 BOARD글(mainBoard) -->
    <select id="memberDetailBoard" parameterType="string" resultMap="boardResultSet">
          SELECT
                 BOARD_NO
@@ -202,9 +246,13 @@
                 B.MEMBER_ID IS NOT NULL
               AND 
               	BOARD_STATUS = 'Y'  
+              ORDER
+              	BY
+              	B.CREATE_DATE DESC
+        	
          
    </select>
-   
+   <!-- 회원이 작성한 BAND글  -->
     <select id="memberDetailBand" parameterType="string" resultMap="bandResultSet">
           SELECT
              SB_NO
@@ -220,6 +268,9 @@
              M.MEMBER_ID = #{memberId}
              AND S.MEMBER_ID IS NOT NULL
              AND SB_STATUS = 'Y'
+        ORDER
+            BY
+              CREATE_DATE DESC
              
                 
     </select>
@@ -241,6 +292,7 @@
    			
    </select>
    
+   <!-- 회원 board 삭제 -->
    <update id="deleteBoardDetail" parameterType="_int">
    		UPDATE
    			MAINBOARD
@@ -250,6 +302,8 @@
    			BOARD_NO = #{boardNo}		
    
    </update>
+   
+   <!-- 회원 band삭제 -->
    <update id="deleteBandDetail" parameterType="_int">
 	   	UPDATE
 	   			SBAND
@@ -259,10 +313,107 @@
 	   			SB_NO = #{boardNo}	
    
    </update>
+   
+   <!-- 회원이 쓴 글 board 제목으로 검색 -->
+   <select id="memBoardSearch" parameterType="hashmap" resultMap="boardResultSet">
+   
+   		 SELECT
+                BOARD_NO
+                ,B.MEMBER_ID
+                ,BOARD_TITLE
+                ,BOARD_CONTENT
+               ,B.CREATE_DATE          
+            FROM
+                MEMBER M
+            JOIN
+                MAINBOARD B ON M.MEMBER_ID = B.MEMBER_ID
+            
+            WHERE
+                M.MEMBER_ID = #{memberId}
+            AND 
+                BOARD_TITLE LIKE '%' || #{keyword} || '%'
+            AND
+            	BOARD_STATUS = 'Y'    
+            ORDER
+                BY
+                CREATE_DATE DESC
+   
+   </select>
+   
+   <!-- 회원이 쓴 글 board 내용으로 검색 -->
+  <select id="memSearchContent" parameterType="hashmap" resultMap="boardResultSet">
+  		SELECT
+                BOARD_NO
+                ,B.MEMBER_ID
+                ,BOARD_TITLE
+                ,BOARD_CONTENT
+               ,B.CREATE_DATE          
+            FROM
+                MEMBER M
+            JOIN
+                MAINBOARD B ON M.MEMBER_ID = B.MEMBER_ID
+            
+            WHERE
+                M.MEMBER_ID = #{memberId}
+            AND 
+                BOARD_CONTENT LIKE '%' || #{keyword} || '%'
+            AND
+            	BOARD_STATUS = 'Y'    
+            ORDER
+                BY
+                CREATE_DATE DESC
+  	
   
-    
+  </select>
+  
+  
+  <!-- 회원이 밴드 글 BAND 제목으로 검색 -->
+  <select id="memBandSearchTitle" parameterType="hashmap" resultMap="bandResultSet">
+  			SELECT
+                SB_NO
+                ,S.MEMBER_ID
+                ,SB_TITLE
+                ,SB_INTRODUCE
+               ,S.CREATE_DATE          
+            FROM
+                MEMBER M
+            JOIN
+                SBAND S ON M.MEMBER_ID = S.MEMBER_ID
+            
+            WHERE
+                M.MEMBER_ID = #{memberId}
+            AND 
+                SB_TITLE LIKE '%' || #{keyword} || '%'
+            AND
+            	SB_STATUS = 'Y'    
+            ORDER
+                BY
+                S.CREATE_DATE DESC
+    </select>
    
-   
+   <!-- 회원 band글 내용으로 검색 -->
+   <select id="memBandSearchContent" parameterType="hashMap" resultMap="bandResultSet">
+   		SELECT
+                SB_NO
+                ,S.MEMBER_ID
+                ,SB_TITLE
+                ,SB_INTRODUCE
+               ,S.CREATE_DATE          
+            FROM
+                MEMBER M
+            JOIN
+                SBAND S ON M.MEMBER_ID = S.MEMBER_ID
+            
+            WHERE
+                M.MEMBER_ID = #{memberId}
+            AND 
+                SB_INTRODUCE LIKE '%' || #{keyword} || '%'
+            AND
+            	SB_STATUS = 'Y'    
+            ORDER
+                BY
+                S.CREATE_DATE DESC
+   </select>
    
    
    

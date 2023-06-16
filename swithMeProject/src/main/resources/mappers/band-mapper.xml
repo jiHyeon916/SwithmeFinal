@@ -28,6 +28,7 @@
 		<result column="sb_status"     	 	 property="sbStatus" />
 		<result column="category"     	 	 property="sbCategory" />
 		<result column="create_date"     	 property="createDate" />
+		<result column="member_id"     	 	 property="memberIdId" />
 	</resultMap>
 	
 	<resultMap id="bandMemberResultSet" type="bandMember">
@@ -58,7 +59,7 @@
 		<result column="reply_status"        		 property="replyStatus" />
 	</resultMap>
 
-	<!-- test -->
+
 	<select id="selectTestBand" resultMap="bandResultSet">
 		SELECT
 			   	SB_NO
@@ -79,7 +80,7 @@
 		    BY
 				SB_NO DESC
 	</select>
-	<!-- test끝 -->
+
 	<select id="selectBandList" resultMap="bandBoardResultSet">				
 		SELECT DISTINCT
 			   	B.SB_BOARD_NO
@@ -162,8 +163,13 @@
 		SELECT
 				SB_TITLE
 			   ,SB_CHANGE_NAME
+			   ,A.MEMBER_ID
+               ,NICKNAME
+               ,SB_NO
 		  FROM
-				SBAND
+				SBAND A
+          JOIN
+                MEMBER B ON(A.MEMBER_ID = B.MEMBER_ID)
 		 WHERE
 				SB_NO = #{sno}
 		   AND
@@ -492,5 +498,43 @@
 			   ,#{sbContent}
 				)
 	</insert>
+	
+	<select id="selectBandSearchList" resultMap="bandBoardResultSet">				
+		SELECT DISTINCT
+			   	B.SB_BOARD_NO
+			   ,NICKNAME
+			   ,SB_CATEGORY
+			   ,TO_CHAR(SB_CREATE_DATE, 'YYYY-MM-DD') AS "SB_CREATE_DATE"
+			   ,SB_CONTENT
+			   ,SB_COUNT
+               ,COUNT(SB_REPLY_CONTENT)OVER(PARTITION BY R.SB_BOARD_NO) COUNT
+		  FROM
+				SBAND_BOARD B
+          LEFT JOIN
+                SBAND_REPLY R ON(R.SB_BOARD_NO = B.SB_BOARD_NO)
+          JOIN
+	            MEMBER M ON(M.MEMBER_ID = B.MEMBER_ID)
+		 WHERE
+				SB_NO = #{sbNo}
+		   AND
+				SB_CATEGORY = 'Y'
+		   AND
+				SB_STATUS = 'Y'
+		   AND
+        		SB_CONTENT LIKE '%' || #{ keyword } || '%'
+		 ORDER
+		    BY
+				SB_BOARD_NO DESC
+	</select>
+	
+	<select id="selectTotalMember" resultMap="bandMemberResultSet">
+		SELECT 
+				SB_NO
+			   ,MEMBER_ID
+		  FROM 
+		  		SBAND_MEMBER
+		 WHERE 
+		 		BANISH = 'Y'
+	</select>
 	
 </mapper>
