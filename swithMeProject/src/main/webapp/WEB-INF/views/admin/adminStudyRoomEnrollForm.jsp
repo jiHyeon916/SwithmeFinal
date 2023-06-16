@@ -8,6 +8,9 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<!--카카오 우편번호 서비스-->
+<script type="text/javascript" src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=8188ba557a9044b5d922513c971fc6ac&libraries=services"></script>
 </head>
 <style>
 /*공통*/
@@ -184,16 +187,96 @@ tr:hover{
                     </div>
 	         	</div>
 	         	
-	         	<div class="post_list">
-	
-	         	</div>
-	         	
+	         	<div class="post_middle">
+                        <div class="post_content" >
+                            <span>스터디룸 이름</span> 
+                            <input type="text" name="sutdyRoomName" id="studyRoomName"><br>
+                            <span>지역</span>
+                            <select name="studyRoomLocation" id="studyRoomLocation">
+                                <option  value="10">강원</option>
+                                <option  value="20">경기</option>
+                                <option  value="30">경남</option>
+                                <option  value="40">경북</option>
+                                <option  value="50">광주</option>
+                                <option  value="60">대구</option>
+                                <option  value="70">대전</option>
+                                <option  value="80">부산</option>
+                                <option  value="90">서울</option>
+                                <option  value="11">세종</option>
+                                <option  value="12">울산</option>
+                                <option  value="13">인천</option>
+                                <option  value="14">전남</option>
+                                <option  value="15">전북</option>
+                                <option  value="16">제주</option>
+                                <option  value="17">충남</option>
+                                <option  value="18">충북</option>
+                            </select><br>
+                            <span>주소</span>
+                            <input type="text" id="studyRoomAddress" placeholder="주소">
+                            <input type="button" onclick="sample5_execDaumPostcode()" value="주소 검색"><br>
+                            <span>전화번호</span>
+                            <input type="text" id="studyRoomPhone"><br>
+                            <span>소개글</span>
+                            <textarea name="studyRoomInfo" id="studyRoomInfo" cols="40" rows="8" style="resize:none;"></textarea><br>
+                            <span>사진</span><button>업로드</button><br>
+                            <div></div> &nbsp;&nbsp;
+                        </div>
+                         <div class="btn">
+                                <button type="button">취소</button>
+                                <button id="insertBtn">등록</button>
+                        </div>
+
+                </div>
 	      </div>
 	   </div>
+    <script>
+        function sample5_execDaumPostcode() {
+            //주소-좌표 변환 객체를 생성
+            var geocoder = new daum.maps.services.Geocoder();
+            new daum.Postcode({
+                oncomplete: function(data) {
+                    var addr = data.address; // 최종 주소 변수
+    
+                    // 주소 정보를 해당 필드에 넣는다.
+                    document.getElementById("studyRoomAddress").value = addr;
+                    // 주소로 상세 정보를 검색
+                    geocoder.addressSearch(data.address, function(results, status) {
+                        // 정상적으로 검색이 완료됐으면
+                        if (status === daum.maps.services.Status.OK) {
+                            var result = results[0]; //첫번째 결과의 값을 활용
+                            // 해당 주소에 대한 좌표
+                            console.log(result);
+                            var coordsLat = result.x;
+                            var coordsLng = result.y;
+                            $('#insertBtn').click(function(){
+                                $.ajax({
+                                    url : 'insertStudyRoom.me',
+                                    data : {
+                                        studyRoomName : $('#studyRoomName').val(),
+                                        studyRoomLocation : $("#studyRoomLocation option:selected").text(),
+                                        studyRoomAddress : $('#studyRoomAddress').val(),
+                                        studyRoomLat : coordsLat,
+                                        studyRoomLng : coordsLng,
+                                        studyRoomPhone : $('#studyRoomPhone').val(),
+                                        studyRoomIntroduce : $('#studyRoomInfo').val()
+                                    },
+                                    success : function(){
+                                        console.log('추가 성공');
+                                    }, 
+                                    error : function(){
+                                        console.log('실패');
+                                    }
+                                });
+                            });
 
-	   <script>
+                        }
+                    });
+                }
+            }).open();
 
-	   </script>
+        }
+    </script>
+     
 
 <br><br><br><br><br><br><br><br><br>
 </body>

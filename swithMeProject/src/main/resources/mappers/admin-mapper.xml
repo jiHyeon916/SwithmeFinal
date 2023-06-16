@@ -66,7 +66,34 @@
    			SR_NO=#{studyRoomNo}
    	</delete>
    			
+   <!-- 스터디룸 추가 -->
+   <insert id="SqlSessionTemplate" parameterType="studyRoom">
+   		INSERT
+   		INTO
+   			BOARD_STUDYROOM
+   			(
+   			SR_NO
+   			,SR_NAME
+   			,SR_LOCATION
+   			,SR_ADDRESS
+   			,SR_LAT
+   			,SR_LNG
+   			,SR_PHONE
+   			,SR_INTRODUCE
+   			)
+   		VALUES
+   			(
+   			SEQ_SR_NO.NEXTVAL
+   			,#{studyRoomName}
+   			,#{studyRoomLocation}
+   			,#{studyRoomAddress}
+   			,#{studyRoomLat}
+   			,#{studyRoomLng}
+   			,#{studyRoomPhone}
+   			,#{studyRoomIntroduce}
+   			)
    
+   </insert>
    
    
    
