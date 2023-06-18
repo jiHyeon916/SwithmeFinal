@@ -15,9 +15,8 @@ import com.kh.swithme.band.model.vo.BandReport;
 
 public interface BandService {
 	
-	// test
+	// 밴드 리스트 조회
 	ArrayList<Band> selectTestBand(Band b);
-	// test 끝
 	// ------------------- 밴드 메인 -------------------
 	// int selectListCount(); 페이징 처리가 필요하면 해야함!
 	
@@ -110,6 +109,8 @@ public interface BandService {
 
 	// 밴드 리더 위임 리스트 보여주기
 	ArrayList<BandMember> readerList(int sno);
+
+	ArrayList<BandMember> nickSearch(BandMember bm);
 
 
 

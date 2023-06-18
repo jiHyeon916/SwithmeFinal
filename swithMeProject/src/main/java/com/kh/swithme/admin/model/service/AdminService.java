@@ -98,6 +98,12 @@ public interface AdminService {
 	// 아이템 리스트 조회
 	ArrayList<Item> selectItemList(PageInfo pi, Item item);
 	
+	// 아이템 상태 업데이트
+	int itemStatusUpdate(Item item);
+	
+	// 아이템 수정
+	int itemUpdate(Item item);
+		
 	
 
 	

@@ -148,6 +148,10 @@ public class BandDao {
 		return num;
 	}
 
+	public ArrayList<BandMember> nickSearch(SqlSessionTemplate sqlSession, BandMember bm) {
+		return (ArrayList)sqlSession.selectList("bandMapper.nickSearch", bm);
+	}
+
 
 
 }

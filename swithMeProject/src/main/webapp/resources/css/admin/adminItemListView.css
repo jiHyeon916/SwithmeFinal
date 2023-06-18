@@ -135,10 +135,19 @@
 
 
 /* 아이템리스트 */
+#myItem {
+	width: 100%;
+	/* background-color: #03c373; */
+}
+#myItem > table{
+	width: 300px;
+	/* background-color :#a3a3a3; */
+}
 #myItem td{
 	/* border : 1px solid black; */
 	padding : 30px 12px;
 	text-align : center;
+	/* width : 100%; */
 }
 #myItem td>p{
 	color : #a3a3a3;
@@ -155,7 +164,8 @@
 	height : 100%;
 	object-fit : cover;
 }
-#myItem td>button{
+
+.update{
 	width : 60px;
 	height : 30px;
 	background-color : white;
@@ -165,18 +175,85 @@
 	font-size : 14px;
 	margin : 0 3px;
 }
-#myItem td>button:hover{
+
+.update:hover{
 	border : 1px solid rgb(3, 195, 115);
 	color : rgb(3, 195, 115);
 }
+/* 
 .testBtn{
 	background-color : rgb(3, 195, 115);
 	color : white;
 }
+ */
 .emptyList{	
 	display : block;
 	/* background-color : pink; */
 	text-align : center;
 	margin : 30px auto;
 	color : rgb(160, 160, 160);
+}
+.sale{
+	width : 60px;
+	height : 30px;
+	background-color : rgb(3, 195, 115);
+	border : none;
+	border-radius : 3px;
+	color : white;
+	font-size : 14px;
+	margin : 0 3px;
+}
+.notSale{
+	width : 60px;
+	height : 30px;
+	background-color : white;
+	border : 1px solid rgb(3, 195, 115);
+	border-radius : 3px;
+	color : rgb(3, 195, 115);
+	font-size : 14px;
+	margin : 0 3px;
+}
+
+
+/* 모달 스타일 */
+.modal_body #itemImg2{
+    width: 260px;
+    height: 260px;
+    border-radius: 10px;
+	border: 1px solid #a3a3a3;
+    /* background-color: gray; */
+    float: left;
+    margin-right: 30px;
+}
+#itemImg2 > img{
+	width: 100%;
+	border-radius: 10px;
+
+}
+#itemIntro2{
+    width: 320px;
+    float: left;
+	margin-top: 10px;
+}
+.itemType2{
+    display: inline-block;
+    border: 1px solid #03c373;
+    padding: 5px 10px;
+    border-radius: 15px;
+    color: #03c373;
+    text-align: left;
+    font-size: 13px;
+	margin-right: 10px;
+    margin-bottom: 10px;
+}
+.itemType3{
+	display: inline-block;
+    border: 1px solid #a3a3a3;
+    padding: 5px 10px;
+    border-radius: 15px;
+    color: #a3a3a3;
+    text-align: left;
+    font-size: 13px;
+	margin-right: 10px;
+    margin-bottom: 10px;
 }

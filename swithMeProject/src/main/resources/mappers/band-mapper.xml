@@ -543,4 +543,19 @@
 		 		MEMBER_ID = #{memId}
 	</select>
 	
+	<select id="nickSearch" resultType="bandMember">
+		SELECT 
+				NICKNAME memberId
+			   ,SB_NO sbNo
+			   ,A.MEMBER_ID memId
+	      FROM 
+	      		SBAND_MEMBER A
+	      JOIN
+	      		MEMBER B ON(A.MEMBER_ID = B.MEMBER_ID)
+		 WHERE 
+                SB_NO = #{sbNo}
+           AND
+		 		NICKNAME LIKE '%' || #{ key } || '%'
+	</select>
+	
 </mapper>

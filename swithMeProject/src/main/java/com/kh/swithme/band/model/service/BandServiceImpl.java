@@ -159,4 +159,9 @@ public class BandServiceImpl implements BandService {
 		return bandDao.selectTotalMember(sqlSession, bm);
 	}
 
+	@Override
+	public ArrayList<BandMember> nickSearch(BandMember bm) {
+		return bandDao.nickSearch(sqlSession, bm);
+	}
+
 }

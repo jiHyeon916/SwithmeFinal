@@ -126,8 +126,7 @@
 	                 		<br>
 	                        <div class="form-group">
 	                        	<div id="bandSearchBox">
-				                    <input type="text" id="searchBar">
-				                    <img src="/swithme/resources/images/band/search.png" alt="" id="searchImg">
+				                    <input type="text" id="searchBar" onkeyup="nickSearch(this);">
 				                </div>
 				                <input type="hidden" id="sNo" class="sno" name="sbNo" value="">
 				                <div class="readerPass">
@@ -294,36 +293,71 @@
 					console.log('실패');
 				}
 			})
-		});
-		
-		$(document).on('click', '#listMem', function(){
-			var mem = $(this).children(0).val();
-			$('.mem').attr('value', mem);
+			$(document).on('click', '#listMem', function(){
+				var mem = $(this).children(0).val();
+				$('.mem').attr('value', mem);
+				
+			});
 			
-		});
-		
-		$(document).on('click', '#finishReader', function(){
-			var message = '${sessionScope.finishMsg}';
-			alert(message);
+			$(document).on('click', '#finishReader', function(){
+				var message = '${sessionScope.finishMsg}';
+				alert(message);
+				
+			});
 			
+	
+			$(document).on('click', '#enrollMember', function(){
+				var message = '${sessionScope.alertBand}';
+				alert(message);
+				
+			});
+			
+			$(document).on('click', '#deleteMember', function(){
+				var message = '${sessionScope.alertDeleteBand}';
+				alert(message);
+			});
+			
+			$(document).on('click', '#reportBandBtn', function(){
+				var message = '${sessionScope.reportMsg}';
+				alert(message);
+			});
 		});
 		
+		
+		function nickSearch(e){
+			
+			var query = window.location.search;     
+			var param = new URLSearchParams(query);
+			var sno = param.get('sno');
+	        
+	        $.ajax({
+	            url : 'nickSearch.sb',
+	            data : {
+	            	sbNo : sno,
+	                key : $(e).val()
+	            },
+	            success : function(result){
+	                console.log(result);
+	                var searchList = '';
 
-		$(document).on('click', '#enrollMember', function(){
-			var message = '${sessionScope.alertBand}';
-			alert(message);
-			
-		});
-		
-		$(document).on('click', '#deleteMember', function(){
-			var message = '${sessionScope.alertDeleteBand}';
-			alert(message);
-		});
-		
-		$(document).on('click', '#reportBandBtn', function(){
-			var message = '${sessionScope.reportMsg}';
-			alert(message);
-		});
+	                for(var i in result){
+	                   if($(e).val() != ''){
+	                        searchList += "<label id='listMem'><input TYPE='radio' class='mem' name='memberId' value='" + result[i].memId + "' />" + result[i].memberId + "</label><br>"
+
+	                    }
+	                }
+	                console.log(searchList)
+	                if($(e).val() == '' || list.length == 0){
+	                	$('.readerPass').html('검색결과가 없습니다.');
+	                }else{
+	                	$('.readerPass').html(searchList);
+	                }
+	            },
+	            error : function(){
+	                console.log('닉네임 검색 실패');
+	            }
+	        });
+		}
     </script>
     
     

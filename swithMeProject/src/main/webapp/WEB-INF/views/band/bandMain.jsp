@@ -162,27 +162,56 @@
                  		<br>
                         <div class="form-group">
                         	<div>
+                        	<c:if test="${bandInfomation.memberIdId eq loginMember.memberId}">
                         		<div class="selectType">
                         			<select id="sbCategory" name="sbCategory">
 										<option value="Y" selected>일반글</option>
 										<option value="N">공지사항</option>
 									</select>
                         		</div>
+                        	</c:if>
                         		<div class="totalDetail1">
 									<textarea id="summernote" name="editordata"></textarea>
                         		</div>
-                        		<div class="fileType">
-                        			<input type="file" name="file1">
-                        			<input type="file" name="file2">
-                        			<input type="file" name="file3">
-                        			<input type="file" name="file4">
+                        		<div class="totalPhoto">
+	                        		<div class="img_box">
+	                        			<label class="labetPhoto" for="file1">첨부</label>
+	                        			<div class="img_container">
+	                        				<img id="img1" src="">
+	                        			</div>
+	                        		</div>
+	                        		<div class="img_box">
+	                        			<label class="labetPhoto" for="file2">첨부</label>
+	                        			<div class="img_container">
+	                        				<img id="img2" src="">
+	                        			</div>
+	                        		</div>
+	                        		<div class="img_box">
+	                        			<label class="labetPhoto" for="file3">첨부</label>
+	                        			<div class="img_container">
+	                        				<img id="img3" src="">
+	                        			</div>
+	                        		</div>
+	                        		<div class="img_box">
+	                        			<label class="labetPhoto" for="file4">첨부</label>
+	                        			<div class="img_container">
+	                        				<img id="img4" src="">
+	                        			</div>
+	                        		</div>
+
+	                        		<div class="fileType">
+	                        			<input type="file" id="file1" accept="image/*" name="file1" onchange="setImage(this,1);" />
+	                        			<input type="file" id="file2" accept="image/*" name="file2" onchange="setImage(this,2);" />
+	                        			<input type="file" id="file3" accept="image/*" name="file3" onchange="setImage(this,3);" />
+	                        			<input type="file" id="file4" accept="image/*" name="file4" onchange="setImage(this,4);" />
+	                        		</div>
                         		</div>
                         	</div>
                         </div>
                         <br>
                         <div class="btnGroupMain">
 	                        <button class="enrollConfirm" id="bandBoardEnroll" type="button">등록하기</button>
-	                        <button class="enrollDismiss" type="button" data-dismiss="modal">취소하기</button>
+	                        <button class="enrollDismiss" id="disMissBoard" type="button" data-dismiss="modal">취소하기</button>
                         </div>
 	                </div>
             	</div>
@@ -254,6 +283,39 @@
 					}
 				});
 			}
+			
+			// 게시글 이미지 영역
+			function setImage(inputFile, num) {
+				var imgSrc1 = $('#img1').attr('src');
+				var imgSrc2 = $('#img2').attr('src');
+				var imgSrc3 = $('#img3').attr('src');
+				var imgSrc4 = $('#img4').attr('src');
+
+				if(inputFile.files.length == 1){
+		
+					let reader = new FileReader();
+		
+		            reader.readAsDataURL(inputFile.files[0]);
+		
+		            reader.onload = function(e){
+		    				
+		            switch(num){
+	                    case 1 : $('#img1').attr('src', e.target.result); break;
+	                    case 2 : $('#img2').attr('src', e.target.result); break;
+	                    case 3 : $('#img3').attr('src', e.target.result); break;
+	                    case 4 : $('#img4').attr('src', e.target.result); break;
+	                }
+		                
+					$('#disMissBoard').click(function(){
+							$('.img_container>#img1').attr('src', "");
+							$('.img_container>#img2').attr('src', "");
+							$('.img_container>#img3').attr('src', "");
+							$('.img_container>#img4').attr('src', "");
+					})
+					
+					} 
+				}
+			};		
 						
 			// 게시글 작성 영역
 			$(document).on('click','#bandBoardEnroll', function(){
@@ -285,6 +347,7 @@
 					}
 				})
 			});
+			
 			
 			// 댓글 영역
 			
