@@ -615,6 +615,30 @@
 		</choose>
 	</select>
 
+	<!-- 아이템 상태 업데이트 -->
+	<update id="itemStatusUpdate" parameterType="item">
+		UPDATE
+		       BOARD_ITEM
+		   SET
+		       ITEM_STATUS = #{ itemStatus }
+		 WHERE
+		       ITEM_NO = #{ itemNo }
+	</update>
+
+	<!-- 아이템 수정 -->
+	<update id="itemUpdate" parameterType="item">
+		UPDATE
+		       BOARD_ITEM
+		   SET
+			   ITEM_CATEGORY = #{ itemCategory },
+			   ITEM_NAME =  #{ itemName },
+			   ITEM_CONTENT = #{ itemContent },
+			   ITEM_PRICE = #{ itemPrice },
+			   ITEM_PHOTO = #{ itemPhoto }
+		 WHERE
+		       ITEM_NO = #{ itemNo }
+	</update>
+
 
 
 </mapper>
