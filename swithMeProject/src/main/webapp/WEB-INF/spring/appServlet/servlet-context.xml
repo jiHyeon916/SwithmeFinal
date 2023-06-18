@@ -51,6 +51,8 @@
 			<mapping path="/qnaAnswerList"/>
 			<mapping path="/qnaAnswerUpdate"/>
 			<mapping path="/itemList.ad"/>
+			<mapping path="/itemSatusUpdate.ad"/>
+			<mapping path="/itemUpdate.ad"/>
 			<mapping path="/selectItemList.ad"/>
 			<mapping path="/itemEnrollForm.ad"/>
 			<mapping path="/insertItem.ad"/>
