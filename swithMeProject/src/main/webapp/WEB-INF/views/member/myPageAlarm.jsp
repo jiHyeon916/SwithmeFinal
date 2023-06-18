@@ -7,6 +7,14 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <link rel="stylesheet" href="resources/css/member/myPoint.css">
+
+
+<style>
+#pointList > tbody > tr:hover{
+	cursor:pointer;
+	background-color:rgb(241, 241, 241);
+}
+</style>
 </head>
 <body>
 	<jsp:include page="../common/header.jsp" />
@@ -39,13 +47,6 @@
 					</tbody>
 				</table>
 				<br><br>
-				<div class="paBtn">
-					<button>1</button>
-					<button>2</button>
-					<button>3</button>
-					<button>4</button>
-					<button>5</button>
-				</div>
 				
 			</div>
 			
@@ -53,14 +54,13 @@
 				
 				let sortType = '';
 				let sort = ''; // 게시판 or 스터디밴드 구분용 빈문자열 선언 
+				let status = '';
 	
 				var memberId = '${loginMember.memberId}';
 				console.log(memberId);
 				
 				$(function(){
-					
 					AlarmList(); // 알림내역
-					
 				}); 
 				
 				// 알림 내역
@@ -99,6 +99,15 @@
 										sort = '[밴드]'
 									};
 									
+									
+									if(list[i].alarmStatus == 'Y'){
+										status = '안읽음'
+									}else{
+										status = '읽음'
+									};
+									
+									
+									
 									let category = '';
 									
 									for(var key in comment){ //이거 물어보기 
@@ -108,12 +117,12 @@
 										}
 									}
 									value += '<tr>'
+										  +'<input type="hidden" name="sortType" value="' + list[i].alarmSort +'" />'
+										  +'<input type="hidden" name="sortType" value="' + list[i].alarmBoardNo + '" />'
 										  +	'<td>' + sort + category +  '</td>'
-										  + '<td>' + list[i].alarmStatus + '</td>'
+										  + '<td>' + status + '</td>'
 										  + '<td>' + list[i].alarmDate + '</td>'
 										  + '</tr>'
-									
-									
 									
 								};
 								
@@ -125,6 +134,23 @@
 					});
 				}
 			
+				
+				//알림 클릭시 해당 게시글로 이동
+				$(document).on('click','#pointList > tbody > tr', function() {
+					
+					let board =$(this).children().eq(0).val();//게시판인지 밴드인지
+					console.log(board);  //보드넘버 == s인지 
+					
+					let bNo = $(this).children().eq(1).val();
+					console.log(bNo); //보드 넘버 
+					
+				
+				
+										//보드넘버
+			
+				});
+				
+				
 			</script>
 			
 			
