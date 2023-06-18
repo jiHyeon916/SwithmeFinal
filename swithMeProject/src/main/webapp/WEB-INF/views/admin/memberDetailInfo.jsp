@@ -215,8 +215,8 @@
 						                           		 +'<td>' + list.boardTitle + '</td>'
 						                           		 +'<td>' + list.boardContent + '</td>'
 						                           		 +'<td>' + list.createDate + '</td>'
-					                        			 +'<td>' + '<input type="checkbox" value="' + boardNo + '" name="BoardChkDel" id="admemBoardChkDel"></input>' + '</td>'
-					                        			 +'</tr>'
+					                        			 +'<td>' + '<input type="checkbox" value="' + boardNo + '" name="BoardChkDel" id="admemBoardChkDel"></input>' + '</td>' 
+					                        			 +'</tr>' //value값에 원하는 값을 담아서 체크되면 넘기기 
                         						}
                        					 $('#adminMemberTable tbody').html(value);
                         			 }else{
