@@ -117,6 +117,8 @@
 										}
 									}
 									value += '<tr>'
+										  +'<input type="hidden" name="sortType" value="' + list[i].alarmSort +'" />'
+										  +'<input type="hidden" name="sortType" value="' + list[i].alarmBoardNo + '" />'
 										  +	'<td>' + sort + category +  '</td>'
 										  + '<td>' + status + '</td>'
 										  + '<td>' + list[i].alarmDate + '</td>'
@@ -136,8 +138,11 @@
 				//알림 클릭시 해당 게시글로 이동
 				$(document).on('click','#pointList > tbody > tr', function() {
 					
-					let board =$(this).children().eq(0).text();//게시판인지 밴드인지
-					console.log(board);  //보드넘버
+					let board =$(this).children().eq(0).val();//게시판인지 밴드인지
+					console.log(board);  //보드넘버 == s인지 
+					
+					let bNo = $(this).children().eq(1).val();
+					console.log(bNo); //보드 넘버 
 					
 				
 				
