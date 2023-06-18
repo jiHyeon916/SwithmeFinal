@@ -156,6 +156,9 @@ public class BandController {
 	public String ajaxInsertBandReply(BandReply br, String sbReplyContent, int sbBoardNo) {
 		br.setSbReplyContent(sbReplyContent.replace(System.getProperty("line.separator"), "<br>"));
 		br.setSbBoardNo(sbBoardNo);
+		//if(bandService.ajaxInsertBandReply(br) > 0) {
+			// bandService.insertBandAlarm
+		//}
 		return bandService.ajaxInsertBandReply(br) > 0 ? "success" : "fail";
 	}
 	
@@ -371,6 +374,17 @@ public class BandController {
 		}
 		
 		return "redirect:/studyBand.bo/detail.bo?sno=" + sbNo;
+	}
+	
+	// 리더 위임 닉네임 검색
+	@RequestMapping(value="studyBand.bo/nickSearch.sb", produces="application/json; charset=UTF-8")
+	public String nickSearch(String key, int sbNo, BandMember bm) {
+		bm.setSbNo(sbNo);
+		bm.setKey(key);
+		System.out.println(bandService.nickSearch(bm));
+		System.out.println(sbNo);
+		System.out.println(key);
+		return new Gson().toJson(bandService.nickSearch(bm));
 	}
 
 	// 밴드 강제 탈퇴
