@@ -162,8 +162,17 @@ public class AdminDao {
 		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
 		return (ArrayList)sqlSession.selectList("adminMapper.selectItemList", item, rowBounds);
 	};
-		
-
+	
+	// 아이템 상태 업데이트
+	public int itemStatusUpdate(SqlSessionTemplate sqlSession, Item item) {
+		return sqlSession.update("adminMapper.itemStatusUpdate", item);
+	};
+	
+	// 아이템 수정
+	public int itemUpdate(SqlSessionTemplate sqlSession, Item item) {
+		return sqlSession.update("adminMapper.itemUpdate", item);
+	}
+	
 
 
 

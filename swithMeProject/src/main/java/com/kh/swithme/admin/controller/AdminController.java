@@ -414,6 +414,31 @@ public class AdminController {
 			return "redirect:itemList.ad";
 		}
 	}
+
+	// 관리자 아이템 상태변경
+	@ResponseBody
+	@RequestMapping(value="itemSatusUpdate.ad", produces="application/json; charset=UTF-8")
+	public int itemStatusUpdate(Item item) {
+		return adminService.itemStatusUpdate(item);
+	};
+	
+	// 관리자 아이템 수정
+	@ResponseBody
+	@RequestMapping("itemUpdate.ad")
+	public int itemUpdate(Item item, String originPhoto, MultipartFile reUpFile, HttpSession session) {
+		// 1) 원본사진 O / 내용변경 O
+		// 2) 새사진 O / 내용변경 O
+		// 3) 새사진 O / 내용변경 X
+		if(!reUpFile.getOriginalFilename().equals("")) {
+			// 새로 첨부된 사진이 있을 경우 -> 기존에 있던 사진 delete & 사진 insert & 전체 update
+			new File(session.getServletContext().getRealPath(originPhoto)).delete();
+			String changeName = "resources/uploadFiles/item/" + saveFile(reUpFile, session);
+			item.setItemPhoto(changeName);
+		} else {
+			item.setItemPhoto(originPhoto);
+		}
+		return adminService.itemUpdate(item);
+	};
 	
 	// 사진 사용 메소드
 	public String saveFile(MultipartFile upfile, HttpSession session) { // 실제 넘어온 파일의 이름을 변경해서 서버에 업로드
