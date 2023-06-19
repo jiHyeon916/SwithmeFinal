@@ -137,8 +137,14 @@ public class MemberServiceImpl implements MemberService{
 		@Override
 		public ArrayList<Alarm> selectAlarmList(String memberId) {
 			return memberDao.selectAlarmList(sqlSession, memberId);
-		};
+		}
 		
+		//알람 읽음 여부
+		@Override
+		public int readAlarm(Alarm alarm) {
+			return memberDao.readAlarm(sqlSession, alarm);
+		}
+
 
 	
 	   
@@ -352,6 +358,7 @@ public class MemberServiceImpl implements MemberService{
 		return memberDao.joinItem(sqlSession, m);
 	};
 
+	
 	
 
 }

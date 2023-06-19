@@ -280,6 +280,9 @@ public class BoardServiceImpl implements BoardService {
 		return boardDao.studyRoomSearch(sqlSession, map);
 	}
 	
+	
+	
+	
 
 
 

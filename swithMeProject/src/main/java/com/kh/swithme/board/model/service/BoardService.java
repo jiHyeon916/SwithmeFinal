@@ -198,6 +198,7 @@ public interface BoardService {
 	ArrayList<StudyRoom> studyRoomSearch(HashMap<String, String> map);
 	
 	
+//--- 지현
 	
 		
 }

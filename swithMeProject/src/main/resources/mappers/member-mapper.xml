@@ -39,6 +39,7 @@
 		<result column="ALARM_DATE"			property="alarmDate" />
 		<result column="ALARM_STATUS"		property="alarmStatus" />
 		<result column="ALARM_SORT"			property="alarmSort" />
+		<result column="ALARMSUB_NO"		property="alarmSubNo" />
 	</resultMap>
 	
 	<resultMap id="qnaResultSet" type="qna">
@@ -348,8 +349,6 @@
 	
 	
 	
-	
-	
 	<!-- 지현 -->
 	
 		<!-- 아이디 체크용 쿼리  -->
@@ -565,11 +564,11 @@
 		
 		<!-- 알림 조회 -->
 		<select id="selectAlarmList" parameterType="string" resultMap="alarmResultSet">
-		SELECT ALARM_CATEGORY, ALARM_BOARD_NO , SUBSTR(ALARM_NO, 1, 1) "ALARM_SORT", TO_CHAR(ALARM_DATE, 'YYYY-MM-DD HH:MI:SS') "ALARM_DATE", S.ALARM_STATUS
+		SELECT ALARM_CATEGORY, ALARM_BOARD_NO , SUBSTR(ALARM_NO, 1, 1) "ALARM_SORT", SUBSTR(ALARM_NO, 3,2) "ALARMSUB_NO", TO_CHAR(ALARM_DATE, 'YYYY-MM-DD HH:MI:SS') "ALARM_DATE", S.ALARM_STATUS
 		                  FROM BOARD_ALARM S
 		                 WHERE ALARM_MEMBER_ID = #{memberId}
 		                 UNION ALL
-		                	SELECT ALARM_CATEGORY, ALARM_SB_NO, SUBSTR(ALARM_NO, 1, 1) "ALARM_SORT", TO_CHAR(ALARM_DATE, 'YYYY-MM-DD HH:MI:SS') "ALARM_DATE", B.ALARM_STATUS
+		                	SELECT ALARM_CATEGORY, ALARM_SB_NO, SUBSTR(ALARM_NO, 1, 1) "ALARM_SORT", SUBSTR(ALARM_NO, 3,2) "ALARMSUB_NO", TO_CHAR(ALARM_DATE, 'YYYY-MM-DD HH:MI:SS') "ALARM_DATE", B.ALARM_STATUS
 		                  FROM BAND_ALARM B
 		                 	WHERE ALARM_MEMBER = #{memberId}
 		                 ORDER 
@@ -579,7 +578,21 @@
 	
 		
 		
-		
+		<!-- 알람 읽음여부 -->
+			<update id="readAlarm" parameterType="alarm">
+				UPDATE
+					BOARD_ALARM
+				SET
+					ALARM_STATUS = 'N'
+				WHERE
+					ALARM_BOARD_NO = #{alarmBoardNo}	
+				AND
+					SUBSTR(ALARM_NO, 3, 2) = #{alarmSubNo}			
+					
+				
+			</update>
+	
+	
 		
 		
 		
@@ -667,7 +680,7 @@
 	<select id="selectAlarmList5" parameterType="string" resultMap="alarmResultSet">
 		SELECT *
 		  FROM (SELECT ROWNUM, A.*
-		          FROM (SELECT ALARM_CATEGORY, ALARM_BOARD_NO , SUBSTR(ALARM_NO, 1, 1) "ALARM_SORT", TO_CHAR(ALARM_DATE, 'YYYY-MM-DD HH:MI:SS') "ALARM_DATE"
+		          FROM (SELECT ALARM_CATEGORY, ALARM_BOARD_NO , SUBSTR(ALARM_NO, 1, 1) "ALARM_SORT",  TO_CHAR(ALARM_DATE, 'YYYY-MM-DD HH:MI:SS') "ALARM_DATE"
 		                  FROM BOARD_ALARM
 		                 WHERE ALARM_MEMBER_ID = #{memberId}
 		                 UNION ALL
@@ -877,23 +890,6 @@
 		  FROM QNA
 		 WHERE QNA_NO = ${ qno }
 	</delete>
-	
-	<!-- 회원가입시 기본 캐릭터 지급 -->
-	<insert id="joinItem" parameterType="member">
-		INSERT 
-		  INTO MEMBER_ITEM
-		  	   (
-		  	   ITEM_NO
-	  		  ,MEMBER_ID
-	  		  ,WEAR_STATUS 
-	  		   ) 
-		VALUES 
-			   (
-			   0
-			  ,#{memberId}
-			  ,'Y'
-			   )
-	</insert>
 	
 	
 
