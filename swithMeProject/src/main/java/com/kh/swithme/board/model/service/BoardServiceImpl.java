@@ -108,8 +108,16 @@ public class BoardServiceImpl implements BoardService {
 		return boardDao.insertReply(sqlSession, r);
 	}
 	@Override
+	public int insertReplyAlarm(int boardNo) {
+		return boardDao.insertReplyAlarm(sqlSession, boardNo);
+	}
+	@Override
 	public int reReplyBoard(ReReply rere) {
 		return boardDao.reReplyBoard(sqlSession, rere);
+	}
+	@Override
+	public int reReplyBoardAlarm(ReReply rere) {
+		return boardDao.reReplyBoardAlarm(sqlSession, rere);
 	}
 	@Override
 	public int test(Board b) {
@@ -168,7 +176,7 @@ public class BoardServiceImpl implements BoardService {
 		return boardDao.replyDelete(sqlSession, replyNo);
 	}
 	@Override
-	public int studyBandInsert(Board b) {
+	public int studyBandInsert(Band b) {
 		return boardDao.studyBandInsert(sqlSession, b);
 	}
 	@Override

@@ -134,6 +134,7 @@
 		border: 1px solid rgb(223,223,223);
 		padding: 0;
 		overflow: hidden;
+		cursor: pointer;
 	}
 	#more > img{
 		width: 100%;
@@ -198,7 +199,6 @@
 	  <div class="swiper-slide main1"></div>
 	  <div class="swiper-slide main2"></div>
 	  <div class="swiper-slide main3"></div>
-	  ...
 	</div>
 	<div class="swiper-pagination"></div>
   
@@ -291,11 +291,11 @@
 		loop: true,
 
 		pagination: {
-			//el: '.promotion .swiper-pagination',
+			el: '.promotion .swiper-pagination',
 			clickable: true,
 		},
 		autoplay: {
-			delay: 3000, // 시작시간 설정
+			delay: 2000, // 시작시간 설정
 		},
 		loop: true,
 		navigation: {
@@ -337,7 +337,7 @@
 							+ '</div>'
 				}
 				
-				result += '<div id="more"><img src="resources/images/common/moreproject.jpg"></div>'
+				result += '<div id="more" onclick="band();"><img src="resources/images/common/moreproject.jpg"></div>'
 				
 				$('#study6').html(result);
 				
@@ -347,6 +347,8 @@
 			}
 
 		})
+
+		
 	})
 
 
@@ -378,7 +380,7 @@
 							+ '</div>'
 				}
 				
-				result += '<div id="more"><img src="resources/images/common/moreproject.jpg"></div>'
+				result += '<div id="more" onclick="band();"><img src="resources/images/common/moreproject.jpg"></div>'
 				
 				$('#study6').html(result);
 				
@@ -393,6 +395,10 @@
 		$($(e).children('p')).toggle();
 	}
 
+	function band(){
+		location.href="studyBand.bo";
+	}
+	
   </script>
 	
 

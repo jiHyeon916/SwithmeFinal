@@ -478,6 +478,7 @@
             $.ajax({
                 url : 'reReply.bo',
                 data : {
+                    boardNo : '${ b.boardNo }',
                     replyNo : reReplyNo,
                     reReplyCon : $(e).prev().val(),
                     memberId : '${ sessionScope.loginMember.memberId }'
