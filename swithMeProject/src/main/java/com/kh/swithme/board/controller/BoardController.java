@@ -702,7 +702,33 @@ public class BoardController {
 		}
 		
 	}
+
+	/**
+	 * 캐릭터 배경화면
+	 * @param category 적용할 카테고리
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value="itemListUpdate", produces="application/json; charset=UTF-8")
+	public String itemListUpdate(String category) {
+		System.out.println(category);
+		
+		JSONObject jobj = new JSONObject();
+		jobj.put("list", boardService.itemListUpdate(category));
+		// jobj.put("pi", pi);
+		return new Gson().toJson(jobj);
+	}
 	
+	
+	
+	
+	// ********************* 메인..
+	@ResponseBody
+	@RequestMapping(value="mainStudy", produces="application/json; charset=UTF-8")
+	public String mainStudy(String category) {
+		return new Gson().toJson(boardService.mainStudy(category));
+		
+	}
 	
 	
 	

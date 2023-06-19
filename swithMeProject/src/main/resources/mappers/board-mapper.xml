@@ -1168,5 +1168,59 @@
 		  	  )
 	</insert>
 	
+	<!-- 아이템 정렬 -->
+	<select id="itemListUpdate" resultMap="itemResultSet">
+		SELECT
+              ITEM_NO
+             ,ITEM_CATEGORY
+             ,ITEM_NAME
+             ,ITEM_CONTENT
+             ,ITEM_PRICE
+             ,ITEM_PHOTO
+    	  FROM
+              BOARD_ITEM
+		 WHERE
+              ITEM_STATUS = 'Y'
+           AND
+           	  ITEM_NO != 0
+           AND
+              ITEM_CATEGORY = #{category}
+	</select>
+	
+	
+	
+	
+	
+	
+	<!-- 메인 스터디 리스트 뽑기 -->
+	<select id="mainStudy" resultMap="bandResultSet">
+		SELECT 
+			  *
+		  FROM
+		  	  (SELECT
+				    SB_NO
+				   ,NICKNAME AS "MEMBER_ID"
+				   ,SB_TITLE
+				   ,SB_INTRODUCE
+				   ,SB_CHANGE_NAME
+				   ,SB_RECRUIT_MEM
+				   ,SB_NOW_MEM
+				   ,CATEGORY
+			    FROM
+			  	    SBAND
+			    JOIN
+			  	    MEMBER USING(MEMBER_ID)
+			   WHERE
+			 	    SB_STATUS = 'Y'
+			 	 	<if test="category != '전체보기'">
+			     AND
+			   	    CATEGORY = #{ category }
+			     	</if>
+			     
+			   ORDER
+			      BY
+			        CREATE_DATE DESC)
+	 	WHERE ROWNUM <![CDATA[ < 6 ]]>	  
+	</select>
 	
 </mapper>
