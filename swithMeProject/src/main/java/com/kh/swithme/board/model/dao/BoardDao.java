@@ -78,8 +78,14 @@ public class BoardDao {
 	public int insertReply(SqlSessionTemplate sqlSession, Reply r) {
 		return sqlSession.insert("boardMapper.insertReply", r);
 	}
+	public int insertReplyAlarm(SqlSessionTemplate sqlSession, int boardNo) {
+		return sqlSession.insert("boardMapper.insertReplyAlarm", boardNo);
+	}
 	public int reReplyBoard(SqlSessionTemplate sqlSession, ReReply rere) {
 		return sqlSession.insert("boardMapper.reReplyBoard", rere);
+	}
+	public int reReplyBoardAlarm(SqlSessionTemplate sqlSession, ReReply rere) {
+		return sqlSession.insert("boardMapper.reReplyBoardAlarm", rere);
 	}
 	public int tagInsert(SqlSessionTemplate sqlSession, String tagList) {
 		return sqlSession.insert("boardMapper.tagInsert", tagList);
@@ -130,7 +136,7 @@ public class BoardDao {
 	public int replyDelete(SqlSessionTemplate sqlSession, int replyNo) {
 		return sqlSession.update("boardMapper.replyDelete", replyNo);
 	}
-	public int studyBandInsert(SqlSessionTemplate sqlSession, Board b) {
+	public int studyBandInsert(SqlSessionTemplate sqlSession, Band b) {
 		return sqlSession.insert("boardMapper.studyBandInsert", b);
 	}
 	public int studyMemberInsert(SqlSessionTemplate sqlSession, String memberId) {
@@ -235,7 +241,6 @@ public class BoardDao {
 	public ArrayList<Band> mainStudy(SqlSessionTemplate sqlSession, String category) {
 		return (ArrayList)sqlSession.selectList("boardMapper.mainStudy", category);
 	}
-	
 	
 	
 	

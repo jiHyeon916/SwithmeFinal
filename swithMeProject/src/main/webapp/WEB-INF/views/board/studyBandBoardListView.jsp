@@ -74,7 +74,7 @@
                     <div class="studyBandList clear">
                         <div class="studyBandId">${ b.memberId }</div>
                         <div class="studyBandInfo">
-                            <img src="resources/images/board/test.png" alt="dd">
+                            <img src="${ b.sbChangeName }" alt="dd">
                             <div>
                                 <p class="studyBandName">${b.sbTitle}</p>
                                 <p class="studyBandIntro">

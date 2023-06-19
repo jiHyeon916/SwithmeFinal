@@ -74,8 +74,14 @@ public interface BoardService {
 	// 게시글 상세 조회 - 댓글 작성
 	int insertReply(Reply r);
 	
+	// 댓글 알람 인서트
+	int insertReplyAlarm(int boardNo);
+	
 	// 게시글 상세 조회 - 대댓글 작성 
 	int reReplyBoard(ReReply rere);
+	
+	// 대댓글 알람 
+	int reReplyBoardAlarm(ReReply rere);
 	
 	// 게시글 작성 
 	int test(Board b);
@@ -122,7 +128,7 @@ public interface BoardService {
 
 	
 	// 스터디 밴드 모집하기	
-	int studyBandInsert(Board b);
+	int studyBandInsert(Band b);
 	
 	// 스터디 멤버 리스트에 방장 넣기
 	int studyMemberInsert(String memberId);
@@ -170,6 +176,10 @@ public interface BoardService {
 	
 	// **************** 메인 어디다.?
 	ArrayList<Band> mainStudy(String category);
+	
+	
+	
+	
 	
 	
 ////------------------희재 - 스터디룸 
