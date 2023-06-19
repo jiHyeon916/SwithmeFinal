@@ -909,6 +909,23 @@
 		 WHERE QNA_NO = ${ qno }
 	</delete>
 	
+	<!-- 회원가입시 기본 캐릭터 지급 -->
+	<insert id="joinItem" parameterType="member">
+		INSERT 
+		  INTO MEMBER_ITEM
+		  	   (
+		  	   ITEM_NO
+	  		  ,MEMBER_ID
+	  		  ,WEAR_STATUS 
+	  		   ) 
+		VALUES 
+			   (
+			   0
+			  ,#{memberId}
+			  ,'Y'
+			   )
+	</insert>
+	
 	<!-- 보유 아이템 리스트 카운트 -->
 	<select id="myItemListCount" parameterType="memberItem" resultType="_int">
 		SELECT COUNT(*)
