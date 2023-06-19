@@ -207,6 +207,19 @@ public class BoardServiceImpl implements BoardService {
 	public ArrayList<Item> itemBoard() {
 		return boardDao.itemBoard(sqlSession);
 	}
+	@Override
+	public int itemCheck(Board b) {
+		return boardDao.itemCheck(sqlSession, b);
+	}
+	@Override
+	public int itembuyPoint(Board b) {
+		return boardDao.itembuyPoint(sqlSession, b);
+	}
+	@Override
+	public int itemGet(Board b) {
+		return boardDao.itemGet(sqlSession, b);
+	}
+	
 	
 
 

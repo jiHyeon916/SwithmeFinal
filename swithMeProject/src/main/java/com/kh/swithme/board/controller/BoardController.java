@@ -664,8 +664,43 @@ public class BoardController {
 	 */
 	@ResponseBody
 	@RequestMapping("getTotalPoint.bo")
-	public int getTotalPoint(String memberId) {
-		return memberService.selectTotalPoint(memberId);
+	public int getTotalPoint(String memberId, HttpSession session) {
+		if(session.getAttribute("loginMember") != null) {
+			return memberService.selectTotalPoint(memberId);
+		}
+		return 0;
+	}
+	
+	/**
+	 * 아이템 구매하기 (임시로 Board에 값 담아서 전송)
+	 * @param itemNo 구매할 아이템 번호 
+	 * @param point 아이템 가격
+	 * @param session
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping("itemGet")
+	public int itemGet(int itemNo, int point, HttpSession session) {
+		
+		if(session.getAttribute("loginMember") != null) {
+			String id = ((Member)session.getAttribute("loginMember")).getMemberId();
+			Board b = new Board();
+			b.setMemberId(id);
+			b.setCount(point);
+			b.setLikeCount(itemNo);
+			
+			if(boardService.itemCheck(b) > 0 ) {
+				return -1;
+			}else {
+				if(boardService.itembuyPoint(b) > 0) {
+					return boardService.itemGet(b);
+				}
+			}
+			return 0;
+		}else {
+			return 0;
+		}
+		
 	}
 	
 	

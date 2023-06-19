@@ -151,6 +151,15 @@ public interface BoardService {
 	// 아이템 리스트 가져오기
 	ArrayList<Item> itemBoard();
 	
+	// 보유한 아이템인지 확인 
+	int itemCheck(Board b);
+	
+	// 아이템 구매 포인트 차감 
+	int itembuyPoint(Board b);
+	
+	// 아이템 구매하기
+	int itemGet(Board b);
+	
 	
 	
 	

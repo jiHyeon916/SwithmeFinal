@@ -1123,7 +1123,50 @@
               BOARD_ITEM
 		 WHERE
               ITEM_STATUS = 'Y'
+           AND
+           	  ITEM_NO != 0
 	</select>
+	
+	<!-- 보유 중인 아이템인지 확인  -->
+	<select id="itemCheck" resultType="_int">
+		SELECT
+			  COUNT(*)
+	      FROM
+			  MEMBER_ITEM
+		 WHERE
+		 	  MEMBER_ID = #{memberId}
+		   AND
+		      ITEM_NO = #{likeCount}
+	</select>
+	
+	<!-- 아이템 구매시 포인트 차감  -->
+	<insert id="itembuyPoint">
+		INSERT
+		  INTO
+		  	  POINT
+		VALUES
+			  (
+			  #{ memberId }
+			  ,#{ count }
+			  ,'아이템 구매'
+			  ,'Y'
+			  ,SYSDATE
+			  )
+	</insert>
+	
+	
+	<!-- 구매한 아이템 보유 목록으로 이동  -->
+	<insert id="itemGet">
+		INSERT
+		  INTO
+		      MEMBER_ITEM
+		VALUES
+		  	  (
+		  	  #{ likeCount }
+		  	  ,#{ memberId }
+		  	  ,'Y'
+		  	  )
+	</insert>
 	
 	
 </mapper>
