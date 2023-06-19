@@ -188,6 +188,7 @@ tr:hover{
 	         	</div>
 	         	
 	         	<div class="post_middle">
+                    <form id="studyRoomEnrollForm" action="insertStudyRoom.me" method="post" enctype="multipart/form-data">
                         <div class="post_content" >
                             <span>스터디룸 이름</span> 
                             <input type="text" name="sutdyRoomName" id="studyRoomName"><br>
@@ -217,14 +218,16 @@ tr:hover{
                             <span>전화번호</span>
                             <input type="text" id="studyRoomPhone"><br>
                             <span>소개글</span>
-                            <textarea name="studyRoomInfo" id="studyRoomInfo" cols="40" rows="8" style="resize:none;"></textarea><br>
-                            <span>사진</span><button>업로드</button><br>
+                            <textarea name="studyRoomIntroduce" id="studyRoomIntroduce" cols="40" rows="8" style="resize:none;"></textarea><br>
+                            <label for="upfile">사진</label></th>
+                            <input type="file" id="upfile" name="upfile">
                             <div></div> &nbsp;&nbsp;
                         </div>
                          <div class="btn">
                                 <button type="button">취소</button>
                                 <button id="insertBtn">등록</button>
                         </div>
+                    </form>
 
                 </div>
 	      </div>
@@ -250,15 +253,11 @@ tr:hover{
                             var coordsLng = result.y;
                             $('#insertBtn').click(function(){
                                 $.ajax({
-                                    url : 'insertStudyRoom.me',
+                                    url : 'insertStudyRoomCoords.me',
                                     data : {
-                                        studyRoomName : $('#studyRoomName').val(),
-                                        studyRoomLocation : $("#studyRoomLocation option:selected").text(),
-                                        studyRoomAddress : $('#studyRoomAddress').val(),
-                                        studyRoomLat : coordsLat,
-                                        studyRoomLng : coordsLng,
-                                        studyRoomPhone : $('#studyRoomPhone').val(),
-                                        studyRoomIntroduce : $('#studyRoomInfo').val()
+                                        studyRoomNo : $('#studyRoomName').val(),
+                                        studyRoomLat : coordsLng,
+                                        studyRoomLng : coordsLat,
                                     },
                                     success : function(){
                                         console.log('추가 성공');

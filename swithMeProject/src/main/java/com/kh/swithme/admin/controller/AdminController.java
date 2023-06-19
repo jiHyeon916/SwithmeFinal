@@ -484,13 +484,26 @@ public class AdminController {
 	}
 	
 	// 스터디룸 추가
-	@ResponseBody
 	@RequestMapping("insertStudyRoom.me")
-	public int insertStudyRoom(StudyRoom sr) {
-		return adminService.insertStudyRoom(sr);
+	public String insertStudyRoom(StudyRoom sr,  MultipartFile upFile, HttpSession session, Model model) {
+		if(!upFile.getOriginalFilename().equals("")) {
+			sr.setTitleImg("resources/uploadFiles/item/" + saveFile(upFile, session));
+		} 
+		if(adminService.insertStudyRoom(sr) > 0) {
+			return "redirect:adminStudyRoom.ad";
+		} else {
+			System.out.println("실패");
+			return "redirect:adminStudyRoom.ad";
+		}
+
 	}
 	
-	
+	// 스터디룸 위치 추가
+	@ResponseBody
+	@RequestMapping("insertStudyRoomCoords.me")
+	public int insertStudyRoomCoords(StudyRoom sr) {
+		return adminService.insertStudyRoomCoords
+	}
 	
 	// 스터디룸 삭제
 	@ResponseBody
@@ -501,22 +514,11 @@ public class AdminController {
 		for(int i = 0; i < studyRoomNo.length; i++) {
 			result = adminService.deleteCheckStudyRoom(studyRoomNo[i]);
 		}
+		
 		return result;
 	}
+	
+	// 스터디룸 수정
+	
 
-	
-	
-	
-	
-	//스터디밴드
-	@RequestMapping("adminStudyBand.ad")
-	public String adminStudyBandMain() {
-		return "admin/adminStudyBand";
-	}
-	
-	
-   
-   
-   
-   
 }

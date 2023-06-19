@@ -77,7 +77,7 @@
    	</delete>
    			
    <!-- 스터디룸 추가 -->
-   <insert id="SqlSessionTemplate" parameterType="studyRoom">
+   <insert id="insertStudyRoom" parameterType="studyRoom">
    		INSERT
    		INTO
    			BOARD_STUDYROOM
@@ -102,9 +102,23 @@
    			,#{studyRoomPhone}
    			,#{studyRoomIntroduce}
    			)
-   
    </insert>
    
+      <insert id="insertStudyRoomCoords" parameterType="studyRoom">
+   		INSERT
+   		INTO
+   			BOARD_STUDYROOM
+   			(
+   			SR_LAT
+   			,SR_LNG
+   			)
+   		VALUES
+   			(
+   			,#{studyRoomLat}
+   			,#{studyRoomLng}
+   			)
+   		
+   </insert>
    
    
    
