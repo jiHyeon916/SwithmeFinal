@@ -579,15 +579,15 @@
 		
 		
 		<!-- 알람 읽음여부 -->
-			<update id="readAlarm" parameterType="alarm">
+			<update id="readAlarm" parameterType="hashmap">
 				UPDATE
 					BOARD_ALARM
 				SET
 					ALARM_STATUS = 'N'
 				WHERE
-					ALARM_BOARD_NO = #{alarmBoardNo}	
+					ALARM_BOARD_NO = #{boardNo}	
 				AND
-					SUBSTR(ALARM_NO, 3, 2) = #{alarmSubNo}			
+					SUBSTR(ALARM_NO, 3, 2) = #{alarmNo}			
 					
 				
 			</update>

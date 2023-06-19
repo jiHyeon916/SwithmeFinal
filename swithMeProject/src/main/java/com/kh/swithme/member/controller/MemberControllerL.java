@@ -3,6 +3,7 @@ package com.kh.swithme.member.controller;
 import java.text.DecimalFormat;
 import java.text.Format;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Random;
 
 import javax.mail.MessagingException;
@@ -424,16 +425,15 @@ public class MemberControllerL {
 	//보드, 밴드 읽음 표시 
 		@ResponseBody
 		@RequestMapping("readAlarm")
-		public char readAlarm(int boardNo, int alarmNo, String sort) {
+		public char readAlarm(int boardNo, Integer alarmNo) {
 			
-			Alarm alarm = new Alarm();
-			alarm.setAlarmBoardNo(boardNo);
-			alarm.setAlarmSubNo(alarmNo);
-			alarm.setAlarmSort(sort);
+		
+		HashMap<String, Integer> map = new HashMap();
+		map.put("alarmNo", alarmNo);
+		map.put("boardNo", boardNo);
 			
 			
-			
-		return	memberService.readAlarm(alarm) > 0 ? 'Y' : 'N';
+		return	memberService.readAlarm(map) > 0 ? 'Y' : 'N';
 		}
 		
 	

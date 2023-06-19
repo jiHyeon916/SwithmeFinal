@@ -1,6 +1,7 @@
 package com.kh.swithme.member.model.service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import com.kh.swithme.band.model.vo.Band;
 import com.kh.swithme.board.model.vo.Board;
@@ -66,7 +67,7 @@ public interface MemberService {
    
    //알람 읽음여부
   	
-  	int readAlarm(Alarm alarm);
+  	int readAlarm(HashMap<String, Integer> map);
    
    
    

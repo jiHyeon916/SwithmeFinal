@@ -1,6 +1,7 @@
 package com.kh.swithme.member.model.dao;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.SqlSessionTemplate;
@@ -87,8 +88,8 @@ public class MemberDao {
 		return (ArrayList)sqlSession.selectList("memberMapper.selectAlarmList", memberId);
 	}
 	//알람 읽음 여부
-	public int readAlarm(SqlSessionTemplate sqlSession, Alarm alarm) {
-		return sqlSession.update("memberMapper.readAlarm", alarm);
+	public int readAlarm(SqlSessionTemplate sqlSession, HashMap<String, Integer> map) {
+		return sqlSession.update("memberMapper.readAlarm", map);
 	}
 	
 

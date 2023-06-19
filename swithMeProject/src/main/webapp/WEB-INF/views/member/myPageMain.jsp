@@ -181,7 +181,7 @@
 					location.href = 'freeBoardDetail.bo?boardNo=' + bNo;
 				} */
 			} else { // 스터디밴드인경우
-				location.href = '/studyBand.bo/detail.bo?sno=' + bNo;
+				location.href = 'studyBand.bo/detail.sb?sno=' + bNo;
 			}
 		});
 		

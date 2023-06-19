@@ -1,6 +1,7 @@
 package com.kh.swithme.member.model.service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -141,8 +142,8 @@ public class MemberServiceImpl implements MemberService{
 		
 		//알람 읽음 여부
 		@Override
-		public int readAlarm(Alarm alarm) {
-			return memberDao.readAlarm(sqlSession, alarm);
+		public int readAlarm(HashMap<String, Integer> map) {
+			return memberDao.readAlarm(sqlSession, map);
 		}
 
 
