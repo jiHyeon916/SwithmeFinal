@@ -3,6 +3,7 @@ package com.kh.swithme.board.model.service;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import com.kh.swithme.admin.model.vo.Item;
 import com.kh.swithme.band.model.vo.Band;
 import com.kh.swithme.board.model.vo.Attach;
 import com.kh.swithme.board.model.vo.Board;
@@ -147,6 +148,8 @@ public interface BoardService {
 	// 답변 포인트 지급 
 	int selectPoint(int replyNo);
 	
+	// 아이템 리스트 가져오기
+	ArrayList<Item> itemBoard();
 	
 	
 	

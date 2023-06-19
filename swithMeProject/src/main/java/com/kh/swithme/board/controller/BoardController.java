@@ -9,9 +9,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.google.gson.Gson;
 import com.kh.swithme.board.model.service.BoardServiceImpl;
@@ -21,6 +22,7 @@ import com.kh.swithme.board.model.vo.Reply;
 import com.kh.swithme.board.model.vo.SRoomReview;
 import com.kh.swithme.common.model.vo.PageInfo;
 import com.kh.swithme.common.template.Pagination;
+import com.kh.swithme.member.model.service.MemberServiceImpl;
 import com.kh.swithme.member.model.vo.Member;
 
 @Controller
@@ -29,6 +31,9 @@ public class BoardController {
 	
 	@Autowired
 	private BoardServiceImpl boardService;
+	
+	@Autowired
+	private MemberServiceImpl memberService;
 	
 	
 	
@@ -546,8 +551,14 @@ public class BoardController {
 	 * @return
 	 */
 	@ResponseBody
-	@RequestMapping("studyBandInsert.bo")
-	public String studyBandInsert(String memberId, String bCon, String summary, String title, String category, int perNum) {
+	@RequestMapping(value = "studyBandInsert.bo", method=RequestMethod.POST, produces="application/text; charset=utf8")
+	public String studyBandInsert(String memberId, String bCon, String summary, String title, String category, MultipartFile please, int perNum) {
+		
+		System.out.println(please);
+		System.out.println(memberId);
+		System.out.println(bCon);
+		
+		
 		
 		Board b = new Board();
 		b.setMemberId(memberId);
@@ -603,7 +614,8 @@ public class BoardController {
 	 * 아이템 보드 리스트 페이지로 이동 
 	 */
 	@RequestMapping("itemBoard")
-	public String itemBoardListView() {
+	public String itemBoardListView(Model model) {
+		model.addAttribute("item", boardService.itemBoard());
 		return "board/itemBoardList";
 	}
 	
@@ -644,6 +656,16 @@ public class BoardController {
 		}
 		return "fail";
 		
+	}
+	/**
+	 * 로그인 유저의 총 포인트 가져오기 
+	 * @param memberId 로그인 유저
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping("getTotalPoint.bo")
+	public int getTotalPoint(String memberId) {
+		return memberService.selectTotalPoint(memberId);
 	}
 	
 	

@@ -15,7 +15,7 @@
     <jsp:include page="../common/header.jsp" />
 
 
-
+    <form action="post" enctype="multipart/form-data">
     <div id="F_writer_content">
         <div class="wrap clear">
             
@@ -34,7 +34,7 @@
                 <div id="freeCategory">
                     <p>카테고리</p>
                         <div id="freeCategory" class="cont-select">
-                            <button class="btn-select">전체보기</button>
+                            <button type="button" class="btn-select">전체보기</button>
                             <ul class="list-member">
                                 <li><button type="button">고시공부</button></li>
                                 <li><button type="button">진로</button></li>
@@ -63,17 +63,18 @@
                 <input type="number" name="" id="perNum">
                 <div class="uploadBtnArea clear">
                     <p>썸네일</p>
-                    <button onclick="thumbNail();">업로드</button>
+                    <button type="button" onclick="thumbNail();">업로드</button>
                 </div>
                 <div class="thumbnailArea"></div>
-                <input type="file" id="fileSelect">
+                <input type="file" id="fileSelect" name="please" onchange="loadImg(this)">
                 
 
-                <button onclick="test();">취소하기</button>
-                <button id="submit" onclick="text();">작성하기</button>
+                <button type="button" onclick="test();">취소하기</button>
+                <button id="submit" type="button" onclick="text();">작성하기</button>
             </div>
         </div>
     </div>
+    </form>
 
 
 
@@ -111,8 +112,12 @@
 
       // 글 작성하기
       function text(){
+
+
+            var formData = new FormData();
+            var temp = $("#fileSelect")[0].files[0];
+
         $.ajax({
-            
             url : 'studyBandInsert.bo',
             type : 'post',
             data : {
@@ -120,8 +125,11 @@
                 bCon : $('#summernote').val(),
                 title : $('#title').val(),
                 category : $('.btn-select').text(),
-                perNum : $('#perNum').val()
+                perNum : $('#perNum').val(),
+                img : temp
             },
+            processData: false,
+		    contentType: false,
             success : function(r){
                 if(r == 'success'){
                     alert('글 작성 성공');
@@ -169,6 +177,17 @@
     // 썸네일 올리기
     function thumbNail(){
         $('#fileSelect').click();
+    }
+
+    function loadImg(inputFile){
+        if(inputFile.files.length == 1){ //파일이 첨부된 상태
+
+            let reader = new FileReader();
+
+            var imgName = inputFile.files[0].name;
+            $('.thumbnailArea').html(imgName);
+
+        }
     }
 
 
