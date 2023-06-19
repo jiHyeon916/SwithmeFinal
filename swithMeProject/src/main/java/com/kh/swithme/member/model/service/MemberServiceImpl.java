@@ -1,6 +1,7 @@
 package com.kh.swithme.member.model.service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -143,10 +144,10 @@ public class MemberServiceImpl implements MemberService{
 		
 		//알람 읽음 여부
 		@Override
-		public int readAlarm(Alarm alarm) {
-			return memberDao.readAlarm(sqlSession, alarm);
-		}
+		public int readAlarm(HashMap<String, Integer> map) {
+			return memberDao.readAlarm(sqlSession, map);
 
+		}
 
 	
 	   
@@ -353,6 +354,7 @@ public class MemberServiceImpl implements MemberService{
 	public int qnaDelete(int qno) {
 		return memberDao.qnaDelete(sqlSession, qno);
 	};
+
 	
 	// 회원가입시 기본 캐릭터 지급
 	@Override
@@ -372,6 +374,8 @@ public class MemberServiceImpl implements MemberService{
 		return memberDao.myItemList(sqlSession, pi, mItem);
 	};
 	
+	
+
 	
 	
 

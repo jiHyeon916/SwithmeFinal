@@ -154,22 +154,26 @@
 					
 					
 						if(board == 's'){ // 일반게시판일 경우 
-							//location.href = 'freeBoardDetail.bo?boardNo=' + bNo;
+
+							location.href = 'freeBoardDetail.bo?boardNo=' + bNo;
 						
 						}else{
-							//location.href = 'studyBand.bo/detail.bo?sno=' + bNo;
+							location.href = 'studyBand.bo/detail.bo?sno=' + bNo;
+
+						
 						}
 						
-						
-						
-						//읽음 표시하기
-						if(board == 's' && read == '안읽음' ) {
+
+						 //읽음 표시하기
+						 if(board == 's' && read == '안읽음' ) {
+
 						 	
 							$.ajax({
 								
 								url : 'readAlarm',
 								data : {boardNo : bNo,
-										alarmNo : alarmNo}
+										alarmNo : alarmNo},
+
 										
 								success : function(result) {
 									
@@ -181,10 +185,32 @@
 								},error: () => {console.log('실패');}
 							});
 							
-						} 
+						}
 						 
+						 
+						 
+						 if(board == 'b' && read == '안읽음'){
+							
+							$.ajax({
+								
+								url : 'readAlarmB',
+								data : {boardNo : bNo,
+										alarmNo : alarmNo},
+								success : function(result) {
+									
+									//여기 적기 
+									
+								}, error : () => {console.log('실패');}		
+							});
+						} 
+						  
 						
-				});
+			
+				
+					});
+				
+				 
+
 				
 				
 				
