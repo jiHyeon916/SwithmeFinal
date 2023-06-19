@@ -1,13 +1,9 @@
 package com.kh.swithme.band.model.service;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
-import org.springframework.web.multipart.MultipartFile;
-
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
 import com.kh.swithme.band.model.vo.Band;
+import com.kh.swithme.band.model.vo.BandAlarm;
 import com.kh.swithme.band.model.vo.BandBoard;
 import com.kh.swithme.band.model.vo.BandMember;
 import com.kh.swithme.band.model.vo.BandReply;
@@ -46,6 +42,8 @@ public interface BandService {
 	ArrayList<BandReply> ajaxSelectBandReplyList(int sbBoardNo);
 	// 밴드 댓글 작성하기 (AJAX)
 	int ajaxInsertBandReply(BandReply br);
+	// 밴드 댓글 알림 
+	int insertBandAlarm(BandAlarm ba);
 	// 밴드 댓글 수정하기 뷰(AJAX)
 	BandReply replyModifyView(int sbReplyNo);
 	// 밴드 댓글 수정하기 (AJAX)
@@ -111,6 +109,7 @@ public interface BandService {
 	ArrayList<BandMember> readerList(int sno);
 
 	ArrayList<BandMember> nickSearch(BandMember bm);
+
 
 
 

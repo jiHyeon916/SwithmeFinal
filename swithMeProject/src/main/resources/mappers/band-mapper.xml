@@ -15,6 +15,7 @@
 		<result column="sb_count"     	 	 property="sbCount" />
 		<result column="change_name"      	 property="changeName" />
 		<result column="count"      	 	 property="count" />
+		<result column="member_id"      	 property="memId" />
 	</resultMap>
 
 	<resultMap id="bandResultSet" type="band">
@@ -126,10 +127,11 @@
 			   ,TO_CHAR(SB_CREATE_DATE, 'YYYY-MM-DD') AS "SB_CREATE_DATE"
 			   ,SB_CONTENT
 			   ,SB_COUNT
+			   ,B.MEMBER_ID
 		  FROM
-				SBAND_BOARD
+				SBAND_BOARD B
 		  JOIN
-	            MEMBER USING(MEMBER_ID)
+	            MEMBER A ON(A.MEMBER_ID = B.MEMBER_ID)
 		 WHERE
 				SB_BOARD_NO = #{sbBoardNo}
 		   AND
@@ -557,5 +559,24 @@
            AND
 		 		NICKNAME LIKE '%' || #{ key } || '%'
 	</select>
+	
+	<insert id="insertBandAlarm" parameterType="bandAlarm">
+		INSERT
+		  INTO
+				BAND_ALARM
+				(
+				ALARM_NO
+			   ,ALARM_SB_NO
+			   ,ALARM_MEMBER
+			   ,ALARM_CATEGORY
+				)
+		VALUES
+				(
+				'b_'||SEQ_BAND_ALARM_NO.NEXTVAL
+			   ,#{alarmSbNo}
+			   ,#{alarmMember}
+			   ,'댓글'
+				)			
+	</insert>
 	
 </mapper>

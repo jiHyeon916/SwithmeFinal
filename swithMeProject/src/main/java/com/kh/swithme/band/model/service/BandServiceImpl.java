@@ -16,6 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.google.gson.JsonObject;
 import com.kh.swithme.band.model.dao.BandDao;
 import com.kh.swithme.band.model.vo.Band;
+import com.kh.swithme.band.model.vo.BandAlarm;
 import com.kh.swithme.band.model.vo.BandBoard;
 import com.kh.swithme.band.model.vo.BandMember;
 import com.kh.swithme.band.model.vo.BandReply;
@@ -162,6 +163,11 @@ public class BandServiceImpl implements BandService {
 	@Override
 	public ArrayList<BandMember> nickSearch(BandMember bm) {
 		return bandDao.nickSearch(sqlSession, bm);
+	}
+
+	@Override
+	public int insertBandAlarm(BandAlarm ba) {
+		return bandDao.insertBandAlarm(sqlSession, ba);
 	}
 
 }
