@@ -254,5 +254,10 @@ public class MemberDao {
 		return sqlSession.delete("memberMapper.qnaDelete", qno);
 	}
 	
+	// 회원가입시 기본 캐릭터 지급
+	public int joinItem(SqlSessionTemplate sqlSession, Member m) {
+		return sqlSession.insert("memberMapper.joinItem", m);
+	}
+	
 
 }
