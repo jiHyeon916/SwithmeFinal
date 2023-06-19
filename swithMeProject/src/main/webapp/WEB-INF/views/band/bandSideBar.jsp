@@ -293,6 +293,12 @@
 					console.log('실패');
 				}
 			})
+			
+			alarmMessage();
+		});
+		
+		function alarmMessage(){
+			
 			$(document).on('click', '#listMem', function(){
 				var mem = $(this).children(0).val();
 				$('.mem').attr('value', mem);
@@ -321,7 +327,7 @@
 				var message = '${sessionScope.reportMsg}';
 				alert(message);
 			});
-		});
+		}
 		
 		
 		function nickSearch(e){

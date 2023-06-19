@@ -350,7 +350,13 @@ public class MemberServiceImpl implements MemberService{
 	@Override
 	public int qnaDelete(int qno) {
 		return memberDao.qnaDelete(sqlSession, qno);
-	}
+	};
+	
+	// 회원가입시 기본 캐릭터 지급
+	@Override
+	public int joinItem(Member m) {
+		return memberDao.joinItem(sqlSession, m);
+	};
 
 	
 	

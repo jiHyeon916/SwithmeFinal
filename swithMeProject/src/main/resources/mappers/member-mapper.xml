@@ -891,6 +891,23 @@
 		 WHERE QNA_NO = ${ qno }
 	</delete>
 	
+	<!-- 회원가입시 기본 캐릭터 지급 -->
+	<insert id="joinItem" parameterType="member">
+		INSERT 
+		  INTO MEMBER_ITEM
+		  	   (
+		  	   ITEM_NO
+	  		  ,MEMBER_ID
+	  		  ,WEAR_STATUS 
+	  		   ) 
+		VALUES 
+			   (
+			   0
+			  ,#{memberId}
+			  ,'Y'
+			   )
+	</insert>
+	
 	
 
 </mapper>

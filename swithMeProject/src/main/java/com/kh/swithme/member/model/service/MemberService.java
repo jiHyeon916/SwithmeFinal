@@ -193,5 +193,8 @@ public interface MemberService {
 
 	
 	
+	// 회원가입시 기본 캐릭터 지급
+	int joinItem(Member m);
+	
 	  
 }
