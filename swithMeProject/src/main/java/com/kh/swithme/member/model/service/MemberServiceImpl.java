@@ -142,10 +142,17 @@ public class MemberServiceImpl implements MemberService{
 			return memberDao.selectAlarmList(sqlSession, memberId);
 		}
 		
-		//알람 읽음 여부
+		//알람 읽음 여부 - 게시판
 		@Override
 		public int readAlarm(HashMap<String, Integer> map) {
 			return memberDao.readAlarm(sqlSession, map);
+
+		}
+		
+		//알람 읽음 여부 - 밴드
+		@Override
+		public int readAlarmB(HashMap<String, Integer> map) {
+			return memberDao.readAlarmB(sqlSession, map);
 
 		}
 

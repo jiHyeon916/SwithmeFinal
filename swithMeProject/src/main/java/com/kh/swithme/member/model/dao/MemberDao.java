@@ -90,11 +90,16 @@ public class MemberDao {
 		return (ArrayList)sqlSession.selectList("memberMapper.selectAlarmList", memberId);
 	}
 
-	//알림 읽음 여부
+	//알림 읽음 여부 - 게시판
 	public int readAlarm(SqlSessionTemplate sqlSession, HashMap<String, Integer> map) {
 		// TODO Auto-generated method stub
 		return sqlSession.update("memberMapper.readAlarm", map);
 	}
+	
+	//알림 읽음 여부 - 밴드
+	public int readAlarmB(SqlSessionTemplate sqlSession, HashMap<String, Integer> map) {
+		return sqlSession.update("memberMapper.readAlarmB",map);
+	};
 	
 
 
@@ -281,8 +286,8 @@ public class MemberDao {
 		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
 		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
 		return (ArrayList)sqlSession.selectList("memberMapper.myItemList", mItem, rowBounds);
-	};
-	
+	}
+
 
 
 

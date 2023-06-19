@@ -67,10 +67,12 @@ public interface MemberService {
    //알람 조회
   	ArrayList<Alarm> selectAlarmList(String memberId);
    
-   //알람 읽음여부
-  	
-
+   //알람 읽음여부 - 게시판
   	int readAlarm(HashMap<String, Integer> map);
+  
+  	//알람 읽음여부 - 밴드
+  	int readAlarmB(HashMap<String, Integer> map);
+  	
 
    
    
