@@ -60,6 +60,16 @@ public interface MemberService {
    //이메일 보내기 
    void sendMailInsert(Member m);
    
+   
+   //알람 조회
+  	ArrayList<Alarm> selectAlarmList(String memberId);
+   
+   //알람 읽음여부
+  	
+  	int readAlarm(Alarm alarm);
+   
+   
+   
 	//----------------------희재
  //calendar 조회
  	ArrayList<Calendar> selectMyCalendarlList(String memberId);
@@ -117,8 +127,7 @@ public interface MemberService {
  	//마이페이지-북마크 삭제
  	int deleteBoardBookMark(int boardNo);
 	
-	//알람 조회
- 	ArrayList<Alarm> selectAlarmList(String memberId);
+	
  	
  	
 	
@@ -179,6 +188,10 @@ public interface MemberService {
 	
 	// 문의글 삭제하기
 	int qnaDelete(int qno);
+
+	
+
+	
 	
 	  
 }

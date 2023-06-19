@@ -418,10 +418,23 @@ public class MemberControllerL {
 		
 	}
 	
+	//지현
 	
-	
-	
-	
+	//보드, 밴드 읽음 표시 
+		@ResponseBody
+		@RequestMapping("readAlarm")
+		public char readAlarm(int boardNo, int alarmNo, String sort) {
+			
+			Alarm alarm = new Alarm();
+			alarm.setAlarmBoardNo(boardNo);
+			alarm.setAlarmSubNo(alarmNo);
+			alarm.setAlarmSort(sort);
+			
+			
+			
+		return	memberService.readAlarm(alarm) > 0 ? 'Y' : 'N';
+		}
+		
 	
 	
 	

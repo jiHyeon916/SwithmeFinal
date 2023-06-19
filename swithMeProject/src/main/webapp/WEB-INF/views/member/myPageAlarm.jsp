@@ -93,7 +93,7 @@
 								for(let i in list){
 									//sortType = list[i].alarmSort;
 									
-									if(list[i].alarmSort == 's'){
+									if(list[i].alarmSort == 's'){ //SQL에서 앞부분만 잘라서 옴 => 알람 번호도 SQL에서 미리 잘라서 오기 
 										sort = '[게시판]'
 									} else {
 										sort = '[밴드]'
@@ -118,10 +118,11 @@
 									}
 									value += '<tr>'
 										  +'<input type="hidden" name="sortType" value="' + list[i].alarmSort +'" />'
-										  +'<input type="hidden" name="sortType" value="' + list[i].alarmBoardNo + '" />'
+										  +'<input type="hidden" name="boardNo" value="' + list[i].alarmBoardNo + '" />'
 										  +	'<td>' + sort + category +  '</td>'
 										  + '<td>' + status + '</td>'
 										  + '<td>' + list[i].alarmDate + '</td>'
+										  +'<input type="hidden" name="alarmNo" value="' + list[i].alarmSubNo +'" />'
 										  + '</tr>'
 									
 								};
@@ -138,17 +139,57 @@
 				//알림 클릭시 해당 게시글로 이동
 				$(document).on('click','#pointList > tbody > tr', function() {
 					
-					let board =$(this).children().eq(0).val();//게시판인지 밴드인지
+					let board = $(this).children().eq(0).val();//게시판인지 밴드인지 ==> alarmSort
 					console.log(board);  //보드넘버 == s인지 
 					
-					let bNo = $(this).children().eq(1).val();
+					let bNo = $(this).children().eq(1).val();  //==>alarmBoardNo
 					console.log(bNo); //보드 넘버 
 					
-				
-				
-										//보드넘버
-			
+					let read = $(this).children().eq(3).text(); // 읽음, 안읽음
+					console.log(read);
+					
+					//알람 넘버(히든으로 숨겨서 왔음)
+					let alarmNo = $(this).children().eq(5).val();
+					console.log(alarmNo);
+					
+					
+						if(board == 's'){ // 일반게시판일 경우 
+							//location.href = 'freeBoardDetail.bo?boardNo=' + bNo;
+						
+						}else{
+							//location.href = 'studyBand.bo/detail.bo?sno=' + bNo;
+						}
+						
+						
+						
+						//읽음 표시하기
+						if(board == 's' && read == '안읽음' ) {
+						 	
+							$.ajax({
+								
+								url : 'readAlarm',
+								data : {boardNo : bNo,
+										alarmNo : alarmNo}
+										
+								success : function(result) {
+									
+									if(result > 0){
+										AlarmList();
+										location.reload();
+									}
+									
+								},error: () => {console.log('실패');}
+							});
+							
+						} 
+						 
+						
 				});
+				
+				
+				
+				
+				 
 				
 				
 			</script>

@@ -86,6 +86,11 @@ public class MemberDao {
 	public ArrayList<Alarm> selectAlarmList(SqlSessionTemplate sqlSession, String memberId) {
 		return (ArrayList)sqlSession.selectList("memberMapper.selectAlarmList", memberId);
 	}
+	//알람 읽음 여부
+	public int readAlarm(SqlSessionTemplate sqlSession, Alarm alarm) {
+		return sqlSession.update("memberMapper.readAlarm", alarm);
+	}
+	
 
 
 
@@ -253,6 +258,6 @@ public class MemberDao {
 	public int qnaDelete(SqlSessionTemplate sqlSession, int qno) {
 		return sqlSession.delete("memberMapper.qnaDelete", qno);
 	}
-	
+
 
 }
