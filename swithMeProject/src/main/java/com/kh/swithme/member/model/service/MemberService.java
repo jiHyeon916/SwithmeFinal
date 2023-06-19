@@ -2,6 +2,7 @@ package com.kh.swithme.member.model.service;
 
 import java.util.ArrayList;
 
+import com.kh.swithme.admin.model.vo.Item;
 import com.kh.swithme.band.model.vo.Band;
 import com.kh.swithme.board.model.vo.Board;
 import com.kh.swithme.board.model.vo.Reply;
@@ -10,6 +11,7 @@ import com.kh.swithme.member.model.vo.Alarm;
 import com.kh.swithme.member.model.vo.BandBookMark;
 import com.kh.swithme.member.model.vo.Calendar;
 import com.kh.swithme.member.model.vo.Member;
+import com.kh.swithme.member.model.vo.MemberItem;
 import com.kh.swithme.member.model.vo.Point;
 import com.kh.swithme.member.model.vo.QNA;
 import com.kh.swithme.member.model.vo.TodoList;
@@ -188,13 +190,15 @@ public interface MemberService {
 	
 	// 문의글 삭제하기
 	int qnaDelete(int qno);
-
-	
-
-	
 	
 	// 회원가입시 기본 캐릭터 지급
 	int joinItem(Member m);
+
+	// 보유 아이템 리스트 카운트
+	int myItemListCount(MemberItem mItem);
+	
+	// 보유 아이템 리스트
+	ArrayList<Item> myItemList(PageInfo pi, MemberItem mItem);
 	
 	  
 }
