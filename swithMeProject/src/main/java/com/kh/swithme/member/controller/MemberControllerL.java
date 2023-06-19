@@ -2,6 +2,8 @@ package com.kh.swithme.member.controller;
 
 import java.text.DecimalFormat;
 import java.text.Format;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Random;
 
 import javax.mail.MessagingException;
@@ -20,8 +22,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.google.gson.Gson;
 import com.kh.swithme.member.model.service.MemberService;
-import com.kh.swithme.member.model.vo.Mail;
+import com.kh.swithme.member.model.vo.Alarm;
 import com.kh.swithme.member.model.vo.Member;
 
 
@@ -79,7 +82,7 @@ public class MemberControllerL {
    public String profilMember() {
       return "member/myPageProfil";
    }
-   
+
    
    /**아이디 중복체크
     * @param checkId
@@ -125,6 +128,7 @@ public class MemberControllerL {
       
          if(memberService.joinMember(m) > 0) { //회원가입 성공
             memberService.joinPoint(m);
+            memberService.joinItem(m);
                //message = "<script>alert('환영합니다 ! 500p가 지급되었습니다 !');location.href='loginForm.me';</script>";
                session.setAttribute("alertMsg","회원가입을 축하합니다 ! 500p가 지급되었습니다 !");   
                mv.setViewName("member/loginForm");
@@ -293,6 +297,11 @@ public class MemberControllerL {
 	}
 	
 	
+	/** 정보수정
+	 * @param m
+	 * @param session
+	 * @return
+	 */
 	@RequestMapping("update.mem")
 	public String updateMember(Member m, HttpSession session) {
 		
@@ -386,7 +395,7 @@ public class MemberControllerL {
 		
 		Random r = new Random();
 		int i = r.nextInt(100000);
-		Format f = new DecimalFormat("000000"); //0으로된 공백 채우기ㄴ
+		Format f = new DecimalFormat("000000"); //0으로된 공백 채우기
 		String secret = f.format(i);
 		
 		return secret;
@@ -396,10 +405,47 @@ public class MemberControllerL {
 	
 	
 	
+	//알람 조회
+	@ResponseBody
+	@RequestMapping(value="alarmList.me", produces="application/json; charset=UTF-8")
+	public String selectAlarmList(String memberId) {   //memberId값 어디서 받아옴 ?
+		
+		System.out.println(memberId);
+		
+		ArrayList<Alarm> list = memberService.selectAlarmList(memberId);
+		
+		System.out.println(list);
+		
+		 return new Gson().toJson(list);
+		
+	}
 	
+	//보드, 밴드 읽음 표시 
+		@ResponseBody
+		@RequestMapping("readAlarm")
+		public char readAlarm(int boardNo, int alarmNo) {
+			
+			HashMap<String, Integer> map = new HashMap();
+			map.put("boardNo", boardNo);
+			map.put("alarmNo", alarmNo);
+			
+		return	memberService.readAlarm(map) > 0 ? 'Y' : 'N';
+		}
+		
+		@ResponseBody
+		@RequestMapping("readAlarmB")
+		public char readAlarmB(int boardNo, int alarmNo) {
+			
+			HashMap<String, Integer> map = new HashMap();
+			map.put("boardNo", boardNo);
+			map.put("alarmNo", alarmNo);
+			
+			return memberService.readAlarmB(map) > 0 ?  'Y' : 'N';
+		}
+		
 	
-	
-	
+		
+		
 	
 	
 	

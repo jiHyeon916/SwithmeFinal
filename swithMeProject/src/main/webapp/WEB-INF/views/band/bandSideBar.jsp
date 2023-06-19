@@ -24,8 +24,8 @@
             </div>
         </div>
         <div class="stbBtn">
-            <button type="submit" class="enrollBtn" data-toggle="modal" data-target="#enrollBandMember">가입하기</button>
-			<input type="hidden" class="readerId" value="">
+        	<button type="submit" class="enrollBtn" data-toggle="modal" data-target="#enrollBandMember">가입하기</button>
+        	<input type="hidden" class="readerId" value="">	
         </div>
         <div>
             <ul id="mainSideMenu" class="clear">
@@ -39,7 +39,7 @@
 	                <li><a id="li4" href="">밴드 일정</a></li>
 	                <li><a id="li5" href="">밴드 멤버</a></li>
 	                <li><a href="#" data-toggle="modal" data-target="#deleteBandMember" >밴드 탈퇴</a></li>
-	                <c:if test="${ bandInfomation.memberIdId eq loginMember.memberId }">
+	                <c:if test="${bandInfomation.memberIdId eq loginMember.memberId}">
 	                	<li><a href="#" data-toggle="modal" data-target="#updaetBandReader">리더 위임</a></li>
 	                </c:if>
 	            </ul>
@@ -126,8 +126,7 @@
 	                 		<br>
 	                        <div class="form-group">
 	                        	<div id="bandSearchBox">
-				                    <input type="text" id="searchBar">
-				                    <img src="/swithme/resources/images/band/search.png" alt="" id="searchImg">
+				                    <input type="text" id="searchBar" onkeyup="nickSearch(this);">
 				                </div>
 				                <input type="hidden" id="sNo" class="sno" name="sbNo" value="">
 				                <div class="readerPass">
@@ -212,7 +211,37 @@
 			var param = new URLSearchParams(query);
 			var sno = param.get('sno');
 			
+			if(${ !empty loginMember }){
+				$.ajax({
+					url : 'memberTotal.sb',
+					data : {
+							sno  : sno,
+							memberId : '${loginMember.memberId}'
+					},
+					success : function(bandMem){
+						
+						var value = "";
+						
+						value += "<button type='submit' class='enrollBtn' data-toggle='modal' data-target='#'>글쓰기</button>"
+							  + "<input type='hidden' class='readerId' value=''>"
 
+						if(bandMem != null){
+							if(bandMem.sbNo == sno && bandMem.memId == '${loginMember.memberId}'){
+								
+								$('.clear1').css('display', 'block');
+								$('.stbBtn').html(value);
+							} else {
+								$('.clear1').css('display', 'none');
+							}						
+						} else {
+							$('.clear1').css('display', 'none');
+						}
+					},
+					error : function(){
+						console.log('실패');
+					}
+				});
+			};
 			
 			$.ajax({
 				url : 'side.sb',
@@ -232,7 +261,9 @@
 					$('#totalNo').attr('value', sno);
 					$('.readerId').attr('value', bandInfomation.memberIdId);
 					
-					
+					if(bandInfomation.sbRecruitMem == bandInfomation.sbNowMem){
+						$('.enrollBtn').css('display', 'none');
+					}
 
 					// $('#bandCover').attr('src', result)
 					
@@ -241,20 +272,6 @@
 					console.log('실패');
 				}
 			});
-			
-			$.ajax({
-				url : 'memberTotal.sb',
-				success : function(memT){
-					if((memT.sbNo = ${bandInfomation.sbNo}) && (memT.memberId = ${loginMember.memberId})){
-						$('.clear1').css('display', 'show');
-					} else {
-						$('.clear1').css('display', 'none');
-					}						
-				},
-				error : function(){
-					console.log('실패');
-				}
-			})
 			
 			$.ajax({
 				url : 'reader.sb',
@@ -276,36 +293,77 @@
 					console.log('실패');
 				}
 			})
-		});
-		
-		$(document).on('click', '#listMem', function(){
-			var mem = $(this).children(0).val();
-			$('.mem').attr('value', mem);
 			
+			alarmMessage();
 		});
 		
-		$(document).on('click', '#finishReader', function(){
-			var message = '${sessionScope.finishMsg}';
-			alert(message);
+		function alarmMessage(){
 			
-		});
+			$(document).on('click', '#listMem', function(){
+				var mem = $(this).children(0).val();
+				$('.mem').attr('value', mem);
+				
+			});
+			
+			$(document).on('click', '#finishReader', function(){
+				var message = '${sessionScope.finishMsg}';
+				alert(message);
+				
+			});
+			
+	
+			$(document).on('click', '#enrollMember', function(){
+				var message = '${sessionScope.alertBand}';
+				alert(message);
+				
+			});
+			
+			$(document).on('click', '#deleteMember', function(){
+				var message = '${sessionScope.alertDeleteBand}';
+				alert(message);
+			});
+			
+			$(document).on('click', '#reportBandBtn', function(){
+				var message = '${sessionScope.reportMsg}';
+				alert(message);
+			});
+		}
 		
+		
+		function nickSearch(e){
+			
+			var query = window.location.search;     
+			var param = new URLSearchParams(query);
+			var sno = param.get('sno');
+	        
+	        $.ajax({
+	            url : 'nickSearch.sb',
+	            data : {
+	            	sbNo : sno,
+	                key : $(e).val()
+	            },
+	            success : function(result){
+	                console.log(result);
+	                var searchList = '';
 
-		$(document).on('click', '#enrollMember', function(){
-			var message = '${sessionScope.alertBand}';
-			alert(message);
-			
-		});
-		
-		$(document).on('click', '#deleteMember', function(){
-			var message = '${sessionScope.alertDeleteBand}';
-			alert(message);
-		});
-		
-		$(document).on('click', '#reportBandBtn', function(){
-			var message = '${sessionScope.reportMsg}';
-			alert(message);
-		});
+	                for(var i in result){
+	                   if($(e).val() != ''){
+	                        searchList += "<label id='listMem'><input TYPE='radio' class='mem' name='memberId' value='" + result[i].memId + "' />" + result[i].memberId + "</label><br>"
+
+	                    }
+	                }
+	                console.log(searchList)
+	                if($(e).val() == '' || list.length == 0){
+	                	$('.readerPass').html('검색결과가 없습니다.');
+	                }else{
+	                	$('.readerPass').html(searchList);
+	                }
+	            },
+	            error : function(){
+	                console.log('닉네임 검색 실패');
+	            }
+	        });
+		}
     </script>
     
     

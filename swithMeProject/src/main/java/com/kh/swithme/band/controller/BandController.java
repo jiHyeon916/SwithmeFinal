@@ -4,14 +4,12 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.UUID;
 
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.io.FileUtils;
-import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -26,6 +24,8 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.kh.swithme.band.model.service.BandService;
 import com.kh.swithme.band.model.vo.Band;
+import com.kh.swithme.band.model.vo.BandAlarm;
+import com.kh.swithme.band.model.vo.BandAttach;
 import com.kh.swithme.band.model.vo.BandBoard;
 import com.kh.swithme.band.model.vo.BandMember;
 import com.kh.swithme.band.model.vo.BandReply;
@@ -59,12 +59,17 @@ public class BandController {
 	// 밴드 사이드바 디테일
 	@ResponseBody
 	@RequestMapping(value="studyBand.bo/memberTotal.sb", produces="application/json; charset=UTF-8")
-	public String selectTotalMember(HttpSession session) {
+	public String selectTotalMember(@RequestParam(value="memberId", required=false, defaultValue="hello") String memberId,
+									@RequestParam(value="sno", required=false, defaultValue="0")int sno, HttpSession session) {
 
-		JSONObject jobj = new JSONObject();
-		jobj.put("memT", bandService.selectTotalMember());
+		BandMember bm = new BandMember();
+		bm.setSbNo(sno);
+		bm.setMemId(memberId);
 		
-		return new Gson().toJson(jobj);
+		BandMember bandMem = bandService.selectTotalMember(bm);
+		session.setAttribute("bandMem", bandMem);
+		return new Gson().toJson(bandMem); 
+
 	}
 	
 	// 밴드 디테일
@@ -117,6 +122,24 @@ public class BandController {
 	public String insertBandBoard(BandBoard bb){
 		return bandService.insertBandBoard(bb) > 0 ? "success" : "fail";
 	}
+	// 밴드 게시글 사진
+	@RequestMapping(value="studyBand.bo/photoInsert.sb", produces="application/json; charset=UTF-8")
+	public void insertPhoto(HttpSession session, BandAttach bat, @RequestParam("file") MultipartFile[] file) {
+		
+		for (int i =0; i< file.length; i++) {
+
+			if(!file[i].getOriginalFilename().equals("")) {
+				bat.setOriginName(file[i].getOriginalFilename());
+				bat.setChangeName("/swithme/resources/uploadFiles/band/" + saveFile(file[i], session));
+			}
+			if(bandService.insertPhoto(bat) > 0) {
+				session.setAttribute("alert", "게시글 성공");
+				session.setAttribute("photoList", bandService.insertPhoto(bat));
+				
+			}
+		}
+		
+	}
 	// 밴드 게시글 수정
 	
 	// 밴드 게시글 삭제
@@ -148,10 +171,18 @@ public class BandController {
 	// 밴드 댓글 등록
 	@ResponseBody
 	@RequestMapping("studyBand.bo/rinsert.sb")
-	public String ajaxInsertBandReply(BandReply br, String sbReplyContent, int sbBoardNo) {
+	public String ajaxInsertBandReply(BandReply br, BandAlarm ba, String sbReplyContent, int sbNo, int sbBoardNo, String writerId) {
 		br.setSbReplyContent(sbReplyContent.replace(System.getProperty("line.separator"), "<br>"));
 		br.setSbBoardNo(sbBoardNo);
-		return bandService.ajaxInsertBandReply(br) > 0 ? "success" : "fail";
+		if(bandService.ajaxInsertBandReply(br) > 0) {
+			ba.setAlarmSbNo(sbNo);
+			ba.setAlarmMember(writerId);
+			
+			return bandService.insertBandAlarm(ba) > 0 ? "success" : "fail";
+		} else {
+			return "fail";
+		}
+
 	}
 	
 	// 밴드 댓글 수정 뷰
@@ -354,18 +385,36 @@ public class BandController {
 	
 	// 리더 위임 변경
 	@RequestMapping("studyBand.bo/changeReader.sb")
-	public String updateBandReader(Band b, int sbNo, String memberId, Model model, HttpSession session) {
+	public String updateBandReader(Band b, int sbNo, BandAlarm ba, String memberId, Model model, HttpSession session) {
 		b.setSbNo(sbNo);
 		b.setMemberId(memberId);
 		
 		if(bandService.updateBandReader(b) > 0) {
 			model.addAttribute("b", bandService.updateBandReader(b));
-			session.setAttribute("finishMsg", "리더 변경에 성공했습니다.");				
+			
+			ba.setAlarmSbNo(sbNo);
+			ba.setAlarmMember(memberId);
+			if(bandService.readerAlarm(ba) > 0) {
+				session.setAttribute("finishMsg", "리더 변경에 성공했습니다.");								
+			} else {
+				session.setAttribute("finishMsg", "리더 변경에 실패했습니다.");	
+			};
 		} else {
 			session.setAttribute("finishMsg", "리더 변경에 실패했습니다.");					
 		}
 		
 		return "redirect:/studyBand.bo/detail.bo?sno=" + sbNo;
+	}
+	
+	// 리더 위임 닉네임 검색
+	@RequestMapping(value="studyBand.bo/nickSearch.sb", produces="application/json; charset=UTF-8")
+	public String nickSearch(String key, int sbNo, BandMember bm) {
+		bm.setSbNo(sbNo);
+		bm.setKey(key);
+		System.out.println(bandService.nickSearch(bm));
+		System.out.println(sbNo);
+		System.out.println(key);
+		return new Gson().toJson(bandService.nickSearch(bm));
 	}
 
 	// 밴드 강제 탈퇴

@@ -21,3 +21,8 @@
 #freeCategory .list-member::-webkit-scrollbar {
     display: none;
 }
+
+.thumbnailArea{
+    padding: 20px;
+    font-size: 14px;
+}

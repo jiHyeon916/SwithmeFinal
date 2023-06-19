@@ -183,6 +183,18 @@ public class AdminServiceImpl implements AdminService {
 		return adminDao.selectItemList(sqlSession, pi, item);
 	}
 	
+	// 아이템 상태 업데이트
+	@Override
+	public int itemStatusUpdate(Item item) {
+		return adminDao.itemStatusUpdate(sqlSession, item);
+	};
+	
+	// 아이템 수정
+	@Override
+	public int itemUpdate(Item item) {
+		return adminDao.itemUpdate(sqlSession, item);
+	}
+	
 
 	
 

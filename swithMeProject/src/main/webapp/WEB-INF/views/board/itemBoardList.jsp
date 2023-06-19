@@ -20,7 +20,6 @@
         <div class="wrap">
             <h3>아이템</h3>
             <p>나의 캐릭터를 꾸미고 자랑해요!</p>
-            <p>${ sessionScope.loginMember.memberId }</p>
         </div>
     </div>
 
@@ -45,42 +44,18 @@
 
     <!--  -->
     <div id="itemCon">
-        <div class="wrap clear">
+        <div class="wrap clear itemlistupdate">
+            <c:forEach items="${ item }" var="i">
             <div class="itemList btn-open-popup">
-                <div class="itemImg"></div>
-                <p class="itemTitle">보라보라룸</p>
-                <p class="itemPrice">300 point</p>
+                <input type="hidden" id="itemNo" value="${ i.itemNo }">
+                <input type="hidden" id="itemcon" value="${ i.itemContent }">
+                <input type="hidden" id="itemCategory" value="${ i.itemCategory }">
+                <div class="itemImg"><img src="${ i.itemPhoto }" alt=""></div>
+                <p class="itemTitle">${ i.itemName }</p>
+                <p class="itemPrice">${ i.itemPrice }</p>
             </div>
-            <div class="itemList">
-                <div class="itemImg"></div>
-                <p class="itemTitle">보라보라룸</p>
-                <p class="itemPrice">300 point</p>
-            </div>
-            <div class="itemList">
-                <div class="itemImg"></div>
-                <p class="itemTitle">보라보라룸</p>
-                <p class="itemPrice">300 point</p>
-            </div>
-            <div class="itemList">
-                <div class="itemImg"></div>
-                <p class="itemTitle">보라보라룸</p>
-                <p class="itemPrice">300 point</p>
-            </div>
-            <div class="itemList">
-                <div class="itemImg"></div>
-                <p class="itemTitle">보라보라룸</p>
-                <p class="itemPrice">300 point</p>
-            </div>
-            <div class="itemList">
-                <div class="itemImg"></div>
-                <p class="itemTitle">보라보라룸</p>
-                <p class="itemPrice">300 point</p>
-            </div>
-            <div class="itemList">
-                <div class="itemImg"></div>
-                <p class="itemTitle">보라보라룸</p>
-                <p class="itemPrice">300 point</p>
-            </div>
+            </c:forEach>
+            
 
         </div>
         
@@ -97,20 +72,25 @@
                 <img src="" alt="">
             </div>
             <div id="itemIntro">
-                <p class="itemType">배경</p>
+                <p class="itemType"></p>
                 <div class="mainInfo clear">
-                    <h5>보라보라빔</h5>
-                    <p>1,500point</p>
+                    <h5 class="itemnamemodal"></h5>
+                    <p class="itempricemodal"></p>
                 </div>
-                <p class="itemText">아이템 설명! 보라보라보라 빔~~ 뿅뿅!아이템 설명! 보라보라보라 빔~~ 뿅뿅!아이템 설명! 보라보라보라 빔~~ 뿅뿅!</p>
+                <p class="itemText"></p>
                 
-                <div class="totalPoint clear">
-                    <p>현재 보유 포인트</p>
-                    <p>50,0000 point</p>
-                </div>
+                <c:if test="${ sessionScope.loginMember ne null }">
+                    <div class="totalPoint clear">
+                        <p>현재 보유 포인트</p>
+                        <p id="totalPoint">50,0000 point</p>
+                    </div>
+                </c:if>
+
+                
                 <div class="itemBtn clear">
                     <button class="cloesBtn">닫기</button>
-                    <button>구매하기</button>
+                    <input type="hidden" name="itemNo" value="">
+                    <button id="buyBtn">구매하기</button>
                 </div>
             </div>
             
@@ -156,6 +136,22 @@
     <script>
 
         $(function(){
+
+
+            // 로그인 유저의 포인트 뽑아오기
+            $.ajax({
+                url : 'getTotalPoint.bo',
+                data : {
+                    memberId : '${loginMember.memberId}'
+                },
+                success : function(r){
+                    $('#totalPoint').html(r);
+                },
+                error : function(){
+
+                }
+
+            })
             // 카테고리 박스
             const btn = document.querySelector('.btn-select');
             const list = document.querySelector('.list-member');
@@ -179,6 +175,9 @@
             for(var i = 0; i < btnOpenPopup.length; i++){
                 btnOpenPopup[i].addEventListener("click", click);
                 function click(e) {
+
+                    
+
 	                $('.msg1_body').show().css('z-index','7777');
 	                $('.msg1').show();
 	                $('body').css('overflow','hidden');
@@ -193,7 +192,52 @@
 	                    $('body').css('overflow','auto');
 	                });
                     
+
+                    // 모달에 해당 하는 값 넣기
+                    var selector = event.currentTarget;
+
+                    console.log(selector.querySelector('.itemImg > img').getAttribute('src'));
+
+                    $('.itemText').html(selector.querySelector('#itemcon').value);
+                    $('.itemType').html(selector.querySelector('#itemCategory').value);
+                    $('.itempricemodal').html(selector.querySelector('.itemPrice').innerText);
+                    $('.itemnamemodal').html(selector.querySelector('.itemTitle').innerText);
+                    $('#itemImg > img').attr('src', selector.querySelector('.itemImg > img').getAttribute('src'));
+                    $('input[name=itemNo]').attr('value', selector.querySelector('#itemNo').value);
+
+                    $('#buyBtn').click(function(){
+                        $.ajax({
+                            url : 'itemGet',
+                            data : {
+                                itemNo : $('input[name=itemNo]').val(),
+                                point : $('.itempricemodal').text()
+                            },
+                            success : function(r){
+                                if(r > 0){
+                                    if(confirm('아이템 구매에 성공하셨습니다. 마이페이지로 이동하겠습니까?')){
+                                        location.href="item.me";
+                                    }
+                                }else if(r == 0){
+                                    alert('본 서비스는 로그인 후 이용 가능합니다.');
+                                }else if(r < 0){
+                                    if(confirm('이미 보유중인 아이템 입니다. 마이페이지로 이동하겠습니까?')){
+                                        location.href="item.me";
+                                    };   
+                                };
+                            },
+                            error : function(){
+                                alert('통신실패');
+                            }
+                        })
+                    });
+                    
+
+                    
+                    
                 };
+
+
+                
             }
             
             // 모달 닫기
@@ -203,7 +247,43 @@
                 $('body').css('overflow','auto');
             })
             
+            
+            
+
+
+            
         })
+
+        function categorySearch(e){
+
+                $.ajax({
+                    url : 'itemListUpdate',
+                    data : {
+                        category : e
+                    },
+                    success : (r) => {
+                        console.log(r.list);
+
+                        var result = '';
+                        for(var i in r.list){
+                            result += '<div class="itemList btn-open-popup">'
+                                        + '<input type="hidden" id="itemNo" value="' + r.list[i].itemNo + '">'
+                                        + '<input type="hidden" id="itemcon" value="' + r.list[i].itemContent + '">'
+                                        + '<input type="hidden" id="itemCategory" value="' + r.list[i].itemCategory + '">'
+                                        + '<div class="itemImg"><img src="' + r.list[i].itemPhoto + '" alt=""></div>'
+                                        + '<p class="itemTitle">'+ r.list[i].itemName +'</p>'
+                                        + '<p class="itemPrice">' + r.list[i].itemPrice + '</p>'
+                                    + '</div>'
+                        }
+
+                        $('.itemlistupdate').html(result);
+                    },
+                    error : () => {
+                        console.log('통신실패')
+                    }
+
+                })
+        }
 
         
 

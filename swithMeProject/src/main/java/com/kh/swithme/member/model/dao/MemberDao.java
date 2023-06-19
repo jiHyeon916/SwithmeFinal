@@ -1,11 +1,13 @@
 package com.kh.swithme.member.model.dao;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
+import com.kh.swithme.admin.model.vo.Item;
 import com.kh.swithme.band.model.vo.Band;
 import com.kh.swithme.board.model.vo.Board;
 import com.kh.swithme.board.model.vo.Reply;
@@ -14,6 +16,7 @@ import com.kh.swithme.member.model.vo.Alarm;
 import com.kh.swithme.member.model.vo.BandBookMark;
 import com.kh.swithme.member.model.vo.Calendar;
 import com.kh.swithme.member.model.vo.Member;
+import com.kh.swithme.member.model.vo.MemberItem;
 import com.kh.swithme.member.model.vo.Point;
 import com.kh.swithme.member.model.vo.QNA;
 import com.kh.swithme.member.model.vo.TodoList;
@@ -79,9 +82,26 @@ public class MemberDao {
 	}
 	//임시비밀번호 메일전송(DB에저장)
 	public void sendMailInsert(SqlSessionTemplate sqlSession, Member m) {
-		sqlSession.update("memberMapper.sendMailInsert", m);
+		 sqlSession.update("memberMapper.sendMailInsert", m);
 
 	}
+	//알람 조회
+	public ArrayList<Alarm> selectAlarmList(SqlSessionTemplate sqlSession, String memberId) {
+		return (ArrayList)sqlSession.selectList("memberMapper.selectAlarmList", memberId);
+	}
+
+	//알림 읽음 여부 - 게시판
+	public int readAlarm(SqlSessionTemplate sqlSession, HashMap<String, Integer> map) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("memberMapper.readAlarm", map);
+	}
+	
+	//알림 읽음 여부 - 밴드
+	public int readAlarmB(SqlSessionTemplate sqlSession, HashMap<String, Integer> map) {
+		return sqlSession.update("memberMapper.readAlarmB",map);
+	};
+	
+
 
 
 	//----------------------희재
@@ -248,6 +268,27 @@ public class MemberDao {
 	public int qnaDelete(SqlSessionTemplate sqlSession, int qno) {
 		return sqlSession.delete("memberMapper.qnaDelete", qno);
 	}
+
+
+	
+	// 회원가입시 기본 캐릭터 지급
+	public int joinItem(SqlSessionTemplate sqlSession, Member m) {
+		return sqlSession.insert("memberMapper.joinItem", m);
+	}
+
+	// 보유 아이템 리스트 카운트
+	public int myItemListCount(SqlSessionTemplate sqlSession, MemberItem mItem) {
+		return sqlSession.selectOne("memberMapper.myItemListCount", mItem);
+	};
+	
+	// 보유 아이템 리스트
+	public ArrayList<Item> myItemList(SqlSessionTemplate sqlSession, PageInfo pi, MemberItem mItem){
+		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
+		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
+		return (ArrayList)sqlSession.selectList("memberMapper.myItemList", mItem, rowBounds);
+	}
+
+
 
 
 }

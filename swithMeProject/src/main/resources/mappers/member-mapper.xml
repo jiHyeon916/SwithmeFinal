@@ -32,13 +32,14 @@
 	</resultMap>
 	
 	<resultMap id="alarmResultSet" type="alarm">
-		<result column="LALRM_NO"			property="alarmNo" />
+		<result column="ALARM_NO"			property="alarmNo" />
 		<result column="ALARM_MEMBER_ID"	property="alarmMemberId" />
 		<result column="ALARM_BOARD_NO"		property="alarmBoardNo" />
 		<result column="ALARM_CATEGORY"		property="alarmCategory" />
 		<result column="ALARM_DATE"			property="alarmDate" />
 		<result column="ALARM_STATUS"		property="alarmStatus" />
 		<result column="ALARM_SORT"			property="alarmSort" />
+		<result column="ALARMSUB_NO"		property="alarmSubNo" />
 	</resultMap>
 	
 	<resultMap id="qnaResultSet" type="qna">
@@ -89,6 +90,24 @@
 		<result column="SB_STATUS" property="sbStatus" />
 		<result column="CATEGORY" property="category" />
 		<result column="CREATE_DATE" property="createDate" />
+	</resultMap>
+
+	<resultMap id="memberItemResultSet" type="memberItem">
+		<result column="ITEM_NO" 		property="itemNo" />
+		<result column="MEMBER_ID" 		property="memberId" />
+		<result column="WEAR_STATUS" 	property="wearStatus" />
+		<result column="ITEM_CATEGORY" 	property="itemCategory" />
+	</resultMap>
+	
+	 <resultMap id="itemResultSet" type="item">
+		<result column="ITEM_NO"		property="itemNo" />
+		<result column="ITEM_CATEGORY"	property="itemCategory" />
+		<result column="ITEM_NAME"		property="itemName" />
+		<result column="ITEM_CONTENT"	property="itemContent" />
+		<result column="ITEM_PRICE"		property="itemPrice" />
+		<result column="ITEM_STATUS"	property="itemStatus" />
+		<result column="ITEM_PHOTO"		property="itemPhoto" />
+		<result column="WEAR_STATUS" 	property="wearStatus" />
 	</resultMap>
 
 	
@@ -348,8 +367,6 @@
 	
 	
 	
-	
-	
 	<!-- 지현 -->
 	
 		<!-- 아이디 체크용 쿼리  -->
@@ -563,10 +580,55 @@
       				MEMBER_EMAIL = #{memberEmail}	
       	</update>
 		
+		<!-- 알림 조회 -->
+		<select id="selectAlarmList" parameterType="string" resultMap="alarmResultSet">
+		SELECT ALARM_CATEGORY, ALARM_BOARD_NO , SUBSTR(ALARM_NO, 1, 1) "ALARM_SORT", SUBSTR(ALARM_NO, 3,2) "ALARMSUB_NO", TO_CHAR(ALARM_DATE, 'YYYY-MM-DD HH:MI:SS') "ALARM_DATE", S.ALARM_STATUS
+		                  FROM BOARD_ALARM S
+		                 WHERE ALARM_MEMBER_ID = #{memberId}
+		                 UNION ALL
+		                	SELECT ALARM_CATEGORY, ALARM_SB_NO, SUBSTR(ALARM_NO, 1, 1) "ALARM_SORT", SUBSTR(ALARM_NO, 3,2) "ALARMSUB_NO", TO_CHAR(ALARM_DATE, 'YYYY-MM-DD HH:MI:SS') "ALARM_DATE", B.ALARM_STATUS
+		                  FROM BAND_ALARM B
+		                 	WHERE ALARM_MEMBER = #{memberId}
+		                 ORDER 
+		                    BY ALARM_DATE DESC
+			</select>
+		
 	
 		
 		
+		<!-- 알람 읽음여부 - 게시판 -->
+
+			<update id="readAlarm" parameterType="hashmap">
+
+				UPDATE
+					BOARD_ALARM
+				SET
+					ALARM_STATUS = 'N'
+				WHERE
+
+					ALARM_BOARD_NO = #{boardNo}	
+				AND
+					SUBSTR(ALARM_NO, 3, 2) = #{alarmNo}		
+						
+			</update>
+			
+		<!-- 알람 읽음 여부 - 밴드 -->
+		<update id="readAlarmB" parameterType="hashmap">
 		
+			UPDATE
+				BAND_ALARM
+			SET		
+				ALARM_STATUS = 'N'
+			WHERE
+				ALARM_SB_NO = #{boardNo}
+			AND
+				SUBSTR(ALARM_NO, 3, 2) = #{alarmNo}			
+				
+		
+		
+		</update>
+	
+	
 		
 		
 		
@@ -654,7 +716,7 @@
 	<select id="selectAlarmList5" parameterType="string" resultMap="alarmResultSet">
 		SELECT *
 		  FROM (SELECT ROWNUM, A.*
-		          FROM (SELECT ALARM_CATEGORY, ALARM_BOARD_NO , SUBSTR(ALARM_NO, 1, 1) "ALARM_SORT", TO_CHAR(ALARM_DATE, 'YYYY-MM-DD HH:MI:SS') "ALARM_DATE"
+		          FROM (SELECT ALARM_CATEGORY, ALARM_BOARD_NO , SUBSTR(ALARM_NO, 1, 1) "ALARM_SORT",  TO_CHAR(ALARM_DATE, 'YYYY-MM-DD HH:MI:SS') "ALARM_DATE"
 		                  FROM BOARD_ALARM
 		                 WHERE ALARM_MEMBER_ID = #{memberId}
 		                 UNION ALL
@@ -864,6 +926,48 @@
 		  FROM QNA
 		 WHERE QNA_NO = ${ qno }
 	</delete>
+	
+	<!-- 회원가입시 기본 캐릭터 지급 -->
+	<insert id="joinItem" parameterType="member">
+		INSERT 
+		  INTO MEMBER_ITEM
+		  	   (
+		  	   ITEM_NO
+	  		  ,MEMBER_ID
+	  		  ,WEAR_STATUS 
+	  		   ) 
+		VALUES 
+			   (
+			   0
+			  ,#{memberId}
+			  ,'Y'
+			   )
+	</insert>
+	
+	<!-- 보유 아이템 리스트 카운트 -->
+	<select id="myItemListCount" parameterType="memberItem" resultType="_int">
+		SELECT COUNT(*)
+		  FROM MEMBER_ITEM
+		  JOIN BOARD_ITEM USING(ITEM_NO)
+		 WHERE MEMBER_ID = #{ memberId }
+		   AND ITEM_STATUS = 'Y'
+		   <if test="itemCategory != '전체보기'">
+		   AND ITEM_CATEGORY = #{ itemCategory }
+		   </if>
+	</select>
+	
+	<!-- 보유 아이템 리스트 -->
+	<select id="myItemList" parameterType="memberItem" resultMap="itemResultSet">
+		SELECT ITEM_NO, WEAR_STATUS, ITEM_CATEGORY, ITEM_NAME, ITEM_CONTENT, ITEM_PRICE, ITEM_PHOTO
+		  FROM MEMBER_ITEM
+		  JOIN BOARD_ITEM USING(ITEM_NO)
+		 WHERE MEMBER_ID = #{ memberId }
+		   AND ITEM_STATUS = 'Y'
+		   <if test="itemCategory != '전체보기'">
+		   AND ITEM_CATEGORY = #{ itemCategory }
+		   </if>
+	</select>
+	
 	
 	
 

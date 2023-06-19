@@ -1,7 +1,9 @@
 package com.kh.swithme.member.model.service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
+import com.kh.swithme.admin.model.vo.Item;
 import com.kh.swithme.band.model.vo.Band;
 import com.kh.swithme.board.model.vo.Board;
 import com.kh.swithme.board.model.vo.Reply;
@@ -10,6 +12,7 @@ import com.kh.swithme.member.model.vo.Alarm;
 import com.kh.swithme.member.model.vo.BandBookMark;
 import com.kh.swithme.member.model.vo.Calendar;
 import com.kh.swithme.member.model.vo.Member;
+import com.kh.swithme.member.model.vo.MemberItem;
 import com.kh.swithme.member.model.vo.Point;
 import com.kh.swithme.member.model.vo.QNA;
 import com.kh.swithme.member.model.vo.TodoList;
@@ -17,48 +20,62 @@ import com.kh.swithme.member.model.vo.TodoList;
 public interface MemberService {
 	
 	//지현
-	//�븘�씠�뵒 以묐났 泥댄겕
+	//아이디 중복체크
 	int idCheck(String checkId);
 	
-	//�땳�꽕�엫 以묐났泥댄겕
+	//닉네임 중복체크
 	int nickCheck(String checkNick);
 	
-	//�씠硫붿씪 以묐났泥댄겕
+	//이메일 중복체크
 	int emailCheck(String checkEmail);
 	
-	//�쉶�썝媛��엯
+	//회원가입
 	int joinMember(Member m);
 	
-	//�쉶�썝媛��엯�떆 �룷�씤�듃 insert
+	//회원가입 시 포인트 insert
 	int joinPoint(Member m);
 
-	//濡쒓렇�씤
+	//로그인
 	Member loginMember(Member m);
 
-   //濡쒓렇�씤�떆 異쒖꽍 �룷�씤�듃 select
+   //회원 포인트 체크  select
    int loginPointChk(Member m);
 
-   //濡쒓렇�씤 �룷�씤�듃 insert
+   //회원 포인트 insert
    int loginPointInsert(Member m);
    
-   // 濡쒓렇�씤 李얘린
+   // 아이디 찾기 
    Member memberSerchId(Member m);
    
-   //�쉶�썝�깉�눜
+   //로그아웃
    int deleteMember(String userId);
   
-   //湲곗〈 鍮꾨�踰덊샇 �솗�씤
+   //패스워드 체크  ???
    int memberPwdChk(Member m);
    
    
-   //�젙蹂댁닔�젙
+   //수정하기
    int updateMember(Member m);
 
-   //鍮꾨�踰덊샇 李얘린(�쉶�썝�씠 �엯�젰�븳 媛믪씠 �씪移섑븳吏� �솗�씤)
+   //비밀번호 찾기 
    Member memberSearchPwd(Member m);
    
-   //�엫�떆踰덊샇 硫붿씪 蹂대궡湲�
+   //이메일 보내기 
    void sendMailInsert(Member m);
+   
+   
+   //알람 조회
+  	ArrayList<Alarm> selectAlarmList(String memberId);
+   
+   //알람 읽음여부 - 게시판
+  	int readAlarm(HashMap<String, Integer> map);
+  
+  	//알람 읽음여부 - 밴드
+  	int readAlarmB(HashMap<String, Integer> map);
+  	
+
+   
+   
    
 	//----------------------희재
  //calendar 조회
@@ -118,6 +135,8 @@ public interface MemberService {
  	int deleteBoardBookMark(int boardNo);
 	
 	
+ 	
+ 	
 	
 	
 	
@@ -176,6 +195,22 @@ public interface MemberService {
 	
 	// 문의글 삭제하기
 	int qnaDelete(int qno);
+
+	
+
+	
+	/*
+	 * // 회원가입시 기본 캐릭터 지급 int joinItem(Member m);
+	 */
+	
+	// 회원가입시 기본 캐릭터 지급
+	int joinItem(Member m);
+
+	// 보유 아이템 리스트 카운트
+	int myItemListCount(MemberItem mItem);
+	
+	// 보유 아이템 리스트
+	ArrayList<Item> myItemList(PageInfo pi, MemberItem mItem);
 	
 	  
 }

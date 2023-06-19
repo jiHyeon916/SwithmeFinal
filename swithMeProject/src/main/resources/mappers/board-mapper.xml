@@ -42,6 +42,7 @@
 		<result column="STATUS" property="status" />
 	</resultMap>
 	
+	<!-- 밴 -->
 	<resultMap id="bandResultSet" type="band">
 		<result column="SB_NO" property="sbNo" />
 		<result column="MEMBER_ID" property="memberId" />
@@ -55,6 +56,16 @@
 		<result column="CREATE_DATE" property="createDate" />
 	</resultMap>
 	
+	<!-- 아이템 -->
+	<resultMap id="itemResultSet" type="item">
+		<result column="ITEM_NO" property="itemNo" />
+		<result column="ITEM_CATEGORY" property="itemCategory" />
+		<result column="ITEM_NAME" property="itemName" />
+		<result column="ITEM_CONTENT" property="itemContent" />
+		<result column="ITEM_PRICE" property="itemPrice" />
+		<result column="ITEM_STATUS" property="itemStatus" />
+		<result column="ITEM_PHOTO" property="itemPhoto" />
+	</resultMap>
 	
 	
 	
@@ -321,7 +332,7 @@
 	
 	<!-- 게시글 리스트 불러오기 -->
 	<select id="boardListSelect" parameterType="_int" resultMap="boardResultSet">
-		SELECT
+		SELECT DISTINCT
 	          A.BOARD_NO
 	         ,NICKNAME MEMBER_ID
 	         ,CATEGORY
@@ -588,6 +599,22 @@
 			 )
 	</insert>
 	
+	<!-- 댓글 작성 알림   -->
+	<insert id="insertReplyAlarm">
+		INSERT
+		  INTO
+		  	  BOARD_ALARM
+		VALUES
+			  (
+			  SEQ_BOARD_ALARM_NO.NEXTVAL
+			 ,(SELECT MEMBER_ID FROM MAINBOARD WHERE BOARD_NO = #{boardNo})
+			 ,#{boardNo}
+			 ,'댓글'
+			 ,SYSDATE
+			 ,'Y'
+			  )
+	</insert>
+	
 	<!-- 대댓글 작성하기  -->
 	<insert id="reReplyBoard" parameterType="rereply">
 		INSERT
@@ -605,6 +632,22 @@
 			 )
 	</insert>
 	
+	<!-- 대댓글 알람  -->
+	<insert id="reReplyBoardAlarm">
+		INSERT
+		  INTO
+		  	  BOARD_ALARM
+		VALUES
+			  (
+			  SEQ_BOARD_ALARM_NO.NEXTVAL
+			 ,(SELECT MEMBER_ID FROM MAINBOARD WHERE BOARD_NO = #{ reReplyNo })
+			 ,#{ reReplyNo }
+			 ,'대댓글'
+			 ,SYSDATE
+			 ,'Y'
+			  )
+	</insert>
+	
 	<!-- 글 작성하기 -->
 	<insert id="test" parameterType="board">
 		INSERT INTO MAINBOARD
@@ -619,7 +662,7 @@
 	<!-- 검색 하기  -->
 	<select id="tagSearch" resultMap="boardResultSet">
 	
-		SELECT
+		SELECT DISTINCT
 	          A.BOARD_NO
 	         ,NICKNAME MEMBER_ID
 	         ,CATEGORY
@@ -974,13 +1017,13 @@
 		      (
 		      SEQ_SR_NO.NEXTVAL
 		     ,#{ memberId }
-		     ,#{ boardTitle }
-		     ,#{ boardContent }
-		     ,'img.null'
-		     ,#{ totalPerson }
+		     ,#{ sbTitle }
+		     ,#{ sbIntroduce }
+		     ,#{ sbChangeName }
+		     ,#{ sbRecruitMem }
 		     ,1
 		     ,'Y'
-		     ,#{ category }
+		     ,#{ sbCategory }
 		     ,SYSDATE
 		     )
 	</insert>
@@ -1099,5 +1142,119 @@
 		insert into point values(( select member_id from board_reply where board_reply_no = 6), 150, '채택', 'Y', sysdate)
 	</insert>
 	
+	<!-- 아이템 리스트 가져오기 -->
+	<select id="itemBoard" resultMap="itemResultSet">
+		SELECT
+              ITEM_NO
+             ,ITEM_CATEGORY
+             ,ITEM_NAME
+             ,ITEM_CONTENT
+             ,ITEM_PRICE
+             ,ITEM_PHOTO
+    	  FROM
+              BOARD_ITEM
+		 WHERE
+              ITEM_STATUS = 'Y'
+           AND
+           	  ITEM_NO != 0
+	</select>
+	
+	<!-- 보유 중인 아이템인지 확인  -->
+	<select id="itemCheck" resultType="_int">
+		SELECT
+			  COUNT(*)
+	      FROM
+			  MEMBER_ITEM
+		 WHERE
+		 	  MEMBER_ID = #{memberId}
+		   AND
+		      ITEM_NO = #{likeCount}
+	</select>
+	
+	<!-- 아이템 구매시 포인트 차감  -->
+	<insert id="itembuyPoint">
+		INSERT
+		  INTO
+		  	  POINT
+		VALUES
+			  (
+			  #{ memberId }
+			  ,#{ count }
+			  ,'아이템 구매'
+			  ,'N'
+			  ,SYSDATE
+			  )
+	</insert>
+	
+	
+	<!-- 구매한 아이템 보유 목록으로 이동  -->
+	<insert id="itemGet">
+		INSERT
+		  INTO
+		      MEMBER_ITEM
+		VALUES
+		  	  (
+		  	  #{ likeCount }
+		  	  ,#{ memberId }
+		  	  ,'Y'
+		  	  )
+	</insert>
+	
+	<!-- 아이템 정렬 -->
+	<select id="itemListUpdate" resultMap="itemResultSet">
+		SELECT
+              ITEM_NO
+             ,ITEM_CATEGORY
+             ,ITEM_NAME
+             ,ITEM_CONTENT
+             ,ITEM_PRICE
+             ,ITEM_PHOTO
+    	  FROM
+              BOARD_ITEM
+		 WHERE
+              ITEM_STATUS = 'Y'
+           AND
+           	  ITEM_NO != 0
+           <if test="category != '전체보기'">
+           AND
+              ITEM_CATEGORY = #{category}
+           </if>
+	</select>
+	
+	
+	
+	
+	
+	
+	<!-- 메인 스터디 리스트 뽑기 -->
+	<select id="mainStudy" resultMap="bandResultSet">
+		SELECT 
+			  *
+		  FROM
+		  	  (SELECT
+				    SB_NO
+				   ,NICKNAME AS "MEMBER_ID"
+				   ,SB_TITLE
+				   ,SB_INTRODUCE
+				   ,SB_CHANGE_NAME
+				   ,SB_RECRUIT_MEM
+				   ,SB_NOW_MEM
+				   ,CATEGORY
+			    FROM
+			  	    SBAND
+			    JOIN
+			  	    MEMBER USING(MEMBER_ID)
+			   WHERE
+			 	    SB_STATUS = 'Y'
+			 	 	<if test="category != '전체보기'">
+			     AND
+			   	    CATEGORY = #{ category }
+			     	</if>
+			     
+			   ORDER
+			      BY
+			        CREATE_DATE DESC)
+	 	WHERE ROWNUM <![CDATA[ < 6 ]]>	  
+	</select>
 	
 </mapper>

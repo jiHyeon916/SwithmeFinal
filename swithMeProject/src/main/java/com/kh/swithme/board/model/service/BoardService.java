@@ -3,6 +3,7 @@ package com.kh.swithme.board.model.service;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import com.kh.swithme.admin.model.vo.Item;
 import com.kh.swithme.band.model.vo.Band;
 import com.kh.swithme.board.model.vo.Attach;
 import com.kh.swithme.board.model.vo.Board;
@@ -73,8 +74,14 @@ public interface BoardService {
 	// 게시글 상세 조회 - 댓글 작성
 	int insertReply(Reply r);
 	
+	// 댓글 알람 인서트
+	int insertReplyAlarm(int boardNo);
+	
 	// 게시글 상세 조회 - 대댓글 작성 
 	int reReplyBoard(ReReply rere);
+	
+	// 대댓글 알람 
+	int reReplyBoardAlarm(ReReply rere);
 	
 	// 게시글 작성 
 	int test(Board b);
@@ -121,7 +128,7 @@ public interface BoardService {
 
 	
 	// 스터디 밴드 모집하기	
-	int studyBandInsert(Board b);
+	int studyBandInsert(Band b);
 	
 	// 스터디 멤버 리스트에 방장 넣기
 	int studyMemberInsert(String memberId);
@@ -146,6 +153,30 @@ public interface BoardService {
 	
 	// 답변 포인트 지급 
 	int selectPoint(int replyNo);
+	
+	// 아이템 리스트 가져오기
+	ArrayList<Item> itemBoard();
+	
+	// 보유한 아이템인지 확인 
+	int itemCheck(Board b);
+	
+	// 아이템 구매 포인트 차감 
+	int itembuyPoint(Board b);
+	
+	// 아이템 구매하기
+	int itemGet(Board b);
+
+	// 아이템 카테고리 분류 
+	ArrayList<Item> itemListUpdate(String category);
+	
+	
+	
+	
+	
+	
+	// **************** 메인 어디다.?
+	ArrayList<Band> mainStudy(String category);
+	
 	
 	
 	
@@ -186,6 +217,7 @@ public interface BoardService {
 	ArrayList<StudyRoom> studyRoomSearch(HashMap<String, String> map);
 	
 	
+//--- 지현
 	
 		
 }

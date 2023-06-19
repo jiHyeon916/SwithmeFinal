@@ -10,4 +10,5 @@ public class BandMember {
 	private String banish; // BANISH	CHAR(1 BYTE)
 	private String sort;
 	private String memId; // 아이디
+	private String key;
 }

@@ -1,11 +1,13 @@
 package com.kh.swithme.member.model.service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.kh.swithme.admin.model.vo.Item;
 import com.kh.swithme.band.model.vo.Band;
 import com.kh.swithme.board.model.vo.Board;
 import com.kh.swithme.board.model.vo.Reply;
@@ -15,6 +17,7 @@ import com.kh.swithme.member.model.vo.Alarm;
 import com.kh.swithme.member.model.vo.BandBookMark;
 import com.kh.swithme.member.model.vo.Calendar;
 import com.kh.swithme.member.model.vo.Member;
+import com.kh.swithme.member.model.vo.MemberItem;
 import com.kh.swithme.member.model.vo.Point;
 import com.kh.swithme.member.model.vo.QNA;
 import com.kh.swithme.member.model.vo.TodoList;
@@ -125,11 +128,32 @@ public class MemberServiceImpl implements MemberService{
 		}
 
 		/**
-		 *
+		 *메일보내기
 		 */
 		@Override
 		public void sendMailInsert(Member m) {
 			memberDao.sendMailInsert(sqlSession, m);
+		}
+		
+		
+		// 알람 조회
+		@Override
+		public ArrayList<Alarm> selectAlarmList(String memberId) {
+			return memberDao.selectAlarmList(sqlSession, memberId);
+		}
+		
+		//알람 읽음 여부 - 게시판
+		@Override
+		public int readAlarm(HashMap<String, Integer> map) {
+			return memberDao.readAlarm(sqlSession, map);
+
+		}
+		
+		//알람 읽음 여부 - 밴드
+		@Override
+		public int readAlarmB(HashMap<String, Integer> map) {
+			return memberDao.readAlarmB(sqlSession, map);
+
 		}
 
 	
@@ -337,6 +361,29 @@ public class MemberServiceImpl implements MemberService{
 	public int qnaDelete(int qno) {
 		return memberDao.qnaDelete(sqlSession, qno);
 	};
+
+	
+	// 회원가입시 기본 캐릭터 지급
+	@Override
+	public int joinItem(Member m) {
+		return memberDao.joinItem(sqlSession, m);
+	};
+
+	// 보유 아이템 리스트 카운트
+	@Override
+	public int myItemListCount(MemberItem mItem) {
+		return memberDao.myItemListCount(sqlSession, mItem);
+	};
+	
+	// 보유 아이템 리스트
+	@Override
+	public ArrayList<Item> myItemList(PageInfo pi, MemberItem mItem) {
+		return memberDao.myItemList(sqlSession, pi, mItem);
+	};
+	
+	
+
+	
 	
 
 }

@@ -20,6 +20,7 @@ import com.kh.swithme.common.model.vo.PageInfo;
 import com.kh.swithme.common.template.Pagination;
 import com.kh.swithme.member.model.service.MemberServiceImpl;
 import com.kh.swithme.member.model.vo.Member;
+import com.kh.swithme.member.model.vo.MemberItem;
 import com.kh.swithme.member.model.vo.QNA;
 
 @Controller
@@ -252,6 +253,25 @@ public class MemberControllerY {
 	@RequestMapping(value="miniAlarmList", produces="application/json; charset=UTF-8")
 	public String selectAlarmList5(String memberId) {
 		return new Gson().toJson(memberService.selectAlarmList5(memberId));
+	}
+	
+
+	// 보유 아이템 리스트
+	@ResponseBody
+	@RequestMapping(value="selectMyItemList.ad", produces="application/json; charset=UTF-8")
+	public String selectMyItemListView(@RequestParam(value="cPage", defaultValue="1") int currentPage,
+										HttpSession session, MemberItem mItem, String itemCategory) {
+		
+		mItem.setMemberId(((Member)session.getAttribute("loginMember")).getMemberId());
+		mItem.setItemCategory(itemCategory);
+		
+		PageInfo pi = Pagination.getPageInfo(memberService.myItemListCount(mItem), currentPage, 12, 5);
+
+		JSONObject jObj = new JSONObject();
+		jObj.put("pi", pi);
+		jObj.put("list", memberService.myItemList(pi, mItem));
+		
+		return new Gson().toJson(jObj);
 	}
 	
 	

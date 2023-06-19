@@ -113,10 +113,11 @@
       
       .noBoardMessage{
       
-      	text-align:ceter;
-      	heigth:100%;
-      	display:flex;
-      	justify-content:center;
+ 		 align-items: center;
+  		justify-content: center;
+  		text-align: center;
+  		border:1px;
+  		border-color:red;
       }
  
     
@@ -194,7 +195,6 @@
              		$('.memberBoardList').click();
              	});
              	
-             	
              	//회원이 작성한 게시판 글 조회
                function memberBoardList() {
                   
@@ -215,9 +215,8 @@
 						                           		 +'<td>' + list.boardTitle + '</td>'
 						                           		 +'<td>' + list.boardContent + '</td>'
 						                           		 +'<td>' + list.createDate + '</td>'
-					                        			 //+'<td>' + '<input type="checkbox" value="' +list.baordbNo + '" name="BoardChkDel" id="admemBoardChkDel"></input>' + '</td>'
-					                        			 +'<td>' + '<input type="checkbox" value="' + boardNo + '" name="BoardChkDel" id="admemBoardChkDel"></input>' + '</td>'
-					                        			 +'</tr>'
+					                        			 +'<td>' + '<input type="checkbox" value="' + boardNo + '" name="BoardChkDel" id="admemBoardChkDel"></input>' + '</td>' 
+					                        			 +'</tr>' //value값에 원하는 값을 담아서 체크되면 넘기기 
                         						}
                        					 $('#adminMemberTable tbody').html(value);
                         			 }else{
@@ -254,7 +253,7 @@
             		   							}
             		   					 $('#adminMemberTable tbody').html(value);
             		   				}else{
-            		   					 $('#adminMemberTable tbody').html('<div class="noBoardMessage">작성된 게시물이 존재하지 않습니다.</div>');
+            		   					$('#adminMemberTable tbody').html('작성된 게시물이 존재하지 않습니다.');
             		   					}
             		   			},error: () => {console.log('실패');}
             	     		  });
@@ -270,19 +269,15 @@
 				        	//삭제 ajax 
 				             $(function() {
 				            	 $('#detailDeleteBtn').on('click',function() {
-				            		
 					            	var boardChk = $('#adminMemberTable input[name=BoardChkDel]:checked'); //게시판에서 체크된 체크박스
 					            	var bandChk =$('#adminMemberTable input[name=BandChkDel]:checked');    //밴드에서 체크된 체크박스 	
-					            	
 					            		if(boardChk.length == 0 && bandChk.length == 0) {
 					                 	 		alert('선택된 글이 없습니다.');
 					                 	 		return;
-					                 	 		
 					            		}else{
 						            			 let boardChkArr = [];
 						            			 let bandChkArr = [];
 						            			 let yes = confirm('선택된 글을 삭제하시겠습니까?');
-						            			 
 				            						if(yes) {
 							            				if(boardChk.each(function(index, i){
 							            					boardChkArr[index] = $(this).val(); // 체크박스에서 band 혹은 board의 no값을 넘겼음. 
@@ -290,8 +285,6 @@
 				            					    if(bandChk.each(function(index,i){
 				            							bandChkArr[index] = $(this).val();  
 				            							}));
-				            					    
-				            				
 								            					$.ajax({
 								        	 						url :'deleteBoardDetail.ad',
 								        	 						data : {boardNo : boardChkArr},
@@ -307,9 +300,6 @@
 								        	 							},error: () => {console.log('실패');}
 								        	 						});
 								            					
-				            					
-				            					
-				            					
 								            					$.ajax({
 								        	 						url :'deleteBandDetail.ad',
 								        	 						data : {bandNo : bandChkArr},
@@ -346,7 +336,6 @@
            				var memberId = $(this).parent().parent().children().find('pre').eq(0).text(); 
            				var keyword = $(this).prev('input').val();
            				
-           				
            				//게시글 + 제목 검색조회 목록 
            				if(boardColor === 'rgb(3, 195, 115)' && $('#adminMemberSelect').val() === boardTitle) { 
            					
@@ -370,7 +359,7 @@
            									}
            								 $('#adminMemberTable tbody').html(value);
            						    }else{
-                                  	  	$('#adminMemberTable tbody').html('작성된 게시물이 존재하지 않습니다.');
+                                  	  	$('#adminMemberTable tbody').html('작성된 게시글이 존재하지 않습니다.');
                                    		}
            							},error : () => {console.log('실패');}		
            					      });

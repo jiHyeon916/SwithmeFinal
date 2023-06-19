@@ -1,5 +1,9 @@
 package com.kh.swithme.board.controller;
 
+import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 
 import javax.servlet.http.HttpSession;
@@ -11,9 +15,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.google.gson.Gson;
+import com.kh.swithme.band.model.vo.Band;
 import com.kh.swithme.board.model.service.BoardServiceImpl;
 import com.kh.swithme.board.model.vo.Board;
 import com.kh.swithme.board.model.vo.ReReply;
@@ -21,6 +26,7 @@ import com.kh.swithme.board.model.vo.Reply;
 import com.kh.swithme.board.model.vo.SRoomReview;
 import com.kh.swithme.common.model.vo.PageInfo;
 import com.kh.swithme.common.template.Pagination;
+import com.kh.swithme.member.model.service.MemberServiceImpl;
 import com.kh.swithme.member.model.vo.Member;
 
 @Controller
@@ -29,6 +35,9 @@ public class BoardController {
 	
 	@Autowired
 	private BoardServiceImpl boardService;
+	
+	@Autowired
+	private MemberServiceImpl memberService;
 	
 	
 	
@@ -228,7 +237,11 @@ public class BoardController {
 		r.setBoardReplyContent(rCon.replace(System.getProperty("line.separator"), "<br>"));
 		r.setMemberId(memberId);
 		
-		return boardService.insertReply(r) > 0 ? "success" : "fail";
+		if(boardService.insertReply(r) > 0) {
+			boardService.insertReplyAlarm(boardNo);
+			return "success";
+		}
+		return "fail";
 		
 	}
 	/**
@@ -250,13 +263,18 @@ public class BoardController {
 	 */
 	@ResponseBody
 	@RequestMapping("reReply.bo")
-	public int reReplyBoard(int replyNo, String reReplyCon, String memberId) {
+	public int reReplyBoard(int boardNo, int replyNo, String reReplyCon, String memberId) {
 		ReReply rere = new ReReply();
 		rere.setReplyNo(replyNo);
 		rere.setReReplyContent(reReplyCon.replace(System.getProperty("line.separator"), "<br>"));
 		rere.setMemberId(memberId);
+		rere.setReReplyNo(boardNo);
 		
-		return boardService.reReplyBoard(rere);
+		if(boardService.reReplyBoard(rere) > 0) {
+			boardService.reReplyBoardAlarm(rere);
+			return 1;
+		}
+		return 0;
 		
 		
 	}
@@ -546,16 +564,26 @@ public class BoardController {
 	 * @return
 	 */
 	@ResponseBody
-	@RequestMapping("studyBandInsert.bo")
-	public String studyBandInsert(String memberId, String bCon, String summary, String title, String category, int perNum) {
+	@RequestMapping(value = "studyBandInsert.bo", produces="application/text; charset=utf8")
+	public String studyBandInsert(Band b, String memberId, String bCon,String title, String category, MultipartFile please, Integer perNum, HttpSession session) {
 		
-		Board b = new Board();
+		b.setSbCategory(category);
 		b.setMemberId(memberId);
-		b.setBoardTitle(title);
-		b.setBoardContent(bCon);
-		b.setCategory(category);
-		b.setTotalPerson(perNum);
+		b.setSbTitle(title);
+		b.setSbRecruitMem(perNum);
+		b.setSbIntroduce(bCon);
 		
+		
+		if(!please.getOriginalFilename().equals("")){
+	         if(b.getSbChangeName() != null) {
+	            new File(session.getServletContext().getRealPath(b.getSbChangeName())).delete();
+	         }
+	         String changeName = saveFile(please, session);
+	         
+	         b.setSbChangeName("/swithme/resources/uploadFiles/band/" + changeName);
+	         // System.out.println(b);
+	      }
+	      
 		if(boardService.studyBandInsert(b) > 0) {
 			if(boardService.studyMemberInsert(memberId) > 0) {
 				return "success";
@@ -565,7 +593,25 @@ public class BoardController {
 			return "fail";
 		}
 		
+		
 	}
+	
+	// 사진 사용
+	   public String saveFile(MultipartFile upfile, HttpSession session) { 
+	      String originName = upfile.getOriginalFilename();
+	      String currentTime = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
+	      int ranNum = (int)(Math.random() * 90000 + 10000);
+	      String ext = originName.substring(originName.lastIndexOf("."));
+	      String changeName = currentTime + ranNum + ext;
+	      String savePath = session.getServletContext().getRealPath("/resources/uploadFiles/band/");
+	      
+	      try {
+	         upfile.transferTo(new File(savePath + changeName));
+	      } catch (IllegalStateException | IOException e) {
+	         e.printStackTrace();
+	      }
+	      return changeName;
+	   }
 	
 	/**
 	 * 밴드 카테고리 
@@ -603,7 +649,8 @@ public class BoardController {
 	 * 아이템 보드 리스트 페이지로 이동 
 	 */
 	@RequestMapping("itemBoard")
-	public String itemBoardListView() {
+	public String itemBoardListView(Model model) {
+		model.addAttribute("item", boardService.itemBoard());
 		return "board/itemBoardList";
 	}
 	
@@ -645,7 +692,78 @@ public class BoardController {
 		return "fail";
 		
 	}
+	/**
+	 * 로그인 유저의 총 포인트 가져오기 
+	 * @param memberId 로그인 유저
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping("getTotalPoint.bo")
+	public int getTotalPoint(String memberId, HttpSession session) {
+		if(session.getAttribute("loginMember") != null) {
+			return memberService.selectTotalPoint(memberId);
+		}
+		return 0;
+	}
 	
+	/**
+	 * 아이템 구매하기 (임시로 Board에 값 담아서 전송)
+	 * @param itemNo 구매할 아이템 번호 
+	 * @param point 아이템 가격
+	 * @param session
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping("itemGet")
+	public int itemGet(int itemNo, int point, HttpSession session) {
+		
+		if(session.getAttribute("loginMember") != null) {
+			String id = ((Member)session.getAttribute("loginMember")).getMemberId();
+			Board b = new Board();
+			b.setMemberId(id);
+			b.setCount(point);
+			b.setLikeCount(itemNo);
+			
+			if(boardService.itemCheck(b) > 0 ) {
+				return -1;
+			}else {
+				if(boardService.itembuyPoint(b) > 0) {
+					return boardService.itemGet(b);
+				}
+			}
+			return 0;
+		}else {
+			return 0;
+		}
+		
+	}
+
+	/**
+	 * 캐릭터 배경화면
+	 * @param category 적용할 카테고리
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value="itemListUpdate", produces="application/json; charset=UTF-8")
+	public String itemListUpdate(String category) {
+		System.out.println(category);
+		
+		JSONObject jobj = new JSONObject();
+		jobj.put("list", boardService.itemListUpdate(category));
+		// jobj.put("pi", pi);
+		return new Gson().toJson(jobj);
+	}
+	
+	
+	
+	
+	// ********************* 메인..
+	@ResponseBody
+	@RequestMapping(value="mainStudy", produces="application/json; charset=UTF-8")
+	public String mainStudy(String category) {
+		return new Gson().toJson(boardService.mainStudy(category));
+		
+	}
 	
 	
 	
@@ -714,6 +832,10 @@ public class BoardController {
 		return "board/studyRoomMain";
 	}
 	
+	
+
+		
+		
 
 
 	
