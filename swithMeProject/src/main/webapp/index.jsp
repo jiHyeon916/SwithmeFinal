@@ -166,8 +166,8 @@
 		width: 200px;
 	}
 	#faq .left img{
-		width: 90px;
-		margin-bottom: 30px;
+		width: 60px;
+		margin-bottom: 20px;
 	}
 	#faq .right{
 		width: 1000px;
@@ -244,6 +244,7 @@
 	<div class="wrap clear">
 		<div class="left">
 			<img src="resources/images/common/question.png" alt="">
+			<h3>FAQ</h3>
 			<p>자주묻는 질문 정리</p>
 		</div>
 		<div class="right">

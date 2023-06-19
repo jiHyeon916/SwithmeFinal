@@ -16,7 +16,7 @@
     <div id="freeBanner">
         <div class="wrap">
             <h3>스터디밴드</h3>
-            <p>제한 없이, 자유롭게 얘기해요!dddddd  </p>
+            <p>마음에 맞는 사람과 같이 공부해요!</p>
         </div>
     </div>
 
