@@ -106,6 +106,7 @@
 											     	</c:otherwise>	
 			                        			</c:choose>
 				                        	<input type="hidden" class="sBoardNoModal" name="bandNo" value="">
+								        	<input type="text" class="writerBoard" value="">
 										    </div> <br>
 								        	<div class="replyBodyDetail">
 								        	
@@ -142,6 +143,7 @@
 						$('#detailCount').text("조회 수 : " + list.sbCount);
 						$('#detailContent').html(list.sbContent);
 						$('#sbContent').text(list.sbContent);
+						$('.writerBoard').attr('value', list.memId);
 						
 					},
 					error : function(){
@@ -354,7 +356,9 @@
 			// 댓글 쓰기 영역
 			$(document).on('click', '#plzBtn', function(){
 				var plzNo = $(this).next().val();
+				var writer = $(this).next().next().val();
 				console.log(plzNo);
+				console.log(writer);
 
 				if($('.replyContent').val().trim() != ''){
 					$.ajax({
@@ -363,7 +367,8 @@
 						data : { 
 								sbBoardNo: plzNo,
 								sbReplyContent : $('.replyContent').val(),
-								memberId : '${loginMember.memberId}'
+								memberId : '${loginMember.memberId}',
+								writerId : writer
 						},
 						success : function(result){
 							

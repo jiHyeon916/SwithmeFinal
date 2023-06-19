@@ -4,14 +4,12 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.UUID;
 
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.io.FileUtils;
-import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -26,6 +24,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.kh.swithme.band.model.service.BandService;
 import com.kh.swithme.band.model.vo.Band;
+import com.kh.swithme.band.model.vo.BandAlarm;
 import com.kh.swithme.band.model.vo.BandBoard;
 import com.kh.swithme.band.model.vo.BandMember;
 import com.kh.swithme.band.model.vo.BandReply;
@@ -153,13 +152,18 @@ public class BandController {
 	// 밴드 댓글 등록
 	@ResponseBody
 	@RequestMapping("studyBand.bo/rinsert.sb")
-	public String ajaxInsertBandReply(BandReply br, String sbReplyContent, int sbBoardNo) {
+	public String ajaxInsertBandReply(BandReply br, BandAlarm ba, String sbReplyContent, int sbBoardNo, String writerId) {
 		br.setSbReplyContent(sbReplyContent.replace(System.getProperty("line.separator"), "<br>"));
 		br.setSbBoardNo(sbBoardNo);
-		//if(bandService.ajaxInsertBandReply(br) > 0) {
-			// bandService.insertBandAlarm
-		//}
-		return bandService.ajaxInsertBandReply(br) > 0 ? "success" : "fail";
+		if(bandService.ajaxInsertBandReply(br) > 0) {
+			ba.setAlarmSbNo(sbBoardNo);
+			ba.setAlarmMember(writerId);
+			
+			return bandService.insertBandAlarm(ba) > 0 ? "success" : "fail";
+		} else {
+			return "fail";
+		}
+
 	}
 	
 	// 밴드 댓글 수정 뷰

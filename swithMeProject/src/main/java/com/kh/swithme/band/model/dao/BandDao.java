@@ -6,6 +6,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.kh.swithme.band.model.vo.Band;
+import com.kh.swithme.band.model.vo.BandAlarm;
 import com.kh.swithme.band.model.vo.BandBoard;
 import com.kh.swithme.band.model.vo.BandMember;
 import com.kh.swithme.band.model.vo.BandReply;
@@ -150,6 +151,10 @@ public class BandDao {
 
 	public ArrayList<BandMember> nickSearch(SqlSessionTemplate sqlSession, BandMember bm) {
 		return (ArrayList)sqlSession.selectList("bandMapper.nickSearch", bm);
+	}
+
+	public int insertBandAlarm(SqlSessionTemplate sqlSession, BandAlarm ba) {
+		return sqlSession.insert("bandMapper.insertBandAlarm", ba);
 	}
 
 
