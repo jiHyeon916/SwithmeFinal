@@ -19,6 +19,7 @@
       <typeAlias type="com.kh.swithme.band.model.vo.BandMember" alias="bandMember" />
       <typeAlias type="com.kh.swithme.band.model.vo.BandReply" alias="bandReply" />
       <typeAlias type="com.kh.swithme.band.model.vo.BandReport" alias="bandReport" />
+      <typeAlias type="com.kh.swithme.band.model.vo.BandAttach" alias="bandAttach" />
       
       <typeAlias type="com.kh.swithme.board.model.vo.Board" alias="Board" />
       <typeAlias type="com.kh.swithme.board.model.vo.Attach" alias="attach" />

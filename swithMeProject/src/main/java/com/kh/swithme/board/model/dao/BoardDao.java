@@ -7,6 +7,7 @@ import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
+import com.kh.swithme.admin.model.vo.Item;
 import com.kh.swithme.band.model.vo.Band;
 import com.kh.swithme.board.model.vo.Attach;
 import com.kh.swithme.board.model.vo.Board;
@@ -160,6 +161,21 @@ public class BoardDao {
 	public int selectPoint(SqlSessionTemplate sqlSession, int replyNo) {
 		return sqlSession.insert("boardMapper.selectPoint", replyNo);
 	}
+	public ArrayList<Item> itemBoard(SqlSessionTemplate sqlSession) {
+		return (ArrayList)sqlSession.selectList("boardMapper.itemBoard");
+	}
+	public int itemCheck(SqlSessionTemplate sqlSession, Board b) {
+		return sqlSession.selectOne("boardMapper.itemCheck", b);
+	}
+	public int itembuyPoint(SqlSessionTemplate sqlSession, Board b) {
+		return sqlSession.insert("boardMapper.itembuyPoint", b);
+	}
+	public int itemGet(SqlSessionTemplate sqlSession, Board b) {
+		return sqlSession.insert("boardMapper.itemGet", b);
+	}
+	public ArrayList<Item> itemListUpdate(SqlSessionTemplate sqlSession, String category) {
+		return (ArrayList)sqlSession.selectList("boardMapper.itemListUpdate", category);
+	}
 	
 
 
@@ -209,6 +225,20 @@ public class BoardDao {
 	public ArrayList<StudyRoom> studyRoomSearch(SqlSessionTemplate sqlSession, HashMap<String, String> map){
 		return (ArrayList)sqlSession.selectList("boardMapper.studyRoomSearch", map);
 	}
+	
+	
+	
+	
+	
+	
+	// ******* 메인 
+	public ArrayList<Band> mainStudy(SqlSessionTemplate sqlSession, String category) {
+		return (ArrayList)sqlSession.selectList("boardMapper.mainStudy", category);
+	}
+	
+	
+	
+	
 	
 	
 	

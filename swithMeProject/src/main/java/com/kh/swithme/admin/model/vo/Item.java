@@ -11,4 +11,6 @@ public class Item {
 	private int itemPrice;  // 아이템 가격
 	private String itemStatus;  // 아이템 판매상태 : Y 판매중 / N 판매중단
 	private String itemPhoto; // 아이템사진명
+	private String wearStatus;
+
 }

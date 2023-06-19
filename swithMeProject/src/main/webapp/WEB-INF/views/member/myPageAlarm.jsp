@@ -154,22 +154,26 @@
 					
 					
 						if(board == 's'){ // 일반게시판일 경우 
+
 							location.href = 'freeBoardDetail.bo?boardNo=' + bNo;
 						
 						}else{
 							location.href = 'studyBand.bo/detail.bo?sno=' + bNo;
+
+						
 						}
 						
-						
-						
+
 						 //읽음 표시하기
 						 if(board == 's' && read == '안읽음' ) {
+
 						 	
 							$.ajax({
 								
 								url : 'readAlarm',
 								data : {boardNo : bNo,
 										alarmNo : alarmNo},
+
 										
 								success : function(result) {
 									
@@ -181,8 +185,7 @@
 								},error: () => {console.log('실패');}
 							});
 							
-						}  
-						 
+						}
 						 
 						 
 						 
@@ -202,7 +205,12 @@
 						} 
 						  
 						
-				}); 
+			
+				
+					});
+				
+				 
+
 				
 				
 				

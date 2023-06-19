@@ -13,6 +13,6 @@ public class Alarm {
 	private String alarmStatus;
 	
 	private String alarmSort; // 게시판알림 or 밴드알림 구분
-	
+	private int alarmSubNo;
 	
 }

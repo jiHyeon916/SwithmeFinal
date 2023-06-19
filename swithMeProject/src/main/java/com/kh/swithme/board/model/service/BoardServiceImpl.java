@@ -7,6 +7,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.kh.swithme.admin.model.vo.Item;
 import com.kh.swithme.band.model.vo.Band;
 import com.kh.swithme.board.model.dao.BoardDao;
 import com.kh.swithme.board.model.vo.Attach;
@@ -202,7 +203,33 @@ public class BoardServiceImpl implements BoardService {
 	public int selectPoint(int replyNo) {
 		return boardDao.selectPoint(sqlSession, replyNo);
 	}
+	@Override
+	public ArrayList<Item> itemBoard() {
+		return boardDao.itemBoard(sqlSession);
+	}
+	@Override
+	public int itemCheck(Board b) {
+		return boardDao.itemCheck(sqlSession, b);
+	}
+	@Override
+	public int itembuyPoint(Board b) {
+		return boardDao.itembuyPoint(sqlSession, b);
+	}
+	@Override
+	public int itemGet(Board b) {
+		return boardDao.itemGet(sqlSession, b);
+	}
+	@Override
+	public ArrayList<Item> itemListUpdate(String category) {
+		return boardDao.itemListUpdate(sqlSession, category);
+	}
 	
+	
+	// ************* 메인 
+	@Override
+	public ArrayList<Band> mainStudy(String category) {
+		return boardDao.mainStudy(sqlSession, category);
+	}
 
 
 
@@ -261,6 +288,9 @@ public class BoardServiceImpl implements BoardService {
 	public ArrayList<StudyRoom> studyRoomSearch(HashMap<String, String> map) {
 		return boardDao.studyRoomSearch(sqlSession, map);
 	}
+	
+	
+	
 	
 
 

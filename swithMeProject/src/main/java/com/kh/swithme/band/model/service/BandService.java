@@ -1,13 +1,10 @@
 package com.kh.swithme.band.model.service;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
-import org.springframework.web.multipart.MultipartFile;
-
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
 import com.kh.swithme.band.model.vo.Band;
+import com.kh.swithme.band.model.vo.BandAlarm;
+import com.kh.swithme.band.model.vo.BandAttach;
 import com.kh.swithme.band.model.vo.BandBoard;
 import com.kh.swithme.band.model.vo.BandMember;
 import com.kh.swithme.band.model.vo.BandReply;
@@ -15,9 +12,8 @@ import com.kh.swithme.band.model.vo.BandReport;
 
 public interface BandService {
 	
-	// test
+	// 밴드 리스트 조회
 	ArrayList<Band> selectTestBand(Band b);
-	// test 끝
 	// ------------------- 밴드 메인 -------------------
 	// int selectListCount(); 페이징 처리가 필요하면 해야함!
 	
@@ -32,6 +28,8 @@ public interface BandService {
 	
 	// 밴드 글 작성
 	int insertBandBoard(BandBoard bb);
+	// 밴드 사진 작성
+	int insertPhoto(BandAttach bat);
 	
 	// 밴드 글 상세보기
 	// 밴드 글 조회수 증가
@@ -47,6 +45,8 @@ public interface BandService {
 	ArrayList<BandReply> ajaxSelectBandReplyList(int sbBoardNo);
 	// 밴드 댓글 작성하기 (AJAX)
 	int ajaxInsertBandReply(BandReply br);
+	// 밴드 댓글 알림 
+	int insertBandAlarm(BandAlarm ba);
 	// 밴드 댓글 수정하기 뷰(AJAX)
 	BandReply replyModifyView(int sbReplyNo);
 	// 밴드 댓글 수정하기 (AJAX)
@@ -110,6 +110,11 @@ public interface BandService {
 
 	// 밴드 리더 위임 리스트 보여주기
 	ArrayList<BandMember> readerList(int sno);
+	// 밴드 리더 닉네임 검색 
+	ArrayList<BandMember> nickSearch(BandMember bm);
+	// 밴드 리더 위임 알림
+	int readerAlarm(BandAlarm ba);
+
 
 
 

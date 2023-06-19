@@ -127,6 +127,7 @@ public class MemberControllerL {
       
          if(memberService.joinMember(m) > 0) { //회원가입 성공
             memberService.joinPoint(m);
+            memberService.joinItem(m);
                //message = "<script>alert('환영합니다 ! 500p가 지급되었습니다 !');location.href='loginForm.me';</script>";
                session.setAttribute("alertMsg","회원가입을 축하합니다 ! 500p가 지급되었습니다 !");   
                mv.setViewName("member/loginForm");
@@ -418,10 +419,23 @@ public class MemberControllerL {
 		
 	}
 	
+	//지현
 	
-	
-	
-	
+	//보드, 밴드 읽음 표시 
+		@ResponseBody
+		@RequestMapping("readAlarm")
+		public char readAlarm(int boardNo, int alarmNo, String sort) {
+			
+			Alarm alarm = new Alarm();
+			alarm.setAlarmBoardNo(boardNo);
+			alarm.setAlarmSubNo(alarmNo);
+			alarm.setAlarmSort(sort);
+			
+			
+			
+		return	memberService.readAlarm(alarm) > 0 ? 'Y' : 'N';
+		}
+		
 	
 	
 	

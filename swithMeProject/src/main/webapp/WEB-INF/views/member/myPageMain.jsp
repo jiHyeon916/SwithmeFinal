@@ -142,8 +142,8 @@
 							};
 							
 							let category = '';
-							for(var key in comment){
-								if(list[i].alarmCategory == key){
+							for(var key in comment){ 
+								if(list[i].alarmCategory == key){ //list.'댓글' == 댓글이 달렸습니다.
 									category = comment[key];
 									break;
 								}

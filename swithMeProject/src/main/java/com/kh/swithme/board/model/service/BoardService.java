@@ -3,6 +3,7 @@ package com.kh.swithme.board.model.service;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import com.kh.swithme.admin.model.vo.Item;
 import com.kh.swithme.band.model.vo.Band;
 import com.kh.swithme.board.model.vo.Attach;
 import com.kh.swithme.board.model.vo.Board;
@@ -147,8 +148,28 @@ public interface BoardService {
 	// 답변 포인트 지급 
 	int selectPoint(int replyNo);
 	
+	// 아이템 리스트 가져오기
+	ArrayList<Item> itemBoard();
+	
+	// 보유한 아이템인지 확인 
+	int itemCheck(Board b);
+	
+	// 아이템 구매 포인트 차감 
+	int itembuyPoint(Board b);
+	
+	// 아이템 구매하기
+	int itemGet(Board b);
+
+	// 아이템 카테고리 분류 
+	ArrayList<Item> itemListUpdate(String category);
 	
 	
+	
+	
+	
+	
+	// **************** 메인 어디다.?
+	ArrayList<Band> mainStudy(String category);
 	
 	
 ////------------------희재 - 스터디룸 
@@ -186,6 +207,7 @@ public interface BoardService {
 	ArrayList<StudyRoom> studyRoomSearch(HashMap<String, String> map);
 	
 	
+//--- 지현
 	
 		
 }

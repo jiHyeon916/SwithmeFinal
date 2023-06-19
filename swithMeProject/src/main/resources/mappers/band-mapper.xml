@@ -15,6 +15,7 @@
 		<result column="sb_count"     	 	 property="sbCount" />
 		<result column="change_name"      	 property="changeName" />
 		<result column="count"      	 	 property="count" />
+		<result column="member_id"      	 property="memId" />
 	</resultMap>
 
 	<resultMap id="bandResultSet" type="band">
@@ -90,12 +91,15 @@
 			   ,SB_CONTENT
 			   ,SB_COUNT
                ,COUNT(SB_REPLY_CONTENT)OVER(PARTITION BY R.SB_BOARD_NO) COUNT
+               ,CHANGE_NAME
 		  FROM
 				SBAND_BOARD B
           LEFT JOIN
                 SBAND_REPLY R ON(R.SB_BOARD_NO = B.SB_BOARD_NO)
           JOIN
 	            MEMBER M ON(M.MEMBER_ID = B.MEMBER_ID)
+	      LEFT JOIN
+	      		ATTACH ON(B.SB_BOARD_NO = REF_NO)
 		 WHERE
 				SB_NO = #{sno}
 		   AND
@@ -121,15 +125,17 @@
 	<select id="selectBandBoard" resultMap="bandBoardResultSet">
 		SELECT
 			   	SB_BOARD_NO
+			   ,SB_NO
 			   ,NICKNAME
 			   ,SB_CATEGORY
 			   ,TO_CHAR(SB_CREATE_DATE, 'YYYY-MM-DD') AS "SB_CREATE_DATE"
 			   ,SB_CONTENT
 			   ,SB_COUNT
+			   ,B.MEMBER_ID
 		  FROM
-				SBAND_BOARD
+				SBAND_BOARD B
 		  JOIN
-	            MEMBER USING(MEMBER_ID)
+	            MEMBER A ON(A.MEMBER_ID = B.MEMBER_ID)
 		 WHERE
 				SB_BOARD_NO = #{sbBoardNo}
 		   AND
@@ -542,5 +548,82 @@
 		   AND
 		 		MEMBER_ID = #{memId}
 	</select>
+	
+	<select id="nickSearch" resultType="bandMember">
+		SELECT 
+				NICKNAME memberId
+			   ,SB_NO sbNo
+			   ,A.MEMBER_ID memId
+	      FROM 
+	      		SBAND_MEMBER A
+	      JOIN
+	      		MEMBER B ON(A.MEMBER_ID = B.MEMBER_ID)
+		 WHERE 
+                SB_NO = #{sbNo}
+           AND
+		 		NICKNAME LIKE '%' || #{ key } || '%'
+	</select>
+	
+	<insert id="insertBandAlarm" parameterType="bandAlarm">
+		INSERT
+		  INTO
+				BAND_ALARM
+				(
+				ALARM_NO
+			   ,ALARM_SB_NO
+			   ,ALARM_MEMBER
+			   ,ALARM_CATEGORY
+				)
+		VALUES
+				(
+				'b_'||SEQ_BAND_ALARM_NO.NEXTVAL
+			   ,#{alarmSbNo}
+			   ,#{alarmMember}
+			   ,'댓글'
+				)			
+	</insert>
+	
+	<insert id="readerAlarm" parameterType="bandAlarm">
+		INSERT
+		  INTO
+				BAND_ALARM
+				(
+				ALARM_NO
+			   ,ALARM_SB_NO
+			   ,ALARM_MEMBER
+			   ,ALARM_CATEGORY
+				)
+		VALUES
+				(
+				'b_'||SEQ_BAND_ALARM_NO.NEXTVAL
+			   ,#{alarmSbNo}
+			   ,#{alarmMember}
+			   ,'방장양도'
+				)			
+	</insert>
+
+	<insert id="insertPhoto" parameterType="bandAttach">
+		INSERT
+		  INTO
+				ATTACH
+				(
+				FILE_NO
+			   ,ORIGIN_NAME
+			   ,CHANGE_NAME
+			   ,FILE_LEVEL
+			   ,REF_NO
+			   ,FIELD
+				)
+		VALUES
+				(
+				SEQ_ATTACH_NO.NEXTVAL
+			   ,#{originName}
+			   ,#{changeName}
+			   ,2
+			   ,SEQ_SB_BOARD_NO.CURRVAL
+			   ,3
+				)
+				
+	</insert>
 	
 </mapper>
