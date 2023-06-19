@@ -20,7 +20,6 @@
         <div class="wrap">
             <h3>아이템</h3>
             <p>나의 캐릭터를 꾸미고 자랑해요!</p>
-            <p>${ sessionScope.loginMember.memberId }</p>
         </div>
     </div>
 
@@ -45,7 +44,7 @@
 
     <!--  -->
     <div id="itemCon">
-        <div class="wrap clear">
+        <div class="wrap clear itemlistupdate">
             <c:forEach items="${ item }" var="i">
             <div class="itemList btn-open-popup">
                 <input type="hidden" id="itemNo" value="${ i.itemNo }">
@@ -248,14 +247,43 @@
                 $('body').css('overflow','auto');
             })
             
-            function buybuy(){
-                alert('ddd');
-            }
+            
             
 
 
             
         })
+
+        function categorySearch(e){
+
+                $.ajax({
+                    url : 'itemListUpdate',
+                    data : {
+                        category : e
+                    },
+                    success : (r) => {
+                        console.log(r.list);
+
+                        var result = '';
+                        for(var i in r.list){
+                            result += '<div class="itemList btn-open-popup">'
+                                        + '<input type="hidden" id="itemNo" value="' + r.list[i].itemNo + '">'
+                                        + '<input type="hidden" id="itemcon" value="' + r.list[i].itemContent + '">'
+                                        + '<input type="hidden" id="itemCategory" value="' + r.list[i].itemCategory + '">'
+                                        + '<div class="itemImg"><img src="' + r.list[i].itemPhoto + '" alt=""></div>'
+                                        + '<p class="itemTitle">'+ r.list[i].itemName +'</p>'
+                                        + '<p class="itemPrice">' + r.list[i].itemPrice + '</p>'
+                                    + '</div>'
+                        }
+
+                        $('.itemlistupdate').html(result);
+                    },
+                    error : () => {
+                        console.log('통신실패')
+                    }
+
+                })
+        }
 
         
 

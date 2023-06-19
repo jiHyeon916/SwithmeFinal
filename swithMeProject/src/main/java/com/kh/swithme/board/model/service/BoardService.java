@@ -159,8 +159,17 @@ public interface BoardService {
 	
 	// 아이템 구매하기
 	int itemGet(Board b);
+
+	// 아이템 카테고리 분류 
+	ArrayList<Item> itemListUpdate(String category);
 	
 	
+	
+	
+	
+	
+	// **************** 메인 어디다.?
+	ArrayList<Band> mainStudy(String category);
 	
 	
 ////------------------희재 - 스터디룸 

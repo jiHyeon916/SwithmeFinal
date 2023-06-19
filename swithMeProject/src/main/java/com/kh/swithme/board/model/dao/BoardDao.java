@@ -173,6 +173,9 @@ public class BoardDao {
 	public int itemGet(SqlSessionTemplate sqlSession, Board b) {
 		return sqlSession.insert("boardMapper.itemGet", b);
 	}
+	public ArrayList<Item> itemListUpdate(SqlSessionTemplate sqlSession, String category) {
+		return (ArrayList)sqlSession.selectList("boardMapper.itemListUpdate", category);
+	}
 	
 
 
@@ -221,6 +224,16 @@ public class BoardDao {
 	
 	public ArrayList<StudyRoom> studyRoomSearch(SqlSessionTemplate sqlSession, HashMap<String, String> map){
 		return (ArrayList)sqlSession.selectList("boardMapper.studyRoomSearch", map);
+	}
+	
+	
+	
+	
+	
+	
+	// ******* 메인 
+	public ArrayList<Band> mainStudy(SqlSessionTemplate sqlSession, String category) {
+		return (ArrayList)sqlSession.selectList("boardMapper.mainStudy", category);
 	}
 	
 	
