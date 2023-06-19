@@ -42,6 +42,7 @@
 		<result column="STATUS" property="status" />
 	</resultMap>
 	
+	<!-- 밴 -->
 	<resultMap id="bandResultSet" type="band">
 		<result column="SB_NO" property="sbNo" />
 		<result column="MEMBER_ID" property="memberId" />
@@ -55,6 +56,16 @@
 		<result column="CREATE_DATE" property="createDate" />
 	</resultMap>
 	
+	<!-- 아이템 -->
+	<resultMap id="itemResultSet" type="item">
+		<result column="ITEM_NO" property="itemNo" />
+		<result column="ITEM_CATEGORY" property="itemCategory" />
+		<result column="ITEM_NAME" property="itemName" />
+		<result column="ITEM_CONTENT" property="itemContent" />
+		<result column="ITEM_PRICE" property="itemPrice" />
+		<result column="ITEM_STATUS" property="itemStatus" />
+		<result column="ITEM_PHOTO" property="itemPhoto" />
+	</resultMap>
 	
 	
 	
@@ -1098,6 +1109,21 @@
 	<insert id="selectPoint">
 		insert into point values(( select member_id from board_reply where board_reply_no = 6), 150, '채택', 'Y', sysdate)
 	</insert>
+	
+	<!-- 아이템 리스트 가져오기 -->
+	<select id="itemBoard" resultMap="itemResultSet">
+		SELECT
+              ITEM_NO
+             ,ITEM_CATEGORY
+             ,ITEM_NAME
+             ,ITEM_CONTENT
+             ,ITEM_PRICE
+             ,ITEM_PHOTO
+    	  FROM
+              BOARD_ITEM
+		 WHERE
+              ITEM_STATUS = 'Y'
+	</select>
 	
 	
 </mapper>

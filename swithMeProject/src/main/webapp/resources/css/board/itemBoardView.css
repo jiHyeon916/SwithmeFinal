@@ -53,6 +53,11 @@
     background-color: grey;
     border-radius: 5px;
     margin-bottom: 5px;
+    overflow: hidden;
+}
+.itemImg img{
+    object-fit: cover;
+    width: 100%;
 }
 
 .itemList p:nth-of-type(1){
@@ -96,6 +101,11 @@
     background-color: gray;
     float: left;
     margin-right: 30px;
+    overflow: hidden;
+}
+.modal_body #itemImg img{
+    width: 100%;
+    object-fit: cover;
 }
 #itemIntro{
     width: 320px;

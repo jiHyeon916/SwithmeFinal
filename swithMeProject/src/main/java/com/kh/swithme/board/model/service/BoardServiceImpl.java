@@ -7,6 +7,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.kh.swithme.admin.model.vo.Item;
 import com.kh.swithme.band.model.vo.Band;
 import com.kh.swithme.board.model.dao.BoardDao;
 import com.kh.swithme.board.model.vo.Attach;
@@ -201,6 +202,10 @@ public class BoardServiceImpl implements BoardService {
 	@Override
 	public int selectPoint(int replyNo) {
 		return boardDao.selectPoint(sqlSession, replyNo);
+	}
+	@Override
+	public ArrayList<Item> itemBoard() {
+		return boardDao.itemBoard(sqlSession);
 	}
 	
 
