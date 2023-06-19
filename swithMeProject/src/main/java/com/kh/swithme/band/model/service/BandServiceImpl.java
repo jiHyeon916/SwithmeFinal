@@ -17,6 +17,7 @@ import com.google.gson.JsonObject;
 import com.kh.swithme.band.model.dao.BandDao;
 import com.kh.swithme.band.model.vo.Band;
 import com.kh.swithme.band.model.vo.BandAlarm;
+import com.kh.swithme.band.model.vo.BandAttach;
 import com.kh.swithme.band.model.vo.BandBoard;
 import com.kh.swithme.band.model.vo.BandMember;
 import com.kh.swithme.band.model.vo.BandReply;
@@ -168,6 +169,16 @@ public class BandServiceImpl implements BandService {
 	@Override
 	public int insertBandAlarm(BandAlarm ba) {
 		return bandDao.insertBandAlarm(sqlSession, ba);
+	}
+
+	@Override
+	public int readerAlarm(BandAlarm ba) {
+		return bandDao.readerAlarm(sqlSession, ba);
+	}
+
+	@Override
+	public int insertPhoto(BandAttach bat) {
+		return bandDao.insertPhoto(sqlSession, bat);
 	}
 
 }

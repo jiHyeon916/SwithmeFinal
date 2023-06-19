@@ -25,6 +25,7 @@ import com.google.gson.JsonObject;
 import com.kh.swithme.band.model.service.BandService;
 import com.kh.swithme.band.model.vo.Band;
 import com.kh.swithme.band.model.vo.BandAlarm;
+import com.kh.swithme.band.model.vo.BandAttach;
 import com.kh.swithme.band.model.vo.BandBoard;
 import com.kh.swithme.band.model.vo.BandMember;
 import com.kh.swithme.band.model.vo.BandReply;
@@ -121,6 +122,24 @@ public class BandController {
 	public String insertBandBoard(BandBoard bb){
 		return bandService.insertBandBoard(bb) > 0 ? "success" : "fail";
 	}
+	// 밴드 게시글 사진
+	@RequestMapping(value="studyBand.bo/photoInsert.sb", produces="application/json; charset=UTF-8")
+	public void insertPhoto(HttpSession session, BandAttach bat, @RequestParam("file") MultipartFile[] file) {
+		
+		for (int i =0; i< file.length; i++) {
+
+			if(!file[i].getOriginalFilename().equals("")) {
+				bat.setOriginName(file[i].getOriginalFilename());
+				bat.setChangeName("/swithme/resources/uploadFiles/band/" + saveFile(file[i], session));
+			}
+			if(bandService.insertPhoto(bat) > 0) {
+				session.setAttribute("alert", "게시글 성공");
+				session.setAttribute("photoList", bandService.insertPhoto(bat));
+				
+			}
+		}
+		
+	}
 	// 밴드 게시글 수정
 	
 	// 밴드 게시글 삭제
@@ -152,11 +171,11 @@ public class BandController {
 	// 밴드 댓글 등록
 	@ResponseBody
 	@RequestMapping("studyBand.bo/rinsert.sb")
-	public String ajaxInsertBandReply(BandReply br, BandAlarm ba, String sbReplyContent, int sbBoardNo, String writerId) {
+	public String ajaxInsertBandReply(BandReply br, BandAlarm ba, String sbReplyContent, int sbNo, int sbBoardNo, String writerId) {
 		br.setSbReplyContent(sbReplyContent.replace(System.getProperty("line.separator"), "<br>"));
 		br.setSbBoardNo(sbBoardNo);
 		if(bandService.ajaxInsertBandReply(br) > 0) {
-			ba.setAlarmSbNo(sbBoardNo);
+			ba.setAlarmSbNo(sbNo);
 			ba.setAlarmMember(writerId);
 			
 			return bandService.insertBandAlarm(ba) > 0 ? "success" : "fail";
@@ -366,13 +385,20 @@ public class BandController {
 	
 	// 리더 위임 변경
 	@RequestMapping("studyBand.bo/changeReader.sb")
-	public String updateBandReader(Band b, int sbNo, String memberId, Model model, HttpSession session) {
+	public String updateBandReader(Band b, int sbNo, BandAlarm ba, String memberId, Model model, HttpSession session) {
 		b.setSbNo(sbNo);
 		b.setMemberId(memberId);
 		
 		if(bandService.updateBandReader(b) > 0) {
 			model.addAttribute("b", bandService.updateBandReader(b));
-			session.setAttribute("finishMsg", "리더 변경에 성공했습니다.");				
+			
+			ba.setAlarmSbNo(sbNo);
+			ba.setAlarmMember(memberId);
+			if(bandService.readerAlarm(ba) > 0) {
+				session.setAttribute("finishMsg", "리더 변경에 성공했습니다.");								
+			} else {
+				session.setAttribute("finishMsg", "리더 변경에 실패했습니다.");	
+			};
 		} else {
 			session.setAttribute("finishMsg", "리더 변경에 실패했습니다.");					
 		}
