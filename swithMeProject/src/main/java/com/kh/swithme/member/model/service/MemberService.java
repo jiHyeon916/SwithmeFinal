@@ -180,5 +180,8 @@ public interface MemberService {
 	// 문의글 삭제하기
 	int qnaDelete(int qno);
 	
+	// 회원가입시 기본 캐릭터 지급
+	int joinItem(Member m);
+	
 	  
 }

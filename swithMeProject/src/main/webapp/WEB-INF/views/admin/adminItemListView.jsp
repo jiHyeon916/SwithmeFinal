@@ -88,8 +88,8 @@
 					
 					
 					<div class="itemBtn clear">
-						<button class="cloesBtn">닫기</button>
-						<button onclick="itemUpdate();">수정하기</button>
+						<button type="button" class="cloesBtn">닫기</button>
+						<button type="button" onclick="itemUpdate();">수정하기</button>
 					</div>
 				</div>
 			</form>
@@ -363,8 +363,12 @@
 					data : formData,
 					success : result => {
 						console.log('아이템 수정 성공');
-						console(result);
-						
+						console.log(result);
+						if(result > 0){
+							$('.cloesBtn').click();
+						}
+						selectItemList(item, filter);
+						console.log('item : ' + item + ' / filter : ' + filter);
 					},
 					error : () => {
 						console.log('아이템 수정 실패');
