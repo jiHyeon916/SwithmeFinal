@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Map;
 import java.util.UUID;
 
 import javax.servlet.http.HttpSession;
@@ -74,10 +75,18 @@ public class BandController {
 	
 	// 밴드 디테일
 	@RequestMapping("studyBand.bo/detail.bo")
-	public String selectList(Model model, int sno) {
+	public String selectList(HttpSession session, int sno) {
 		
-		model.addAttribute("list", bandService.selectBandList(sno));
+		session.setAttribute("list", bandService.selectBandList(sno));
+		
 		return "band/bandMain";
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="studyBand.bo/photoSelect.sb", produces="application/json; charset=UTF-8")
+	public String selectPhoto(Model model, int sbBoardNo) {
+		
+		return new Gson().toJson(bandService.selectPhoto(sbBoardNo));
 	}
 	
 	// 밴드 게시글 디테일
@@ -124,23 +133,21 @@ public class BandController {
 	}
 	// 밴드 게시글 사진
 	@RequestMapping(value="studyBand.bo/photoInsert.sb", produces="application/json; charset=UTF-8")
-	public void insertPhoto(HttpSession session, BandAttach bat, @RequestParam("file") MultipartFile[] file) {
+	public void insertPhoto(HttpSession session, BandAttach bat, @RequestParam("file") MultipartFile file) {
 		
-		for (int i =0; i< file.length; i++) {
-
-			if(!file[i].getOriginalFilename().equals("")) {
-				bat.setOriginName(file[i].getOriginalFilename());
-				bat.setChangeName("/swithme/resources/uploadFiles/band/" + saveFile(file[i], session));
+			
+			if(!file.getOriginalFilename().equals("")) {
+				bat.setOriginName(file.getOriginalFilename());
+				bat.setChangeName("/swithme/resources/uploadFiles/band/" + saveFile(file, session));
 			}
 			if(bandService.insertPhoto(bat) > 0) {
 				session.setAttribute("alert", "게시글 성공");
 				session.setAttribute("photoList", bandService.insertPhoto(bat));
 				
 			}
-		}
-		
 	}
-	// 밴드 게시글 수정
+	
+	// 밴드 게시글 수정 
 	
 	// 밴드 게시글 삭제
 	@ResponseBody

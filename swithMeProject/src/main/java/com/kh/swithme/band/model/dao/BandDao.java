@@ -1,6 +1,7 @@
 package com.kh.swithme.band.model.dao;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
@@ -164,6 +165,10 @@ public class BandDao {
 
 	public int insertPhoto(SqlSessionTemplate sqlSession, BandAttach bat) {
 		return sqlSession.insert("bandMapper.insertPhoto", bat);
+	}
+
+	public ArrayList<BandAttach> selectPhoto(SqlSessionTemplate sqlSession, int sbBoardNo) {
+		return (ArrayList)sqlSession.selectList("bandMapper.selectPhoto", sbBoardNo);
 	}
 
 

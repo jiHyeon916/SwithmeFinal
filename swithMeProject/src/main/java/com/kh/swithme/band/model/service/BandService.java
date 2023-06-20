@@ -1,6 +1,7 @@
 package com.kh.swithme.band.model.service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import com.kh.swithme.band.model.vo.Band;
 import com.kh.swithme.band.model.vo.BandAlarm;
@@ -114,6 +115,8 @@ public interface BandService {
 	ArrayList<BandMember> nickSearch(BandMember bm);
 	// 밴드 리더 위임 알림
 	int readerAlarm(BandAlarm ba);
+
+	ArrayList<BandAttach> selectPhoto(int sbBoardNo);
 
 
 

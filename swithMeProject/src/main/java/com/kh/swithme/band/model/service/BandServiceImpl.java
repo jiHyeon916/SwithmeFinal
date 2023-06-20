@@ -181,4 +181,11 @@ public class BandServiceImpl implements BandService {
 		return bandDao.insertPhoto(sqlSession, bat);
 	}
 
+	@Override
+	public ArrayList<BandAttach> selectPhoto(int sbBoardNo) {
+		return bandDao.selectPhoto(sqlSession, sbBoardNo);
+	}
+
+
+
 }

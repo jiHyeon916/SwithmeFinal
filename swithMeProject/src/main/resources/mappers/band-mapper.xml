@@ -123,7 +123,7 @@
 	</update>
 	
 	<select id="selectBandBoard" resultMap="bandBoardResultSet">
-		SELECT
+		SELECT DISTINCT
 			   	SB_BOARD_NO
 			   ,SB_NO
 			   ,NICKNAME
@@ -132,10 +132,13 @@
 			   ,SB_CONTENT
 			   ,SB_COUNT
 			   ,B.MEMBER_ID
+			   ,NVL(CHANGE_NAME,0) CHANGE_NAME
 		  FROM
 				SBAND_BOARD B
 		  JOIN
 	            MEMBER A ON(A.MEMBER_ID = B.MEMBER_ID)
+	      LEFT JOIN
+	      		ATTACH ON(SB_BOARD_NO = REF_NO)
 		 WHERE
 				SB_BOARD_NO = #{sbBoardNo}
 		   AND
@@ -397,17 +400,22 @@
 	</update>
 	
 	<select id="selectBandNoticeBoard" resultMap="bandBoardResultSet">
-		SELECT
+		SELECT DISTINCT
 			   	SB_BOARD_NO
+			   ,SB_NO
 			   ,NICKNAME
 			   ,SB_CATEGORY
 			   ,TO_CHAR(SB_CREATE_DATE, 'YYYY-MM-DD') AS "SB_CREATE_DATE"
 			   ,SB_CONTENT
 			   ,SB_COUNT
+			   ,B.MEMBER_ID
+			   ,NVL(CHANGE_NAME,0) CHANGE_NAME
 		  FROM
-				SBAND_BOARD
+				SBAND_BOARD B
 		  JOIN
-	            MEMBER USING(MEMBER_ID)
+	            MEMBER A ON(A.MEMBER_ID = B.MEMBER_ID)
+	      LEFT JOIN
+	      		ATTACH ON(SB_BOARD_NO = REF_NO)
 		 WHERE
 				SB_BOARD_NO = #{sbBoardNo}
 		   AND
@@ -625,5 +633,13 @@
 				)
 				
 	</insert>
+	<select id="selectPhoto" resultType="bandAttach">
+		SELECT DISTINCT
+				CHANGE_NAME changeName 
+		  FROM
+				ATTACH
+		 WHERE
+				REF_NO = #{sbBoardNo}		
+	</select>
 	
 </mapper>
