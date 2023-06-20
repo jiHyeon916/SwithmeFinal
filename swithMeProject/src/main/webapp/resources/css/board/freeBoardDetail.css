@@ -97,6 +97,11 @@ textarea:focus{
     padding: 0 10px 0;
     border-radius: 5px;
 }
+.categoryBox .tagBtn:hover{
+    color: #60c277;
+    cursor: pointer;
+    background-color: #f5f5f5;
+}
 
 
 /* 댓글 영역 */
