@@ -120,6 +120,11 @@
   		border-color:red;
       }
  
+/*  	#adminMemberTable > tbody > tr:hover{
+ 		cursor:pointer;
+ 		background-color:lightgray;
+ 		
+ 		} */
     
       
 </style>
@@ -224,8 +229,31 @@
                          				}
                         		},error:() => {console.log('실패');}
                      		  })
+                     		  
+                     		  
+                     		  
+                     			 
+                     		  
                             };
 
+                            
+                  /*           $(document).on('click','#adminMemberTable > tbody > tr', function() {
+                            	
+                            	let boardNo = $(this).next('td').val();
+                            	conosle.log(boardNo);
+                    
+                            	
+                            	location.href="freeBoardDetail.bo?boardNo="+ boardNo;
+                            	
+                            }); */
+                      
+                            
+                            
+                            
+                            
+                            
+                            
+                            
                    
                //회원이 작성한 밴드 글 조회            
                function memberBandList() {
@@ -318,6 +346,14 @@
 				            						}
 				            		 			}) 
 				            	 			});
+				        	
+				        	
+				        	
+				        	
+				        	
+				        	
+				        	
+				        	
            		 </script>
             
             

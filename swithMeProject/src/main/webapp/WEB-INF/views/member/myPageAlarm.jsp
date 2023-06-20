@@ -66,6 +66,7 @@
 				
 				$(function(){
 					AlarmList(); // 알림내역
+					
 				}); 
 				
 				// 알림 내역
@@ -95,6 +96,13 @@
 								
 								let value = '';
 								
+								
+								//알람 모두 읽음 확인여부
+								
+								
+							/* 	let allRead = true; */
+								
+								
 								for(let i in list){
 									//sortType = list[i].alarmSort;
 									
@@ -105,11 +113,22 @@
 									};
 									
 									
+									
 									if(list[i].alarmStatus == 'Y'){
 										status = '안읽음'
 									}else{
 										status = '읽음'
 									};
+									
+									
+									
+									/* 
+									
+									if(list[i].alarmStatus == 'Y') { //안읽음 표시가 있으면
+										 allRead = false;
+									}
+									
+									 */
 									
 									
 									
@@ -129,17 +148,36 @@
 										  + '<td>' + list[i].alarmDate + '</td>'
 										  +'<input type="hidden" name="alarmNo" value="' + list[i].alarmSubNo +'" />'
 										  + '</tr>'
-									
+								
+							
 								};
 								
 								$('#pointList tbody').html(value);
+								
+							/* 	if(allRead = true){
+									$('#noRead').hide();
+								} */
 							}
 							
 						},
 						error : () => { console.log('연결실패'); }
+						
+						
+						
+						
 					});
+					
+				
+					/* if($('pointList tbody tr').children().children().status == '읽음'){
+						aelrt('dd');
+					}
+				 */
 				}
-			
+				
+				
+				
+				
+				
 				
 				//알림 클릭시 해당 게시글로 이동
 				$(document).on('click','#pointList > tbody > tr', function() {
@@ -211,14 +249,19 @@
 							location.href = 'studyBand.bo/detail.bo?sno=' + bNo;
 						}
 						
-						
-					
-						
-				
 					});
 				
-				 
 
+			
+				
+				
+				/* if('#pointList> tbody > read' === '읽음') {
+					
+					alert('dd');
+					$('#noRead').hidden();
+				});
+ */
+				
 
 				
 				

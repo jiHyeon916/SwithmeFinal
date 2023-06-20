@@ -153,7 +153,7 @@ public class MemberControllerL {
       //복화
       if(loginMember != null && bcryptPasswordEncoder.matches(m.getMemberPwd(), loginMember.getMemberPwd())) {
             
-            if(memberService.loginPointChk(m) == 0 && !loginMember.getMemberId().equals("admin")) {
+            if(memberService.loginPointChk(m) == 0 && !loginMember.getMemberId().equals("admin")) { //관리자는 포인트 노 
             	memberService.loginPointInsert(m);
             	session.setAttribute("alertMsg", "환영합니다 ! 30p가 지급되었습니다 !");
             }
