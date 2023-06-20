@@ -92,9 +92,9 @@
 	                        				<p id="detailContent"></p>
 	                        			</div>
 	                        			<br>
-	                        			<div class="photoDiv">
-	                        				<p>사진영역</p>
-	                        			</div>
+	                        			<div class="photoBody">
+											<img id="photoImg1" src="">
+						        		</div>
 	                        			<hr>
 	                        			<br>
 		                        	
@@ -128,6 +128,13 @@
 						$('#detailCount').text("조회 수 : " + list.sbCount);
 						$('#detailContent').html(list.sbContent);
 						$('#sbContent').text(list.sbContent);
+						if(list.changeName == 0){
+							$('.photoBody').css('display', 'none');
+							
+						} else {
+							$('#photoImg1').attr('src', list.changeName);
+							
+						}
 						
 					},
 					error : function(){
