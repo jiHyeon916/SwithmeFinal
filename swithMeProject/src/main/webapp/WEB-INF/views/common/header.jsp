@@ -116,6 +116,7 @@
 			//location.href = reload();
 			
 				if('${ !empty loginMember}') {
+					console.log($('#noRead'));
 					
 					$.ajax({
 						url : 'alarmList.me',
@@ -127,11 +128,13 @@
 							for(let i in list) {
 								
 								if(list[i].alarmStatus == 'Y' ){
-									$('#noRead').display();
+									allRead = false;
+									break;
+									
 								}
 							}
 							
-							if(allRead = true){
+							if(allRead){
 								$('#noRead').hide();
 							}
 							
