@@ -244,6 +244,10 @@ public class BoardServiceImpl implements BoardService {
 	public int boardReport(Report r) {
 		return boardDao.boardReport(sqlSession, r);
 	}
+	@Override
+	public int deleteRe(Reply r) {
+		return boardDao.deleteRe(sqlSession, r);
+	}
 	
 	
 	// ************* 메인 

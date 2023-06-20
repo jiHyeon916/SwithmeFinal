@@ -192,6 +192,10 @@ public class BoardDao {
 	public int boardReport(SqlSessionTemplate sqlSession, Report r) {
 		return sqlSession.insert("boardMapper.boardReport", r);
 	}
+	public int deleteRe(SqlSessionTemplate sqlSession, Reply r) {
+		return sqlSession.update("boardMapper.deleteRe", r);
+	}
+	
 	
 
 
@@ -251,7 +255,6 @@ public class BoardDao {
 	public ArrayList<Band> mainStudy(SqlSessionTemplate sqlSession, String category) {
 		return (ArrayList)sqlSession.selectList("boardMapper.mainStudy", category);
 	}
-	
 	
 	
 	

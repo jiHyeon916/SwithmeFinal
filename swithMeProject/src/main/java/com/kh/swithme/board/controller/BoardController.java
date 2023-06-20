@@ -359,8 +359,6 @@ public class BoardController {
 	}
 	
 	
-	
-	
 	/**
 	 * 태그 검색 
 	 * @param model key가 포함된 게시글 리스트
@@ -540,11 +538,26 @@ public class BoardController {
 		return boardService.replyModify(r) > 0 ? "success" : "fail";
 	}
 	
+	/**
+	 * 대댓글 수정 
+	 * @param re 수정할 댓글 번호 ,컨텐츠 내용 
+	 * @return
+	 */
 	@ResponseBody
 	@RequestMapping("reReplyModify.bo")
 	public String reReplyModify(ReReply re) {
 		
 		return boardService.reReplyModify(re) > 0 ? "success" : "fail";
+	}
+	
+	@ResponseBody
+	@RequestMapping("deleteRe.bo")
+	public int deleteRe(int reType, int replyNo) {
+		Reply r = new Reply();
+		r.setBoardNo(reType);
+		r.setBoardReplyNo(replyNo);
+		
+		return boardService.deleteRe(r);
 	}
 	
 	/**
@@ -774,6 +787,11 @@ public class BoardController {
 		return new Gson().toJson(jobj);
 	}
 	
+	/**
+	 * 게시글 신고하기 
+	 * @param r
+	 * @return
+	 */
 	@ResponseBody
 	@RequestMapping("boardReport.bo")
 	public int boardReport(Report r) {

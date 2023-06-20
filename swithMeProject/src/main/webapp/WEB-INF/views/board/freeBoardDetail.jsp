@@ -306,7 +306,7 @@
                     for(var i in list){
 
                         if('${ sessionScope.loginMember.nickName}' == list[i].memberId){
-                            modifyBtn = '<div><p class="modiCheck" onclick="replyModify(this,' + list[i].boardReplyNo + ');">수정</p><p>삭제</p></div>';
+                            modifyBtn = '<div><p class="modiCheck" onclick="replyModify(this,' + list[i].boardReplyNo + ');">수정</p><p onclick="deleteRe(1, ' + list[i].boardReplyNo + ')">삭제</p></div>';
                         };
 
                         result += '<div class="replyList">'
@@ -517,13 +517,13 @@
                     let result = '';
                     let modifyBtn = '';
                     
-                    console.log(r);
-
+                    
                     for (var i in r) {
+
                         if('${ sessionScope.loginMember.nickName }' == r[i].memberId){
-                            modifyBtn += '<div>'
+                            modifyBtn  = '<div>'
                                             + '<p class="reReplyModify" onclick=reReplyModify(this,' + r[i].reReplyNo + ')>수정</p>'
-                                            + '<p>삭제</p>'
+                                            + '<p onclick="deleteRe(2,' + r[i].reReplyNo + ')">삭제</p>'
                                         + '</div>'
                         }
 
@@ -583,6 +583,23 @@
                 reply();
             })
             
+        }
+
+        function deleteRe(num, replyNo){
+            $.ajax({
+                url : 'deleteRe.bo',
+                data : {
+                    reType : num,
+                    replyNo : replyNo
+                },
+                success: () =>{
+                    alert('삭제되었습니다.');
+                    reply();
+                },
+                error : () =>{
+
+                }
+            })
         }
 
 

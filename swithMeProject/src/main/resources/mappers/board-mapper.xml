@@ -1051,6 +1051,28 @@
 	   			BOARD_REPLY_NO = #{replyNo}
 	</update>
 	
+	
+	<update id="deleteRe" parameterType="_int">
+		<if test="boardNo == 1">
+			UPDATE
+	   			  BOARD_REPLY
+	   		   SET
+	   		   	  BOARD_STATUS = 'N'
+	   		 WHERE
+	   		 	  BOARD_REPLY_NO = #{ boardReplyNo }
+		</if>
+		
+		<if test="boardNo == 2">
+			UPDATE
+	   			  BOARD_RE_REPLY
+	   		   SET
+	   		   	  STATUS = 'N'
+	   		 WHERE
+	   		 	  BOARD_RE_REPLY_NO = #{ boardReplyNo }
+		</if>
+	   	  
+	</update>
+	
 	<!-- 스터디 밴드 생성(모집) -->
 	<insert id="studyBandInsert">
 		INSERT
