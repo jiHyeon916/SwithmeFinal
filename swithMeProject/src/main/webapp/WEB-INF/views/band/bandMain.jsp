@@ -41,7 +41,7 @@
 		        	</div>
 		        	<br>
 		        	<div class="photoBody">
-						<p class="writer">이곳은 사진 영역입니다.</p>
+
 		        	</div>
 		        	<br>
 		        	
@@ -107,6 +107,7 @@
 			                        			</c:choose>
 				                        	<input type="hidden" class="sBoardNoModal" name="bandNo" value="">
 								        	<input type="text" class="writerBoard" value="">
+								        	<input type="text" class="bandNo" value="">
 										    </div> <br>
 								        	<div class="replyBodyDetail">
 								        	
@@ -144,6 +145,8 @@
 						$('#detailContent').html(list.sbContent);
 						$('#sbContent').text(list.sbContent);
 						$('.writerBoard').attr('value', list.memId);
+						$('.bandNo').attr('value', list.sbNo);
+						
 						
 					},
 					error : function(){
@@ -175,39 +178,42 @@
                         		<div class="totalDetail1">
 									<textarea id="summernote" name="editordata"></textarea>
                         		</div>
-                        		<div class="totalPhoto">
-	                        		<div class="img_box">
-	                        			<label class="labetPhoto" for="file1">첨부</label>
-	                        			<div class="img_container">
-	                        				<img id="img1" src="">
-	                        			</div>
+                        		<form method="post" enctype="multipart/form-data" id="photoForm">
+	                        		<div class="totalPhoto">
+		                        		<div class="img_box">
+		                        			<label class="labetPhoto" for="file1">첨부</label>
+		                        			<div class="img_container">
+		                        				<img id="img1" src="">
+		                        			</div>
+		                        		</div>
+		                        		<div class="img_box">
+		                        			<label class="labetPhoto" for="file2">첨부</label>
+		                        			<div class="img_container">
+		                        				<img id="img2" src="">
+		                        			</div>
+		                        		</div>
+		                        		<div class="img_box">
+		                        			<label class="labetPhoto" for="file3">첨부</label>
+		                        			<div class="img_container">
+		                        				<img id="img3" src="">
+		                        			</div>
+		                        		</div>
+		                        		<div class="img_box">
+		                        			<label class="labetPhoto" for="file4">첨부</label>
+		                        			<div class="img_container">
+		                        				<img id="img4" src="">
+		                        			</div>
+		                        		</div>
+	
+		                        		<div class="fileType">
+		                        			<input type="hidden" name="sbBoardNo" >
+		                        			<input type="file" id="file1" accept="image/*" name="file" onchange="setImage(this,1);" />
+		                        			<input type="file" id="file2" accept="image/*" name="file" onchange="setImage(this,2);" />
+		                        			<input type="file" id="file3" accept="image/*" name="file" onchange="setImage(this,3);" />
+		                        			<input type="file" id="file4" accept="image/*" name="file" onchange="setImage(this,4);" />
+		                        		</div>
 	                        		</div>
-	                        		<div class="img_box">
-	                        			<label class="labetPhoto" for="file2">첨부</label>
-	                        			<div class="img_container">
-	                        				<img id="img2" src="">
-	                        			</div>
-	                        		</div>
-	                        		<div class="img_box">
-	                        			<label class="labetPhoto" for="file3">첨부</label>
-	                        			<div class="img_container">
-	                        				<img id="img3" src="">
-	                        			</div>
-	                        		</div>
-	                        		<div class="img_box">
-	                        			<label class="labetPhoto" for="file4">첨부</label>
-	                        			<div class="img_container">
-	                        				<img id="img4" src="">
-	                        			</div>
-	                        		</div>
-
-	                        		<div class="fileType">
-	                        			<input type="file" id="file1" accept="image/*" name="file1" onchange="setImage(this,1);" />
-	                        			<input type="file" id="file2" accept="image/*" name="file2" onchange="setImage(this,2);" />
-	                        			<input type="file" id="file3" accept="image/*" name="file3" onchange="setImage(this,3);" />
-	                        			<input type="file" id="file4" accept="image/*" name="file4" onchange="setImage(this,4);" />
-	                        		</div>
-                        		</div>
+                        		</form>
                         	</div>
                         </div>
                         <br>
@@ -256,7 +262,6 @@
 			            ['table', ['table']],
 			            ['para', ['ul', 'ol', 'paragraph']],
 			            ['height', ['height']],
-			            ['insert',['picture','video']]
 					],
 					callbacks: {
 						onImageUpload : function(files){
@@ -267,7 +272,7 @@
 			});
 
 			
-			// 게시글 사진 영역
+			/*// 게시글 사진 영역
 			function sendFile(file, editor){
 				var data = new FormData();
 				data.append("file", file);
@@ -284,7 +289,7 @@
 						$(editor).summernote("insertImage",data.url);
 					}
 				});
-			}
+			}*/
 			
 			// 게시글 이미지 영역
 			function setImage(inputFile, num) {
@@ -325,6 +330,7 @@
 				var param = new URLSearchParams(query);
 				var sno = param.get('sno');
 				
+				// 글
 				$.ajax({
 					url : 'binsert.sb',
 					type : 'POST',
@@ -348,6 +354,25 @@
 						console.log('게시글 작성 실패');
 					}
 				})
+				
+				// 사진
+				var form = $('#photoForm')[0];
+				var formData = new FormData(form);
+				
+				$.ajax({
+					url : 'photoInsert.sb',
+					type : 'POST',
+					contentType : false,
+			        processData : false,
+					data : formData ,
+					success : function(photoList){
+						console.log(photoList);
+						$('.photoBody').html(photoList);
+					},
+					error : function(){
+						console.log('사진 작성 실패');
+					}
+				})
 			});
 			
 			
@@ -357,8 +382,14 @@
 			$(document).on('click', '#plzBtn', function(){
 				var plzNo = $(this).next().val();
 				var writer = $(this).next().next().val();
-				console.log(plzNo);
-				console.log(writer);
+				
+				var query = window.location.search;     
+				var param = new URLSearchParams(query);
+				var sno = param.get('sno');
+
+				
+				// console.log(plzNo);
+				// console.log(writer);
 
 				if($('.replyContent').val().trim() != ''){
 					$.ajax({
@@ -368,7 +399,8 @@
 								sbBoardNo: plzNo,
 								sbReplyContent : $('.replyContent').val(),
 								memberId : '${loginMember.memberId}',
-								writerId : writer
+								writerId : writer,
+								sbNo : sno
 						},
 						success : function(result){
 							

@@ -420,8 +420,6 @@ public class MemberControllerL {
 		
 	}
 	
-	//지현
-	
 	//보드, 밴드 읽음 표시 
 		@ResponseBody
 		@RequestMapping("readAlarm")
@@ -431,12 +429,25 @@ public class MemberControllerL {
 		HashMap<String, Integer> map = new HashMap();
 		map.put("alarmNo", alarmNo);
 		map.put("boardNo", boardNo);
-			
-			
+
 		return	memberService.readAlarm(map) > 0 ? 'Y' : 'N';
 		}
 		
+		
+		@ResponseBody
+		@RequestMapping("readAlarmB")
+		public char readAlarmB(int boardNo, int alarmNo) {
+			
+			HashMap<String, Integer> map = new HashMap();
+			map.put("boardNo", boardNo);
+			map.put("alarmNo", alarmNo);
+			
+			return memberService.readAlarmB(map) > 0 ?  'Y' : 'N';
+		}
+		
 	
+		
+		
 	
 	
 	

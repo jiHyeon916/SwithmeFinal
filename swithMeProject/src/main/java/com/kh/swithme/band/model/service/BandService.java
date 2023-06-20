@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import com.kh.swithme.band.model.vo.Band;
 import com.kh.swithme.band.model.vo.BandAlarm;
+import com.kh.swithme.band.model.vo.BandAttach;
 import com.kh.swithme.band.model.vo.BandBoard;
 import com.kh.swithme.band.model.vo.BandMember;
 import com.kh.swithme.band.model.vo.BandReply;
@@ -27,6 +28,8 @@ public interface BandService {
 	
 	// 밴드 글 작성
 	int insertBandBoard(BandBoard bb);
+	// 밴드 사진 작성
+	int insertPhoto(BandAttach bat);
 	
 	// 밴드 글 상세보기
 	// 밴드 글 조회수 증가
@@ -107,8 +110,10 @@ public interface BandService {
 
 	// 밴드 리더 위임 리스트 보여주기
 	ArrayList<BandMember> readerList(int sno);
-
+	// 밴드 리더 닉네임 검색 
 	ArrayList<BandMember> nickSearch(BandMember bm);
+	// 밴드 리더 위임 알림
+	int readerAlarm(BandAlarm ba);
 
 
 

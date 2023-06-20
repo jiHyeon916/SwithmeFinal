@@ -91,12 +91,15 @@
 			   ,SB_CONTENT
 			   ,SB_COUNT
                ,COUNT(SB_REPLY_CONTENT)OVER(PARTITION BY R.SB_BOARD_NO) COUNT
+               ,CHANGE_NAME
 		  FROM
 				SBAND_BOARD B
           LEFT JOIN
                 SBAND_REPLY R ON(R.SB_BOARD_NO = B.SB_BOARD_NO)
           JOIN
 	            MEMBER M ON(M.MEMBER_ID = B.MEMBER_ID)
+	      LEFT JOIN
+	      		ATTACH ON(B.SB_BOARD_NO = REF_NO)
 		 WHERE
 				SB_NO = #{sno}
 		   AND
@@ -122,6 +125,7 @@
 	<select id="selectBandBoard" resultMap="bandBoardResultSet">
 		SELECT
 			   	SB_BOARD_NO
+			   ,SB_NO
 			   ,NICKNAME
 			   ,SB_CATEGORY
 			   ,TO_CHAR(SB_CREATE_DATE, 'YYYY-MM-DD') AS "SB_CREATE_DATE"
@@ -577,6 +581,49 @@
 			   ,#{alarmMember}
 			   ,'댓글'
 				)			
+	</insert>
+	
+	<insert id="readerAlarm" parameterType="bandAlarm">
+		INSERT
+		  INTO
+				BAND_ALARM
+				(
+				ALARM_NO
+			   ,ALARM_SB_NO
+			   ,ALARM_MEMBER
+			   ,ALARM_CATEGORY
+				)
+		VALUES
+				(
+				'b_'||SEQ_BAND_ALARM_NO.NEXTVAL
+			   ,#{alarmSbNo}
+			   ,#{alarmMember}
+			   ,'방장양도'
+				)			
+	</insert>
+
+	<insert id="insertPhoto" parameterType="bandAttach">
+		INSERT
+		  INTO
+				ATTACH
+				(
+				FILE_NO
+			   ,ORIGIN_NAME
+			   ,CHANGE_NAME
+			   ,FILE_LEVEL
+			   ,REF_NO
+			   ,FIELD
+				)
+		VALUES
+				(
+				SEQ_ATTACH_NO.NEXTVAL
+			   ,#{originName}
+			   ,#{changeName}
+			   ,2
+			   ,SEQ_SB_BOARD_NO.CURRVAL
+			   ,3
+				)
+				
 	</insert>
 	
 </mapper>

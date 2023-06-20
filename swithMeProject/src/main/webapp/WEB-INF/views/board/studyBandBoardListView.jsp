@@ -16,7 +16,7 @@
     <div id="freeBanner">
         <div class="wrap">
             <h3>스터디밴드</h3>
-            <p>제한 없이, 자유롭게 얘기해요!dddddd  </p>
+            <p>마음에 맞는 사람과 같이 공부해요!</p>
         </div>
     </div>
 
@@ -74,7 +74,7 @@
                     <div class="studyBandList clear">
                         <div class="studyBandId">${ b.memberId }</div>
                         <div class="studyBandInfo">
-                            <img src="resources/images/board/test.png" alt="dd">
+                            <img src="${ b.sbChangeName }" alt="dd">
                             <div>
                                 <p class="studyBandName">${b.sbTitle}</p>
                                 <p class="studyBandIntro">
