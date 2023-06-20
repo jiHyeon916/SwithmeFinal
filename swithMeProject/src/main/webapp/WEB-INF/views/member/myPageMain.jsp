@@ -25,7 +25,13 @@
 		<div class="content">
 		
 			<div id="mb1">
-				<div id="mainChar">캐릭터</div>
+				<div class="character">
+					<!-- 레이어 순서 : 맨뒤 배경 > 캐릭터 > 모자 > 도구 -->
+					<img id="wearItem0" class="wearItem" src="" alt="도구"/>
+					<img id="wearItem1" class="wearItem" src="" alt="모자"/>
+					<img id="wearItem2" class="wearItem" src="" alt="배경"/>
+					<img id="wearItem3" class="wearItem" src="" alt="캐릭터"/>
+				</div>
 				<p id="mNick">${ loginMember.nickName }</p>
 				<p id="mMail">${ loginMember.memberEmail }</p>
 				<button onclick="location.href='profil.me'">수정하기</button>
@@ -57,13 +63,43 @@
 		let sort = ''; // 게시판 or 스터디밴드 구분용 빈문자열 선언 
 	
 		$(function(){
+			myCharacter(); // 캐릭터 불러오기
 			totalPoint(); // 총 포인트 불러오기
 			miniPointList(); // 포인트내역 최신3개
 			miniAlarmList(); // 알림내역 최신 5개
 			dateFormat();
 		}); 
 		
-		
+		// 착용 아이템
+		function myCharacter(){
+			let wearItemArr = $('.wearItem');
+			
+			$.ajax({
+				url : 'myCharacter.me',
+				data : {
+					memberId : '${ loginMember.memberId }'
+				},
+				success : list => {
+					console.log(list);
+					value = '';
+					for(let i in list){
+						// 순서 : 도구 > 모자 > 배경 > 캐릭터
+						$('.wearItem').each(function(){
+							let imgAlt = $(this).attr('alt');
+							
+							if(list[i].itemCategory == imgAlt){
+								$(this).attr('src', list[i].itemPhoto);
+								$(this).css('display', 'inline');
+							};
+						});
+					};
+				},
+				error : () => {
+				}
+			});
+		};
+
+
 		// 토탈포인트
 		function totalPoint(){
 			$.ajax({
@@ -142,8 +178,8 @@
 							};
 							
 							let category = '';
-							for(var key in comment){ 
-								if(list[i].alarmCategory == key){ //list.'댓글' == 댓글이 달렸습니다.
+							for(var key in comment){
+								if(list[i].alarmCategory == key){
 									category = comment[key];
 									break;
 								}
@@ -169,19 +205,17 @@
 		// 알림내역 클릭시 해당하는 게시글로 이동
 		$(document).on('click', '#AminiList>p', function(){
 			let board = $(this).children().eq(0).val(); // 게시판인지 밴드인지
-			//let boardType = $(this).children().eq(1).val(); // 커뮤니티인지 질문정보인지
 			let bNo = $(this).children().eq(1).val(); // 보드넘버
-			//console.log(test);
 
 			
 			if(board == 's'){ // 일반게시판일 경우
 				location.href = 'freeBoardDetail.bo?boardNo=' + bNo;
-				/* if(boardType == 'free'){
-				} else {
-					location.href = 'freeBoardDetail.bo?boardNo=' + bNo;
-				} */
 			} else { // 스터디밴드인경우
-				location.href = 'studyBand.bo/detail.sb?sno=' + bNo;
+				if(category == '방장으로 임명되었습니다.'){
+					location.href = '/studyBand.bo/detail.bo?sno=' + bNo;
+				} else {
+					location.href = '/studyBand.bo/detail.sb' //+ bNo;
+				}
 			}
 		});
 		

@@ -269,8 +269,6 @@ public class MemberDao {
 		return sqlSession.delete("memberMapper.qnaDelete", qno);
 	}
 
-
-	
 	// 회원가입시 기본 캐릭터 지급
 	public int joinItem(SqlSessionTemplate sqlSession, Member m) {
 		return sqlSession.insert("memberMapper.joinItem", m);
@@ -288,7 +286,15 @@ public class MemberDao {
 		return (ArrayList)sqlSession.selectList("memberMapper.myItemList", mItem, rowBounds);
 	}
 
-
+	// 보유 아이템 삭제
+	public int deleteMyItem(SqlSessionTemplate sqlSession, MemberItem mitem) {
+		return sqlSession.delete("memberMapper.deleteMyItem", mitem);
+	};
+	
+	// 착용한 아이템 가져오기
+	public ArrayList<Item> myCharacter(SqlSessionTemplate sqlSession, String memberId){
+		return (ArrayList)sqlSession.selectList("memberMapper.myCharacter", memberId);
+	}
 
 
 }
