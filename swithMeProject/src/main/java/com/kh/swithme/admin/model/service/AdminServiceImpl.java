@@ -250,12 +250,30 @@ public class AdminServiceImpl implements AdminService {
 	public int deleteStudyRoom(int studyRoomNo) {
 		return 0;
 	}
+	
+	// 스터디룸 상세정보
+	@Override
+	public StudyRoom selectStudyRoom(int studyRoomNo) {
+		return adminDao.selectStudyRoom(sqlSession, studyRoomNo);
+	}
+
+	@Override
+	public ArrayList<Attach> selectStudyRoomImage(int studyRoomNo) {
+		return adminDao.selectStudyRoomImage(sqlSession, studyRoomNo);
+	}
 
 	// 스터디룸 정보 수정
 	@Override
 	public int updateStudyRoom(StudyRoom sr) {
-		return 0;
+		return adminDao.updateStudyRoom(sqlSession, sr);
 	}
+
+	@Override
+	public int updateStudyRoomImage(Attach at) {
+		return adminDao.updateStudyRoomImage(sqlSession, at);
+	}
+
+
 
 
    

@@ -129,8 +129,13 @@ public interface AdminService {
 	// 스터디룸 상세보기 삭제
 	int deleteStudyRoom(int studyRoomNo);
 	
+	// 스터디룸 상세보기
+	StudyRoom selectStudyRoom(int studyRoomNo);
+	ArrayList<Attach> selectStudyRoomImage(int studyRoomNo);
+	
 	// 스터디룸 정보 수정
 	int updateStudyRoom(StudyRoom sr);
+	int updateStudyRoomImage(Attach at);
 	
 	
 }

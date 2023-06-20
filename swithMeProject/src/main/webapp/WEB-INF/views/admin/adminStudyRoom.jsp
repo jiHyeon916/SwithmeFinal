@@ -92,6 +92,25 @@
     height: 50px;
 }
 
+/*페이징*/
+.paBtn{
+	width : 320px;
+	height : 60px;
+	margin : auto;
+}
+.paBtn > button{
+	width : 40px;
+	height : 40px;
+	background-color : white;
+	border : 1px solid rgb(3, 195, 115);
+	border-radius : 3px;
+	color : rgb(3, 195, 115);
+	margin : 5px;
+	box-sizing : border-box;
+	text-align : center;
+	
+}
+
 
 /* 카테고리 버튼 */
 .post_head{
@@ -212,7 +231,7 @@ tr:hover{
 									<td>${sr.studyRoomAddress}</td>
 									<td>${sr.studyRoomPhone}</td>
 									<td>
-										<button class="updateBtn">수정</button>&nbsp;
+										<button class="updateBtn" onclick="location.href='updateStudyRoomForm.ad?studyRoomNo=${sr.studyRoomNo}'">수정</button>&nbsp;
 										<button class="updateBtn" onclick="location.href='studyRoomDetail.bo?studyRoomNo=${sr.studyRoomNo}'">상세보기</button>
 									</td>
 	         					</tr>
@@ -220,7 +239,36 @@ tr:hover{
 	         			</tbody>
 	         		</table>
 	         	</div>
-	         	
+
+				<!-- 페이징버튼 -->
+				<div class="paBtn">
+				<c:choose>
+					<c:when test="${p1.currentPage eq 1}">
+					 	<button disabled style="border : 1px solid rgb(175, 175, 175); color : rgb(175, 175, 175);"><a href="#"></a>&lt;</button>
+					</c:when>
+					<c:otherwise>
+						<button onclick="location.href='adminStudyRoom.ad?aPage=${ pi.currentPage -1 }'">&lt;</button>
+					</c:otherwise>
+				</c:choose>
+				<c:forEach begin="${ pi.startPage }" end="${ pi.endPage }" var="p">
+					<c:choose>
+						<c:when test="${ p eq pi.currentPage }">
+							<button disabled style="border : 1px solid rgb(175, 175, 175); color : rgb(175, 175, 175);">${p}</button>
+						</c:when>
+						<c:otherwise>
+							<button style="border : 1px solid rgb(175, 175, 175); color : rgb(175, 175, 175);" onclick="location.href='adminStudyRoom.ad?aPage=${p}'">${p}</button>
+						</c:otherwise>
+					</c:choose>
+				</c:forEach>					
+				<c:choose>
+					<c:when test="${ pi.currentPage eq pi.maxPage }">
+						<button disabled style="border : 1px solid rgb(175, 175, 175); color : rgb(175, 175, 175);">&gt;</button>
+					</c:when>
+					<c:otherwise>
+						<button onclick="location.href='adminStudyRoom.ad?aPage=${ pi.currentPage + 1 }'">&gt;</button>
+					</c:otherwise>
+				</c:choose>
+				</div>
 	      </div>
 	   </div>
 

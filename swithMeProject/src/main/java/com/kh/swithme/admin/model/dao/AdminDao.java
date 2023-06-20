@@ -217,7 +217,7 @@ public class AdminDao {
 	
 	// 스터디룸 이미지 추가
 	public int insertStudyRoomImage(SqlSessionTemplate sqlSession, Attach at) {
-		return sqlSession.insert("adminMpper.insertStudyRoomCoords", at);
+		return sqlSession.insert("adminMapper.insertStudyRoomImage", at);
 	}
 
 	// 스터디룸 선택 삭제
@@ -229,8 +229,23 @@ public class AdminDao {
 
 
 	// 스터디룸 정보 수정
+	public StudyRoom selectStudyRoom(SqlSessionTemplate sqlSession, int studyRoomNo) {
+		return sqlSession.selectOne("adminMapper.selectStudyRoom", studyRoomNo);
+	}
 
+	public ArrayList<Attach> selectStudyRoomImage(SqlSessionTemplate sqlSession, int studyRoomNo){
+		return (ArrayList)sqlSession.selectList("adminMapper.selectStudyRoomImage", studyRoomNo);
+	}
 
+	public int updateStudyRoom(SqlSessionTemplate sqlSession, StudyRoom sr) {
+		return sqlSession.update("adminMapper.updateStudyRoom", sr);
+	}
+	
+	public int updateStudyRoomImage(SqlSessionTemplate sqlSession, Attach at) {
+		return sqlSession.update("adminMapper.updateStudyRoomImage", at);
+	}
+
+	
 
 
 }

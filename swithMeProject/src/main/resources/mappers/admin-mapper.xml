@@ -118,18 +118,73 @@
    			)
    		VALUES
    			(
-   			,SEQ_FILE_NO.NEXTVAL
+   			SEQ_ATTACH_NO.NEXTVAL
    			,#{originName}
    			,#{changeName}
    			,#{fileLevel}
    			,SEQ_SR_NO.CURRVAL
    			,2
    			)
-   		
    </insert>
    
+   <!-- 스터디룸 상세 보기 -->
+	<select id="selectStudyRoom" parameterType="_int" resultMap="sRoomResultSet">
+		SELECT 
+			SR_NO
+			,SR_NAME
+			,SR_LOCATION
+			,SR_ADDRESS
+			,SR_LAT
+			,SR_LNG
+			,SR_PHONE
+			,SR_INTRODUCE
+			,SR_WEBSITE
+		FROM
+			BOARD_STUDYROOM
+		WHERE
+			SR_NO=#{studyRoomNo}
+	
+	</select>
+	
+	<select id="selectStudyRoomImage" parameterType="_int" resultType="attach">
+		SELECT
+			FILE_NO fileNo
+			,CHANGE_NAME changeName
+			,FILE_LEVEL fileLevel
+			,REF_NO refNo
+		FROM
+		 	ATTACH
+		WHERE
+			 REF_NO = #{studyRoomNo}
+		AND
+			FIELD = 2
+	</select>
    
+   <!-- 스터디룸 수정 -->
+   <update id="updateStudyRoom" parameterType="studyRoom">
+   		UPDATE
+   			BOARD_STUDYROOM
+   		SET
+   			SR_NAME=#{studyRoomName}
+   			,SR_LOCATION=#{studyRoomLocation}
+   			,SR_ADDRESS=#{studyRoomAddress}
+   			,SR_LAT=#{studyRoomLat}
+			,SR_LNG=#{studyRoomLng}
+			,SR_PHONE=#{studyRoomPhone}
+			,SR_INTRODUCE=#{studyRoomIntroduce}
+   		WHERE
+   			SR_NO=#{studyRoomNo}
+   </update>
    
+   <update id="updateStudyRoomImage" parameterType="attach">
+   		UPDATE
+   			ATTACH
+   		SET
+   			ORIGIN_NAME=#{originName}
+   			,CHANGE_NAME=#{changeName}
+   		WHERE
+   			REF_NO = #{refNo}
+   </update>
    
    
  
