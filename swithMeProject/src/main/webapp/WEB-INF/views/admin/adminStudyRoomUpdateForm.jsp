@@ -266,6 +266,7 @@ tr{
                                     <td>
                                         <div id="studyRoomImg">
                                             <img id="studyRoomView" src="${change}" /></div>
+                                            <input type="hidden" name="originName" value="${origin}"/>
                                             <input type="hidden" name="changeName" value="${change}" />
                                     </td>
                                 </tr>

@@ -520,7 +520,25 @@ public class AdminController {
 			at.setChangeName("resources/uploadFiles/admin/" + saveFile(upFile, session, "study"));
 			at.setFileLevel(1);
 		}
-		System.out.println(sr);
+		switch(sr.getStudyRoomLocation()) {
+			case "10" : sr.setStudyRoomLocation("강원");break;
+			case "20" : sr.setStudyRoomLocation("경기");break;
+			case "30" : sr.setStudyRoomLocation("경남");break;
+			case "40" : sr.setStudyRoomLocation("경북");break;
+			case "50" : sr.setStudyRoomLocation("광주");break;
+			case "60" : sr.setStudyRoomLocation("대구");break;
+			case "70" : sr.setStudyRoomLocation("대전");break;
+			case "80" : sr.setStudyRoomLocation("부산");break;
+			case "90" : sr.setStudyRoomLocation("서울");break;
+			case "11" : sr.setStudyRoomLocation("세종");break;
+			case "12" : sr.setStudyRoomLocation("울산");break;
+			case "13" : sr.setStudyRoomLocation("인천");break;
+			case "14" : sr.setStudyRoomLocation("전남");break;
+			case "15" : sr.setStudyRoomLocation("전북");break;
+			case "16" : sr.setStudyRoomLocation("제주");break;
+			case "17" : sr.setStudyRoomLocation("충남");break;
+			case "18" : sr.setStudyRoomLocation("충북");break;
+		}
 		int result1 = adminService.insertStudyRoom(sr);
 		int result2 = adminService.insertStudyRoomImage(at);
 		if((result1 * result2) > 0) {
@@ -537,6 +555,7 @@ public class AdminController {
 	@RequestMapping("updateStudyRoomForm.ad")
 	public String updateStudyRoomForm(int studyRoomNo, Model model) {
 		model.addAttribute("studyRoom", adminService.selectStudyRoom(studyRoomNo));
+		model.addAttribute("origin", adminService.selectStudyRoomImage(studyRoomNo).get(0).getOriginName());
 		model.addAttribute("change", adminService.selectStudyRoomImage(studyRoomNo).get(0).getChangeName());
 		
 		return "admin/adminStudyRoomUpdateForm";
@@ -551,6 +570,25 @@ public class AdminController {
 			at.setOriginName(reUpFile.getOriginalFilename());
 			at.setChangeName("resources/uploadFiles/admin/" + saveFile(reUpFile, session, "study"));
 			at.setRefNo(sr.getStudyRoomNo());
+		}
+		switch(sr.getStudyRoomLocation()) {
+			case "10" : sr.setStudyRoomLocation("강원");break;
+			case "20" : sr.setStudyRoomLocation("경기");break;
+			case "30" : sr.setStudyRoomLocation("경남");break;
+			case "40" : sr.setStudyRoomLocation("경북");break;
+			case "50" : sr.setStudyRoomLocation("광주");break;
+			case "60" : sr.setStudyRoomLocation("대구");break;
+			case "70" : sr.setStudyRoomLocation("대전");break;
+			case "80" : sr.setStudyRoomLocation("부산");break;
+			case "90" : sr.setStudyRoomLocation("서울");break;
+			case "11" : sr.setStudyRoomLocation("세종");break;
+			case "12" : sr.setStudyRoomLocation("울산");break;
+			case "13" : sr.setStudyRoomLocation("인천");break;
+			case "14" : sr.setStudyRoomLocation("전남");break;
+			case "15" : sr.setStudyRoomLocation("전북");break;
+			case "16" : sr.setStudyRoomLocation("제주");break;
+			case "17" : sr.setStudyRoomLocation("충남");break;
+			case "18" : sr.setStudyRoomLocation("충북");break;
 		}
 		int result1 = adminService.updateStudyRoom(sr);
 		int result2 = adminService.updateStudyRoomImage(at);

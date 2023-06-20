@@ -149,6 +149,7 @@
 	<select id="selectStudyRoomImage" parameterType="_int" resultType="attach">
 		SELECT
 			FILE_NO fileNo
+			,ORIGIN_NAME originName
 			,CHANGE_NAME changeName
 			,FILE_LEVEL fileLevel
 			,REF_NO refNo
