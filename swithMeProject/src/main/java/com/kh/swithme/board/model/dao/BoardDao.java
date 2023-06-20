@@ -8,6 +8,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.kh.swithme.admin.model.vo.Item;
+import com.kh.swithme.admin.model.vo.Report;
 import com.kh.swithme.band.model.vo.Band;
 import com.kh.swithme.board.model.vo.Attach;
 import com.kh.swithme.board.model.vo.Board;
@@ -184,6 +185,9 @@ public class BoardDao {
 	}
 	public ArrayList<Item> itemListUpdate(SqlSessionTemplate sqlSession, String category) {
 		return (ArrayList)sqlSession.selectList("boardMapper.itemListUpdate", category);
+	}
+	public int boardReport(SqlSessionTemplate sqlSession, Report r) {
+		return sqlSession.insert("boardMapper.boardReport", r);
 	}
 	
 

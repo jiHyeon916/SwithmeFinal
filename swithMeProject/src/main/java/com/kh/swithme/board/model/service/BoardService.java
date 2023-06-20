@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import com.kh.swithme.admin.model.vo.Item;
+import com.kh.swithme.admin.model.vo.Report;
 import com.kh.swithme.band.model.vo.Band;
 import com.kh.swithme.board.model.vo.Attach;
 import com.kh.swithme.board.model.vo.Board;
@@ -172,6 +173,8 @@ public interface BoardService {
 	// 아이템 카테고리 분류 
 	ArrayList<Item> itemListUpdate(String category);
 	
+	// 신고하기
+	int boardReport(Report r);
 	
 	
 	

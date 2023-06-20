@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.google.gson.Gson;
+import com.kh.swithme.admin.model.vo.Report;
 import com.kh.swithme.band.model.vo.Band;
 import com.kh.swithme.board.model.service.BoardServiceImpl;
 import com.kh.swithme.board.model.vo.Board;
@@ -764,6 +765,14 @@ public class BoardController {
 		jobj.put("list", boardService.itemListUpdate(category));
 		// jobj.put("pi", pi);
 		return new Gson().toJson(jobj);
+	}
+	
+	@ResponseBody
+	@RequestMapping("boardReport.bo")
+	public int boardReport(Report r) {
+		System.out.println(r);
+		
+		return boardService.boardReport(r);
 	}
 	
 	
