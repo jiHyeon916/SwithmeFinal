@@ -145,10 +145,10 @@
                 </div>
                 <hr>
                 <h5>추가내용</h5>
-                <textarea id="reportCon" cols="30" rows="10" placeholder="추가로 기재할 내용을 적어주세요."></textarea>
+                <textarea id="reportCon" cols="30" rows="10" placeholder="추가로 기재할 내용을 적어주세요." required></textarea>
                 <p class="ment">* 허위 기재 및 무분별한 신고시 불이익이 있을 수 있습니다.</p>
                 <button onclick="report();">신고하기</button>
-        </div>
+            </div>
     </div>
 
 
