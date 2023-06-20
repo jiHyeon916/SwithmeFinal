@@ -48,6 +48,10 @@ public class BoardServiceImpl implements BoardService {
 		return boardDao.topBoard(sqlSession);
 	}
 	@Override
+	public ArrayList<Board> topBoard2(){
+		return boardDao.topBoard(sqlSession);
+	}
+	@Override
 	public int boardCountUp(int boardNo) {
 		return boardDao.boardCountUp(sqlSession, boardNo);
 	}

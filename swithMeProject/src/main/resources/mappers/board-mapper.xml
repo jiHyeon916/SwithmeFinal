@@ -391,13 +391,35 @@
 		  		SELECT
 		              BOARD_NO
 		             ,BOARD_TITLE
+		             ,TO_CHAR(CREATE_DATE, 'YYYY-MM-DD HH24:MI') AS "CREATE_DATE"
 		          FROM
 		              MAINBOARD
+		         WHERE
+		         	  BOARD_TYPE = 'free'
 		         ORDER
 		            BY
 		              BOARD_COUNT DESC)
          WHERE ROWNUM <![CDATA[ < 6 ]]>
 	</select>
+	
+	<!-- 인기글 top5 -->
+	<select id="topBoard2" resultMap="boardResultSet">
+		SELECT *
+		  FROM (
+		  		SELECT
+		              BOARD_NO
+		             ,BOARD_TITLE
+		             ,TO_CHAR(CREATE_DATE, 'YYYY-MM-DD HH24:MI') AS "CREATE_DATE"
+		          FROM
+		              MAINBOARD
+		         WHERE
+		         	  BOARD_TYPE = 'info'
+		         ORDER
+		            BY
+		              BOARD_COUNT DESC)
+         WHERE ROWNUM <![CDATA[ < 6 ]]>
+	</select>
+	
 	
 	<!-- 자유게시판 게시글 수 조회  -->
 	<select id="boardCount" resultType="_int">

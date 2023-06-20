@@ -29,6 +29,9 @@ public interface BoardService {
 	// 인기글 불러오기
 	ArrayList<Board> topBoard();
 	
+	// 인기글 불러오기
+	ArrayList<Board> topBoard2();
+	
 	// 게시글 조회 - 조회수 증가
 	int boardCountUp(int boardNo);
 	

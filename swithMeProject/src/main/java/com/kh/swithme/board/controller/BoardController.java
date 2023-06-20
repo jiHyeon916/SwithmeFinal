@@ -86,6 +86,18 @@ public class BoardController {
 	public String topBoard() {
 		return new Gson().toJson(boardService.topBoard()); 
 	}
+	
+	/**
+	 * 인기글 top5 조회 
+	 * @param model
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value="topBoard2.bo", produces="application/json; charset=UTF-8")
+	public String topBoard2() {
+		return new Gson().toJson(boardService.topBoard()); 
+	}
+	
 	/**
 	 * 게시글 상세 보기 
 	 * @param boardNo 조회할 게시글 번호
