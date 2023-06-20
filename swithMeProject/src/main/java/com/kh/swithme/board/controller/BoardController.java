@@ -540,6 +540,13 @@ public class BoardController {
 		return boardService.replyModify(r) > 0 ? "success" : "fail";
 	}
 	
+	@ResponseBody
+	@RequestMapping("reReplyModify.bo")
+	public String reReplyModify(ReReply re) {
+		
+		return boardService.reReplyModify(re) > 0 ? "success" : "fail";
+	}
+	
 	/**
 	 * 게시글 삭제 
 	 * @param boardNo 삭제할 게시글 넘버 

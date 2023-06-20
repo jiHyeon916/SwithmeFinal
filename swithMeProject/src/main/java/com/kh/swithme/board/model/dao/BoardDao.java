@@ -137,6 +137,9 @@ public class BoardDao {
 	public int replyModify(SqlSessionTemplate sqlSession, Reply r) {
 		return sqlSession.update("boardMapper.replyModify", r);
 	}
+	public int reReplyModify(SqlSessionTemplate sqlSession, ReReply re) {
+		return sqlSession.update("boardMapper.reReplyModify", re);
+	}
 	public int replyDelete(SqlSessionTemplate sqlSession, int replyNo) {
 		return sqlSession.update("boardMapper.replyDelete", replyNo);
 	}
@@ -248,6 +251,7 @@ public class BoardDao {
 	public ArrayList<Band> mainStudy(SqlSessionTemplate sqlSession, String category) {
 		return (ArrayList)sqlSession.selectList("boardMapper.mainStudy", category);
 	}
+	
 	
 	
 	

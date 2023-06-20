@@ -601,12 +601,14 @@
 		SELECT
 			  BOARD_RE_REPLY_NO
 			 ,BOARD_REPLY_NO
-			 ,MEMBER_ID
+			 ,NICKNAME AS "MEMBER_ID"
 			 ,BOARD_REPLY2_CONTENT
 			 ,BOARD_REPLY2_CREATE_DATE
 			 ,BOARD_REPLY2_FILE
 		  FROM
 		 	  BOARD_RE_REPLY
+		  JOIN
+		  	  MEMBER USING(MEMBER_ID)
 		 WHERE
 		 	  STATUS = 'Y'
 		   AND
@@ -1027,6 +1029,16 @@
 		      BOARD_REPLY_CONTENT = #{ boardReplyContent }
 		 WHERE
 		 	  BOARD_REPLY_NO = #{ boardReplyNo }
+	</update>
+	
+	<!-- 대댓글 수정 -->
+	<update id="reReplyModify">
+		UPDATE
+			  BOARD_RE_REPLY
+		   SET
+		      BOARD_REPLY2_CONTENT = #{ reReplyContent }
+		 WHERE
+		 	  BOARD_RE_REPLY_NO = #{ reReplyNo }
 	</update>
 	
 	<!-- 댓글 삭제하기 -->

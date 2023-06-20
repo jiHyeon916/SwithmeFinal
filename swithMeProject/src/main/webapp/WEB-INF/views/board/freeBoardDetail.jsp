@@ -443,6 +443,8 @@
 
         }
 
+        
+
         // 좋아요 하기
         function likeBoard(){
 
@@ -513,19 +515,27 @@
                 success: function(r) {
                     
                     let result = '';
+                    let modifyBtn = '';
+                    
+                    console.log(r);
+
                     for (var i in r) {
+                        if('${ sessionScope.loginMember.nickName }' == r[i].memberId){
+                            modifyBtn += '<div>'
+                                            + '<p class="reReplyModify" onclick=reReplyModify(this,' + r[i].reReplyNo + ')>수정</p>'
+                                            + '<p>삭제</p>'
+                                        + '</div>'
+                        }
+
                         result += '<div class="clear">'
                                     +  '<img src="resources/images/board/rereplyimg.png">'
                                     + '<div class="rRL">'
                                         +  '<div class="clear">'
                                             + '<p>' + r[i].memberId + '</p>'
                                             + '<p>' + r[i].createDate + '</p>' 
-                                            + '<div>'
-                                                + '<p>수정</p>'
-                                                + '<p>삭제</p>'
-                                            + '</div>'
+                                            + modifyBtn
                                         + '</div>'
-                                        +  '<p>' + r[i].reReplyContent + '</p>'
+                                        +  '<p class="reReplyCon' + r[i].reReplyNo + '">' + r[i].reReplyContent + '</p>'
                                     + '</div>'
                                 + '</div>'
                     }   
@@ -537,6 +547,44 @@
                 }
             }); 
         }
+
+        // 대댓글 수정하기 
+        function reReplyModify(e, num){
+            
+            var textdata = $(e).parent().parent().next().text();
+
+            $(".modiCheck").attr('onclick', null);
+            $('.reReplyModify').attr('onclick', null);
+
+            var modifyArea = '<textarea class="reReplayModify">' + textdata + '</textarea>'
+                            + '<button class="reReplyMBtn">수정</button>'
+                            + '<button class="reset reReplyRBtn">취소</button>'
+
+            $('.reReplyCon' + num ).html(modifyArea);
+
+            $('.reReplyMBtn').click(function(){
+                $.ajax({
+                    url : 'reReplyModify.bo',
+                    data : {
+                        reReplyNo : num,
+                        reReplyContent : $('.reReplayModify').val()
+                    },
+                    success : function(r){
+                        reply();
+                    },
+                    error : function(){
+
+                    }
+
+                });
+            });
+
+            $('.reset').click(function(){
+                reply();
+            })
+            
+        }
+
 
         //태그 검색 
         function tagSearch(e){
