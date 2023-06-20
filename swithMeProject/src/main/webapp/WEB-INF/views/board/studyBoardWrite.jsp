@@ -15,7 +15,7 @@
     <jsp:include page="../common/header.jsp" />
 
 
-    <form action="post" enctype="multipart/form-data">
+    <form method="post" enctype="multipart/form-data" id="sorry">
     <div id="F_writer_content">
         <div class="wrap clear">
             
@@ -24,9 +24,9 @@
             <!-- 제목, 컨텐츠 입력 칸 -->
             <div class="left">
                 <p>방 제목</p>
-                <input type="text" id="title">
+                <input type="text" id="title" name="title">
                 <p>스터디 소개 내용</p>
-                <textarea name="" id="summernote"></textarea>
+                <textarea name="bCon" id="summernote"></textarea>
             </div>
 
             <!-- 카테고리,태그,파일첨부 -->
@@ -60,7 +60,7 @@
                 </div>
                 
                 <p class="perTotla">모집인원</p>
-                <input type="number" name="" id="perNum">
+                <input type="number" name="perNum" id="perNum" required max="30" min="1">
                 <div class="uploadBtnArea clear">
                     <p>썸네일</p>
                     <button type="button" onclick="thumbNail();">업로드</button>
@@ -68,7 +68,8 @@
                 <div class="thumbnailArea"></div>
                 <input type="file" id="fileSelect" name="please" onchange="loadImg(this)">
                 
-
+                <input type="hidden" name="category" value="">
+                <input type="hidden" name="memberId" value="${ sessionScope.loginMember.memberId }">
                 <button type="button" onclick="test();">취소하기</button>
                 <button id="submit" type="button" onclick="text();">작성하기</button>
             </div>
@@ -113,23 +114,27 @@
       // 글 작성하기
       function text(){
 
+        var form = $('#sorry')[0];
 
-            var formData = new FormData();
-            var temp = $("#fileSelect")[0].files[0];
+        var formData = new FormData(form);
+
+        $('input[name=category]').val($('.btn-select').text());
+        alert($('#perNum').val());
 
         $.ajax({
             url : 'studyBandInsert.bo',
-            type : 'post',
-            data : {
-                memberId : '${ loginMember.memberId }',
-                bCon : $('#summernote').val(),
-                title : $('#title').val(),
-                category : $('.btn-select').text(),
-                perNum : $('#perNum').val(),
-                img : temp
-            },
             processData: false,
 		    contentType: false,
+            type : 'post',
+            data : formData,
+            // data : {
+            //     // memberId : '${ loginMember.memberId }',
+            //     // bCon : $('#summernote').val(),
+            //     // title : $('#title').val(),
+            //     // category : $('.btn-select').text(),
+            //     // perNum : $('#perNum').val(),
+            //     formData : formData
+            // },
             success : function(r){
                 if(r == 'success'){
                     alert('글 작성 성공');

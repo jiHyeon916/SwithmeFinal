@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.kh.swithme.admin.model.vo.Item;
+import com.kh.swithme.admin.model.vo.Report;
 import com.kh.swithme.band.model.vo.Band;
 import com.kh.swithme.board.model.dao.BoardDao;
 import com.kh.swithme.board.model.vo.Attach;
@@ -45,6 +46,10 @@ public class BoardServiceImpl implements BoardService {
 	}
 	@Override
 	public ArrayList<Board> topBoard(){
+		return boardDao.topBoard(sqlSession);
+	}
+	@Override
+	public ArrayList<Board> topBoard2(){
 		return boardDao.topBoard(sqlSession);
 	}
 	@Override
@@ -108,8 +113,16 @@ public class BoardServiceImpl implements BoardService {
 		return boardDao.insertReply(sqlSession, r);
 	}
 	@Override
+	public int insertReplyAlarm(int boardNo) {
+		return boardDao.insertReplyAlarm(sqlSession, boardNo);
+	}
+	@Override
 	public int reReplyBoard(ReReply rere) {
 		return boardDao.reReplyBoard(sqlSession, rere);
+	}
+	@Override
+	public int reReplyBoardAlarm(ReReply rere) {
+		return boardDao.reReplyBoardAlarm(sqlSession, rere);
 	}
 	@Override
 	public int test(Board b) {
@@ -168,7 +181,7 @@ public class BoardServiceImpl implements BoardService {
 		return boardDao.replyDelete(sqlSession, replyNo);
 	}
 	@Override
-	public int studyBandInsert(Board b) {
+	public int studyBandInsert(Band b) {
 		return boardDao.studyBandInsert(sqlSession, b);
 	}
 	@Override
@@ -222,6 +235,10 @@ public class BoardServiceImpl implements BoardService {
 	@Override
 	public ArrayList<Item> itemListUpdate(String category) {
 		return boardDao.itemListUpdate(sqlSession, category);
+	}
+	@Override
+	public int boardReport(Report r) {
+		return boardDao.boardReport(sqlSession, r);
 	}
 	
 	

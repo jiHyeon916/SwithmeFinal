@@ -8,6 +8,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.kh.swithme.admin.model.vo.Item;
+import com.kh.swithme.admin.model.vo.Report;
 import com.kh.swithme.band.model.vo.Band;
 import com.kh.swithme.board.model.vo.Attach;
 import com.kh.swithme.board.model.vo.Board;
@@ -31,6 +32,9 @@ public class BoardDao {
 		return (ArrayList)sqlSession.selectList("boardMapper.boardListSelect", boardType, rowBounds);
 	}
 	public ArrayList<Board> topBoard(SqlSessionTemplate sqlSession){
+		return (ArrayList)sqlSession.selectList("boardMapper.topBoard");
+	}
+	public ArrayList<Board> topBoard2(SqlSessionTemplate sqlSession){
 		return (ArrayList)sqlSession.selectList("boardMapper.topBoard");
 	}
 	public int boardCountUp(SqlSessionTemplate sqlSession, int boardNo) {
@@ -78,8 +82,14 @@ public class BoardDao {
 	public int insertReply(SqlSessionTemplate sqlSession, Reply r) {
 		return sqlSession.insert("boardMapper.insertReply", r);
 	}
+	public int insertReplyAlarm(SqlSessionTemplate sqlSession, int boardNo) {
+		return sqlSession.insert("boardMapper.insertReplyAlarm", boardNo);
+	}
 	public int reReplyBoard(SqlSessionTemplate sqlSession, ReReply rere) {
 		return sqlSession.insert("boardMapper.reReplyBoard", rere);
+	}
+	public int reReplyBoardAlarm(SqlSessionTemplate sqlSession, ReReply rere) {
+		return sqlSession.insert("boardMapper.reReplyBoardAlarm", rere);
 	}
 	public int tagInsert(SqlSessionTemplate sqlSession, String tagList) {
 		return sqlSession.insert("boardMapper.tagInsert", tagList);
@@ -130,7 +140,7 @@ public class BoardDao {
 	public int replyDelete(SqlSessionTemplate sqlSession, int replyNo) {
 		return sqlSession.update("boardMapper.replyDelete", replyNo);
 	}
-	public int studyBandInsert(SqlSessionTemplate sqlSession, Board b) {
+	public int studyBandInsert(SqlSessionTemplate sqlSession, Band b) {
 		return sqlSession.insert("boardMapper.studyBandInsert", b);
 	}
 	public int studyMemberInsert(SqlSessionTemplate sqlSession, String memberId) {
@@ -175,6 +185,9 @@ public class BoardDao {
 	}
 	public ArrayList<Item> itemListUpdate(SqlSessionTemplate sqlSession, String category) {
 		return (ArrayList)sqlSession.selectList("boardMapper.itemListUpdate", category);
+	}
+	public int boardReport(SqlSessionTemplate sqlSession, Report r) {
+		return sqlSession.insert("boardMapper.boardReport", r);
 	}
 	
 
@@ -235,7 +248,6 @@ public class BoardDao {
 	public ArrayList<Band> mainStudy(SqlSessionTemplate sqlSession, String category) {
 		return (ArrayList)sqlSession.selectList("boardMapper.mainStudy", category);
 	}
-	
 	
 	
 	

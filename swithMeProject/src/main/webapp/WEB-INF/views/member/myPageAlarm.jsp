@@ -14,6 +14,11 @@
 	cursor:pointer;
 	background-color:rgb(241, 241, 241);
 }
+
+.backColor{
+	background-color : rgb(241, 241, 241);
+}
+
 </style>
 </head>
 <body>
@@ -148,43 +153,73 @@
 					let read = $(this).children().eq(3).text(); // 읽음, 안읽음
 					console.log(read);
 					
+					
+					
 					//알람 넘버(히든으로 숨겨서 왔음)
 					let alarmNo = $(this).children().eq(5).val();
 					console.log(alarmNo);
 					
 					
+					
 						if(board == 's'){ // 일반게시판일 경우 
-							//location.href = 'freeBoardDetail.bo?boardNo=' + bNo;
 						
+							
+							 //읽음 표시하기
+							 if( read == '안읽음' ) { //게시판
+								$.ajax({
+									
+									url : 'readAlarm',
+									data : {boardNo : bNo,
+											alarmNo : alarmNo},
+
+											
+									success : function(result) {
+										
+										if(result == 'Y'){
+											
+											location.href = 'freeBoardDetail.bo?boardNo=' + bNo;
+											AlarmList();
+										}
+										
+									},error: () => {console.log('실패');}
+								});
+								
+							}else{
+								location.href = 'freeBoardDetail.bo?boardNo=' + bNo; //읽음표시되어있어도 넘기기.
+							}
+
+						
+							 
+							 
+						}else if(read == '안읽음')	{	//밴드
+							
+							$.ajax({
+								
+								url : 'readAlarmB',
+								data : {boardNo : bNo,
+										alarmNo : alarmNo},
+								success : function(result) {
+									if(result == 'Y'){
+										location.href = 'studyBand.bo/detail.bo?sno=' + bNo;
+										$('')
+										AlarmList();
+									}
+								},error : () => {console.log('실패');}		
+							});
+							
 						}else{
-							//location.href = 'studyBand.bo/detail.bo?sno=' + bNo;
+							location.href = 'studyBand.bo/detail.bo?sno=' + bNo;
 						}
 						
 						
+					
 						
-						//읽음 표시하기
-						if(board == 's' && read == '안읽음' ) {
-						 	
-							$.ajax({
-								
-								url : 'readAlarm',
-								data : {boardNo : bNo,
-										alarmNo : alarmNo}
-										
-								success : function(result) {
-									
-									if(result > 0){
-										AlarmList();
-										location.reload();
-									}
-									
-								},error: () => {console.log('실패');}
-							});
-							
-						} 
-						 
-						
-				});
+				
+					});
+				
+				 
+
+
 				
 				
 				

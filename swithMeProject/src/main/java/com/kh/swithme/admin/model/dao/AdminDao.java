@@ -211,7 +211,12 @@ public class AdminDao {
 
 	// 스터디룸 추가
 	public int insertStudyRoom(SqlSessionTemplate sqlSession, StudyRoom sr) {
-		return sqlSession.insert("adminMapper.SqlSessionTemplate", sr);
+		return sqlSession.insert("adminMapper.insertStudyRoom", sr);
+	}
+	
+	// 스터디룸 위치 추가
+	public int insertStudyRoomCoords(SqlSessionTemplate sqlSession, StudyRoom sr) {
+		return sqlSession.insert("adminMpper.insertStudyRoomCoords", sr);
 	}
 
 	// 스터디룸 선택 삭제
@@ -223,21 +228,6 @@ public class AdminDao {
 
 
 	// 스터디룸 정보 수정
-
-
-	// 스터디밴드 관리
-	// 스터디 목록 조회
-
-
-	// 스터디 삭제
-
-
-	// 스터디 검색 결과 count
-
-
-	// 스터디 검색 결과
-
-
 
 
 

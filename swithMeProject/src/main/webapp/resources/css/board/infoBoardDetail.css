@@ -1,5 +1,11 @@
 @charset "UTF-8";
 
+
+input:focus,
+textarea:focus{
+    outline: none;
+}
+
 .replyArea{
     height: 200px;
     padding-bottom: 30px;

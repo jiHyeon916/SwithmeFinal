@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import com.kh.swithme.admin.model.vo.Item;
+import com.kh.swithme.admin.model.vo.Report;
 import com.kh.swithme.band.model.vo.Band;
 import com.kh.swithme.board.model.vo.Attach;
 import com.kh.swithme.board.model.vo.Board;
@@ -28,6 +29,9 @@ public interface BoardService {
 	
 	// 인기글 불러오기
 	ArrayList<Board> topBoard();
+	
+	// 인기글 불러오기
+	ArrayList<Board> topBoard2();
 	
 	// 게시글 조회 - 조회수 증가
 	int boardCountUp(int boardNo);
@@ -74,8 +78,14 @@ public interface BoardService {
 	// 게시글 상세 조회 - 댓글 작성
 	int insertReply(Reply r);
 	
+	// 댓글 알람 인서트
+	int insertReplyAlarm(int boardNo);
+	
 	// 게시글 상세 조회 - 대댓글 작성 
 	int reReplyBoard(ReReply rere);
+	
+	// 대댓글 알람 
+	int reReplyBoardAlarm(ReReply rere);
 	
 	// 게시글 작성 
 	int test(Board b);
@@ -122,7 +132,7 @@ public interface BoardService {
 
 	
 	// 스터디 밴드 모집하기	
-	int studyBandInsert(Board b);
+	int studyBandInsert(Band b);
 	
 	// 스터디 멤버 리스트에 방장 넣기
 	int studyMemberInsert(String memberId);
@@ -163,6 +173,8 @@ public interface BoardService {
 	// 아이템 카테고리 분류 
 	ArrayList<Item> itemListUpdate(String category);
 	
+	// 신고하기
+	int boardReport(Report r);
 	
 	
 	
@@ -170,6 +182,10 @@ public interface BoardService {
 	
 	// **************** 메인 어디다.?
 	ArrayList<Band> mainStudy(String category);
+	
+	
+	
+	
 	
 	
 ////------------------희재 - 스터디룸 

@@ -67,8 +67,17 @@
 		<result column="ITEM_PHOTO" property="itemPhoto" />
 	</resultMap>
 	
-	
-	
+	<!-- 보드 신고  -->
+	<resultMap id="reportResultSet" type="report">
+		<result column="REPORT_NO" property="reportNo" />
+		<result column="REPORT_MEMBER_ID" property="reportMemberId" />
+		<result column="TOTAL_NO" property="totalNo" />
+		<result column="REPORT_CATEGORY" property="reportCategory" />
+		<result column="REPORT_DATE" property="reportDate" />
+		<result column="REPORT_STATUS" property="reportStatus" />
+		<result column="REPORT_REASON" property="reportReason" />
+		<result column="REPORT_CONTENT" property="reportContent" />
+	</resultMap>
 	
 	<!-- 스터디룸 -->
 	<resultMap id="sRoomResultSet" type="studyRoom">
@@ -391,13 +400,35 @@
 		  		SELECT
 		              BOARD_NO
 		             ,BOARD_TITLE
+		             ,TO_CHAR(CREATE_DATE, 'YYYY-MM-DD HH24:MI') AS "CREATE_DATE"
 		          FROM
 		              MAINBOARD
+		         WHERE
+		         	  BOARD_TYPE = 'free'
 		         ORDER
 		            BY
 		              BOARD_COUNT DESC)
          WHERE ROWNUM <![CDATA[ < 6 ]]>
 	</select>
+	
+	<!-- 인기글 top5 -->
+	<select id="topBoard2" resultMap="boardResultSet">
+		SELECT *
+		  FROM (
+		  		SELECT
+		              BOARD_NO
+		             ,BOARD_TITLE
+		             ,TO_CHAR(CREATE_DATE, 'YYYY-MM-DD HH24:MI') AS "CREATE_DATE"
+		          FROM
+		              MAINBOARD
+		         WHERE
+		         	  BOARD_TYPE = 'info'
+		         ORDER
+		            BY
+		              BOARD_COUNT DESC)
+         WHERE ROWNUM <![CDATA[ < 6 ]]>
+	</select>
+	
 	
 	<!-- 자유게시판 게시글 수 조회  -->
 	<select id="boardCount" resultType="_int">
@@ -599,6 +630,22 @@
 			 )
 	</insert>
 	
+	<!-- 댓글 작성 알림   -->
+	<insert id="insertReplyAlarm">
+		INSERT
+		  INTO
+		  	  BOARD_ALARM
+		VALUES
+			  (
+			  SEQ_BOARD_ALARM_NO.NEXTVAL
+			 ,(SELECT MEMBER_ID FROM MAINBOARD WHERE BOARD_NO = #{boardNo})
+			 ,#{boardNo}
+			 ,'댓글'
+			 ,SYSDATE
+			 ,'Y'
+			  )
+	</insert>
+	
 	<!-- 대댓글 작성하기  -->
 	<insert id="reReplyBoard" parameterType="rereply">
 		INSERT
@@ -614,6 +661,22 @@
 			 ,NULL <!-- 파일 있으면 나중에 처리해야함 지금은 파일을 뒷전으로... -->
 			 ,DEFAULT
 			 )
+	</insert>
+	
+	<!-- 대댓글 알람  -->
+	<insert id="reReplyBoardAlarm">
+		INSERT
+		  INTO
+		  	  BOARD_ALARM
+		VALUES
+			  (
+			  SEQ_BOARD_ALARM_NO.NEXTVAL
+			 ,(SELECT MEMBER_ID FROM MAINBOARD WHERE BOARD_NO = #{ reReplyNo })
+			 ,#{ reReplyNo }
+			 ,'대댓글'
+			 ,SYSDATE
+			 ,'Y'
+			  )
 	</insert>
 	
 	<!-- 글 작성하기 -->
@@ -985,13 +1048,13 @@
 		      (
 		      SEQ_SR_NO.NEXTVAL
 		     ,#{ memberId }
-		     ,#{ boardTitle }
-		     ,#{ boardContent }
-		     ,'img.null'
-		     ,#{ totalPerson }
+		     ,#{ sbTitle }
+		     ,#{ sbIntroduce }
+		     ,#{ sbChangeName }
+		     ,#{ sbRecruitMem }
 		     ,1
 		     ,'Y'
-		     ,#{ category }
+		     ,#{ sbCategory }
 		     ,SYSDATE
 		     )
 	</insert>
@@ -1149,7 +1212,7 @@
 			  #{ memberId }
 			  ,#{ count }
 			  ,'아이템 구매'
-			  ,'Y'
+			  ,'N'
 			  ,SYSDATE
 			  )
 	</insert>
@@ -1164,7 +1227,7 @@
 		  	  (
 		  	  #{ likeCount }
 		  	  ,#{ memberId }
-		  	  ,'Y'
+		  	  ,'N'
 		  	  )
 	</insert>
 	
@@ -1183,9 +1246,31 @@
               ITEM_STATUS = 'Y'
            AND
            	  ITEM_NO != 0
+           <if test="category != '전체보기'">
            AND
               ITEM_CATEGORY = #{category}
+           </if>
 	</select>
+	
+	<!-- 게시글 신고하기  -->
+	<insert id="boardReport"> 
+		INSERT
+		  INTO
+		  	  BOARD_REPORT
+		VALUES
+			  (
+			  SEQ_REPORT_NO.NEXTVAL
+			 ,#{reportMemberId}
+			 ,#{totalNo}
+			 ,'BOARD'
+			 ,SYSDATE
+			 ,'Y'
+			 ,#{reportReason}
+			 ,#{reportContent}
+			  )
+	</insert>
+	
+	
 	
 	
 	

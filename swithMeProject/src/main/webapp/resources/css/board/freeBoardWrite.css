@@ -1,5 +1,11 @@
 @charset "UTF-8";
 
+
+input:focus,
+textarea:focus{
+    outline: none;
+}
+
 body{
     background-color: #fafafa;
 }

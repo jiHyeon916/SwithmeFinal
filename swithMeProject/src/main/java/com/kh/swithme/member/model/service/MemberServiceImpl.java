@@ -1,6 +1,7 @@
 package com.kh.swithme.member.model.service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -141,12 +142,20 @@ public class MemberServiceImpl implements MemberService{
 			return memberDao.selectAlarmList(sqlSession, memberId);
 		}
 		
-		//알람 읽음 여부
+		//알람 읽음 여부 - 게시판
 		@Override
-		public int readAlarm(Alarm alarm) {
-			return memberDao.readAlarm(sqlSession, alarm);
+		public int readAlarm(HashMap<String, Integer> map) {
+			return memberDao.readAlarm(sqlSession, map);
+
 		}
 
+		
+		//알람 읽음 여부 - 밴드
+		@Override
+		public int readAlarmB(HashMap<String, Integer> map) {
+			return memberDao.readAlarmB(sqlSession, map);
+
+		}
 
 	
 	   
@@ -353,6 +362,7 @@ public class MemberServiceImpl implements MemberService{
 	public int qnaDelete(int qno) {
 		return memberDao.qnaDelete(sqlSession, qno);
 	};
+
 	
 	// 회원가입시 기본 캐릭터 지급
 	@Override
@@ -371,7 +381,21 @@ public class MemberServiceImpl implements MemberService{
 	public ArrayList<Item> myItemList(PageInfo pi, MemberItem mItem) {
 		return memberDao.myItemList(sqlSession, pi, mItem);
 	};
+
+	// 보유 아이템 삭제
+	@Override
+	public int deleteMyItem(MemberItem mItem) {
+		return memberDao.deleteMyItem(sqlSession, mItem);
+	};
 	
+	// 착용한 아이템 가져오기
+	@Override
+	public ArrayList<Item> myCharacter(String memberId){
+		return memberDao.myCharacter(sqlSession, memberId);
+	}
+	
+	
+
 	
 	
 

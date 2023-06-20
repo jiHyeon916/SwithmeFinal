@@ -1,6 +1,7 @@
 package com.kh.swithme.member.model.dao;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.SqlSessionTemplate;
@@ -88,10 +89,17 @@ public class MemberDao {
 	public ArrayList<Alarm> selectAlarmList(SqlSessionTemplate sqlSession, String memberId) {
 		return (ArrayList)sqlSession.selectList("memberMapper.selectAlarmList", memberId);
 	}
-	//알람 읽음 여부
-	public int readAlarm(SqlSessionTemplate sqlSession, Alarm alarm) {
-		return sqlSession.update("memberMapper.readAlarm", alarm);
+
+	//알람 읽음 여부 - 게시판
+	public int readAlarm(SqlSessionTemplate sqlSession, HashMap<String, Integer> map) {
+
+		return sqlSession.update("memberMapper.readAlarm", map);
 	}
+	
+	//알림 읽음 여부 - 밴드
+	public int readAlarmB(SqlSessionTemplate sqlSession, HashMap<String, Integer> map) {
+		return sqlSession.update("memberMapper.readAlarmB",map);
+	};
 	
 
 
@@ -260,7 +268,7 @@ public class MemberDao {
 	public int qnaDelete(SqlSessionTemplate sqlSession, int qno) {
 		return sqlSession.delete("memberMapper.qnaDelete", qno);
 	}
-	
+
 	// 회원가입시 기본 캐릭터 지급
 	public int joinItem(SqlSessionTemplate sqlSession, Member m) {
 		return sqlSession.insert("memberMapper.joinItem", m);
@@ -276,8 +284,17 @@ public class MemberDao {
 		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
 		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
 		return (ArrayList)sqlSession.selectList("memberMapper.myItemList", mItem, rowBounds);
+	}
+
+	// 보유 아이템 삭제
+	public int deleteMyItem(SqlSessionTemplate sqlSession, MemberItem mitem) {
+		return sqlSession.delete("memberMapper.deleteMyItem", mitem);
 	};
 	
+	// 착용한 아이템 가져오기
+	public ArrayList<Item> myCharacter(SqlSessionTemplate sqlSession, String memberId){
+		return (ArrayList)sqlSession.selectList("memberMapper.myCharacter", memberId);
+	}
 
 
 }

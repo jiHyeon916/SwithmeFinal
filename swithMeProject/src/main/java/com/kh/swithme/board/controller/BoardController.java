@@ -1,5 +1,9 @@
 package com.kh.swithme.board.controller;
 
+import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 
 import javax.servlet.http.HttpSession;
@@ -9,12 +13,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.google.gson.Gson;
+import com.kh.swithme.admin.model.vo.Report;
+import com.kh.swithme.band.model.vo.Band;
 import com.kh.swithme.board.model.service.BoardServiceImpl;
 import com.kh.swithme.board.model.vo.Board;
 import com.kh.swithme.board.model.vo.ReReply;
@@ -82,6 +87,18 @@ public class BoardController {
 	public String topBoard() {
 		return new Gson().toJson(boardService.topBoard()); 
 	}
+	
+	/**
+	 * 인기글 top5 조회 
+	 * @param model
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value="topBoard2.bo", produces="application/json; charset=UTF-8")
+	public String topBoard2() {
+		return new Gson().toJson(boardService.topBoard()); 
+	}
+	
 	/**
 	 * 게시글 상세 보기 
 	 * @param boardNo 조회할 게시글 번호
@@ -233,7 +250,11 @@ public class BoardController {
 		r.setBoardReplyContent(rCon.replace(System.getProperty("line.separator"), "<br>"));
 		r.setMemberId(memberId);
 		
-		return boardService.insertReply(r) > 0 ? "success" : "fail";
+		if(boardService.insertReply(r) > 0) {
+			boardService.insertReplyAlarm(boardNo);
+			return "success";
+		}
+		return "fail";
 		
 	}
 	/**
@@ -255,13 +276,18 @@ public class BoardController {
 	 */
 	@ResponseBody
 	@RequestMapping("reReply.bo")
-	public int reReplyBoard(int replyNo, String reReplyCon, String memberId) {
+	public int reReplyBoard(int boardNo, int replyNo, String reReplyCon, String memberId) {
 		ReReply rere = new ReReply();
 		rere.setReplyNo(replyNo);
 		rere.setReReplyContent(reReplyCon.replace(System.getProperty("line.separator"), "<br>"));
 		rere.setMemberId(memberId);
+		rere.setReReplyNo(boardNo);
 		
-		return boardService.reReplyBoard(rere);
+		if(boardService.reReplyBoard(rere) > 0) {
+			boardService.reReplyBoardAlarm(rere);
+			return 1;
+		}
+		return 0;
 		
 		
 	}
@@ -551,22 +577,26 @@ public class BoardController {
 	 * @return
 	 */
 	@ResponseBody
-	@RequestMapping(value = "studyBandInsert.bo", method=RequestMethod.POST, produces="application/text; charset=utf8")
-	public String studyBandInsert(String memberId, String bCon, String summary, String title, String category, MultipartFile please, int perNum) {
+	@RequestMapping(value = "studyBandInsert.bo", produces="application/text; charset=utf8")
+	public String studyBandInsert(Band b, String memberId, String bCon,String title, String category, MultipartFile please, Integer perNum, HttpSession session) {
 		
-		System.out.println(please);
-		System.out.println(memberId);
-		System.out.println(bCon);
-		
-		
-		
-		Board b = new Board();
+		b.setSbCategory(category);
 		b.setMemberId(memberId);
-		b.setBoardTitle(title);
-		b.setBoardContent(bCon);
-		b.setCategory(category);
-		b.setTotalPerson(perNum);
+		b.setSbTitle(title);
+		b.setSbRecruitMem(perNum);
+		b.setSbIntroduce(bCon);
 		
+		
+		if(!please.getOriginalFilename().equals("")){
+	         if(b.getSbChangeName() != null) {
+	            new File(session.getServletContext().getRealPath(b.getSbChangeName())).delete();
+	         }
+	         String changeName = saveFile(please, session);
+	         
+	         b.setSbChangeName("/swithme/resources/uploadFiles/band/" + changeName);
+	         // System.out.println(b);
+	      }
+	      
 		if(boardService.studyBandInsert(b) > 0) {
 			if(boardService.studyMemberInsert(memberId) > 0) {
 				return "success";
@@ -576,7 +606,25 @@ public class BoardController {
 			return "fail";
 		}
 		
+		
 	}
+	
+	// 사진 사용
+	   public String saveFile(MultipartFile upfile, HttpSession session) { 
+	      String originName = upfile.getOriginalFilename();
+	      String currentTime = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
+	      int ranNum = (int)(Math.random() * 90000 + 10000);
+	      String ext = originName.substring(originName.lastIndexOf("."));
+	      String changeName = currentTime + ranNum + ext;
+	      String savePath = session.getServletContext().getRealPath("/resources/uploadFiles/band/");
+	      
+	      try {
+	         upfile.transferTo(new File(savePath + changeName));
+	      } catch (IllegalStateException | IOException e) {
+	         e.printStackTrace();
+	      }
+	      return changeName;
+	   }
 	
 	/**
 	 * 밴드 카테고리 
@@ -717,6 +765,14 @@ public class BoardController {
 		jobj.put("list", boardService.itemListUpdate(category));
 		// jobj.put("pi", pi);
 		return new Gson().toJson(jobj);
+	}
+	
+	@ResponseBody
+	@RequestMapping("boardReport.bo")
+	public int boardReport(Report r) {
+		System.out.println(r);
+		
+		return boardService.boardReport(r);
 	}
 	
 	

@@ -1,6 +1,7 @@
 package com.kh.swithme.member.model.service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import com.kh.swithme.admin.model.vo.Item;
 import com.kh.swithme.band.model.vo.Band;
@@ -66,9 +67,15 @@ public interface MemberService {
    //알람 조회
   	ArrayList<Alarm> selectAlarmList(String memberId);
    
-   //알람 읽음여부
+   //알람 읽음여부 - 게시판
+  	int readAlarm(HashMap<String, Integer> map);
+  
+  	//알람 읽음여부 - 밴드
+  	int readAlarmB(HashMap<String, Integer> map);
   	
-  	int readAlarm(Alarm alarm);
+
+  
+
    
    
    
@@ -190,6 +197,13 @@ public interface MemberService {
 	
 	// 문의글 삭제하기
 	int qnaDelete(int qno);
+
+	
+
+	
+	/*
+	 * // 회원가입시 기본 캐릭터 지급 int joinItem(Member m);
+	 */
 	
 	// 회원가입시 기본 캐릭터 지급
 	int joinItem(Member m);
@@ -199,6 +213,12 @@ public interface MemberService {
 	
 	// 보유 아이템 리스트
 	ArrayList<Item> myItemList(PageInfo pi, MemberItem mItem);
+
+	// 보유 아이템 삭제
+	int deleteMyItem(MemberItem mitem);
+	
+	// 착용한 아이템 가져오기
+	ArrayList<Item> myCharacter(String memberId);
 	
 	  
 }

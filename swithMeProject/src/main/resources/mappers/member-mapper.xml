@@ -596,19 +596,38 @@
 	
 		
 		
-		<!-- 알람 읽음여부 -->
-			<update id="readAlarm" parameterType="alarm">
+
+
+		<!-- 알람 읽음여부 - 게시판 -->
+
+			<update id="readAlarm" parameterType="hashmap">
+
 				UPDATE
 					BOARD_ALARM
 				SET
 					ALARM_STATUS = 'N'
 				WHERE
-					ALARM_BOARD_NO = #{alarmBoardNo}	
+					ALARM_BOARD_NO = #{boardNo}	
 				AND
-					SUBSTR(ALARM_NO, 3, 2) = #{alarmSubNo}			
-					
-				
+					SUBSTR(ALARM_NO, 3, 2) = #{alarmNo}		
+						
 			</update>
+			
+		<!-- 알람 읽음 여부 - 밴드 -->
+		<update id="readAlarmB" parameterType="hashmap">
+		
+			UPDATE
+				BAND_ALARM
+			SET		
+				ALARM_STATUS = 'N'
+			WHERE
+				ALARM_SB_NO = #{boardNo}
+			AND
+				SUBSTR(ALARM_NO, 3, 2) = #{alarmNo}			
+				
+		
+		
+		</update>
 	
 	
 		
@@ -948,6 +967,25 @@
 		   <if test="itemCategory != '전체보기'">
 		   AND ITEM_CATEGORY = #{ itemCategory }
 		   </if>
+	</select>
+	
+	<!-- 보유 아이템 삭제 -->
+	<delete id="deleteMyItem" parameterType="memberItem">
+		DELETE
+		  FROM MEMBER_ITEM
+		 WHERE ITEM_NO = #{ itemNo }
+		   AND MEMBER_ID = #{ memberId }
+	</delete>
+	
+	<!-- 착용한 아이템 가져오기 -->
+	<select id="myCharacter" parameterType="string" resultMap="itemResultSet">
+		SELECT ITEM_PHOTO, ITEM_CATEGORY
+		  FROM MEMBER_ITEM
+		  JOIN BOARD_ITEM USING(ITEM_NO)
+		 WHERE MEMBER_ID = #{ memberId }
+		   AND ITEM_STATUS = 'Y'
+		   AND WEAR_STATUS = 'Y'
+		   ORDER BY ITEM_CATEGORY
 	</select>
 	
 	

@@ -232,6 +232,12 @@ public class AdminServiceImpl implements AdminService {
 		return adminDao.insertStudyRoom(sqlSession, sr);
 	}
 
+	// 스터디룸 위치 추가
+	@Override
+	public int insertStudyRoomCoords(StudyRoom sr) {
+		return adminDao.insertStudyRoomCoords(sqlSession, sr);
+	}
+
 	// 스터디룸 선택 삭제
 	@Override
 	public int deleteCheckStudyRoom(int studyRoomNo) {
@@ -250,44 +256,7 @@ public class AdminServiceImpl implements AdminService {
 		return 0;
 	}
 
-	// 스터디밴드 관리
-	// 스터디 목록 조회
-	@Override
-	public ArrayList<Band> selectSBandList(PageInfo pi) {
-		return null;
-	}
 
-	// 스터디 삭제
-	@Override
-	public int deleteStudyBand(int bandNo) {
-		return 0;
-	}
-
-	// 스터디 검색 결과 count
-	@Override
-	public int selectSearchSBandListCount(String keyword) {
-		return 0;
-	}
-
-	// 스터디 검색 결과
-	@Override
-	public ArrayList<Band> selectSearchSBandList(HashMap<String, String> map, PageInfo pi) {
-		return null;
-	}
-	
-	
-	
-	
-	
-	
-	
-	
-
-	
-
-
-
-   
    
    
 }
