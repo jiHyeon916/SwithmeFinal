@@ -126,9 +126,14 @@ public interface BoardService {
 	// 댓글 수정 하기 (업데이트)
 	int replyModify(Reply r);
 	
+	// 대댓글 수정하기
+	int reReplyModify(ReReply rere);
+	
 	// 댓글 삭제 하기
 	int replyDelete(int replyNo);
 	
+	// 댓글. 대댓글 삭제
+	int deleteRe(Reply r);
 
 	
 	// 스터디 밴드 모집하기	

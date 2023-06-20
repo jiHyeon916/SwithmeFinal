@@ -204,10 +204,13 @@ public interface MemberService {
 	/*
 	 * // 회원가입시 기본 캐릭터 지급 int joinItem(Member m);
 	 */
-	
-	// 회원가입시 기본 캐릭터 지급
-	int joinItem(Member m);
 
+	// 회원가입시 기본 캐릭터 지급
+	int	defaultCharacter(Member m);
+	
+	// 회원가입시 기본 배경 지급
+	int	defaultBackground(Member m);
+	
 	// 보유 아이템 리스트 카운트
 	int myItemListCount(MemberItem mItem);
 	
@@ -219,6 +222,10 @@ public interface MemberService {
 	
 	// 착용한 아이템 가져오기
 	ArrayList<Item> myCharacter(String memberId);
+
+	// 착용상태 변경
+	int wearStatusUpdate(MemberItem mItem);
+	
 	
 	  
 }

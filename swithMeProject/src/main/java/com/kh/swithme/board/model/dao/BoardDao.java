@@ -137,6 +137,9 @@ public class BoardDao {
 	public int replyModify(SqlSessionTemplate sqlSession, Reply r) {
 		return sqlSession.update("boardMapper.replyModify", r);
 	}
+	public int reReplyModify(SqlSessionTemplate sqlSession, ReReply re) {
+		return sqlSession.update("boardMapper.reReplyModify", re);
+	}
 	public int replyDelete(SqlSessionTemplate sqlSession, int replyNo) {
 		return sqlSession.update("boardMapper.replyDelete", replyNo);
 	}
@@ -189,6 +192,10 @@ public class BoardDao {
 	public int boardReport(SqlSessionTemplate sqlSession, Report r) {
 		return sqlSession.insert("boardMapper.boardReport", r);
 	}
+	public int deleteRe(SqlSessionTemplate sqlSession, Reply r) {
+		return sqlSession.update("boardMapper.deleteRe", r);
+	}
+	
 	
 
 

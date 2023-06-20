@@ -97,6 +97,11 @@ textarea:focus{
     padding: 0 10px 0;
     border-radius: 5px;
 }
+.categoryBox .tagBtn:hover{
+    color: #60c277;
+    cursor: pointer;
+    background-color: #f5f5f5;
+}
 
 
 /* 댓글 영역 */
@@ -198,6 +203,8 @@ textarea:focus{
     margin-right: 20px;
 }
 
+
+
 /* 대댓글 영역 */
 .replyWrite{
     display: none;
@@ -269,6 +276,29 @@ textarea:focus{
     cursor : pointer;
 }
 
+/* 대댓글수정 */
+.reReplayModify{
+    width: 790px;
+    height: 100px;
+    border: 1px solid rgb(223, 223, 223);
+    padding: 10px;
+    margin-bottom: 3px;
+    resize: none;
+}
+.reReplyMBtn,
+.reReplyRBtn{
+    width: 385px;
+    border: none;
+    font-size: 13px;
+    padding: 5px;
+    height: 30px;
+    background-color: #f1f1f1;
+    border: 1px solid rgb(223, 223, 223);
+    border-radius: 5px;
+}
+.reReplyRBtn{
+    margin-left: 20px;
+}
 
 /* 사이드바 */
 #contentBox .sideBtn{

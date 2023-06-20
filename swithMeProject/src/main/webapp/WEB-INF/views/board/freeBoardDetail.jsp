@@ -145,10 +145,10 @@
                 </div>
                 <hr>
                 <h5>추가내용</h5>
-                <textarea id="reportCon" cols="30" rows="10" placeholder="추가로 기재할 내용을 적어주세요."></textarea>
+                <textarea id="reportCon" cols="30" rows="10" placeholder="추가로 기재할 내용을 적어주세요." required></textarea>
                 <p class="ment">* 허위 기재 및 무분별한 신고시 불이익이 있을 수 있습니다.</p>
                 <button onclick="report();">신고하기</button>
-        </div>
+            </div>
     </div>
 
 
@@ -306,7 +306,7 @@
                     for(var i in list){
 
                         if('${ sessionScope.loginMember.nickName}' == list[i].memberId){
-                            modifyBtn = '<div><p class="modiCheck" onclick="replyModify(this,' + list[i].boardReplyNo + ');">수정</p><p>삭제</p></div>';
+                            modifyBtn = '<div><p class="modiCheck" onclick="replyModify(this,' + list[i].boardReplyNo + ');">수정</p><p onclick="deleteRe(1, ' + list[i].boardReplyNo + ')">삭제</p></div>';
                         };
 
                         result += '<div class="replyList">'
@@ -443,6 +443,8 @@
 
         }
 
+        
+
         // 좋아요 하기
         function likeBoard(){
 
@@ -513,19 +515,27 @@
                 success: function(r) {
                     
                     let result = '';
+                    let modifyBtn = '';
+                    
+                    
                     for (var i in r) {
+
+                        if('${ sessionScope.loginMember.nickName }' == r[i].memberId){
+                            modifyBtn  = '<div>'
+                                            + '<p class="reReplyModify" onclick=reReplyModify(this,' + r[i].reReplyNo + ')>수정</p>'
+                                            + '<p onclick="deleteRe(2,' + r[i].reReplyNo + ')">삭제</p>'
+                                        + '</div>'
+                        }
+
                         result += '<div class="clear">'
                                     +  '<img src="resources/images/board/rereplyimg.png">'
                                     + '<div class="rRL">'
                                         +  '<div class="clear">'
                                             + '<p>' + r[i].memberId + '</p>'
                                             + '<p>' + r[i].createDate + '</p>' 
-                                            + '<div>'
-                                                + '<p>수정</p>'
-                                                + '<p>삭제</p>'
-                                            + '</div>'
+                                            + modifyBtn
                                         + '</div>'
-                                        +  '<p>' + r[i].reReplyContent + '</p>'
+                                        +  '<p class="reReplyCon' + r[i].reReplyNo + '">' + r[i].reReplyContent + '</p>'
                                     + '</div>'
                                 + '</div>'
                     }   
@@ -537,6 +547,61 @@
                 }
             }); 
         }
+
+        // 대댓글 수정하기 
+        function reReplyModify(e, num){
+            
+            var textdata = $(e).parent().parent().next().text();
+
+            $(".modiCheck").attr('onclick', null);
+            $('.reReplyModify').attr('onclick', null);
+
+            var modifyArea = '<textarea class="reReplayModify">' + textdata + '</textarea>'
+                            + '<button class="reReplyMBtn">수정</button>'
+                            + '<button class="reset reReplyRBtn">취소</button>'
+
+            $('.reReplyCon' + num ).html(modifyArea);
+
+            $('.reReplyMBtn').click(function(){
+                $.ajax({
+                    url : 'reReplyModify.bo',
+                    data : {
+                        reReplyNo : num,
+                        reReplyContent : $('.reReplayModify').val()
+                    },
+                    success : function(r){
+                        reply();
+                    },
+                    error : function(){
+
+                    }
+
+                });
+            });
+
+            $('.reset').click(function(){
+                reply();
+            })
+            
+        }
+
+        function deleteRe(num, replyNo){
+            $.ajax({
+                url : 'deleteRe.bo',
+                data : {
+                    reType : num,
+                    replyNo : replyNo
+                },
+                success: () =>{
+                    alert('삭제되었습니다.');
+                    reply();
+                },
+                error : () =>{
+
+                }
+            })
+        }
+
 
         //태그 검색 
         function tagSearch(e){

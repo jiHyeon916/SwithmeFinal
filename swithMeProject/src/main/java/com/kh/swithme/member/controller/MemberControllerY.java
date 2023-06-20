@@ -289,6 +289,27 @@ public class MemberControllerY {
 		return new Gson().toJson(memberService.myCharacter(memberId));
 	}
 	
+	// 사용자 아이템 착용 상태 변경
+	@ResponseBody
+	@RequestMapping(value="wearUpdate.me", produces="application/json; charset=UTF-8")
+	public int wearUpdate(MemberItem mItem, int wearItemNo) {
+		
+		// mItem : 내가 갈아입을 옷 -> memberId, itemNo
+		// wearItemNo : 내가 입고있던옷의 번호 -> memberId, itemNo
+		MemberItem cItem = new MemberItem();
+		cItem.setMemberId(mItem.getMemberId());
+		cItem.setItemNo(wearItemNo);
+		cItem.setItemCategory(mItem.getItemCategory());
+		cItem.setWearStatus("N");
+		int result = 0;
+
+		if(memberService.wearStatusUpdate(cItem) > 0) {
+			result = memberService.wearStatusUpdate(mItem);
+		};
+		
+		return result;
+	}
+	
 	
 	
 	

@@ -929,7 +929,7 @@
 	</delete>
 	
 	<!-- 회원가입시 기본 캐릭터 지급 -->
-	<insert id="joinItem" parameterType="member">
+	<insert id="defaultCharacter" parameterType="member">
 		INSERT 
 		  INTO MEMBER_ITEM
 		  	   (
@@ -939,7 +939,24 @@
 	  		   ) 
 		VALUES 
 			   (
-			   0
+			   1
+			  ,#{memberId}
+			  ,'Y'
+			   )
+	</insert>
+	
+	<!-- 회원가입시 기본 배경 지급 -->
+	<insert id="defaultBackground" parameterType="member">
+		INSERT 
+		  INTO MEMBER_ITEM
+		  	   (
+		  	   ITEM_NO
+	  		  ,MEMBER_ID
+	  		  ,WEAR_STATUS 
+	  		   ) 
+		VALUES 
+			   (
+			   2
 			  ,#{memberId}
 			  ,'Y'
 			   )
@@ -987,6 +1004,19 @@
 		   AND WEAR_STATUS = 'Y'
 		   ORDER BY ITEM_CATEGORY
 	</select>
+	
+	<!-- 아이템 착용 상태 변경 -->
+	<update id="wearStatusUpdate" parameterType="memberItem">
+		UPDATE
+		       MEMBER_ITEM
+		   SET
+		       WEAR_STATUS = #{ wearStatus }
+		 WHERE
+		       ITEM_NO = #{ itemNo }
+		   AND
+		   	   MEMBER_ID = #{ memberId }
+	</update>
+	
 	
 	
 	

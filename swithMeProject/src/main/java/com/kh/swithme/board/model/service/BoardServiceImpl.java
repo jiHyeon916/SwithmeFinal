@@ -173,6 +173,10 @@ public class BoardServiceImpl implements BoardService {
 		return boardDao.replyModifyView(sqlSession, replyNo);
 	}
 	@Override
+	public int reReplyModify(ReReply re) {
+		return boardDao.reReplyModify(sqlSession, re);
+	}
+	@Override
 	public int replyModify(Reply r) {
 		return boardDao.replyModify(sqlSession, r);
 	}
@@ -239,6 +243,10 @@ public class BoardServiceImpl implements BoardService {
 	@Override
 	public int boardReport(Report r) {
 		return boardDao.boardReport(sqlSession, r);
+	}
+	@Override
+	public int deleteRe(Reply r) {
+		return boardDao.deleteRe(sqlSession, r);
 	}
 	
 	

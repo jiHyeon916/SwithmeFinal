@@ -98,6 +98,7 @@
 <div class="headerblank"></div>
 
 	<script>
+
 		function myPage(){
 			
 			var user = '${ loginMember.memberId }';
@@ -110,6 +111,8 @@
 			}
 			
 		}
+
+        
 		
 		
 		$(function () { //다 읽으면 빨간점 사라지게 

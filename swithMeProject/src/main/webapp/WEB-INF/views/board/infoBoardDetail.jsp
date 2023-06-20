@@ -89,18 +89,21 @@
                 
                 <!-- 사이드바 메뉴 -->
                 <div class="sideBtn">
-                    <div onclick="likeBoard();">
-                        <img src="resources/images/board/heart.png" alt="">
+                    <div onclick="likeBoard();" class="likeBox">
+                        <img class="likeImg" src="resources/images/board/heart.png" alt="">
                     </div>
                     <p class="likeCount"></p>
 
-                    <div onclick="bookBoard();"><img src="resources/images/board/bookmark.png" alt=""></div>
+                    <div onclick="bookBoard();" class="bookBox">
+                        <img class="bookImg" src="resources/images/board/bookmark.png" alt=""></div>
                     <p class="bookCount"></p>
 
                     <div><img src="resources/images/board/reply.png" alt=""></div>
                     <p class="replyCount"></p>
                     <hr>
-                    <div><img src="resources/images/board/emergency.png" alt=""></div>
+                    <div class="btn-open-popup">
+                        <img src="resources/images/board/emergency.png" alt="">
+                    </div>
                 </div>
             </div>
 
@@ -111,6 +114,44 @@
 
         </div>
     </div>
+
+    <!-- 신고 모달 -->
+    <div class="modal msg1">
+                        
+    </div>
+    <div class="modal_body msg1_body">
+        <div class="clear">
+            <h4>신고하기</h4>
+            <img class="cloesBtn" src="resources/images/common/closeBtn.png" alt="">
+        </div>
+        <div id="reportInfo">
+        <c:choose>
+            <c:when test="${sessionScope.loginMember eq null}">
+                <p class="writer">작성자 : 신고는 로그인 후 이용 해주세요.</p>
+            </c:when>
+            <c:otherwise>
+                <p class="writer">작성자 : ${sessionScope.loginMember.nickName}</p>
+            </c:otherwise>
+        </c:choose>
+        <p class="reportTitle">게시글 : ${b.boardTitle}</p>
+        </div>
+
+        <h5>사유선택</h5>
+        <div id="resonBox">
+            <p class="reason"><input type="radio" name="reson" value="스팸/홍보"> 스팸홍보/도배글입니다.</p>
+            <p class="reason"><input type="radio" name="reson" value="음란물"> 음란물입니다.</p>
+            <p class="reason"><input type="radio" name="reson" value="불법"> 불법정보를 포함하고 있습니다.</p>
+            <p class="reason"><input type="radio" name="reson" value="청소년유해콘텐츠"> 청소년에게 유해한 내용 입니다.</p>
+            <p class="reason"><input type="radio" name="reson" value="욕설/혐오/차별"> 욕설/생명경시/혐오/차별적 표현입니다.</p>
+            <p class="reason"><input type="radio" name="reson" value="개인정보노출"> 개인정보 노출 게시물 입니다.</p>
+        </div>
+        <hr>
+        <h5>추가내용</h5>
+        <textarea id="reportCon" cols="30" rows="10" placeholder="추가로 기재할 내용을 적어주세요." required></textarea>
+        <p class="ment">* 허위 기재 및 무분별한 신고시 불이익이 있을 수 있습니다.</p>
+        <button onclick="report();">신고하기</button>
+    </div>
+
 
 
     <jsp:include page="../common/footer.jsp" />
@@ -124,6 +165,36 @@
             bookStatusCheck(); //북마크 상태 표시
             selectioncheck(); //채택 여부 확인 
 
+            let btnOpenPopup = document.getElementsByClassName('btn-open-popup');
+            const modal = document.querySelector('.msg1');
+
+            for(var i = 0; i < btnOpenPopup.length; i++){
+                btnOpenPopup[i].addEventListener("click", click);
+                function click(e) {
+                    $('.msg1_body').show().css('z-index','999999');
+                    $('header').css('z-index', '88888');
+                    $('.msg1').show();
+                    $('body').css('overflow','hidden');
+                    $('.msg1').click(function(){
+                        $('.msg1_body').hide();
+                        $('.msg1').hide();
+                        $('body').css('overflow','auto');
+                    });
+                    $('.cloesBtn').click(function(){
+                        $('.msg1_body').hide();
+                        $('.msg1').hide();
+                        $('body').css('overflow','auto');
+                    });
+                    
+                };
+
+            }
+            
+            
+            
+            $('#resonBox > p').click(function(e){
+                $(e.target).children().prop('checked', true);
+            })
 
 
             
@@ -141,9 +212,11 @@
                 success : function(r){
 
                     if(r > 0){
-                        $('.likeCount').css('color','red');
+                        $('.likeImg').prop('src','resources/images/board/heartStatus.png');
+                        $('.likeBox').css('border', '1px solid #58bf7a')
                     }else{
-                        $('.likeCount').css('color','black');
+                        $('.likeImg').prop('src','resources/images/board/heart.png');
+                        $('.likeBox').css('border', '1px solid rgb(223,223,223)')
                     }
 
                     likeCount();
@@ -164,9 +237,11 @@
                 success : function(r){
                     
                     if(r > 0){
-                        $('.bookCount').css('color','red');
+                        $('.bookImg').prop('src','resources/images/board/bookmarkStatus.png');
+                        $('.bookBox').css('border', '1px solid #58bf7a')
                     }else{
-                        $('.bookCount').css('color','black');
+                        $('.bookImg').prop('src','resources/images/board/bookmark.png');
+                        $('.bookBox').css('border', '1px solid rgb(223,223,223)')
                     }
 
                     bookCount();
@@ -175,6 +250,22 @@
 
                 }
             })
+        }
+
+        // 좋아요 카운트
+        function likeCount(){
+            $.ajax({
+                url : 'likeCount.bo',
+                data : {
+                    boardNo : '${ b.boardNo }'
+                },
+                success : function(r){
+                    $('.likeCount').html(r);
+                },
+                error : function(){
+
+                }
+            });
         }
 
         // 좋아요 카운트
@@ -421,6 +512,7 @@
             $.ajax({
                 url : 'reReply.bo',
                 data : {
+                    boardNo : '${ b.boardNo }',
                     replyNo : reReplyNo,
                     reReplyCon : $(e).prev().val(),
                     memberId : '${ sessionScope.loginMember.memberId }'
@@ -436,6 +528,7 @@
 
             })
         }
+
 
         // 대댓글 리스트 가져오기
         function reReplyList(replyNo) {
@@ -560,6 +653,33 @@
 
                 })
             }
+        }
+
+        function report(){
+
+            if('${ sessionScope.loginMember}' == ''){
+                alert('신고는 회원만 이용 가능합니다. 로그인 후 이용해주세요.');    
+            }else{
+                $.ajax({
+                    url : 'boardReport.bo',
+                    type : 'post',
+                    data : {
+                        reportMemberId : '${ sessionScope.loginMember.memberId }',
+                        totalNo : '${ b.boardNo }',
+                        reportReason : $('input[name=reson]:checked').val(),
+                        reportContent : $('#reportCon').val()
+                    },
+                    success : (r) => {
+                        if(r > 0){
+                            alert('신고 접수가 정상적으로 완료 되었습니다. 관리자 확인 까지 시간이 소요될 수 있으니 기다려주세요.');
+                        }
+                    },
+                    error : () => {
+
+                    }
+                });
+            }
+
         }
 
 
