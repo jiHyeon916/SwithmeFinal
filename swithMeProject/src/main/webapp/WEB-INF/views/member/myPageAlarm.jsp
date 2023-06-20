@@ -162,7 +162,7 @@
 					
 					
 						if(board == 's'){ // 일반게시판일 경우 
-							
+						
 							
 							 //읽음 표시하기
 							 if( read == '안읽음' ) { //게시판
@@ -187,6 +187,7 @@
 							}else{
 								location.href = 'freeBoardDetail.bo?boardNo=' + bNo; //읽음표시되어있어도 넘기기.
 							}
+
 						
 							 
 							 
@@ -217,6 +218,7 @@
 					});
 				
 				 
+
 
 				
 				

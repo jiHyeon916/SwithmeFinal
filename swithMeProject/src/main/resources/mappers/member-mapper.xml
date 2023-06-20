@@ -596,6 +596,8 @@
 	
 		
 		
+
+
 		<!-- 알람 읽음여부 - 게시판 -->
 
 			<update id="readAlarm" parameterType="hashmap">
@@ -605,7 +607,6 @@
 				SET
 					ALARM_STATUS = 'N'
 				WHERE
-
 					ALARM_BOARD_NO = #{boardNo}	
 				AND
 					SUBSTR(ALARM_NO, 3, 2) = #{alarmNo}		

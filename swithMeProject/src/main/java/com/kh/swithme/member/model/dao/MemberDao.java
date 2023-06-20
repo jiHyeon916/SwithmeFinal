@@ -90,9 +90,9 @@ public class MemberDao {
 		return (ArrayList)sqlSession.selectList("memberMapper.selectAlarmList", memberId);
 	}
 
-	//알림 읽음 여부 - 게시판
+	//알람 읽음 여부 - 게시판
 	public int readAlarm(SqlSessionTemplate sqlSession, HashMap<String, Integer> map) {
-		// TODO Auto-generated method stub
+
 		return sqlSession.update("memberMapper.readAlarm", map);
 	}
 	

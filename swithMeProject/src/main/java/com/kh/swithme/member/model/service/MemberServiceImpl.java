@@ -148,6 +148,8 @@ public class MemberServiceImpl implements MemberService{
 			return memberDao.readAlarm(sqlSession, map);
 
 		}
+
+		}
 		
 		//알람 읽음 여부 - 밴드
 		@Override

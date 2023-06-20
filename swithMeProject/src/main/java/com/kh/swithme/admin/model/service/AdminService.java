@@ -119,6 +119,9 @@ public interface AdminService {
 	// 스터디룸 추가
 	int insertStudyRoom(StudyRoom sr);
 	
+	// 스터디룸 위치 추가
+	int insertStudyRoomCoords(StudyRoom sr);
+	
 	// 스터디룸 선택 삭제
 	int deleteCheckStudyRoom(int studyRoomNo);
 	
@@ -127,23 +130,6 @@ public interface AdminService {
 	
 	// 스터디룸 정보 수정
 	int updateStudyRoom(StudyRoom sr);
-	
-	
-	// 스터디밴드 관리
-	// 스터디 목록 조회
-	ArrayList<Band> selectSBandList(PageInfo pi);
-	// 스터디 삭제
-	int deleteStudyBand(int bandNo);
-	
-	// 스터디 검색 결과 count
-	int selectSearchSBandListCount(String keyword);
-	// 스터디 검색 결과
-	ArrayList<Band> selectSearchSBandList(HashMap<String, String> map, PageInfo pi);
-	
-	
-	
-	
-	
 	
 	
 }

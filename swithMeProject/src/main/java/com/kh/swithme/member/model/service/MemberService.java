@@ -74,6 +74,8 @@ public interface MemberService {
   	int readAlarmB(HashMap<String, Integer> map);
   	
 
+  
+
    
    
    
