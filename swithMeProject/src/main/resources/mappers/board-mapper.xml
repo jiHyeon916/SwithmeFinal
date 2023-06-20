@@ -1227,7 +1227,7 @@
 		  	  (
 		  	  #{ likeCount }
 		  	  ,#{ memberId }
-		  	  ,'Y'
+		  	  ,'N'
 		  	  )
 	</insert>
 	

@@ -112,17 +112,16 @@
             </div>
 
 
-            <!-- 아이템 모달 -->
+            <!-- 신고 모달 -->
             <div class="modal msg1">
                         
             </div>
             <div class="modal_body msg1_body">
                 <div class="clear">
                     <h4>신고하기</h4>
-                    <img src="" alt="">
+                    <img class="cloesBtn" src="resources/images/common/closeBtn.png" alt="">
                 </div>
-                <hr>
-                <h5>신고정보</h5>
+                <div id="reportInfo">
                 <c:choose>
                     <c:when test="${sessionScope.loginMember eq null}">
                         <p class="writer">작성자 : 신고는 로그인 후 이용 해주세요.</p>
@@ -132,7 +131,8 @@
                     </c:otherwise>
                 </c:choose>
                 <p class="reportTitle">게시글 : ${b.boardTitle}</p>
-                <hr>
+                </div>
+
                 <h5>사유선택</h5>
                 <div id="resonBox">
                     <p class="reason"><input type="radio" name="reson" value="스팸/홍보"> 스팸홍보/도배글입니다.</p>
@@ -187,12 +187,7 @@
 
             }
             
-            // 모달 닫기
-            $('.cloesBtn3').click(function(){
-                $('.send').hide();
-                $('.send_body').hide();
-                $('body').css('overflow','auto');
-            })
+            
             
             $('#resonBox > p').click(function(e){
                 $(e.target).children().prop('checked', true);
