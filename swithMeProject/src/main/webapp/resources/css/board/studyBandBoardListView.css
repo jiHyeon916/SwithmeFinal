@@ -1,6 +1,11 @@
 @charset "UTF-8";
 
 
+input:focus,
+textarea:focus{
+    outline: none;
+}
+
 /* 메인 배너 */
 #freeBanner{
     width: 100%;

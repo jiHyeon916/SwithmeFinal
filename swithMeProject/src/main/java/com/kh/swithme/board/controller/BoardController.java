@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.google.gson.Gson;
+import com.kh.swithme.admin.model.vo.Report;
 import com.kh.swithme.band.model.vo.Band;
 import com.kh.swithme.board.model.service.BoardServiceImpl;
 import com.kh.swithme.board.model.vo.Board;
@@ -86,6 +87,18 @@ public class BoardController {
 	public String topBoard() {
 		return new Gson().toJson(boardService.topBoard()); 
 	}
+	
+	/**
+	 * 인기글 top5 조회 
+	 * @param model
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value="topBoard2.bo", produces="application/json; charset=UTF-8")
+	public String topBoard2() {
+		return new Gson().toJson(boardService.topBoard()); 
+	}
+	
 	/**
 	 * 게시글 상세 보기 
 	 * @param boardNo 조회할 게시글 번호
@@ -752,6 +765,14 @@ public class BoardController {
 		jobj.put("list", boardService.itemListUpdate(category));
 		// jobj.put("pi", pi);
 		return new Gson().toJson(jobj);
+	}
+	
+	@ResponseBody
+	@RequestMapping("boardReport.bo")
+	public int boardReport(Report r) {
+		System.out.println(r);
+		
+		return boardService.boardReport(r);
 	}
 	
 	

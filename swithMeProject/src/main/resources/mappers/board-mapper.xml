@@ -67,8 +67,17 @@
 		<result column="ITEM_PHOTO" property="itemPhoto" />
 	</resultMap>
 	
-	
-	
+	<!-- 보드 신고  -->
+	<resultMap id="reportResultSet" type="report">
+		<result column="REPORT_NO" property="reportNo" />
+		<result column="REPORT_MEMBER_ID" property="reportMemberId" />
+		<result column="TOTAL_NO" property="totalNo" />
+		<result column="REPORT_CATEGORY" property="reportCategory" />
+		<result column="REPORT_DATE" property="reportDate" />
+		<result column="REPORT_STATUS" property="reportStatus" />
+		<result column="REPORT_REASON" property="reportReason" />
+		<result column="REPORT_CONTENT" property="reportContent" />
+	</resultMap>
 	
 	<!-- 스터디룸 -->
 	<resultMap id="sRoomResultSet" type="studyRoom">
@@ -391,13 +400,35 @@
 		  		SELECT
 		              BOARD_NO
 		             ,BOARD_TITLE
+		             ,TO_CHAR(CREATE_DATE, 'YYYY-MM-DD HH24:MI') AS "CREATE_DATE"
 		          FROM
 		              MAINBOARD
+		         WHERE
+		         	  BOARD_TYPE = 'free'
 		         ORDER
 		            BY
 		              BOARD_COUNT DESC)
          WHERE ROWNUM <![CDATA[ < 6 ]]>
 	</select>
+	
+	<!-- 인기글 top5 -->
+	<select id="topBoard2" resultMap="boardResultSet">
+		SELECT *
+		  FROM (
+		  		SELECT
+		              BOARD_NO
+		             ,BOARD_TITLE
+		             ,TO_CHAR(CREATE_DATE, 'YYYY-MM-DD HH24:MI') AS "CREATE_DATE"
+		          FROM
+		              MAINBOARD
+		         WHERE
+		         	  BOARD_TYPE = 'info'
+		         ORDER
+		            BY
+		              BOARD_COUNT DESC)
+         WHERE ROWNUM <![CDATA[ < 6 ]]>
+	</select>
+	
 	
 	<!-- 자유게시판 게시글 수 조회  -->
 	<select id="boardCount" resultType="_int">
@@ -1196,7 +1227,7 @@
 		  	  (
 		  	  #{ likeCount }
 		  	  ,#{ memberId }
-		  	  ,'Y'
+		  	  ,'N'
 		  	  )
 	</insert>
 	
@@ -1220,6 +1251,26 @@
               ITEM_CATEGORY = #{category}
            </if>
 	</select>
+	
+	<!-- 게시글 신고하기  -->
+	<insert id="boardReport"> 
+		INSERT
+		  INTO
+		  	  BOARD_REPORT
+		VALUES
+			  (
+			  SEQ_REPORT_NO.NEXTVAL
+			 ,#{reportMemberId}
+			 ,#{totalNo}
+			 ,'BOARD'
+			 ,SYSDATE
+			 ,'Y'
+			 ,#{reportReason}
+			 ,#{reportContent}
+			  )
+	</insert>
+	
+	
 	
 	
 	

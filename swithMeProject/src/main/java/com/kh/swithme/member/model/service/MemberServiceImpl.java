@@ -150,7 +150,6 @@ public class MemberServiceImpl implements MemberService{
 		}
 
 		
-		
 		//알람 읽음 여부 - 밴드
 		@Override
 		public int readAlarmB(HashMap<String, Integer> map) {
@@ -382,6 +381,18 @@ public class MemberServiceImpl implements MemberService{
 	public ArrayList<Item> myItemList(PageInfo pi, MemberItem mItem) {
 		return memberDao.myItemList(sqlSession, pi, mItem);
 	};
+
+	// 보유 아이템 삭제
+	@Override
+	public int deleteMyItem(MemberItem mItem) {
+		return memberDao.deleteMyItem(sqlSession, mItem);
+	};
+	
+	// 착용한 아이템 가져오기
+	@Override
+	public ArrayList<Item> myCharacter(String memberId){
+		return memberDao.myCharacter(sqlSession, memberId);
+	}
 	
 	
 

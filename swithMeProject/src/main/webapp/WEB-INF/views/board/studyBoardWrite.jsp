@@ -114,12 +114,15 @@
       // 글 작성하기
       function text(){
 
+        $('input[name=category]').val($('.btn-select').text());
+        alert($('#perNum').val());
+
+        
         var form = $('#sorry')[0];
 
         var formData = new FormData(form);
 
-        $('input[name=category]').val($('.btn-select').text());
-        alert($('#perNum').val());
+        
 
         $.ajax({
             url : 'studyBandInsert.bo',
