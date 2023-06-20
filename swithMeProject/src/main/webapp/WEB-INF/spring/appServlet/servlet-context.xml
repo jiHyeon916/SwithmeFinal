@@ -62,6 +62,51 @@
 			<mapping path="/adminStudyBand.ad"/>
 			<beans:bean class="com.kh.swithme.common.interceptor.AdminInterceptor" id="adminInterceptor"></beans:bean>		
 		</interceptor>
+		<interceptor>
+			<mapping path="/mypage.me"/>
+			<mapping path="/item.me"/>
+			<mapping path="/point.me"/>
+			<mapping path="/history.me"/>
+			<mapping path="/historySelectBoard"/>
+			<mapping path="/historyDelete"/>
+			<mapping path="/qna.me"/>
+			<mapping path="/qnaEnroll.me"/>
+			<mapping path="/qnaDetail.me"/>
+			<mapping path="/qnaDeleteArr"/>
+			<mapping path="/qnaDelete"/>
+			<mapping path="/selectMyItemList.ad"/>
+			<mapping path="/deleteItem.me"/>
+			<mapping path="/myCharacter.me"/>
+			<mapping path="/wearUpdate.me"/>
+			<mapping path="/alarm.me"/>
+			<mapping path="/mail.me"/>
+			<mapping path="/profil.me"/>
+			<mapping path="/delete.mem"/>
+			<mapping path="/updateEnrollForm.mem"/>
+			<mapping path="/update.mem"/>
+			<mapping path="/searchPwd.mem"/>
+			<mapping path="/alarmList.me"/>
+			<mapping path="readAlarm/"/>
+			<mapping path="/readAlarmB"/>
+			<mapping path="/calendar.me"/>
+			<mapping path="/addSchedule.me"/>
+			<mapping path="/deleteSchedule.me"/>
+			<mapping path="/updateSchedule.me"/>
+			<mapping path="/toDoList.me"/>
+			<mapping path="/selectTodoList"/>
+			<mapping path="/insertTodoList"/>
+			<mapping path="/checkTodoList.me"/>
+			<mapping path="/uncheckTodoList.me"/>
+			<mapping path="/deleteTask.me"/>
+			<mapping path="/studyBand.me"/>
+			<mapping path="/allStudyBandList.me"/>
+			<mapping path="/favoriteStudyBandList.me"/>
+			<mapping path="/insertSbandBookmark.me"/>
+			<mapping path="/deleteSbandBookmark.me"/>
+			<mapping path="/bookmark.me"/>
+			<mapping path="/deleteBookMark.me"/>
+			<beans:bean class="com.kh.swithme.common.interceptor.LoginInterceptor" id="loginInterceptor"></beans:bean>
+		</interceptor>
 	</interceptors>
 	
 	
