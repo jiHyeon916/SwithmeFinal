@@ -8,6 +8,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.kh.swithme.admin.model.vo.Item;
+import com.kh.swithme.admin.model.vo.Report;
 import com.kh.swithme.band.model.vo.Band;
 import com.kh.swithme.board.model.vo.Attach;
 import com.kh.swithme.board.model.vo.Board;
@@ -31,6 +32,9 @@ public class BoardDao {
 		return (ArrayList)sqlSession.selectList("boardMapper.boardListSelect", boardType, rowBounds);
 	}
 	public ArrayList<Board> topBoard(SqlSessionTemplate sqlSession){
+		return (ArrayList)sqlSession.selectList("boardMapper.topBoard");
+	}
+	public ArrayList<Board> topBoard2(SqlSessionTemplate sqlSession){
 		return (ArrayList)sqlSession.selectList("boardMapper.topBoard");
 	}
 	public int boardCountUp(SqlSessionTemplate sqlSession, int boardNo) {
@@ -133,6 +137,9 @@ public class BoardDao {
 	public int replyModify(SqlSessionTemplate sqlSession, Reply r) {
 		return sqlSession.update("boardMapper.replyModify", r);
 	}
+	public int reReplyModify(SqlSessionTemplate sqlSession, ReReply re) {
+		return sqlSession.update("boardMapper.reReplyModify", re);
+	}
 	public int replyDelete(SqlSessionTemplate sqlSession, int replyNo) {
 		return sqlSession.update("boardMapper.replyDelete", replyNo);
 	}
@@ -182,6 +189,13 @@ public class BoardDao {
 	public ArrayList<Item> itemListUpdate(SqlSessionTemplate sqlSession, String category) {
 		return (ArrayList)sqlSession.selectList("boardMapper.itemListUpdate", category);
 	}
+	public int boardReport(SqlSessionTemplate sqlSession, Report r) {
+		return sqlSession.insert("boardMapper.boardReport", r);
+	}
+	public int deleteRe(SqlSessionTemplate sqlSession, Reply r) {
+		return sqlSession.update("boardMapper.deleteRe", r);
+	}
+	
 	
 
 

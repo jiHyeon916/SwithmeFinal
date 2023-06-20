@@ -66,7 +66,7 @@
                     <button type="button" onclick="thumbNail();">업로드</button>
                 </div>
                 <div class="thumbnailArea"></div>
-                <input type="file" id="fileSelect" name="please" onchange="loadImg(this)">
+                <input type="file" id="fileSelect" name="please" onchange="loadImg(this)" required>
                 
                 <input type="hidden" name="category" value="">
                 <input type="hidden" name="memberId" value="${ sessionScope.loginMember.memberId }">
@@ -114,12 +114,15 @@
       // 글 작성하기
       function text(){
 
+        $('input[name=category]').val($('.btn-select').text());
+        alert($('#perNum').val());
+
+        
         var form = $('#sorry')[0];
 
         var formData = new FormData(form);
 
-        $('input[name=category]').val($('.btn-select').text());
-        alert($('#perNum').val());
+        
 
         $.ajax({
             url : 'studyBandInsert.bo',

@@ -19,7 +19,6 @@
 		    <div id="blank">.</div>
 
 	    <div class="mainDiv">
-	    	<div class="writeStart"><button class="writeBtn" data-toggle="modal" data-target="#insertBandBoard">글작성</button></div>
 	    	<br><br>
 	    	<c:forEach var="bb" items="${ list }">
 		        <div class="bPostList" data-toggle="modal" data-target="#detailBandBoard">
@@ -40,9 +39,11 @@
 		        		</div>
 		        	</div>
 		        	<br>
-		        	<div class="photoBody">
-
-		        	</div>
+		        	<c:if test="${ not empty bb.changeName }">
+		        		<div class="photoBody">
+							<img id="photoImg" src="${ bb.changeName }">
+		        		</div>
+		        	</c:if>
 		        	<br>
 		        	
 		        	<div class="postFooter">
@@ -87,9 +88,9 @@
 	                        				<p id="detailContent"></p>
 	                        			</div>
 	                        			<br>
-	                        			<div class="photoDiv">
-	                        				<p>사진영역</p>
-	                        			</div>
+						        		<div class="photoBody">
+											<img id="photoImg1" src="">
+						        		</div>
 	                        			<hr>
 	                        			<br>
 		                        	<!-- 댓글영역 -->
@@ -106,8 +107,8 @@
 											     	</c:otherwise>	
 			                        			</c:choose>
 				                        	<input type="hidden" class="sBoardNoModal" name="bandNo" value="">
-								        	<input type="text" class="writerBoard" value="">
-								        	<input type="text" class="bandNo" value="">
+								        	<input type="hidden" class="writerBoard" value="">
+								        	<input type="hidden" class="bandNo" value="">
 										    </div> <br>
 								        	<div class="replyBodyDetail">
 								        	
@@ -138,7 +139,8 @@
 					url : 'detail.sb',
 					data : { sbBoardNo : inputNo },
 					success : function(list){
-						// console.log(list);
+						
+						// console.log(list.changeName);
 						$('#detailNickName').text("닉네임 : " + list.memberId);
 						$('#detailDate').text("날짜 : " + list.sbCreateDate);
 						$('#detailCount').text("조회 수 : " + list.sbCount);
@@ -146,89 +148,28 @@
 						$('#sbContent').text(list.sbContent);
 						$('.writerBoard').attr('value', list.memId);
 						$('.bandNo').attr('value', list.sbNo);
+						if(list.changeName == 0){
+							$('.photoBody').css('display', 'none');
+							
+						} else {
+							$('#photoImg1').attr('src', list.changeName);
+							
+						}
 						
 						
 					},
 					error : function(){
 						console.log('실패');
 					}
-				})	
+				});
 			});
 
 		</script>
-		
-		<!--밴드 게시글 작성 창-->
-       	<div class="modal" id="insertBandBoard">
-        	<div class="modal-dialog modal-lg">
-            	<div class="modal-content">
-            
-	                <!-- Modal body -->
-	                <div class="modal-body1">
-                 		<br>
-                        <div class="form-group">
-                        	<div>
-                        	<c:if test="${bandInfomation.memberIdId eq loginMember.memberId}">
-                        		<div class="selectType">
-                        			<select id="sbCategory" name="sbCategory">
-										<option value="Y" selected>일반글</option>
-										<option value="N">공지사항</option>
-									</select>
-                        		</div>
-                        	</c:if>
-                        		<div class="totalDetail1">
-									<textarea id="summernote" name="editordata"></textarea>
-                        		</div>
-                        		<form method="post" enctype="multipart/form-data" id="photoForm">
-	                        		<div class="totalPhoto">
-		                        		<div class="img_box">
-		                        			<label class="labetPhoto" for="file1">첨부</label>
-		                        			<div class="img_container">
-		                        				<img id="img1" src="">
-		                        			</div>
-		                        		</div>
-		                        		<div class="img_box">
-		                        			<label class="labetPhoto" for="file2">첨부</label>
-		                        			<div class="img_container">
-		                        				<img id="img2" src="">
-		                        			</div>
-		                        		</div>
-		                        		<div class="img_box">
-		                        			<label class="labetPhoto" for="file3">첨부</label>
-		                        			<div class="img_container">
-		                        				<img id="img3" src="">
-		                        			</div>
-		                        		</div>
-		                        		<div class="img_box">
-		                        			<label class="labetPhoto" for="file4">첨부</label>
-		                        			<div class="img_container">
-		                        				<img id="img4" src="">
-		                        			</div>
-		                        		</div>
-	
-		                        		<div class="fileType">
-		                        			<input type="hidden" name="sbBoardNo" >
-		                        			<input type="file" id="file1" accept="image/*" name="file" onchange="setImage(this,1);" />
-		                        			<input type="file" id="file2" accept="image/*" name="file" onchange="setImage(this,2);" />
-		                        			<input type="file" id="file3" accept="image/*" name="file" onchange="setImage(this,3);" />
-		                        			<input type="file" id="file4" accept="image/*" name="file" onchange="setImage(this,4);" />
-		                        		</div>
-	                        		</div>
-                        		</form>
-                        	</div>
-                        </div>
-                        <br>
-                        <div class="btnGroupMain">
-	                        <button class="enrollConfirm" id="bandBoardEnroll" type="button">등록하기</button>
-	                        <button class="enrollDismiss" id="disMissBoard" type="button" data-dismiss="modal">취소하기</button>
-                        </div>
-	                </div>
-            	</div>
-        	</div>
-		</div>
 	
 		<script>
-			// 썸머노트
+			
 			$(document).ready(function() {
+				
 		        $('#summernote').summernote();
 		        $('button').not('#updateRe').attr('disabled',false);
 		        var target = document.getElementById('summary');
@@ -240,37 +181,25 @@
 		        var extractedText = src.replace(extractTextPattern, '');
 		        
 		        target.innerHTML = extractedText;
-						   
+		        
+					   
 			});
 			
-			$(document).on('click', '.writeStart > button', function(){
-				$('#summernote').summernote({
-					dialogsInBody: true,
-					height: 400,							// 에디터 높이
-					disableResizeEditor: true,
-					minHeight: null,						// 최소 높이
-					maxHeight: null,						// 최대 높이
-					focus: true,							// 에디터 로딩후 포커스를 맞출지 여부
-					lang: "ko-KR",							// 한글 설정
-					placeholder: '내용을 작성하여 주십시요',	//placeholder 설정
-					tabsize: 2,
-					toolbar: [
-						['fontname', ['fontname']],
-			            ['fontsize', ['fontsize']],
-			            ['style', ['bold', 'italic', 'underline','strikethrough', 'clear']],
-			            ['color', ['forecolor','color']],
-			            ['table', ['table']],
-			            ['para', ['ul', 'ol', 'paragraph']],
-			            ['height', ['height']],
-					],
-					callbacks: {
-						onImageUpload : function(files){
-							sendFile(files[0],this);
-						}
-					}
-				});
-			});
-
+				
+			function photoSelect(inputNo){
+				
+				// sbBoardNo = $('#sBoardNo').val();
+		        $.ajax({
+		        	url : 'photoSelect.sb',
+		        	data : { sbBoardNo : inputNo },
+		        	success : function(photo){
+		        		console.log(photo);
+		        	},
+		        	error : function(){
+		        		console.log('사진 불러오기 실패');
+		        	}
+		        })
+			}
 			
 			/*// 게시글 사진 영역
 			function sendFile(file, editor){
@@ -290,91 +219,6 @@
 					}
 				});
 			}*/
-			
-			// 게시글 이미지 영역
-			function setImage(inputFile, num) {
-				var imgSrc1 = $('#img1').attr('src');
-				var imgSrc2 = $('#img2').attr('src');
-				var imgSrc3 = $('#img3').attr('src');
-				var imgSrc4 = $('#img4').attr('src');
-
-				if(inputFile.files.length == 1){
-		
-					let reader = new FileReader();
-		
-		            reader.readAsDataURL(inputFile.files[0]);
-		
-		            reader.onload = function(e){
-		    				
-		            switch(num){
-	                    case 1 : $('#img1').attr('src', e.target.result); break;
-	                    case 2 : $('#img2').attr('src', e.target.result); break;
-	                    case 3 : $('#img3').attr('src', e.target.result); break;
-	                    case 4 : $('#img4').attr('src', e.target.result); break;
-	                }
-		                
-					$('#disMissBoard').click(function(){
-							$('.img_container>#img1').attr('src', "");
-							$('.img_container>#img2').attr('src', "");
-							$('.img_container>#img3').attr('src', "");
-							$('.img_container>#img4').attr('src', "");
-					})
-					
-					} 
-				}
-			};		
-						
-			// 게시글 작성 영역
-			$(document).on('click','#bandBoardEnroll', function(){
-				var query = window.location.search;     
-				var param = new URLSearchParams(query);
-				var sno = param.get('sno');
-				
-				// 글
-				$.ajax({
-					url : 'binsert.sb',
-					type : 'POST',
-					data : {
-							sbNo : sno,
-							memberId : '${ sessionScope.loginMember.memberId }',
-							sbCategory : $("select[name=sbCategory]").val(),
-							sbContent : $('.note-editable').html()	
-					},
-					success : function(result){
-						if(result === 'success'){
-							if($("select[name=sbCategory]").val() == 'Y'){
-								location.href="detail.bo?sno="+sno;
-							} else {
-								location.href="bandNotice.sb?sno="+sno;
-							}							
-						}
-						alert('글작성 성공');
-					},
-					error : function(){
-						console.log('게시글 작성 실패');
-					}
-				})
-				
-				// 사진
-				var form = $('#photoForm')[0];
-				var formData = new FormData(form);
-				
-				$.ajax({
-					url : 'photoInsert.sb',
-					type : 'POST',
-					contentType : false,
-			        processData : false,
-					data : formData ,
-					success : function(photoList){
-						console.log(photoList);
-						$('.photoBody').html(photoList);
-					},
-					error : function(){
-						console.log('사진 작성 실패');
-					}
-				})
-			});
-			
 			
 			// 댓글 영역
 			

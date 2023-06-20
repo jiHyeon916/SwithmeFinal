@@ -90,9 +90,9 @@ public class MemberDao {
 		return (ArrayList)sqlSession.selectList("memberMapper.selectAlarmList", memberId);
 	}
 
-	//알림 읽음 여부 - 게시판
+	//알람 읽음 여부 - 게시판
 	public int readAlarm(SqlSessionTemplate sqlSession, HashMap<String, Integer> map) {
-		// TODO Auto-generated method stub
+
 		return sqlSession.update("memberMapper.readAlarm", map);
 	}
 	
@@ -269,13 +269,16 @@ public class MemberDao {
 		return sqlSession.delete("memberMapper.qnaDelete", qno);
 	}
 
-
-	
 	// 회원가입시 기본 캐릭터 지급
-	public int joinItem(SqlSessionTemplate sqlSession, Member m) {
-		return sqlSession.insert("memberMapper.joinItem", m);
+	public int defaultCharacter(SqlSessionTemplate sqlSession, Member m) {
+		return sqlSession.insert("memberMapper.defaultCharacter", m);
 	}
-
+	
+	// 회원가입시 기본 배경 지급
+	public int defaultBackground(SqlSessionTemplate sqlSession, Member m) {
+		return sqlSession.insert("memberMapper.defaultBackground", m);
+	}
+	
 	// 보유 아이템 리스트 카운트
 	public int myItemListCount(SqlSessionTemplate sqlSession, MemberItem mItem) {
 		return sqlSession.selectOne("memberMapper.myItemListCount", mItem);
@@ -288,7 +291,19 @@ public class MemberDao {
 		return (ArrayList)sqlSession.selectList("memberMapper.myItemList", mItem, rowBounds);
 	}
 
+	// 보유 아이템 삭제
+	public int deleteMyItem(SqlSessionTemplate sqlSession, MemberItem mitem) {
+		return sqlSession.delete("memberMapper.deleteMyItem", mitem);
+	};
+	
+	// 착용한 아이템 가져오기
+	public ArrayList<Item> myCharacter(SqlSessionTemplate sqlSession, String memberId){
+		return (ArrayList)sqlSession.selectList("memberMapper.myCharacter", memberId);
+	}
 
-
+	// 착용상태 변경
+	public int wearStatusUpdate(SqlSessionTemplate sqlSession, MemberItem mItem) {
+		return sqlSession.update("memberMapper.wearStatusUpdate", mItem);
+	}
 
 }

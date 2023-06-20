@@ -1,6 +1,13 @@
 @charset "UTF-8";
 
 
+
+input:focus,
+textarea:focus{
+    outline: none;
+}
+
+
 #F_writer_content .right .thumbnailArea .thumbnailArea{
     height: 400px;
     background-color: red;

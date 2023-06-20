@@ -13,7 +13,7 @@
 <style>
 	.swiper {
 		width: 100%;
-		height: 300px;
+		height: 350px;
 		background-color: yellow;
 		margin-bottom: 100px;
 	}
@@ -33,7 +33,7 @@
 
 
 	#studyBandArea{
-		margin-bottom: 150px;
+		margin-bottom: 120px;
 	}
 	#studyBandArea > div > p{
 		font-size: 20px;
@@ -146,11 +146,11 @@
 
 	#add{
 		width: 1200px;
-		height: 200px;
+		height: 230px;
 		border-radius: 10px;
 		background-color: #e6e6e6;
-		margin-bottom: 150px;
-		background: url(resources/images/common/middlebanner.png);
+		margin-bottom: 120px;
+		background: url(resources/images/common/middleBanner.png) center;
 		background-size: cover;
 	}
 
@@ -205,7 +205,7 @@
 	
   
 	<!-- If we need scrollbar -->
-	<div class="swiper-scrollbar"></div>
+	<!-- <div class="swiper-scrollbar"></div> -->
   </div>
 
 
@@ -237,6 +237,91 @@
 		<div id="add"></div>
 	</div>
   </div>
+
+
+  <!-- 인기글 -->
+  <div id="best">
+	<div class="wrap clear">
+		<div class="left">
+			<div class="boardInfo clear">
+				<p>자유게시판</p>
+				<p>인기글 TOP 5</p>
+				<p onclick="location.href='freeBoardListView.bo?boardType=1'">전체보기</p>
+			</div>
+			<ul class="boardList free">
+				
+			</ul>
+		</div>
+		<div class="right">
+			<div class="boardInfo clear">
+				<p>정보게시판</p>
+				<p>인기글 TOP 5</p>
+				<p onclick="location.href='freeBoardListView.bo?boardType=2'">전체보기</p>
+			</div>
+			<ul class="boardList info">
+				
+			</ul>
+		</div>
+	</div>
+  </div>
+
+  <style>
+	#best .left, #best .right{
+		padding: 20px 24px 20px;
+		width: 565px;
+		margin-right: 30px;
+		border: 1px solid rgb(223,223,223);
+		float: left;
+		margin-bottom: 120px;
+		border-radius: 10px;
+	}
+	#best .right{
+		margin-right: 0;
+	}
+	#best .boardInfo p{
+		float: left;
+	}
+	#best .boardInfo{
+		margin-bottom: 20px;
+	}
+	#best .boardInfo p:first-child{
+		padding: 3px 10px 3px;
+		border: 1px solid #7cb980;
+		color: #7cb980;
+		border-radius: 20px;
+		margin-right: 10px;
+		font-size: 14px;
+	}
+	#best .boardInfo p:nth-child(2){
+		line-height: 26px;
+		font-weight: bold;
+	}
+	#best .boardInfo p:last-child{
+		float: right;
+		line-height: 25px;
+		cursor: pointer;
+		font-size: 15px;
+	}
+	#best .boardList li{
+		line-height: 30px;
+		font-size: 15px;
+		cursor: pointer;
+		padding: 0 4px 0;
+	}
+	#best .boardList li:hover p,
+	#best .boardList li:hover span{
+		color: #7cb980;
+	}
+	#best .boardList li p{
+		float: left;
+	}
+	#best .boardList li span{
+		float: right;
+		font-size: 14px;
+		color: #8b8b8b;
+	}
+
+  </style>
 
 
   <!-- FnQ -->
@@ -346,8 +431,51 @@
 
 			}
 
-		})
+		});
 
+
+
+		// 인기글 가져오기 
+		$.ajax({
+			url : 'topBoard.bo',
+			success : (r) => {
+
+				console.log(r);
+				var result = '';
+				for(var i in r){
+					result += '<li class="clear" onclick="location.href=\'freeBoardDetail.bo?boardNo=' + r[i].boardNo + '\'">'
+								+ '<p>' + r[i].boardTitle + '</p>'
+								+ '<span>' + r[i].createDate + '</span>'
+							+ '</li>'
+				}
+				$('.free').html(result);
+				
+			},
+			error : (r) => {
+				
+			}
+
+		});
+
+		// 정보 인기글 
+		$.ajax({
+			url : 'topBoard2.bo',
+			success : (r) => {
+
+				var result = '';
+				for(var i in r){
+					result += '<li class="clear" onclick="location.href=\'freeBoardDetail.bo?boardNo=' + r[i].boardNo + '\'">'
+								+ '<p>' + r[i].boardTitle + '</p>'
+								+ '<span>' + r[i].createDate + '</span>'
+							+ '</li>'
+				}
+				$('.info').html(result);
+
+			},
+			error : (r) => {
+
+			}
+		});
 		
 	})
 

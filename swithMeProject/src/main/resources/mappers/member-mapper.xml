@@ -596,6 +596,8 @@
 	
 		
 		
+
+
 		<!-- 알람 읽음여부 - 게시판 -->
 
 			<update id="readAlarm" parameterType="hashmap">
@@ -605,7 +607,6 @@
 				SET
 					ALARM_STATUS = 'N'
 				WHERE
-
 					ALARM_BOARD_NO = #{boardNo}	
 				AND
 					SUBSTR(ALARM_NO, 3, 2) = #{alarmNo}		
@@ -928,7 +929,7 @@
 	</delete>
 	
 	<!-- 회원가입시 기본 캐릭터 지급 -->
-	<insert id="joinItem" parameterType="member">
+	<insert id="defaultCharacter" parameterType="member">
 		INSERT 
 		  INTO MEMBER_ITEM
 		  	   (
@@ -938,7 +939,24 @@
 	  		   ) 
 		VALUES 
 			   (
-			   0
+			   1
+			  ,#{memberId}
+			  ,'Y'
+			   )
+	</insert>
+	
+	<!-- 회원가입시 기본 배경 지급 -->
+	<insert id="defaultBackground" parameterType="member">
+		INSERT 
+		  INTO MEMBER_ITEM
+		  	   (
+		  	   ITEM_NO
+	  		  ,MEMBER_ID
+	  		  ,WEAR_STATUS 
+	  		   ) 
+		VALUES 
+			   (
+			   2
 			  ,#{memberId}
 			  ,'Y'
 			   )
@@ -967,6 +985,38 @@
 		   AND ITEM_CATEGORY = #{ itemCategory }
 		   </if>
 	</select>
+	
+	<!-- 보유 아이템 삭제 -->
+	<delete id="deleteMyItem" parameterType="memberItem">
+		DELETE
+		  FROM MEMBER_ITEM
+		 WHERE ITEM_NO = #{ itemNo }
+		   AND MEMBER_ID = #{ memberId }
+	</delete>
+	
+	<!-- 착용한 아이템 가져오기 -->
+	<select id="myCharacter" parameterType="string" resultMap="itemResultSet">
+		SELECT ITEM_PHOTO, ITEM_CATEGORY
+		  FROM MEMBER_ITEM
+		  JOIN BOARD_ITEM USING(ITEM_NO)
+		 WHERE MEMBER_ID = #{ memberId }
+		   AND ITEM_STATUS = 'Y'
+		   AND WEAR_STATUS = 'Y'
+		   ORDER BY ITEM_CATEGORY
+	</select>
+	
+	<!-- 아이템 착용 상태 변경 -->
+	<update id="wearStatusUpdate" parameterType="memberItem">
+		UPDATE
+		       MEMBER_ITEM
+		   SET
+		       WEAR_STATUS = #{ wearStatus }
+		 WHERE
+		       ITEM_NO = #{ itemNo }
+		   AND
+		   	   MEMBER_ID = #{ memberId }
+	</update>
+	
 	
 	
 	

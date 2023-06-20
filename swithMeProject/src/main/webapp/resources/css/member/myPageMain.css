@@ -102,12 +102,38 @@ a:hover{
 	font-size : 15px;
 	color : rgb(160, 160, 160);
 }
-#mainChar{
-	background-color : #e2e2e2;
+/* 캐릭터부분 */
+/* 마이캐릭터 */
+.character{
 	width : 150px;
 	height : 150px;
+	border-radius: 10px;
+	box-sizing : border-box;
 	margin : auto;
-	margin-bottom : 5px;
+	position:relative;
+}
+.character > img {
+	width : 148px;
+	height : 148px;
+	display: none;
+	position: absolute;
+	border-radius: 10px;
+}
+/* 도구 */
+#wearItem0{
+	z-index: 40;
+}
+/* 모자 */
+#wearItem1{
+	z-index: 30;
+}
+/* 배경 */
+#wearItem2{
+	/* z-index: 10; */
+}
+/* 캐릭터 */
+#wearItem3{
+	z-index: 20;
 }
 #mNick{
 	font-size : 18px;

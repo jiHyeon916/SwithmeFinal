@@ -148,6 +148,7 @@ public class MemberServiceImpl implements MemberService{
 			return memberDao.readAlarm(sqlSession, map);
 
 		}
+
 		
 		//알람 읽음 여부 - 밴드
 		@Override
@@ -362,13 +363,18 @@ public class MemberServiceImpl implements MemberService{
 		return memberDao.qnaDelete(sqlSession, qno);
 	};
 
-	
 	// 회원가입시 기본 캐릭터 지급
 	@Override
-	public int joinItem(Member m) {
-		return memberDao.joinItem(sqlSession, m);
+	public int defaultCharacter(Member m) {
+		return memberDao.defaultCharacter(sqlSession, m);
 	};
-
+	
+	// 회원가입시 기본 배경 지급
+	@Override
+	public int defaultBackground(Member m) {
+		return memberDao.defaultBackground(sqlSession, m);
+	};
+	
 	// 보유 아이템 리스트 카운트
 	@Override
 	public int myItemListCount(MemberItem mItem) {
@@ -380,6 +386,24 @@ public class MemberServiceImpl implements MemberService{
 	public ArrayList<Item> myItemList(PageInfo pi, MemberItem mItem) {
 		return memberDao.myItemList(sqlSession, pi, mItem);
 	};
+
+	// 보유 아이템 삭제
+	@Override
+	public int deleteMyItem(MemberItem mItem) {
+		return memberDao.deleteMyItem(sqlSession, mItem);
+	};
+	
+	// 착용한 아이템 가져오기
+	@Override
+	public ArrayList<Item> myCharacter(String memberId){
+		return memberDao.myCharacter(sqlSession, memberId);
+	}
+
+	// 착용상태 변경
+	@Override
+	public int wearStatusUpdate(MemberItem mItem) {
+		return memberDao.wearStatusUpdate(sqlSession, mItem);
+	}
 	
 	
 

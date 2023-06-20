@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.google.gson.Gson;
+import com.kh.swithme.admin.model.vo.Report;
 import com.kh.swithme.band.model.vo.Band;
 import com.kh.swithme.board.model.service.BoardServiceImpl;
 import com.kh.swithme.board.model.vo.Board;
@@ -86,6 +87,18 @@ public class BoardController {
 	public String topBoard() {
 		return new Gson().toJson(boardService.topBoard()); 
 	}
+	
+	/**
+	 * 인기글 top5 조회 
+	 * @param model
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value="topBoard2.bo", produces="application/json; charset=UTF-8")
+	public String topBoard2() {
+		return new Gson().toJson(boardService.topBoard()); 
+	}
+	
 	/**
 	 * 게시글 상세 보기 
 	 * @param boardNo 조회할 게시글 번호
@@ -346,8 +359,6 @@ public class BoardController {
 	}
 	
 	
-	
-	
 	/**
 	 * 태그 검색 
 	 * @param model key가 포함된 게시글 리스트
@@ -525,6 +536,28 @@ public class BoardController {
 		r.setBoardReplyContent(replyCon.replace(System.getProperty("line.separator"), "<br>"));
 		
 		return boardService.replyModify(r) > 0 ? "success" : "fail";
+	}
+	
+	/**
+	 * 대댓글 수정 
+	 * @param re 수정할 댓글 번호 ,컨텐츠 내용 
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping("reReplyModify.bo")
+	public String reReplyModify(ReReply re) {
+		
+		return boardService.reReplyModify(re) > 0 ? "success" : "fail";
+	}
+	
+	@ResponseBody
+	@RequestMapping("deleteRe.bo")
+	public int deleteRe(int reType, int replyNo) {
+		Reply r = new Reply();
+		r.setBoardNo(reType);
+		r.setBoardReplyNo(replyNo);
+		
+		return boardService.deleteRe(r);
 	}
 	
 	/**
@@ -752,6 +785,19 @@ public class BoardController {
 		jobj.put("list", boardService.itemListUpdate(category));
 		// jobj.put("pi", pi);
 		return new Gson().toJson(jobj);
+	}
+	
+	/**
+	 * 게시글 신고하기 
+	 * @param r
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping("boardReport.bo")
+	public int boardReport(Report r) {
+		System.out.println(r);
+		
+		return boardService.boardReport(r);
 	}
 	
 	

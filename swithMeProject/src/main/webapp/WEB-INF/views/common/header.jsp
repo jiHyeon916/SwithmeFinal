@@ -55,9 +55,9 @@
 	        <ul id="userMenu">
 	      	  <c:if test="${!empty loginMember && !loginMember.memberId.equals('admin')}">
 		            <li>
-		                <a href="alarm.me">
+		                <a href="alarm.me" >
 		                    <img src="resources/images/common/notice.png">
-		                    <div id="noRead"></div>
+		                    <div id="noRead" ></div>
 		                </a>
 		            </li>
          	 </c:if>  
@@ -65,9 +65,9 @@
          	 <!-- 관리자가 가입했을 때 마이페이지 -->
        	 	<c:if test="${!empty loginMember &&  loginMember.memberId eq 'admin'}">
 		            <li>
-		                <a href="adPage.ad">
+		                <a href="adminMember.ad">
 		                    <img src="resources/images/common/notice.png">
-		                    <div id="noRead"></div>
+		                    <div id="noRead" ></div>
 		                </a>
 		            </li>
        		 </c:if>  
@@ -98,19 +98,56 @@
 <div class="headerblank"></div>
 
 	<script>
+
 		function myPage(){
 			
 			var user = '${ loginMember.memberId }';
 			
 			if(user == 'admin'){
-				location.href = 'adPage.ad';
+				location.href = 'adminMember.ad';
 			}
 			else {
 				location.href = 'mypage.me';
 			}
 			
 		}
+
+        
 		
+		
+		$(function () { //다 읽으면 빨간점 사라지게 
+			//location.href = reload();
+			
+				if('${ !empty loginMember}') {
+					console.log($('#noRead'));
+					
+					$.ajax({
+						url : 'alarmList.me',
+						data : { memberId : '${loginMember.memberId}' },
+						success : function(list) {
+							
+							let allRead = true;
+							
+							for(let i in list) {
+								
+								if(list[i].alarmStatus == 'Y' ){
+									allRead = false;
+									break;
+									
+								}
+							}
+							
+							if(allRead){
+								$('#noRead').hide();
+							}
+							
+								
+						},error : () => {console.log('실패');}
+					})
+				}
+		});
+		
+	
 		
 		
 		

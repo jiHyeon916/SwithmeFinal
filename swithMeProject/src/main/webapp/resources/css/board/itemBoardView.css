@@ -1,5 +1,9 @@
 @charset "UTF-8";
 
+input:focus,
+textarea:focus{
+    outline: none;
+}
 
 #sort{
     margin-bottom: 50px;

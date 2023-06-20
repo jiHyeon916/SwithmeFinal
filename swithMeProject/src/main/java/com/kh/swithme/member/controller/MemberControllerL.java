@@ -128,8 +128,10 @@ public class MemberControllerL {
       
          if(memberService.joinMember(m) > 0) { //회원가입 성공
             memberService.joinPoint(m);
-            memberService.joinItem(m);
-               //message = "<script>alert('환영합니다 ! 500p가 지급되었습니다 !');location.href='loginForm.me';</script>";
+            if(memberService.defaultCharacter(m) > 0) {
+            	memberService.defaultBackground(m);
+            };
+            	//message = "<script>alert('환영합니다 ! 500p가 지급되었습니다 !');location.href='loginForm.me';</script>";
                session.setAttribute("alertMsg","회원가입을 축하합니다 ! 500p가 지급되었습니다 !");   
                mv.setViewName("member/loginForm");
             }else {
@@ -153,7 +155,7 @@ public class MemberControllerL {
       //복화
       if(loginMember != null && bcryptPasswordEncoder.matches(m.getMemberPwd(), loginMember.getMemberPwd())) {
             
-            if(memberService.loginPointChk(m) == 0 && !loginMember.getMemberId().equals("admin")) {
+            if(memberService.loginPointChk(m) == 0 && !loginMember.getMemberId().equals("admin")) { //관리자는 포인트 노 
             	memberService.loginPointInsert(m);
             	session.setAttribute("alertMsg", "환영합니다 ! 30p가 지급되었습니다 !");
             }
@@ -423,14 +425,16 @@ public class MemberControllerL {
 	//보드, 밴드 읽음 표시 
 		@ResponseBody
 		@RequestMapping("readAlarm")
-		public char readAlarm(int boardNo, int alarmNo) {
+		public char readAlarm(int boardNo, Integer alarmNo) {
 			
-			HashMap<String, Integer> map = new HashMap();
-			map.put("boardNo", boardNo);
-			map.put("alarmNo", alarmNo);
-			
+		
+		HashMap<String, Integer> map = new HashMap();
+		map.put("alarmNo", alarmNo);
+		map.put("boardNo", boardNo);
+
 		return	memberService.readAlarm(map) > 0 ? 'Y' : 'N';
 		}
+		
 		
 		@ResponseBody
 		@RequestMapping("readAlarmB")
