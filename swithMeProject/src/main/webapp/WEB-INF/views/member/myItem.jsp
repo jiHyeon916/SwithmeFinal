@@ -21,10 +21,10 @@
 		<div class="content">
 			<div class="character">
 				<!-- 레이어 순서 : 맨뒤 배경 > 캐릭터 > 모자 > 도구 -->
-				<img id="wearItem0" class="wearItem" src="" alt="도구"/>
-				<img id="wearItem1" class="wearItem" src="" alt="모자"/>
-				<img id="wearItem2" class="wearItem" src="" alt="배경"/>
-				<img id="wearItem3" class="wearItem" src="" alt="캐릭터"/>
+				<img id="wearItem0" class="wearItem" src="" alt="도구" name="0"/>
+				<img id="wearItem1" class="wearItem" src="" alt="모자" name="0"/>
+				<img id="wearItem2" class="wearItem" src="" alt="배경" name="0"/>
+				<img id="wearItem3" class="wearItem" src="" alt="캐릭터" name="0"/>
 			</div>
 			<div class="block">
 				<div class="myBtn">
@@ -49,7 +49,7 @@
 		
 		$(function(){
 			myCharacter(); // 내 캐릭터
-			console.log($('#wearItem' + 0).attr('alt'))
+			//console.log($('#wearItem' + 0).attr('name'));
 			
 			$('#myItem1').click(); // 배경버튼 자동 클릭
 			
@@ -73,6 +73,7 @@
 				case '모자' : $('#myItem4').addClass('selectBtn').removeClass('noneBtn'); $('.myBtn>button').not('#myItem4').removeClass('selectBtn').addClass('noneBtn'); break;
 				case '도구' : $('#myItem5').addClass('selectBtn').removeClass('noneBtn'); $('.myBtn>button').not('#myItem5').removeClass('selectBtn').addClass('noneBtn'); break;
 			};
+			item = selectSort;
 		};
 
 		// 아이템 리스트
@@ -97,9 +98,9 @@
 						
 						for(let i in list){
 							if(list[i].wearStatus == 'Y'){
-								status = '<button class="wear" onclick="wearUpdate(this);" value="N" name="' + list[i].itemNo + '">착용중</button>';
+								status = '<button class="wear" onclick="wearUpdate(this);" value="N" name="' + list[i].itemNo + '" disabled>착용중</button>';
 							} else {
-								status = '<button class="notWear" onclick="wearUpdate(this);" value="Y" name="' + list[i].itemNo + '">미착용</button>';
+								status = '<button class="notWear" onclick="wearUpdate(this);" value="Y" name="' + list[i].itemNo + '">착용하기</button>';
 							}
 
 							value += '<div class="tableList">'
@@ -154,15 +155,19 @@
 					memberId : '${ loginMember.memberId }'
 				},
 				success : list => {
-					console.log(list);
 					value = '';
 					for(let i in list){
 						// 순서 : 도구 > 모자 > 배경 > 캐릭터
+
+						//console.log(list[i].itemNo);
+						//console.log($('#wearItem' + 0).attr('name'));
+
 						$('.wearItem').each(function(){
 							let imgAlt = $(this).attr('alt');
 							
 							if(list[i].itemCategory == imgAlt){
 								$(this).attr('src', list[i].itemPhoto);
+								$(this).attr('name', list[i].itemNo);
 								$(this).css('display', 'inline');
 							};
 						});
@@ -179,7 +184,58 @@
 				}
 			});
 		};
+		
+		// 아이템 착용 상태 변경 
+		/* 
+			<< 순서? >>
+			1. 내가 선택한 아이템의 카테고리를 확인 > memberItem 테이블에서 해당 카테고리에서 착용중인 아이템이 있는지 확인해 본다
+			2_1. 있다면? > 원래착용중인던 아이템의 status 를 N으로 바꾸고, 내가 현재 넘긴 아이템의 status도 Y로 바꾼
+			2_2. 없다면? > 현재 내가 넘긴 아이템의 status만 Y로 변경
+			3. 내가 착용한 아이템 함수 호추ㅜㄹ / 리스트 함수 호출
+		
+			<< 넘겨야 할 값 >>
+			1. 아이템 넘버 
+			2. 멤버 아이디
+			3. 현재 클릭한 아이템의 카테고리? 현재 선택된 카테고리?
+			4. 현재 스테이더스 값
+			5. 
+		*/
+		function wearUpdate(e){
 
+			if(confirm('착용 아이템을 변경하시겠습니까?')){
+				let thisCategory = $(e).siblings('.category').val();
+	
+				let wearItemNo = 0;
+				$('.wearItem').each(function(){
+					if(thisCategory == $(this).attr('alt')){
+						if($(this).attr('name') != ''){
+							wearItemNo = $(this).attr('name');
+						}
+					};
+				});
+	
+				$.ajax({
+					url : 'wearUpdate.me',
+					data : {
+						itemNo : $(e).attr('name'),
+						memberId : '${ loginMember.memberId }',
+						wearStatus : $(e).val(),
+						itemCategory : $(e).siblings('.category').val(),
+						wearItemNo : wearItemNo	
+					},
+					success : result => {
+						if(result > 0){
+							myCharacter();
+							selectMyItemList(item);
+						}
+					},
+					error : () => {
+	
+					}
+				});
+			};
+		};
+		
 	</script>
 </body>
 </html>

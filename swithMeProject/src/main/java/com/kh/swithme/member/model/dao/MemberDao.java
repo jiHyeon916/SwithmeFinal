@@ -270,10 +270,15 @@ public class MemberDao {
 	}
 
 	// 회원가입시 기본 캐릭터 지급
-	public int joinItem(SqlSessionTemplate sqlSession, Member m) {
-		return sqlSession.insert("memberMapper.joinItem", m);
+	public int defaultCharacter(SqlSessionTemplate sqlSession, Member m) {
+		return sqlSession.insert("memberMapper.defaultCharacter", m);
 	}
-
+	
+	// 회원가입시 기본 배경 지급
+	public int defaultBackground(SqlSessionTemplate sqlSession, Member m) {
+		return sqlSession.insert("memberMapper.defaultBackground", m);
+	}
+	
 	// 보유 아이템 리스트 카운트
 	public int myItemListCount(SqlSessionTemplate sqlSession, MemberItem mItem) {
 		return sqlSession.selectOne("memberMapper.myItemListCount", mItem);
@@ -296,5 +301,9 @@ public class MemberDao {
 		return (ArrayList)sqlSession.selectList("memberMapper.myCharacter", memberId);
 	}
 
+	// 착용상태 변경
+	public int wearStatusUpdate(SqlSessionTemplate sqlSession, MemberItem mItem) {
+		return sqlSession.update("memberMapper.wearStatusUpdate", mItem);
+	}
 
 }

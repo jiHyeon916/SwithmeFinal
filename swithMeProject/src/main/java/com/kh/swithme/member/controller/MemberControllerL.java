@@ -128,8 +128,10 @@ public class MemberControllerL {
       
          if(memberService.joinMember(m) > 0) { //회원가입 성공
             memberService.joinPoint(m);
-            memberService.joinItem(m);
-               //message = "<script>alert('환영합니다 ! 500p가 지급되었습니다 !');location.href='loginForm.me';</script>";
+            if(memberService.defaultCharacter(m) > 0) {
+            	memberService.defaultBackground(m);
+            };
+            	//message = "<script>alert('환영합니다 ! 500p가 지급되었습니다 !');location.href='loginForm.me';</script>";
                session.setAttribute("alertMsg","회원가입을 축하합니다 ! 500p가 지급되었습니다 !");   
                mv.setViewName("member/loginForm");
             }else {
