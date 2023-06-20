@@ -46,13 +46,9 @@
                         <p><b>HOT</b> 전체 인기글</p>
                     </div>
                     <ul id="topList">
-                        
+                        <!-- 인기글 리스트 들어갈 곳 -->
                     </ul>
-                    <!-- <p class="F_sm_smr hotBod">가치의 고찰 - 가치가 있는 ‘나’를 가치있게 사용하자. (글 적은거 백업파일 찾았어요)</p><br>
-                    <p class="F_sm_smr hotBod">2023 강원랜드 전형별 합격 가이드 (feat. 합격 스펙 정보)</p><br>
-                    <p class="F_sm_smr hotBod">다른 대학 축제도 재밌나용??</p><br>
-                    <p class="F_sm_smr hotBod">후기보니까 기업은행 인턴은 스펙 잘 안본대</p><br>
-                    <p class="F_sm_smr hotBod">밥 먹다가 방구끼는 것도 가정 교육 잘못 받은거야??</p><br> -->
+                    
                 </div>
                 <div id="topBoard3">
                     <div>
@@ -350,7 +346,7 @@
                             console.log(list);
                             var listTop = '';
                             for(var i in list){
-                                listTop += '<li class="F_sm_smr hotBod">' + list[i].boardTitle  + '</li>';
+                                listTop += '<li class="F_sm_smr hotBod" onclick="location.href=\'freeBoardDetail.bo?boardNo=' + list[i].boardNo + '\'">' + list[i].boardTitle  + '</li>';
                             }
 
                             $('#topList').html(listTop);
