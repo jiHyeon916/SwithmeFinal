@@ -89,12 +89,13 @@
                 
                 <!-- 사이드바 메뉴 -->
                 <div class="sideBtn">
-                    <div onclick="likeBoard();">
-                        <img src="resources/images/board/heart.png" alt="">
+                    <div onclick="likeBoard();" class="likeBox">
+                        <img class="likeImg" src="resources/images/board/heart.png" alt="">
                     </div>
                     <p class="likeCount"></p>
 
-                    <div onclick="bookBoard();"><img src="resources/images/board/bookmark.png" alt=""></div>
+                    <div onclick="bookBoard();" class="bookBox">
+                        <img class="bookImg" src="resources/images/board/bookmark.png" alt=""></div>
                     <p class="bookCount"></p>
 
                     <div><img src="resources/images/board/reply.png" alt=""></div>
@@ -208,9 +209,11 @@
                 success : function(r){
 
                     if(r > 0){
-                        $('.likeCount').css('color','red');
+                        $('.likeImg').prop('src','resources/images/board/heartStatus.png');
+                        $('.likeBox').css('border', '1px solid #58bf7a')
                     }else{
-                        $('.likeCount').css('color','black');
+                        $('.likeImg').prop('src','resources/images/board/heart.png');
+                        $('.likeBox').css('border', '1px solid rgb(223,223,223)')
                     }
 
                     likeCount();
@@ -231,9 +234,11 @@
                 success : function(r){
                     
                     if(r > 0){
-                        $('.bookCount').css('color','red');
+                        $('.bookImg').prop('src','resources/images/board/bookmarkStatus.png');
+                        $('.bookBox').css('border', '1px solid #58bf7a')
                     }else{
-                        $('.bookCount').css('color','black');
+                        $('.bookImg').prop('src','resources/images/board/bookmark.png');
+                        $('.bookBox').css('border', '1px solid rgb(223,223,223)')
                     }
 
                     bookCount();
