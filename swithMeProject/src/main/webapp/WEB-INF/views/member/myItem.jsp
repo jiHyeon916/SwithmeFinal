@@ -159,7 +159,7 @@
 					for(let i in list){
 						// 순서 : 도구 > 모자 > 배경 > 캐릭터
 
-						//console.log(list[i].itemNo);
+						console.log(list[i].itemNo);
 						//console.log($('#wearItem' + 0).attr('name'));
 
 						$('.wearItem').each(function(){

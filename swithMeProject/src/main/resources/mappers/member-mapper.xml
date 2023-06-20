@@ -996,7 +996,7 @@
 	
 	<!-- 착용한 아이템 가져오기 -->
 	<select id="myCharacter" parameterType="string" resultMap="itemResultSet">
-		SELECT ITEM_PHOTO, ITEM_CATEGORY
+		SELECT ITEM_PHOTO, ITEM_CATEGORY, ITEM_NO
 		  FROM MEMBER_ITEM
 		  JOIN BOARD_ITEM USING(ITEM_NO)
 		 WHERE MEMBER_ID = #{ memberId }
