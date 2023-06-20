@@ -273,6 +273,21 @@ public class MemberControllerY {
 		
 		return new Gson().toJson(jObj);
 	}
+
+	// 보유 아이템 삭제하기
+	@ResponseBody
+	@RequestMapping(value="deleteItem.me", produces="application/json; charset=UTF-8")
+	public int deleteMyItem(MemberItem mItem) {
+		return memberService.deleteMyItem(mItem);
+	}
+	
+	// 사용자 캐릭터 띄우기
+	// 카테고리 별로 wearStatus가 'Y' 아이템들을 셀렉해온다
+	@ResponseBody
+	@RequestMapping(value="myCharacter.me", produces="application/json; charset=UTF-8")
+	public String myCharacter(String memberId) {
+		return new Gson().toJson(memberService.myCharacter(memberId));
+	}
 	
 	
 	

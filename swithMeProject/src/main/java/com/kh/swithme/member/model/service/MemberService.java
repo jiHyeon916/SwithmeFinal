@@ -213,6 +213,12 @@ public interface MemberService {
 	
 	// 보유 아이템 리스트
 	ArrayList<Item> myItemList(PageInfo pi, MemberItem mItem);
+
+	// 보유 아이템 삭제
+	int deleteMyItem(MemberItem mitem);
+	
+	// 착용한 아이템 가져오기
+	ArrayList<Item> myCharacter(String memberId);
 	
 	  
 }
