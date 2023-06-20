@@ -523,12 +523,7 @@ public class AdminController {
 
 	}
 	
-	// 스터디룸 위치 추가
-	@ResponseBody
-	@RequestMapping("insertStudyRoomCoords.me")
-	public int insertStudyRoomCoords(StudyRoom sr) {
-		return adminService.insertStudyRoomCoords
-	}
+	
 	
 	// 스터디룸 삭제
 	@ResponseBody

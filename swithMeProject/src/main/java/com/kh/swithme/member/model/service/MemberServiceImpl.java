@@ -149,7 +149,7 @@ public class MemberServiceImpl implements MemberService{
 
 		}
 
-		}
+		
 		
 		//알람 읽음 여부 - 밴드
 		@Override
