@@ -213,14 +213,14 @@ tr:hover{
                                 <option  value="18">충북</option>
                             </select><br>
                             <span>주소</span>
-                            <input type="text" id="studyRoomAddress" placeholder="주소">
-                            <input type="button" onclick="sample5_execDaumPostcode()" value="주소 검색"><br>
+                            <input type="text" name="sutdyRoomAddress" id="studyRoomAddress" placeholder="주소">
+                            <input type="button" onclick="sample5_execDaumPostcode()" value="주소 검색" ><br>
                             <span>전화번호</span>
-                            <input type="text" id="studyRoomPhone"><br>
+                            <input type="text" id="studyRoomPhone" name="studyRoomPhone"><br>
                             <span>소개글</span>
                             <textarea name="studyRoomIntroduce" id="studyRoomIntroduce" cols="40" rows="8" style="resize:none;"></textarea><br>
-                            <label for="upfile">사진</label></th>
-                            <input type="file" id="upfile" name="upfile">
+                            <span>사진</span>
+                            <input type="file" id="upfile" name="upFile">
                             <div></div> &nbsp;&nbsp;
                         </div>
                          <div class="btn">
@@ -251,23 +251,8 @@ tr:hover{
                             console.log(result);
                             var coordsLat = result.x;
                             var coordsLng = result.y;
-                            $('#insertBtn').click(function(){
-                                $.ajax({
-                                    url : 'insertStudyRoomCoords.me',
-                                    data : {
-                                        studyRoomNo : $('#studyRoomName').val(),
-                                        studyRoomLat : coordsLng,
-                                        studyRoomLng : coordsLat,
-                                    },
-                                    success : function(){
-                                        console.log('추가 성공');
-                                    }, 
-                                    error : function(){
-                                        console.log('실패');
-                                    }
-                                });
-                            });
-
+                           
+                            
                         }
                     });
                 }

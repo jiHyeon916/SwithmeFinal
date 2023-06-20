@@ -104,18 +104,26 @@
    			)
    </insert>
    
-      <insert id="insertStudyRoomCoords" parameterType="studyRoom">
+      <insert id="insertStudyRoomImage" parameterType="attach">
    		INSERT
    		INTO
-   			BOARD_STUDYROOM
+   			ATTACH
    			(
-   			SR_LAT
-   			,SR_LNG
+   			FILE_NO
+   			,ORIGIN_NAME
+   			,CHANGE_NAME
+   			,FILE_LEVEL
+   			,REF_NO
+   			,FIELD
    			)
    		VALUES
    			(
-   			,#{studyRoomLat}
-   			,#{studyRoomLng}
+   			,SEQ_FILE_NO.NEXTVAL
+   			,#{originName}
+   			,#{changeName}
+   			,#{fileLevel}
+   			,SEQ_SR_NO.CURRVAL
+   			,2
    			)
    		
    </insert>
