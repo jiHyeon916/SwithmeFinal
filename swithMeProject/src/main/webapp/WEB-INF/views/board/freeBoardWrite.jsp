@@ -67,7 +67,6 @@
                 </div>
                 
                 
-                <!-- <input type="text" id="tag" onkeyup="tagtext(this)"> -->
 
                 <div class="uploadBtnArea clear fileUp">
                     <p>파일</p>
@@ -225,6 +224,8 @@
                 $('#tagList').css('display', 'block');
                 $('#tagBox input').val('');
             }
+
+            
 
         }
 

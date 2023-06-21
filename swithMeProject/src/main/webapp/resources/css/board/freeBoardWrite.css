@@ -90,7 +90,6 @@ input:focus{
     border-radius: 5px;
     cursor: pointer;
     text-align: left;
-    background: url("images/icon-Triangle-down.png") center right 14px no-repeat;
     /* 말줄임 */
     white-space: nowrap;
     text-overflow: ellipsis;

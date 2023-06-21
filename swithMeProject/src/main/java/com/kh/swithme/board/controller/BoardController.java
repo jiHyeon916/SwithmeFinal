@@ -808,6 +808,18 @@ public class BoardController {
 		return boardService.boardReport(r);
 	}
 	
+	/**
+	 * 아이템 검색 창 
+	 * @param key 검색키워드
+	 * @param model 검색결과리스트 
+	 * @return 아이템 리스트 페이지 
+	 */
+	@RequestMapping("itemSearch.bo")
+	public String itemSearch(String key, Model model) {
+		model.addAttribute("item", boardService.itemSearch(key));
+		return "board/itemBoardList";
+	}
+	
 	
 	
 	
