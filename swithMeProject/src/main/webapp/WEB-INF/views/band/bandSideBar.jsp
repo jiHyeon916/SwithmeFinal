@@ -311,6 +311,13 @@
 					if(bandInfomation.sbRecruitMem == bandInfomation.sbNowMem){
 						$('.enrollBtn').css('display', 'none');
 					};
+
+					if(bandInfomation.memberIdId == '${loginMember.memberId}'){
+						$(".clear1").append("<li><a href='#' data-toggle='modal' data-target='#updaetBandReader'>리더 위임</a></li>");	
+						$("#sbCategory").append("<option value='N'>공지사항</option>");
+						$('#deleteMem1').css('display','none');
+		
+					};
 					
 
 					// $('#bandCover').attr('src', result)
@@ -321,12 +328,6 @@
 				}
 			});
 			
-			if('${bandInfomation.memberIdId}' == '${loginMember.memberId}'){
-				$(".clear1").append("<li><a href='#' data-toggle='modal' data-target='#updaetBandReader'>리더 위임</a></li>");	
-				$("#sbCategory").append("<option value='N'>공지사항</option>");
-				$('#deleteMem1').css('display','none');
-				
-			};
 			
 			$.ajax({
 				url : 'reader.sb',
@@ -358,7 +359,7 @@
 		$(document).on('click', '#writerStrat', function(){
 			$('#summernote').summernote({
 				dialogsInBody: true,
-				height: 400,							// 에디터 높이
+				height: 200,							// 에디터 높이
 				disableResizeEditor: true,
 				minHeight: null,						// 최소 높이
 				maxHeight: null,						// 최대 높이
@@ -371,7 +372,6 @@
 		            ['fontsize', ['fontsize']],
 		            ['style', ['bold', 'italic', 'underline','strikethrough', 'clear']],
 		            ['color', ['forecolor','color']],
-		            ['table', ['table']],
 		            ['para', ['ul', 'ol', 'paragraph']],
 		            ['height', ['height']],
 				],
@@ -429,7 +429,27 @@
 							location.href="detail.bo?sno="+sno;
 						} else {
 							location.href="bandNotice.sb?sno="+sno;
-						}							
+						};
+						
+						// 사진
+						var form = $('#photoForm')[0];
+						var formData = new FormData(form);
+						
+						if($('#file1').val() != ""){
+							$.ajax({
+								url : 'photoInsert.sb',
+								type : 'POST',
+								contentType : false,
+						        processData : false,
+								data : formData ,
+								success : function(photoList){
+									console.log(photoList);
+								},
+								error : function(){
+									console.log('사진 작성 실패');
+								}
+							})
+						}
 					}
 					alert('글작성 성공');
 				},
@@ -438,25 +458,6 @@
 				}
 			})
 			
-			// 사진
-			var form = $('#photoForm')[0];
-			var formData = new FormData(form);
-			
-			if($('#file1').val() != ""){
-				$.ajax({
-					url : 'photoInsert.sb',
-					type : 'POST',
-					contentType : false,
-			        processData : false,
-					data : formData ,
-					success : function(photoList){
-						console.log(photoList);
-					},
-					error : function(){
-						console.log('사진 작성 실패');
-					}
-				})
-			}
 		});
 		
 		function alarmMessage(){

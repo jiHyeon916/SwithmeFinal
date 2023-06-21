@@ -78,6 +78,7 @@ public class BandController {
 	public String selectList(HttpSession session, int sno) {
 		
 		session.setAttribute("list", bandService.selectBandList(sno));
+		//System.out.println(bandService.selectBandList(sno));
 		
 		return "band/bandMain";
 	}
@@ -182,6 +183,7 @@ public class BandController {
 		br.setSbReplyContent(sbReplyContent.replace(System.getProperty("line.separator"), "<br>"));
 		br.setSbBoardNo(sbBoardNo);
 		if(bandService.ajaxInsertBandReply(br) > 0) {
+			// System.out.println(sbNo);
 			ba.setAlarmSbNo(sbNo);
 			ba.setAlarmMember(writerId);
 			

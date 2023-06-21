@@ -174,13 +174,17 @@
 		        $('button').not('#updateRe').attr('disabled',false);
 		        var target = document.getElementById('summary');
 
-		        const extractTextPattern = /(<([^>]+)>)/gi;
 		        
-		        var src = target.innerHTML;
+		        if(target != null){
+		        	const extractTextPattern = /(<([^>]+)>)/gi;
+		        	
+		        	var src = target.innerHTML;
 
-		        var extractedText = src.replace(extractTextPattern, '');
+		        	var extractedText = src.replace(extractTextPattern, '');
 		        
-		        target.innerHTML = extractedText;
+			        target.innerHTML = extractedText;	
+			        
+		        };
 		        
 					   
 			});
@@ -261,10 +265,12 @@
 					alert('댓글 작성 실패');
 				}
 			});
-
+		
 			// 댓글 리스트 영역
-			function selectReplyList(inputNo){
+			function selectReplyList(sbBoardNo){
 
+				var loginMem1 = '${loginMember.nickName}';
+				
 				$.ajax({
 					url : 'rlist.sb',
 					data : { sbBoardNo : inputNo },
@@ -272,17 +278,33 @@
 						//console.log(sBoardNo);
 						
 						let value="";
-						for(let i in result){
-							value += '<div id="replyMem">' 
+						for(var i in result){
+							value += '<div class="replyContent2">' 
+								   + '<div class="replyMem" id="replyMem">' 
 								   + result[i].memberId +'</div>'
 								   + '<div id="replyDate">' + result[i].sbDate + '</div><br>'
-								   + '<div id="replyContent1">' + result[i].sbReplyContent + '</div>'
-								   + '<div id="replyDetailBtn"><input id="replyNo" type="hidden" value="' + result[i].sbReplyNo + '">'
+								   + '<div id="replyContent1">' + result[i].sbReplyContent + '</div>'									   
+								   + '<div class="replyDetailBtn" id="replyDetailBtn"><input id="replyNo" type="hidden" value="' + result[i].sbReplyNo + '">'
 								   + '<button class="replyEnroll1" type="button">삭제</button>'
-								   + '<button class="replyEnroll2" type="button" id="updateRe">수정</button><br><hr></div>';
+								   + '<button class="replyEnroll2" type="button" id="updateRe">수정</button><br></div>'
+								   + '</div><hr>';
 						};
 						$('.replyBodyDetail').html(value);
-
+						var replyTest = $('.replyContent2');
+						
+						$.each(replyTest, function(index, item){
+							// console.log(item.children[4]);
+							// console.log(item.children[0].innerHTML);
+							
+							var btnItems = item.children[4];
+							var idItems = item.children[0].innerHTML;
+							
+							if(idItems == '${loginMember.nickName}'){
+								$(btnItems).css('display','show');
+							} else {
+								$(btnItems).css('display','none');						
+							}
+						});
 					},
 					error : function(){
 						console.log('실패');
@@ -310,7 +332,7 @@
 	                    var modifyArea = '<textarea class="replayModify">' + result.sbReplyContent + '</textarea>'
 	                    			   + '<input id="replyNo" type="hidden" value="' + sbReplyNo + '">'
 	                                   + '<button class="reset" type="button">취소</button>'
-	                                   + '<button class="modify" id="updateRee" type="button">저장</button><br><hr>'
+	                                   + '<button class="modify" id="updateRee" type="button">저장</button><br>'
 	                   	content.html(modifyArea);
 	                    totalBtn.css('display','none');
 						
@@ -323,9 +345,10 @@
 			
 			// 댓글 수정 영역
             $(document).on('click', '.modify', function(){
-            	var sbBoardNo = $(this).parent().parent().siblings('.replyBtn').children().last().val();
+            	var sbBoardNo = $(this).parent().parent().parent().siblings('.replyBtn').children().last().val();
             	var sbReplyNo = $(this).prev().prev().val();
             	
+            	// console.log(sbBoardNo);
                 $.ajax({
                     url : 'replyModify.sb',
                     data : {
@@ -334,7 +357,7 @@
                     },
                     success : function(result){
                     	if(result === 'success'){
-                    		console.log(result);
+                    		// console.log(result);
                      	$('button').not('#updateRe').attr('disabled',false);
                      	$('#replyDetailBtn').css('display','show');
                      	selectReplyList(sbBoardNo);
@@ -347,7 +370,7 @@
             });
 			// 댓글 수정 취소 버튼
 			$(document).on('click', '.reset', function(){
-				var sbBoardNo = $(this).parent().parent().siblings('.replyBtn').children().last().val();
+				var sbBoardNo = $(this).parent().parent().parent().siblings('.replyBtn').children().last().val();
 				$('button').not('#updateRe').attr('disabled',false);
              	selectReplyList(sbBoardNo);
 			});
@@ -376,7 +399,7 @@
 			
 			// 댓글 삭제 영역
 			$(document).on('click', '.replyEnroll1', function(){
-				var sbBoardNo = $(this).parent().parent().siblings('.replyBtn').children().last().val();
+				var sbBoardNo = $(this).parent().parent().parent().siblings('.replyBtn').children().last().val();
 				var sbReplyNo = $(this).prev().val();
 				
 				console.log(sbBoardNo);
