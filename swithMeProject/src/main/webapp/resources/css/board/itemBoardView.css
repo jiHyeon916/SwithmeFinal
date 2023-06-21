@@ -54,7 +54,7 @@ textarea:focus{
 
 .itemImg{
     height: 180px;
-    background-color: grey;
+    background-color: #fff;
     border-radius: 5px;
     margin-bottom: 5px;
     overflow: hidden;

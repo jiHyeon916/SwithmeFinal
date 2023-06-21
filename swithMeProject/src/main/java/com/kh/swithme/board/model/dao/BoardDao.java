@@ -35,7 +35,7 @@ public class BoardDao {
 		return (ArrayList)sqlSession.selectList("boardMapper.topBoard");
 	}
 	public ArrayList<Board> topBoard2(SqlSessionTemplate sqlSession){
-		return (ArrayList)sqlSession.selectList("boardMapper.topBoard");
+		return (ArrayList)sqlSession.selectList("boardMapper.topBoard2");
 	}
 	public int boardCountUp(SqlSessionTemplate sqlSession, int boardNo) {
 		return sqlSession.update("boardMapper.boardCountUp", boardNo);

@@ -50,7 +50,7 @@ public class BoardServiceImpl implements BoardService {
 	}
 	@Override
 	public ArrayList<Board> topBoard2(){
-		return boardDao.topBoard(sqlSession);
+		return boardDao.topBoard2(sqlSession);
 	}
 	@Override
 	public int boardCountUp(int boardNo) {

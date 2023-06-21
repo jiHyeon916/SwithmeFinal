@@ -96,7 +96,7 @@ public class BoardController {
 	@ResponseBody
 	@RequestMapping(value="topBoard2.bo", produces="application/json; charset=UTF-8")
 	public String topBoard2() {
-		return new Gson().toJson(boardService.topBoard()); 
+		return new Gson().toJson(boardService.topBoard2()); 
 	}
 	
 	/**
@@ -344,7 +344,6 @@ public class BoardController {
 		}
 		
 		
-		System.out.println(tagList);
 		
 		// 1. 게시글 insert
 		if(boardService.test(b) > 0) {
@@ -461,8 +460,10 @@ public class BoardController {
 	 */
 	@RequestMapping(value="boardModifyView.bo")
 	public String boardModifyView(int boardNo, Model model) {
+		System.out.println(boardNo);
 		
 		model.addAttribute("b", boardService.boardModifyView(boardNo));
+		System.out.println(boardService.boardModifyView(boardNo));
 		return "board/boardModify";
 	}
 	
@@ -550,6 +551,12 @@ public class BoardController {
 		return boardService.reReplyModify(re) > 0 ? "success" : "fail";
 	}
 	
+	/**
+	 * 댓글 대댓글 삭제
+	 * @param reType
+	 * @param replyNo
+	 * @return
+	 */
 	@ResponseBody
 	@RequestMapping("deleteRe.bo")
 	public int deleteRe(int reType, int replyNo) {
@@ -779,7 +786,6 @@ public class BoardController {
 	@ResponseBody
 	@RequestMapping(value="itemListUpdate", produces="application/json; charset=UTF-8")
 	public String itemListUpdate(String category) {
-		System.out.println(category);
 		
 		JSONObject jobj = new JSONObject();
 		jobj.put("list", boardService.itemListUpdate(category));
@@ -795,7 +801,6 @@ public class BoardController {
 	@ResponseBody
 	@RequestMapping("boardReport.bo")
 	public int boardReport(Report r) {
-		System.out.println(r);
 		
 		return boardService.boardReport(r);
 	}

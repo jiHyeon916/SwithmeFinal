@@ -585,6 +585,7 @@
             
         }
 
+        // 댓글 대댓글 삭제하기
         function deleteRe(num, replyNo){
             $.ajax({
                 url : 'deleteRe.bo',
@@ -626,6 +627,7 @@
             location.href='boardDelete.bo?boardNo=' + boardNo;
         }
 
+        // 신고하기
         function report(){
 
             if('${ sessionScope.loginMember}' == ''){

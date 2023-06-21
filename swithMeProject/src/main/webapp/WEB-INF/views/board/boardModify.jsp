@@ -19,7 +19,6 @@
         <div class="wrap clear">
             
             <h3>게시글 작성</h3>
-                
             <!-- 제목, 컨텐츠 입력 칸 -->
             <div class="left">
                 <p>제목</p>
@@ -37,10 +36,10 @@
                             <div id="freeCategory" class="cont-select">
                                 <button class="btn-select">전체보기</button>
                                 <ul class="list-member">
-                                <li><button type="button">전체보기</button></li>
-                                <li><button type="button">공부꿀팁</button></li>
-                                <li><button type="button">자유잡담</button></li>
-                                <li><button type="button">이슈정보</button></li>
+                                    <li><button type="button">전체보기</button></li>
+                                    <li><button type="button">공부꿀팁</button></li>
+                                    <li><button type="button">자유잡담</button></li>
+                                    <li><button type="button">이슈정보</button></li>
                                 </ul>
                             </div>
                         </c:when>
@@ -48,10 +47,10 @@
                             <div id="freeCategory" class="cont-select">
                                 <button class="btn-select">전체보기</button>
                                 <ul class="list-member">
-                                <li><button type="button">질문</button></li>
-                                <li><button type="button">IT</button></li>
-                                <li><button type="button">고시공부</button></li>
-                                <li><button type="button">취업준비</button></li>
+                                    <li><button type="button">질문</button></li>
+                                    <li><button type="button">IT</button></li>
+                                    <li><button type="button">고시공부</button></li>
+                                    <li><button type="button">취업준비</button></li>
                                 </ul>
                             </div>
                         </c:otherwise>
