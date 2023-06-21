@@ -1,7 +1,22 @@
 @charset "UTF-8";
 
 footer{
-    height: 200px;
-    background-color: #73b18a;
+    background-color: #54c17c;
     padding : 20px;
+}
+
+#footerMenu{
+    margin: 40px 0 30px;
+}
+#footerMenu li{
+    float: left;
+    margin-right: 20px;
+    font-weight: bold;
+    color: #fff;
+}
+
+.footerInfo{
+    line-height: 26px;
+    margin-bottom: 30px;
+    color: #fff;
 }

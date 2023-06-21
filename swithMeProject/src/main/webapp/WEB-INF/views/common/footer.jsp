@@ -9,21 +9,19 @@
 <body>
 
 <footer>
-    <div class="wrap">
-        <ul>
+    <div class="wrap clear">
+        <ul id="footerMenu" class="clear">
+            <li>회사소개</li>
+            <li>개인정보처리방침</li>
             <li>개인정보처리방침</li>
             <li>이용약관</li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
         </ul>
-        개인정보처리방침
-        이용약관
-        (주)인프랩 | 대표자: 이형주 | 사업자번호: 499-81-00612 사업자 정보 확인 
-        통신판매업: 2018-성남분당B-0062 | 개인정보보호책임자: 이동욱 | 이메일: info@inflearn.com 
-        주소: 경기도 성남시 분당구 대왕판교로 660 유스페이스 1A동 405호
-        ©INFLAB. ALL RIGHTS RESERVED
+        <p class="footerInfo">
+        (주)스윗미 | 대표자: 양유진 | 사업자번호: 234-56-04435<br> 
+        통신판매업: 2022-종로B-0062 | 개인정보보호책임자: 이유진 | 이메일: khproject@swith.me<br> 
+        주소: 서울시 종로구 종로지원특별센터 B층 101호<br> 
+        ©SWITHME. ALL RIGHTS RESERVED<br> 
+        </p>
     </div>
 </footer>
         
