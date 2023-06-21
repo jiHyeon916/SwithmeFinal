@@ -6,6 +6,7 @@ import java.util.HashMap;
 import com.kh.swithme.admin.model.vo.Item;
 import com.kh.swithme.admin.model.vo.QNAReply;
 import com.kh.swithme.band.model.vo.Band;
+import com.kh.swithme.board.model.vo.Attach;
 import com.kh.swithme.board.model.vo.Board;
 import com.kh.swithme.board.model.vo.StudyRoom;
 import com.kh.swithme.common.model.vo.PageInfo;
@@ -120,7 +121,7 @@ public interface AdminService {
 	int insertStudyRoom(StudyRoom sr);
 	
 	// 스터디룸 위치 추가
-	int insertStudyRoomCoords(StudyRoom sr);
+	int insertStudyRoomImage(Attach at);
 	
 	// 스터디룸 선택 삭제
 	int deleteCheckStudyRoom(int studyRoomNo);
@@ -128,8 +129,13 @@ public interface AdminService {
 	// 스터디룸 상세보기 삭제
 	int deleteStudyRoom(int studyRoomNo);
 	
+	// 스터디룸 상세보기
+	StudyRoom selectStudyRoom(int studyRoomNo);
+	ArrayList<Attach> selectStudyRoomImage(int studyRoomNo);
+	
 	// 스터디룸 정보 수정
 	int updateStudyRoom(StudyRoom sr);
+	int updateStudyRoomImage(Attach at);
 	
 	
 }

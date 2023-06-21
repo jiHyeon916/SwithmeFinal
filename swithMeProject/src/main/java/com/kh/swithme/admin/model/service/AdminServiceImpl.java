@@ -11,6 +11,7 @@ import com.kh.swithme.admin.model.dao.AdminDao;
 import com.kh.swithme.admin.model.vo.Item;
 import com.kh.swithme.admin.model.vo.QNAReply;
 import com.kh.swithme.band.model.vo.Band;
+import com.kh.swithme.board.model.vo.Attach;
 import com.kh.swithme.board.model.vo.Board;
 import com.kh.swithme.board.model.vo.StudyRoom;
 import com.kh.swithme.common.model.vo.PageInfo;
@@ -232,10 +233,10 @@ public class AdminServiceImpl implements AdminService {
 		return adminDao.insertStudyRoom(sqlSession, sr);
 	}
 
-	// 스터디룸 위치 추가
+	// 스터디룸 이미지 추가
 	@Override
-	public int insertStudyRoomCoords(StudyRoom sr) {
-		return adminDao.insertStudyRoomCoords(sqlSession, sr);
+	public int insertStudyRoomImage(Attach at) {
+		return adminDao.insertStudyRoomImage(sqlSession, at);
 	}
 
 	// 스터디룸 선택 삭제
@@ -249,12 +250,30 @@ public class AdminServiceImpl implements AdminService {
 	public int deleteStudyRoom(int studyRoomNo) {
 		return 0;
 	}
+	
+	// 스터디룸 상세정보
+	@Override
+	public StudyRoom selectStudyRoom(int studyRoomNo) {
+		return adminDao.selectStudyRoom(sqlSession, studyRoomNo);
+	}
+
+	@Override
+	public ArrayList<Attach> selectStudyRoomImage(int studyRoomNo) {
+		return adminDao.selectStudyRoomImage(sqlSession, studyRoomNo);
+	}
 
 	// 스터디룸 정보 수정
 	@Override
 	public int updateStudyRoom(StudyRoom sr) {
-		return 0;
+		return adminDao.updateStudyRoom(sqlSession, sr);
 	}
+
+	@Override
+	public int updateStudyRoomImage(Attach at) {
+		return adminDao.updateStudyRoomImage(sqlSession, at);
+	}
+
+
 
 
    

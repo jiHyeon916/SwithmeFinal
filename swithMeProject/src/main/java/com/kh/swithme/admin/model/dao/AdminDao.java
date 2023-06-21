@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 import com.kh.swithme.admin.model.vo.Item;
 import com.kh.swithme.admin.model.vo.QNAReply;
 import com.kh.swithme.band.model.vo.Band;
+import com.kh.swithme.board.model.vo.Attach;
 import com.kh.swithme.board.model.vo.Board;
 import com.kh.swithme.board.model.vo.StudyRoom;
 import com.kh.swithme.common.model.vo.PageInfo;
@@ -214,9 +215,9 @@ public class AdminDao {
 		return sqlSession.insert("adminMapper.insertStudyRoom", sr);
 	}
 	
-	// 스터디룸 위치 추가
-	public int insertStudyRoomCoords(SqlSessionTemplate sqlSession, StudyRoom sr) {
-		return sqlSession.insert("adminMpper.insertStudyRoomCoords", sr);
+	// 스터디룸 이미지 추가
+	public int insertStudyRoomImage(SqlSessionTemplate sqlSession, Attach at) {
+		return sqlSession.insert("adminMapper.insertStudyRoomImage", at);
 	}
 
 	// 스터디룸 선택 삭제
@@ -228,8 +229,23 @@ public class AdminDao {
 
 
 	// 스터디룸 정보 수정
+	public StudyRoom selectStudyRoom(SqlSessionTemplate sqlSession, int studyRoomNo) {
+		return sqlSession.selectOne("adminMapper.selectStudyRoom", studyRoomNo);
+	}
 
+	public ArrayList<Attach> selectStudyRoomImage(SqlSessionTemplate sqlSession, int studyRoomNo){
+		return (ArrayList)sqlSession.selectList("adminMapper.selectStudyRoomImage", studyRoomNo);
+	}
 
+	public int updateStudyRoom(SqlSessionTemplate sqlSession, StudyRoom sr) {
+		return sqlSession.update("adminMapper.updateStudyRoom", sr);
+	}
+	
+	public int updateStudyRoomImage(SqlSessionTemplate sqlSession, Attach at) {
+		return sqlSession.update("adminMapper.updateStudyRoomImage", at);
+	}
+
+	
 
 
 }

@@ -206,12 +206,13 @@ tr{
 	         	</div>
 	         	
 	         	<div class="post_middle">
-                    <form id="studyRoomEnrollForm" action="insertStudyRoom.ad" method="post" enctype="multipart/form-data">
+                    <form id="studyRoomUpdateForm" action="updateStudyRoom.ad" method="post" enctype="multipart/form-data">
+                        <input type="hidden" value="${studyRoom.studyRoomNo}" name="studyRoomNo">
                         <div class="post_content" >
                             <table>
                                 <tr>
                                     <td><p>스터디룸 이름</p></td>
-                                    <td><input type="text" name="studyRoomName" id="studyRoomName" required></td>
+                                    <td><input type="text" name="studyRoomName" id="studyRoomName" required value="${studyRoom.studyRoomName}"></td>
                                 </tr>
                                 <tr>
                                     <td><p>지역</p></td>
@@ -240,29 +241,34 @@ tr{
                                 <tr>
                                     <td><p>주소</p></td>
                                     <td>
-                                        <input type="text" name="studyRoomAddress" id="studyRoomAddress" placeholder="주소" onclick="sample5_execDaumPostcode()" required>
-                                        <input type="hidden" id="studyRoomLat" name="studyRoomLat">
-                                        <input type="hidden" id="studyRoomLng" name="studyRoomLng">
+                                        <input type="text" name="studyRoomAddress" id="studyRoomAddress" placeholder="주소" onclick="sample5_execDaumPostcode()" required value="${studyRoom.studyRoomAddress}">
+                                        <input type="hidden" id="studyRoomLat" name="studyRoomLat" value="${studyRoom.studyRoomLat}">
+                                        <input type="hidden" id="studyRoomLng" name="studyRoomLng" value="${studyRoom.studyRoomLng}">
                                     </td>
                                 </tr>
                                 <tr>
                                     <td><p>전화번호</p></td>
-                                    <td><input type="text" id="studyRoomPhone" name="studyRoomPhone" required></td>
+                                    <td><input type="text" id="studyRoomPhone" name="studyRoomPhone" value="${studyRoom.studyRoomPhone}" required></td>
                                 </tr>
                                 <tr>
                                     <td><p>소개글</p></td>
-                                    <td><textarea name="studyRoomIntroduce" id="studyRoomIntroduce" cols="40" rows="8" style="resize:none;"></textarea></td>
+                                    <td><textarea name="studyRoomIntroduce" id="studyRoomIntroduce" cols="40" rows="8" style="resize:none;" required>${studyRoom.studyRoomIntroduce}</textarea></td>
                                 </tr>
                                 <tr>
                                     <td><p>사진</p></td>
                                     <td>
                                         <label class="uploadBtn" for="upfile">업로드</label> 
-                                        <input type="file" id="upfile" name="upFile" onchange="preview(this);" style="display:none;">
+                                        <input type="file" id="upfile" name="reUpFile" onchange="preview(this);" style="display:none;">
                                     </td>
                                 </tr>
                                 <tr>
                                     <td></td>
-                                    <td><div id="studyRoomImg"><img id="studyRoomView" src="resources/images/member/none.jpeg" /></div></td>
+                                    <td>
+                                        <div id="studyRoomImg">
+                                            <img id="studyRoomView" src="${change}" /></div>
+                                            <input type="hidden" name="originName" value="${origin}"/>
+                                            <input type="hidden" name="changeName" value="${change}" />
+                                    </td>
                                 </tr>
                                 <tr></tr>
                                 <tr>

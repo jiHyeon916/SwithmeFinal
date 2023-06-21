@@ -24,6 +24,7 @@ import com.kh.swithme.admin.model.service.AdminService;
 import com.kh.swithme.admin.model.vo.Item;
 import com.kh.swithme.admin.model.vo.QNAReply;
 import com.kh.swithme.band.model.vo.Band;
+import com.kh.swithme.board.model.vo.Attach;
 import com.kh.swithme.board.model.vo.Board;
 import com.kh.swithme.board.model.vo.StudyRoom;
 import com.kh.swithme.common.model.vo.PageInfo;
@@ -405,7 +406,7 @@ public class AdminController {
 	@RequestMapping("insertItem.ad")
 	public String insertItem(Item item, MultipartFile upFile, HttpSession session, Model model) {
 		if(!upFile.getOriginalFilename().equals("")) {
-			item.setItemPhoto("resources/uploadFiles/item/" + saveFile(upFile, session));
+			item.setItemPhoto("resources/uploadFiles/item/" + saveFile(upFile, session, "item"));
 		}
 		if(adminService.insertItem(item) > 0) {
 			return "redirect:itemList.ad";
@@ -432,7 +433,7 @@ public class AdminController {
 		if(!reUpFile.getOriginalFilename().equals("")) {
 			// 새로 첨부된 사진이 있을 경우 -> 기존에 있던 사진 delete & 사진 insert & 전체 update
 			new File(session.getServletContext().getRealPath(originPhoto)).delete();
-			String changeName = "resources/uploadFiles/item/" + saveFile(reUpFile, session);
+			String changeName = "resources/uploadFiles/item/" + saveFile(reUpFile, session, "item");
 			item.setItemPhoto(changeName);
 		} else {
 			item.setItemPhoto(originPhoto);
@@ -441,15 +442,20 @@ public class AdminController {
 	};
 	
 	// 사진 사용 메소드
-	public String saveFile(MultipartFile upfile, HttpSession session) { // 실제 넘어온 파일의 이름을 변경해서 서버에 업로드
+	public String saveFile(MultipartFile upfile, HttpSession session, String type) { // 실제 넘어온 파일의 이름을 변경해서 서버에 업로드
 		String originName = upfile.getOriginalFilename();
 		String currentTime = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
 		int ranNum = (int)(Math.random() * 90000 + 10000);
 		String ext = originName.substring(originName.lastIndexOf("."));
 		String changeName = currentTime + ranNum + ext;
 		String savePath = session.getServletContext().getRealPath("/resources/uploadFiles/item/");
+		String studyRoomSavePath = session.getServletContext().getRealPath("/resources/uploadFiles/admin/");
 		try {
-			upfile.transferTo(new File(savePath + changeName));
+			if(type.equals("study")) {
+				upfile.transferTo(new File(studyRoomSavePath + changeName));
+			} else {
+				upfile.transferTo(new File(savePath + changeName));
+			}
 		} catch (IllegalStateException | IOException e) {
 			e.printStackTrace();
 		}
@@ -497,8 +503,6 @@ public class AdminController {
 		model.addAttribute("list", adminService.selectAllStudyRoomList(pi));
 		model.addAttribute("pi", pi);
 
-		System.out.println(adminService.adminStudyRoomListCount());
-		System.out.println(adminService.selectAllStudyRoomList(pi));
 		return "admin/adminStudyRoom";
 	}
 	
@@ -509,21 +513,94 @@ public class AdminController {
 	}
 	
 	// 스터디룸 추가
-	@RequestMapping("insertStudyRoom.me")
-	public String insertStudyRoom(StudyRoom sr,  MultipartFile upFile, HttpSession session, Model model) {
+	@RequestMapping("insertStudyRoom.ad")
+	public String insertStudyRoom(StudyRoom sr, Attach at, MultipartFile upFile, HttpSession session, Model model) {
 		if(!upFile.getOriginalFilename().equals("")) {
-			sr.setTitleImg("resources/uploadFiles/item/" + saveFile(upFile, session));
-		} 
-		if(adminService.insertStudyRoom(sr) > 0) {
+			at.setOriginName(upFile.getOriginalFilename());
+			at.setChangeName("resources/uploadFiles/admin/" + saveFile(upFile, session, "study"));
+			at.setFileLevel(1);
+		}
+		switch(sr.getStudyRoomLocation()) {
+			case "10" : sr.setStudyRoomLocation("강원");break;
+			case "20" : sr.setStudyRoomLocation("경기");break;
+			case "30" : sr.setStudyRoomLocation("경남");break;
+			case "40" : sr.setStudyRoomLocation("경북");break;
+			case "50" : sr.setStudyRoomLocation("광주");break;
+			case "60" : sr.setStudyRoomLocation("대구");break;
+			case "70" : sr.setStudyRoomLocation("대전");break;
+			case "80" : sr.setStudyRoomLocation("부산");break;
+			case "90" : sr.setStudyRoomLocation("서울");break;
+			case "11" : sr.setStudyRoomLocation("세종");break;
+			case "12" : sr.setStudyRoomLocation("울산");break;
+			case "13" : sr.setStudyRoomLocation("인천");break;
+			case "14" : sr.setStudyRoomLocation("전남");break;
+			case "15" : sr.setStudyRoomLocation("전북");break;
+			case "16" : sr.setStudyRoomLocation("제주");break;
+			case "17" : sr.setStudyRoomLocation("충남");break;
+			case "18" : sr.setStudyRoomLocation("충북");break;
+		}
+		int result1 = adminService.insertStudyRoom(sr);
+		int result2 = adminService.insertStudyRoomImage(at);
+		if((result1 * result2) > 0) {
 			return "redirect:adminStudyRoom.ad";
 		} else {
 			System.out.println("실패");
 			return "redirect:adminStudyRoom.ad";
 		}
+	}
 
+	
+	
+	// 스터디룸 수정화면 
+	@RequestMapping("updateStudyRoomForm.ad")
+	public String updateStudyRoomForm(int studyRoomNo, Model model) {
+		model.addAttribute("studyRoom", adminService.selectStudyRoom(studyRoomNo));
+		model.addAttribute("origin", adminService.selectStudyRoomImage(studyRoomNo).get(0).getOriginName());
+		model.addAttribute("change", adminService.selectStudyRoomImage(studyRoomNo).get(0).getChangeName());
+		
+		return "admin/adminStudyRoomUpdateForm";
 	}
 	
-	
+	// 스터디룸 수정
+	@RequestMapping("updateStudyRoom.ad")
+	public String updateStudyRoom(StudyRoom sr, Attach at, MultipartFile reUpFile, HttpSession session, Model model ) {
+		System.out.println(sr);
+		if(!reUpFile.getOriginalFilename().equals("")) {
+			new File(session.getServletContext().getRealPath(at.getChangeName())).delete();
+			at.setOriginName(reUpFile.getOriginalFilename());
+			at.setChangeName("resources/uploadFiles/admin/" + saveFile(reUpFile, session, "study"));
+			at.setRefNo(sr.getStudyRoomNo());
+		}
+		switch(sr.getStudyRoomLocation()) {
+			case "10" : sr.setStudyRoomLocation("강원");break;
+			case "20" : sr.setStudyRoomLocation("경기");break;
+			case "30" : sr.setStudyRoomLocation("경남");break;
+			case "40" : sr.setStudyRoomLocation("경북");break;
+			case "50" : sr.setStudyRoomLocation("광주");break;
+			case "60" : sr.setStudyRoomLocation("대구");break;
+			case "70" : sr.setStudyRoomLocation("대전");break;
+			case "80" : sr.setStudyRoomLocation("부산");break;
+			case "90" : sr.setStudyRoomLocation("서울");break;
+			case "11" : sr.setStudyRoomLocation("세종");break;
+			case "12" : sr.setStudyRoomLocation("울산");break;
+			case "13" : sr.setStudyRoomLocation("인천");break;
+			case "14" : sr.setStudyRoomLocation("전남");break;
+			case "15" : sr.setStudyRoomLocation("전북");break;
+			case "16" : sr.setStudyRoomLocation("제주");break;
+			case "17" : sr.setStudyRoomLocation("충남");break;
+			case "18" : sr.setStudyRoomLocation("충북");break;
+		}
+		int result1 = adminService.updateStudyRoom(sr);
+		int result2 = adminService.updateStudyRoomImage(at);
+		System.out.println(result1);
+		System.out.println(result2);
+		if((result1 * result2) > 0) {
+			return "redirect:adminStudyRoom.ad";
+		} else {
+			System.out.println("실패");
+			return "redirect:adminStudyRoom.ad";
+		}
+	}
 	
 	// 스터디룸 삭제
 	@ResponseBody
@@ -538,7 +615,8 @@ public class AdminController {
 		return result;
 	}
 	
-	// 스터디룸 수정
+	
+	
 	
 
 }
