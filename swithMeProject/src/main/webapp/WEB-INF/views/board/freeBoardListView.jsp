@@ -149,14 +149,14 @@
 
                     freeBoardCount();
 
-                    $(".freeBoardList").each(function() {
-                        var $textEncoder = $(this).find(".textEncoder"); // .textEncoder 클래스를 가진 요소 선택
-                        $textEncoder.find("p").empty(); // .textEncoder 하위의 <p> 요소 내용을 비움
-                        var html = $textEncoder.html(); // .textEncoder 내용 가져오기
-                        var strippedText = stripHtmlTags(html); // HTML 태그 제거
-                        $textEncoder.text(strippedText); // 제거된 HTML 태그가 적용된 텍스트로 설정
+                    // $(".freeBoardList").each(function() {
+                    //     var $textEncoder = $(this).find(".textEncoder"); // .textEncoder 클래스를 가진 요소 선택
+                    //     $textEncoder.find("p").empty(); // .textEncoder 하위의 <p> 요소 내용을 비움
+                    //     var html = $textEncoder.html(); // .textEncoder 내용 가져오기
+                    //     var strippedText = stripHtmlTags(html); // HTML 태그 제거
+                    //     $textEncoder.text(strippedText); // 제거된 HTML 태그가 적용된 텍스트로 설정
 
-                    });
+                    // });
 
                 })
 
@@ -264,8 +264,6 @@
 
                             var value = '';
                             
-                            console.log(r);
-
                             for(var i in r.list){
                                 value += '<div class="freeBoardList" onclick="location.href=\'freeBoardDetail.bo?boardNo=' + r.list[i].boardNo + '\'">'
                                         + '<div class="freelist">'
@@ -343,7 +341,6 @@
                         url : "topBoard.bo",
                         success : function(list){
 
-                            console.log(list);
                             var listTop = '';
                             for(var i in list){
                                 listTop += '<li class="F_sm_smr hotBod" onclick="location.href=\'freeBoardDetail.bo?boardNo=' + list[i].boardNo + '\'">' + list[i].boardTitle  + '</li>';

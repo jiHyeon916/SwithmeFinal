@@ -195,6 +195,10 @@ public class BoardDao {
 	public int deleteRe(SqlSessionTemplate sqlSession, Reply r) {
 		return sqlSession.update("boardMapper.deleteRe", r);
 	}
+
+	public ArrayList<Item> itemSearch(SqlSessionTemplate sqlSession, String key) {
+		return (ArrayList)sqlSession.selectList("boardMapper.itemSearch", key);
+	}
 	
 	
 

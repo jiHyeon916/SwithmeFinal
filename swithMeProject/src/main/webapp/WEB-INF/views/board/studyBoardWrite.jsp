@@ -115,7 +115,6 @@
       function text(){
 
         $('input[name=category]').val($('.btn-select').text());
-        alert($('#perNum').val());
 
         
         var form = $('#sorry')[0];

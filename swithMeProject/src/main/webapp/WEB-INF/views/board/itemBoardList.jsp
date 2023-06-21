@@ -269,6 +269,13 @@
                 })
         }
 
+         // 검색창 
+        function textSearch(e){
+            if(window.event.keyCode == 13){
+                location.href="itemSearch.bo?key=" + $(e).val();
+            }
+        }
+
         
 
         

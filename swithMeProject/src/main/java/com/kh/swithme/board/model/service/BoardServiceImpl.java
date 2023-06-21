@@ -248,6 +248,10 @@ public class BoardServiceImpl implements BoardService {
 	public int deleteRe(Reply r) {
 		return boardDao.deleteRe(sqlSession, r);
 	}
+	@Override
+	public ArrayList<Item> itemSearch(String key) {
+		return boardDao.itemSearch(sqlSession, key);
+	}
 	
 	
 	// ************* 메인 

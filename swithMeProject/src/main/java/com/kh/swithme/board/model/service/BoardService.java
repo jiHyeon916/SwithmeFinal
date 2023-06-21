@@ -181,7 +181,8 @@ public interface BoardService {
 	// 신고하기
 	int boardReport(Report r);
 	
-	
+	// 아이템 검색 
+	ArrayList<Item> itemSearch(String key);
 	
 	
 	
