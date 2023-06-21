@@ -188,3 +188,7 @@
         }
         
     </script>
+    <jsp:include page="../common/sideBtn.jsp" />
+    
+</body>
+</html>

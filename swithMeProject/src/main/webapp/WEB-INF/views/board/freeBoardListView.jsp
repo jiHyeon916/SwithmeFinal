@@ -389,20 +389,28 @@
 
 
     <div id="mainButton">
-        <div>
-            <a href="#">
-                <img src="resources/question.png" alt="">
-                <p>글 작성하기</p>
-            </a>
-        </div>
-        <div>
-            <a id="top_btn">
-                <img src="resources/top.png" alt="">
-                <p>TOP</p>
-            </a>
+        <div class="toptop"><img src="resources/images/common/topBtn.png" alt=""></div>
+        <div class="setting"><img src="resources/images/common/settingBtn.png" alt="">
+            <div id="BtnBox" class="clear">
+                <div id="thumb"></div>
+                <p>${sessionScope.loginMember.nickName}</p>
+                <div class="mypagegoing clear">
+                    <button><a href="mypage.me">마이페이지</a></button>
+                    <button><a href="">로그아웃</a></button>
+                </div>
+            </div>
         </div>
     </div>
 
+    <script>
+        $('#mainButton > .toptop').click(function(){
+            $( 'html, body' ).animate( { scrollTop : 0 }, 400 );
+        })
+
+        $('.setting').click(function(){
+            $('#BtnBox').toggle();
+        })
+    </script>
     <jsp:include page="../common/footer.jsp" />
 
 </body>

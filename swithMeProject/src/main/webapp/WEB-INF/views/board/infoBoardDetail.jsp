@@ -207,7 +207,8 @@
             $.ajax({
                 url: 'likeStatus.ck',
                 data : {
-                    boardNo : '${ b.boardNo }'
+                    boardNo : '${ b.boardNo }',
+                    memberId : '${ loginMember.memberId }'
                 },
                 success : function(r){
 
@@ -232,10 +233,10 @@
             $.ajax({
                 url: 'bookStatus.ck',
                 data : {
-                    boardNo : '${ b.boardNo }'
+                    boardNo : '${ b.boardNo }',
+                    memberId : '${ loginMember.memberId }'
                 },
                 success : function(r){
-                    
                     if(r > 0){
                         $('.bookImg').prop('src','resources/images/board/bookmarkStatus.png');
                         $('.bookBox').css('border', '1px solid #58bf7a')
@@ -257,23 +258,8 @@
             $.ajax({
                 url : 'likeCount.bo',
                 data : {
-                    boardNo : '${ b.boardNo }'
-                },
-                success : function(r){
-                    $('.likeCount').html(r);
-                },
-                error : function(){
-
-                }
-            });
-        }
-
-        // 좋아요 카운트
-        function likeCount(){
-            $.ajax({
-                url : 'likeCount.bo',
-                data : {
-                    boardNo : '${ b.boardNo }'
+                    boardNo : '${ b.boardNo }',
+                    memberId : '${ loginMember.memberId }'
                 },
                 success : function(r){
                     $('.likeCount').html(r);
@@ -289,7 +275,8 @@
             $.ajax({
                 url : 'bookCount.bo',
                 data : {
-                    boardNo : '${ b.boardNo }'
+                    boardNo : '${ b.boardNo }',
+                    memberId : '${ loginMember.memberId }'
                 },
                 success : function(r){
                     $('.bookCount').html(r);
@@ -313,6 +300,8 @@
                     let result = '';
                     let loginCheck = '';
                     let modifyBtn = '';
+                    let selectBtn = '';
+
                     if(loginMember != '' ){
                         loginCheck = '<textarea cols="30" rows="10"></textarea>';
                     }else{
@@ -328,10 +317,14 @@
                             modifyBtn = '<div><p class="modiCheck" onclick="replyModify(this,' + list[i].boardReplyNo + ');">수정</p><p>삭제</p></div>';
                         };
 
+                        if('${ b.memberId }' == list[i].memberId ){
+                            selectBtn = '<p class="oneTime" onclick="wantSelect(this)">채택<input type="hidden" value="'+ list[i].boardReplyNo + '"></p>'
+                        }
+
                         result += '<div class="qNoSelect clear">'
                                     + '<div id="QImg">'
                                         + '<img src="" alt="">'
-                                        + '<p class="oneTime" onclick="wantSelect(this)">채택<input type="hidden" value="'+ list[i].boardReplyNo + '"></p>'
+                                        + selectBtn
                                     + '</div>'
                                     + '<div id="Qcon">'
                                         +'<div class="replyList">'
@@ -472,27 +465,35 @@
         // 좋아요 하기
         function likeBoard(){
 
-            $.ajax({
-                url : 'like.bo',
-                data : {
-                    boardNo : '${ b.boardNo }'
-                },
-                success : function(r){
-                    likeStatusCheck();
-                },
-                error : function(){
+            if('${ loginMember }' != '' ){
+                $.ajax({
+                    url : 'like.bo',
+                    data : {
+                        boardNo : '${ b.boardNo }',
+                        memberId : '${ loginMember.memberId }'
+                    },
+                    success : function(r){
+                        likeStatusCheck();
+                    },
+                    error : function(){
 
-                }
+                    }
 
-            })
-        }
+                })
+            }else{
+                alert('로그인 후 이용해주세요.');
+            }
+            }
 
-        // 북마크 하기
-        function bookBoard(){
-            $.ajax({
+            // 북마크 하기
+            function bookBoard(){
+
+            if('${ loginMember }' != '' ){
+                $.ajax({
                 url : 'book.bo',
                 data : {
-                    boardNo : '${ b.boardNo }'
+                    boardNo : '${ b.boardNo }',
+                    memberId : '${ loginMember.memberId }'
                 },
                 success : function(r){
                     if(r > 0){
@@ -503,8 +504,12 @@
                     console.log('북마크 실패');
                 }
 
-            })
-        }
+                })
+            }else{
+                alert('로그인 후 이용해주세요.');
+            }
+
+            }
 
         //대댓글 달기 
         function reReply(reReplyNo, e){
@@ -655,10 +660,12 @@
             }
         }
 
+        // 신고하기
         function report(){
 
             if('${ sessionScope.loginMember}' == ''){
-                alert('신고는 회원만 이용 가능합니다. 로그인 후 이용해주세요.');    
+                alert('신고는 회원만 이용 가능합니다. 로그인 후 이용해주세요.');
+                location.href='loginForm.me';
             }else{
                 $.ajax({
                     url : 'boardReport.bo',
@@ -672,6 +679,7 @@
                     success : (r) => {
                         if(r > 0){
                             alert('신고 접수가 정상적으로 완료 되었습니다. 관리자 확인 까지 시간이 소요될 수 있으니 기다려주세요.');
+                            $('.cloesBtn').click();
                         }
                     },
                     error : () => {
@@ -684,5 +692,6 @@
 
 
     </script>
+    <jsp:include page="../common/sideBtn.jsp" />
 </body>
 </html>

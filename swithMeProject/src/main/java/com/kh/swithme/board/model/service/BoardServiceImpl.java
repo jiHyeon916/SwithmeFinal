@@ -65,32 +65,32 @@ public class BoardServiceImpl implements BoardService {
 		return boardDao.boardDetail(sqlSession, boardNo);
 	}
 	@Override
-	public int likeStatus(int boardNo) {
-		return boardDao.likeStatus(sqlSession, boardNo);
+	public int likeStatus(Board bBoard) {
+		return boardDao.likeStatus(sqlSession, bBoard);
 	}
 	@Override
 	public int likeCount(int boardNo) {
 		return boardDao.likeCount(sqlSession, boardNo);
 	}
 	@Override
-	public int likeBoard(int boardNo) {
-		return boardDao.likeBoard(sqlSession, boardNo);
+	public int likeBoard(Board b) {
+		return boardDao.likeBoard(sqlSession, b);
 	}
 	@Override
-	public int removeLike(int boardNo) {
-		return boardDao.removeLike(sqlSession, boardNo);
+	public int removeLike(Board b) {
+		return boardDao.removeLike(sqlSession, b);
 	}
 	@Override
-	public int bookStatus(int boardNo) {
-		return boardDao.bookStatus(sqlSession, boardNo);
+	public int bookStatus(Board b) {
+		return boardDao.bookStatus(sqlSession, b);
 	}
 	@Override
-	public int bookBoard(int boardNo) {
-		return boardDao.bookBoard(sqlSession, boardNo);
+	public int bookBoard(Board b) {
+		return boardDao.bookBoard(sqlSession, b);
 	}
 	@Override
-	public int removeBook(int boardNo) {
-		return boardDao.removeBook(sqlSession, boardNo);
+	public int removeBook(Board b) {
+		return boardDao.removeBook(sqlSession, b);
 	}
 	@Override
 	public int bookCount(int boardNo) {

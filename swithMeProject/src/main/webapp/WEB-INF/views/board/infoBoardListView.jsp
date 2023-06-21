@@ -326,21 +326,7 @@
 
 
 
-    <div id="mainButton">
-        <div>
-            <a href="#">
-                <img src="resources/question.png" alt="">
-                <p>글 작성하기</p>
-            </a>
-        </div>
-        <div>
-            <a id="top_btn">
-                <img src="resources/top.png" alt="">
-                <p>TOP</p>
-            </a>
-        </div>
-    </div>
-
+    <jsp:include page="../common/sideBtn.jsp" />
     <jsp:include page="../common/footer.jsp" />
 
 </body>

@@ -405,6 +405,8 @@
 		              MAINBOARD
 		         WHERE
 		         	  BOARD_TYPE = 'free'
+		           AND
+		           	  BOARD_STATUS = 'Y'
 		         ORDER
 		            BY
 		              BOARD_COUNT DESC)
@@ -423,6 +425,8 @@
 		              MAINBOARD
 		         WHERE
 		         	  BOARD_TYPE = 'info'
+		           AND
+		           	  BOARD_STATUS = 'Y'
 		         ORDER
 		            BY
 		              BOARD_COUNT DESC)
@@ -469,15 +473,14 @@
 	    	  BOARD_NO = #{ boardNo }
 	</select>
 	
-	<!-- ******** 멤버아이디 로그인 유저로 교체 필요 함!!! *********  -->
 	<!-- 게시판 좋아요, 북마크 여부 -->
-	<select id="likeStatus" resultType="_int">
+	<select id="likeStatus" resultType="_int" parameterType="board">
 		SELECT
 			  COUNT(*)
 		  FROM
 		  	  BOARD_LB
 		 WHERE
-		      MEMBER_ID ='hyerin'
+		      MEMBER_ID = #{ memberId }
 		   AND
 		      STATUS_LB='L'
 		   AND
@@ -497,24 +500,24 @@
 	</select>
 	
 	<!-- 좋아요 하기  -->
-	<insert id="likeBoard" parameterType="_int">
+	<insert id="likeBoard">
 		INSERT
 		  INTO
 		  	  BOARD_LB
 		VALUES
 			  (
 			  #{ boardNo }
-			 ,'hyerin' <!-- 나중에 로그인 유저 -->
+			 ,#{ memberId }
 			 ,'L'
 			  )
 	</insert>
 	
 	<!-- 좋아요 삭제하기 -->
-	<delete id="removeLike" parameterType="_int">
+	<delete id="removeLike">
 		DELETE
 		      BOARD_LB
 		 WHERE
-		 	  MEMBER_ID = 'hyerin'
+		 	  MEMBER_ID = #{ memberId }
 		   AND
 		   	  BOARD_NO = #{ boardNo }
 		   AND
@@ -525,32 +528,32 @@
 	<select id="bookStatus" resultType="_int">
 		SELECT COUNT(*) 
 		  FROM BOARD_LB 
-		 WHERE MEMBER_ID ='hyerin'
+		 WHERE MEMBER_ID = #{ memberId }
 		   AND BOARD_NO = #{ boardNo }
 		   AND STATUS_LB = 'B'
 	</select>
 	
 	<!-- 북마크 하기   -->
-	<insert id="bookBoard" parameterType="_int">
+	<insert id="bookBoard">
 		INSERT
 		  INTO
 		  	  BOARD_LB
 		VALUES
 			  (
 			  #{ boardNo }
-			 ,'hyerin' <!-- 나중에 로그인 유저 -->
+			 ,#{ memberId }
 			 ,'B'
 			  )
 	</insert>
 	
 	<!-- 북마크 삭제하기 -->
-	<delete id="removeBook" parameterType="_int">
+	<delete id="removeBook">
 		DELETE
 			  BOARD_LB
 		 WHERE
 		 	  BOARD_NO = #{ boardNo }
 		   AND
-		   	  MEMBER_ID = 'hyerin'
+		   	  MEMBER_ID = #{ memberId }
 		   AND
 			  STATUS_LB = 'B'
 	</delete>
@@ -1204,7 +1207,7 @@
 	
 	<!-- 채택된 답변 작성자에게 포인트 지급하기  -->
 	<insert id="selectPoint">
-		insert into point values(( select member_id from board_reply where board_reply_no = 6), 150, '채택', 'Y', sysdate)
+		insert into point values(( select member_id from board_reply where board_reply_no = #{replyNo}), 150, '채택', 'Y', sysdate)
 	</insert>
 	
 	<!-- 아이템 리스트 가져오기 -->

@@ -46,26 +46,26 @@ public class BoardDao {
 	public Board boardDetail(SqlSessionTemplate sqlSession, int boardNo){
 		return sqlSession.selectOne("boardMapper.boardDetail", boardNo);
 	}
-	public int likeStatus(SqlSessionTemplate sqlSession, int boardNo) {
-		return sqlSession.selectOne("boardMapper.likeStatus", boardNo);
+	public int likeStatus(SqlSessionTemplate sqlSession, Board bBoard) {
+		return sqlSession.selectOne("boardMapper.likeStatus", bBoard);
 	}
 	public int likeCount(SqlSessionTemplate sqlSession, int boardNo) {
 		return sqlSession.selectOne("boardMapper.likeCount", boardNo);
 	}
-	public int likeBoard(SqlSessionTemplate sqlSession, int boardNo) {
-		return sqlSession.insert("boardMapper.likeBoard", boardNo);
+	public int likeBoard(SqlSessionTemplate sqlSession, Board b) {
+		return sqlSession.insert("boardMapper.likeBoard", b);
 	}
-	public int removeLike(SqlSessionTemplate sqlSession, int boardNo) {
-		return sqlSession.delete("boardMapper.removeLike", boardNo);
+	public int removeLike(SqlSessionTemplate sqlSession, Board b) {
+		return sqlSession.delete("boardMapper.removeLike", b);
 	}
-	public int bookStatus(SqlSessionTemplate sqlSession, int boardNo) {
-		return sqlSession.selectOne("boardMapper.bookStatus", boardNo);
+	public int bookStatus(SqlSessionTemplate sqlSession, Board b) {
+		return sqlSession.selectOne("boardMapper.bookStatus", b);
 	}
-	public int bookBoard(SqlSessionTemplate sqlSession, int boardNo) {
-		return sqlSession.insert("boardMapper.bookBoard", boardNo);
+	public int bookBoard(SqlSessionTemplate sqlSession, Board b) {
+		return sqlSession.insert("boardMapper.bookBoard", b);
 	}
-	public int removeBook(SqlSessionTemplate sqlSession, int boardNo) {
-		return sqlSession.delete("boardMapper.removeBook", boardNo);
+	public int removeBook(SqlSessionTemplate sqlSession, Board b) {
+		return sqlSession.delete("boardMapper.removeBook", b);
 	}
 	public int bookCount(SqlSessionTemplate sqlSession, int boardNo) {
 		return sqlSession.selectOne("boardMapper.bookCount", boardNo);
