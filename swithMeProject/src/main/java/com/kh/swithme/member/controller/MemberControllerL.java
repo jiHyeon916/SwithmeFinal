@@ -143,7 +143,7 @@ public class MemberControllerL {
       }
    
    
-   /**로그인하기
+   /**로그인하기 + 30p
     * @param m
     * @return
     */
@@ -151,11 +151,12 @@ public class MemberControllerL {
    public ModelAndView loginMember(Member m, ModelAndView model, HttpSession session) {
       
       Member loginMember = memberService.loginMember(m); // DB에 저장되어있는 회원정보 가져오기
-      //System.out.println(loginMember);
+     
       //복화
       if(loginMember != null && bcryptPasswordEncoder.matches(m.getMemberPwd(), loginMember.getMemberPwd())) {
-            
-            if(memberService.loginPointChk(m) == 0 && !loginMember.getMemberId().equals("admin")) { //관리자는 포인트 노 
+    	  					
+    	  					//point체크하기
+            if(memberService.loginPointChk(m) == 0 && !loginMember.getMemberId().equals("admin")) { //관리자는 포인트 지급하지 않음.
             	memberService.loginPointInsert(m);
             	session.setAttribute("alertMsg", "환영합니다 ! 30p가 지급되었습니다 !");
             }
@@ -330,8 +331,7 @@ public class MemberControllerL {
 	
 	
 	//비밀번호 찾기 
-	//1. 먼저 사용자가 입력한 값들이 DB에 있는 값들이랑 맞는지 확인후 맞으면 이메일 인증으로 가고 아니면 알럿으로 다시 입력해달라고 띄우기(이름, 아이디, 이메일)
-	//2. 성공시 사용자의 이메일로 랜덤 인증 번호 보내기 => 그 인증 번호가 db에 있는 비밀번호로 바뀌어야함 ( 이 과정에서 암호화 ) => 사용자가 로그인 시 임시비밀번호 치면 로그인 성공하게하기 !  
+	
 	@PostMapping("searchPwd.mem")
 	public ModelAndView memberSearchPwd(Member m,
 										ModelAndView mv,
@@ -347,7 +347,7 @@ public class MemberControllerL {
 				MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
 				
 				
-				String secret = generateSecret(); //인증번호 만들기 => 밑에 메소드
+				String secret = generateSecret(); // 인증번호 만들기 메소드 호출
 				
 				
 				/*
@@ -401,8 +401,6 @@ public class MemberControllerL {
 		String secret = f.format(i);
 		
 		return secret;
-		
-		
 	}
 	
 	
