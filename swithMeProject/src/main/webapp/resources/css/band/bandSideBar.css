@@ -91,12 +91,112 @@
     font-size:20px;
     text-align:center;
 }
-
+/* summernote */
+.modal-body1{
+	height:650px;
+}
+.totalDetail{
+	width:765px;
+	border:1px solid;
+	margin:auto;
+	font-size:20px;
+	border-radius:5px;
+}
+.note-editor{
+	height:300px;
+	width:770px;
+	margin:auto;
+}
+.note-editable{
+	height:203px;
+}
+#detailContent{
+	width:725px;
+	margin:auto;
+}
+#summernote{
+	width:700px;
+	height:300px;
+	resize:none;
+}
+.note-status-output{
+	display:none;
+}
+#detailWriterBoard{
+	resize: none;
+	width:725px;
+	height:300px;
+	border:1px solid;
+	margin:auto;
+}
+.photoDiv{
+	width:725px;
+	border:1px solid;
+	margin:auto;
+}
+.btnGroupMain{
+	margin-left:220px;
+}
+.selectType{
+	margin-left:14px;
+	margin-bottom : 8px;
+}
+.fileType{
+	margin-left:14px;
+	margin-top:8px;
+}
+.note-resizebar{
+	display:none;
+}
 /*밴드커버이미지*/
 #bandCover{
 	width : 100%;
 	height : 100%;
 	object-fit :cover;
+}
+/* 사진 영역 */
+.totalPhoto{
+	margin:auto;
+	width:720px;
+}
+.img_container{
+	width: 160px; 
+	height: 160px; 
+	border-radius: 5px;
+	border:1px black solid;
+	margin:0;
+	padding:0;
+}
+.img_box{
+	margin:0;
+	padding:0;
+	width:180px;
+	float:left;
+}
+.img_container img{ 
+	width: 100%; 
+	height: 100%; 
+	border-radius: 5px;
+	object-fit :cover;
+}
+.fileType input[type=file]{
+	width:0;
+	height:0;
+	padding:0;
+	overflow:hidden;
+	border:0;
+}
+.fileType::after{
+	display: block; 
+	content: ''; 
+	clear: both;
+}
+.labetPhoto{  	
+	background-color:rgb(222, 228, 225);
+	border-radius: 5px;	
+	border:none;
+	cursor:pointer;
+	font-size:17px;
 }
 /*모달버튼*/
 .enrollConfirm{

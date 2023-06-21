@@ -23,6 +23,7 @@
 	    
     <!-- headerCss -->
     <link rel="stylesheet" href="/swithme/resources/css/band/bandHeader.css">
+    
 </head>
 <body>
     <header>
@@ -36,59 +37,95 @@
                 </div>
             </div>
             
-            <ul id="userMenu">
-	            
+            <!-- 회원이 가입했을 때 마이페이지 -->
+	        <ul id="userMenu">
+	      		<c:if test="${!empty loginMember && !loginMember.memberId.equals('admin')}">
+		            <li>
+		                <a href="/swithme/alarm.me">
+		                    <img src="/swithme/resources/images/common/notice.png">
+		                    <div id="noRead"></div>
+		                </a>
+		            </li>
+         		</c:if>  
+         	 
+	         	 <!-- 관리자가 가입했을 때 마이페이지 -->
+	       	 	<c:if test="${!empty loginMember &&  loginMember.memberId eq 'admin'}">
+			            <li>
+			                <a href="/swithme/adPage.ad">
+			                    <img src="/swithme/resources/images/common/notice.png">
+			                    <div id="noRead"></div>
+			                </a>
+			            </li>
+	       		 </c:if>  
+	         	 
+	         	 
+	            <!-- 로그인 전 / 후 -->
 	            <c:choose>
-	            	<c:when test="${empty loginMember }">
-			            <li><a href="/swithme/loginForm.me">로그인</a></li>
-			            <li><a href="/swithme/memberEnrollForm.me">회원가입</a></li>
-		            </c:when>
-		            <c:otherwise>
-		            	<li><label>${ loginMember.memberName }님 환영합니다.</label></li>
-		            	<li><a href="/swithme/logout.me">로그아웃</a></li>
-		            </c:otherwise>
+	               <c:when test="${empty loginMember }">
+	                  <li><a href="/swithme/loginForm.me">로그인</a></li>
+	                  <li><a href="memberEnrollForm.me">회원가입</a></li>
+	               </c:when>
+	               <c:otherwise>
+		            	<li><label id="loginName" onclick="myPage();">${ loginMember.memberName }</label>님 환영합니다.</li>
+	                  <li><a href="logout.me">로그아웃</a></li>
+	               </c:otherwise>
 	            </c:choose>
-            </ul>
+        	</ul>
         </div>
     </header>
 
     <div class="headerblank"></div>
     
     <script>
-    $(document).on('click', '#searchImg', function(){
-    	keyword = $('#searchBar').val();
-    	
-    	var query = window.location.search;     
-		var param = new URLSearchParams(query);
-		var sbNo = param.get('sno');
-		console.log(sbNo);
-		
-    	location.href = "search.sb?sno=" + sbNo + "&keyword=" + keyword;
+	    $(document).on('click', '#searchImg', function(){
+	    	keyword = $('#searchBar').val();
+	    	
+	    	var query = window.location.search;     
+			var param = new URLSearchParams(query);
+			var sbNo = param.get('sno');
+			console.log(sbNo);
+			
+	    	location.href = "search.sb?sno=" + sbNo + "&keyword=" + keyword;
+	
+	    });
+	    
+	    // 검색창 
+	    function textSearch(e){
+	        if(window.event.keyCode == 13){
+				keyword = $('#searchBar').val();
+	        	
+	        	var query = window.location.search;     
+	    		var param = new URLSearchParams(query);
+	    		var sbNo = param.get('sno');
+	
+	            location.href="search.sb?sno=" + sbNo + "&keyword=" + keyword;
+	        }
+	        
+	        if($(document).on('click','#searchImg', function(){
+	        	keyword = $('#searchBar').val();
+	        	
+	        	var query = window.location.search;     
+	    		var param = new URLSearchParams(query);
+	    		var sbNo = param.get('sno');
+	    		
+	        	location.href = "search.sb?sno=" + sbNo + "&keyword=" + keyword;
+	        }));
+	    }
+	    
+	    // 마이페이지로 이동
+		function myPage(){
+			
+			var user = '${ loginMember.memberId }';
+			
+			if(user == 'admin'){
+				location.href = '/swithme/adPage.ad';
+			}
+			else {
+				location.href = '/swithme/mypage.me';
+			}
+			
+		}
 
-    });
-    
-    // 검색창 
-    function textSearch(e){
-        if(window.event.keyCode == 13){
-			keyword = $('#searchBar').val();
-        	
-        	var query = window.location.search;     
-    		var param = new URLSearchParams(query);
-    		var sbNo = param.get('sno');
-
-            location.href="search.sb?sno=" + sbNo + "&keyword=" + keyword;
-        }
-        
-        if($(document).on('click','#searchImg', function(){
-        	keyword = $('#searchBar').val();
-        	
-        	var query = window.location.search;     
-    		var param = new URLSearchParams(query);
-    		var sbNo = param.get('sno');
-    		
-        	location.href = "search.sb?sno=" + sbNo + "&keyword=" + keyword;
-        }));
-    }
     </script>
 
 </body>

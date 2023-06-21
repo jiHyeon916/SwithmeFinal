@@ -76,56 +76,6 @@
 	margin-left:20px;
 	margin-top:30px;
 }
-.modal-body1{
-	height:650px;
-}
-.totalDetail{
-	width:765px;
-	border:1px solid;
-	margin:auto;
-	font-size:20px;
-	border-radius:5px;
-}
-.note-editor{
-	height:300px;
-	width:770px;
-	margin:auto;
-}
-.note-editable{
-	height:203px;
-}
-#detailContent{
-	width:725px;
-	margin:auto;
-}
-#summernote{
-	width:700px;
-	height:300px;
-	resize:none;
-}
-#detailWriterBoard{
-	resize: none;
-	width:725px;
-	height:300px;
-	border:1px solid;
-	margin:auto;
-}
-.photoDiv{
-	width:725px;
-	border:1px solid;
-	margin:auto;
-}
-.btnGroupMain{
-	margin-left:220px;
-}
-.selectType{
-	margin-left:14px;
-	margin-bottom : 8px;
-}
-.fileType{
-	margin-left:14px;
-	margin-top:8px;
-}
 /* 댓글 */
 .replyBtn{
 	width:725px;
@@ -170,6 +120,7 @@
 	width:725px;
 	margin:auto;
 }
+
 #replyDetailBtn{
 	width:725px;
 	margin:auto;

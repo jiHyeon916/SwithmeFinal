@@ -46,9 +46,11 @@
 		        		</p>
 		        	</div>
 		        	<br>
-		        	<div class="photoBody">
-						<p class="writer">이곳은 사진 영역입니다.</p>
-		        	</div>
+		        	<c:if test="${ not empty bb.changeName }">
+		        		<div class="photoBody">
+							<img id="photoImg" src="${ bb.changeName }">
+		        		</div>
+		        	</c:if>
 		        	<br>
 		        	
 		        	<div class="postFooter">
@@ -104,7 +106,8 @@
 	                        <br>
 	                        <div class="btnGroupMain">
 		                        <button class="enrollConfirm" type="submit">수정하기</button>
-		                        <button class="enrollDismiss" type="button" data-dismiss="modal">삭제하기</button>
+		                        <button class="enrollDismiss" type="button" id="deleteBoard" data-dismiss="modal">삭제하기</button>
+	                        	<input type="hidden" class="sBoardNoModal" name="bandNo" value="">
 	                        </div>
 	                    </form>
 	                </div>
@@ -143,6 +146,26 @@
 				})	
 			});
 
+			// 게시글 삭제 영역
+			$(document).on('click', '#deleteBoard', function(){
+				var sbBoardNo = $(this).next().val();
+				
+				var query = window.location.search;     
+				var param = new URLSearchParams(query);
+				var sno = param.get('sno');
+
+				$.ajax({
+					url : 'deleteBoard.sb',
+					data : { sbBoardNo : sbBoardNo },
+					success : function(list){
+						alert('공지사항 삭제 성공');
+						location.href = 'bandNotice.sb?sno='+sno;
+					},
+					error : function(){
+						console.log('게시글 삭제 실패');
+					}
+				})	
+			});
 		</script>
 	    
 </body>

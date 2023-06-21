@@ -99,7 +99,24 @@ header{
 #userMenu li:first-child a{
     position: relative;
 }
-
+#userMenu li img{
+    width: 24px;
+    height: 24px;
+}
+#userMenu #noRead{
+    width: 8px;
+    height: 8px;
+    background-color: red;
+    border-radius: 5px;
+    position: absolute;
+    top: 2px;
+    right: 2px;
+}
+#loginName:hover {
+	color : rgb(3, 195, 115);
+	font-weight : 500;
+	cursor : pointer;
+}
 /* 검색바, 검색 버튼*/
 #bandSearchBox{
 	margin-top : 16px;
