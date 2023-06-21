@@ -267,7 +267,7 @@
 			});
 		
 			// 댓글 리스트 영역
-			function selectReplyList(inputNo){
+			function selectReplyList(sbBoardNo){
 
 				var loginMem1 = '${loginMember.nickName}';
 				

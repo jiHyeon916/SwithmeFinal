@@ -63,11 +63,11 @@
 	            <c:choose>
 	               <c:when test="${empty loginMember }">
 	                  <li><a href="/swithme/loginForm.me">로그인</a></li>
-	                  <li><a href="memberEnrollForm.me">회원가입</a></li>
+	                  <li><a href="/swithme/memberEnrollForm.me">회원가입</a></li>
 	               </c:when>
 	               <c:otherwise>
 		            	<li><label id="loginName" onclick="myPage();">${ loginMember.memberName }</label>님 환영합니다.</li>
-	                  <li><a href="logout.me">로그아웃</a></li>
+	                  <li><a href="/swithme/logout.me">로그아웃</a></li>
 	               </c:otherwise>
 	            </c:choose>
         	</ul>
