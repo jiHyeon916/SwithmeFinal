@@ -521,6 +521,8 @@
 
         // 대댓글 리스트 가져오기
         function reReplyList(replyNo) {
+
+            
             $.ajax({
                 url: 'reReplyList.bo',
                 data: {
