@@ -159,7 +159,7 @@ header{
 #mainButton div img{
     object-fit: cover;
     height: 50%;
-    margin: 10px 0px 0px 10px;
+    margin: 10px 0px 0px 11px;
     display: inline-block;
 }
 #mainButton .setting{
