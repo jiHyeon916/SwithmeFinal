@@ -820,11 +820,14 @@ public class BoardController {
 		return "board/itemBoardList";
 	}
 	
+	/**
+	 * 캐릭터 이미지 가져오기 
+	 * @param memberId 가져올 멤버 아이디 
+	 * @return
+	 */
 	@ResponseBody
 	@RequestMapping(value="memberImg", produces="application/json; charset=UTF-8")
 	public String memberImg(String memberId) {
-		System.out.println(memberId);
-		System.out.println(boardService.memberImg(memberId));
 		return new Gson().toJson(boardService.memberImg(memberId));
 	}
 	
