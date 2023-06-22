@@ -514,12 +514,7 @@ public class AdminController {
 	
 	// 스터디룸 추가
 	@RequestMapping("insertStudyRoom.ad")
-	public String insertStudyRoom(StudyRoom sr, Attach at, MultipartFile upFile, HttpSession session, Model model) {
-		if(!upFile.getOriginalFilename().equals("")) {
-			at.setOriginName(upFile.getOriginalFilename());
-			at.setChangeName("resources/uploadFiles/admin/" + saveFile(upFile, session, "study"));
-			at.setFileLevel(1);
-		}
+	public String insertStudyRoom(StudyRoom sr, Attach at, @RequestParam("upFile[]") MultipartFile[] upFiles, @RequestParam("checkThumnail") int value, HttpSession session, Model model) {
 		switch(sr.getStudyRoomLocation()) {
 			case "10" : sr.setStudyRoomLocation("강원");break;
 			case "20" : sr.setStudyRoomLocation("경기");break;
@@ -540,7 +535,20 @@ public class AdminController {
 			case "18" : sr.setStudyRoomLocation("충북");break;
 		}
 		int result1 = adminService.insertStudyRoom(sr);
-		int result2 = adminService.insertStudyRoomImage(at);
+		int result2 = 1;
+		for(int i = 0; i < upFiles.length; i++) {
+			MultipartFile upFile = upFiles[i];
+			if (!upFile.getOriginalFilename().equals("")) {
+				at.setOriginName(upFile.getOriginalFilename());
+				at.setChangeName("resources/uploadFiles/admin/" + saveFile(upFile, session, "study"));
+				if(value == i) {
+					at.setFileLevel(1);
+				} else {
+					at.setFileLevel(2);
+				}
+				result2 = adminService.insertStudyRoomImage(at);
+			}
+		}
 		if((result1 * result2) > 0) {
 			return "redirect:adminStudyRoom.ad";
 		} else {
@@ -549,28 +557,17 @@ public class AdminController {
 		}
 	}
 
-	
-	
 	// 스터디룸 수정화면 
 	@RequestMapping("updateStudyRoomForm.ad")
 	public String updateStudyRoomForm(int studyRoomNo, Model model) {
 		model.addAttribute("studyRoom", adminService.selectStudyRoom(studyRoomNo));
-		model.addAttribute("origin", adminService.selectStudyRoomImage(studyRoomNo).get(0).getOriginName());
-		model.addAttribute("change", adminService.selectStudyRoomImage(studyRoomNo).get(0).getChangeName());
-		
+		model.addAttribute("imageList", adminService.selectStudyRoomImage(studyRoomNo));
 		return "admin/adminStudyRoomUpdateForm";
 	}
-	
+
 	// 스터디룸 수정
 	@RequestMapping("updateStudyRoom.ad")
-	public String updateStudyRoom(StudyRoom sr, Attach at, MultipartFile reUpFile, HttpSession session, Model model ) {
-		System.out.println(sr);
-		if(!reUpFile.getOriginalFilename().equals("")) {
-			new File(session.getServletContext().getRealPath(at.getChangeName())).delete();
-			at.setOriginName(reUpFile.getOriginalFilename());
-			at.setChangeName("resources/uploadFiles/admin/" + saveFile(reUpFile, session, "study"));
-			at.setRefNo(sr.getStudyRoomNo());
-		}
+	public String updateStudyRoom(StudyRoom sr, Attach at, @RequestParam("reUpFile[]") MultipartFile[] reUpFiles, @RequestParam("checkThumnail") int value, @RequestParam("originName") String origin, HttpSession session, Model model) {
 		switch(sr.getStudyRoomLocation()) {
 			case "10" : sr.setStudyRoomLocation("강원");break;
 			case "20" : sr.setStudyRoomLocation("경기");break;
@@ -590,33 +587,49 @@ public class AdminController {
 			case "17" : sr.setStudyRoomLocation("충남");break;
 			case "18" : sr.setStudyRoomLocation("충북");break;
 		}
+		
 		int result1 = adminService.updateStudyRoom(sr);
-		int result2 = adminService.updateStudyRoomImage(at);
-		System.out.println(result1);
-		System.out.println(result2);
+		int result2 = 1;
+		for(int i = 0; i < reUpFiles.length; i++) {
+			MultipartFile reUpFile = reUpFiles[i];
+			if (!reUpFile.getOriginalFilename().equals("")) {
+				new File(session.getServletContext().getRealPath(origin)).delete();
+				at.setOriginName(reUpFile.getOriginalFilename());
+				at.setChangeName("resources/uploadFiles/admin/" + saveFile(reUpFile, session, "study"));
+				if(value == i) {
+					at.setFileLevel(1);
+				} else {
+					at.setFileLevel(2);
+				}
+				result2 = adminService.updateStudyRoomImage(at);
+			} else {
+				at.setOriginName(origin);
+				result2 = adminService.updateStudyRoomImage(at);
+			}
+		}
 		if((result1 * result2) > 0) {
 			return "redirect:adminStudyRoom.ad";
 		} else {
 			System.out.println("실패");
 			return "redirect:adminStudyRoom.ad";
 		}
+
 	}
-	
+
 	// 스터디룸 삭제
 	@ResponseBody
 	@RequestMapping(value="deleteCheckStudyRoom.ad", produces="application/json; charset=UTF-8")
 	public int deleteCheckStudyRoom(@RequestParam(value="studyRoomNo[]")int[] studyRoomNo) {
-		
+
 		int result = 1;
 		for(int i = 0; i < studyRoomNo.length; i++) {
 			result = adminService.deleteCheckStudyRoom(studyRoomNo[i]);
 		}
-		
+
 		return result;
 	}
-	
-	
-	
-	
+
+
+
 
 }

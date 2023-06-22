@@ -49,14 +49,17 @@ public class MemberServiceImpl implements MemberService{
 		return memberDao.emailCheck(sqlSession,checkEmail);
 	}
 	
-	//회원가입
+	
+	/**
+	 *회원가입
+	 */
 	@Override
 	public int joinMember(Member m) {
 		return memberDao.joinMember(sqlSession, m);
-	
 	}
-
-	//회원가입시 포인트 insert
+	/**
+	 *회원가입시 포인트 insert
+	 */
 	@Override
 	public int joinPoint(Member m) {
 		return memberDao.joinPoint(sqlSession, m);
@@ -69,8 +72,7 @@ public class MemberServiceImpl implements MemberService{
 	   public Member loginMember(Member m) {
 	      return memberDao.loginMember(sqlSession, m);
 	   }
-	   
-	   
+
 	   /**
 	    *로그인 시 pointSelect   
 	    */

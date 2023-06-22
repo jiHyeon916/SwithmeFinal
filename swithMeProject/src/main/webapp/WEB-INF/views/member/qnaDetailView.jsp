@@ -95,7 +95,8 @@
 	
 	<script>
 		$(function(){
-			selectQnaReply(); // 답변 목록 불러오기
+			//console.log('${ qna.qnaNo }');
+			selectQnaReply('${ qna.qnaNo }'); // 답변 목록 불러오기
 		})
 	
 		// 문의글 삭제
@@ -139,27 +140,27 @@
 		
 		
 		// 답변 출력
-		function selectQnaReply(){
+		function selectQnaReply(qnaNo2){
+			console.log(qnaNo2);
 			 // adminController
 			$.ajax({
 				url : 'qnaAnswerList',
 				data : {
-					qnaNo : ${ qna.qnaNo }
+					qnaNo : qnaNo2
 				},
 				success : list => {
-					let value = '';
-					
-					for(let i in list){
-						value += '<div class="replyList">'
-								   + '<p>관리자</p>'
-								   + '<p>' + list[i].qnaReplyCreateDate +'</p>'
-								   + '<p>' + list[i].qnaReplyContent +'</p>'
-							   + '</div>'
-							   + '<hr/>'
-					}
-					
-					$('.replyWrap').html(value);
-					
+						
+						let value = '';
+						
+						for(let i in list){
+							value += '<div class="replyList">'
+									   + '<p>관리자</p>'
+									   + '<p>' + list[i].qnaReplyCreateDate +'</p>'
+									   + '<p>' + list[i].qnaReplyContent +'</p>'
+								   + '</div>'
+								   + '<hr/>'
+						}
+						$('.replyWrap').html(value);
 				},
 				error : () => {
 					console.log('댓글 불러오기 실패');

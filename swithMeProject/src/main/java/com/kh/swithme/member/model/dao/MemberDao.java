@@ -51,11 +51,11 @@ public class MemberDao {
 	public Member loginMember(SqlSessionTemplate sqlSession, Member m) {
 		return sqlSession.selectOne("memberMapper.loginMember",m);
 	}
-	//로그인 시 출석 포인트 체크
+	//로그인 시 출석 포인트 조회
 	public int loginPointChk(SqlSessionTemplate sqlSession, Member m) {
 		return sqlSession.selectOne("memberMapper.loginPointChk",m);
 	}
-	//로그인 시 포인트
+	//로그인 시 포인트 지급
 	public int loginPointInsert(SqlSessionTemplate sqlSession, Member m) {
 		return sqlSession.insert("memberMapper.loginPointInsert", m);
 	}

@@ -97,7 +97,7 @@
 		color:white;
       }
       .memberDetailInfo{
-      	margin-right:300px;
+      	margin-right:600px;
       	text-align:center;
       	padding-top:50px;
       	inline:block;
