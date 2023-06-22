@@ -287,6 +287,22 @@
 						console.log('실패');
 					}
 				});
+				
+				$.ajax({
+					url : 'memberTotal.me',
+					data : { 
+							sbNo : sno,
+							memberId : '${loginMember.memberId}'
+					
+					},
+					success : function(memTotalTotal){
+						console.log('강제탈퇴 멤버 조회 성공');						
+					},
+					error : function(){
+						console.log('전체 리스트 조회 실패');
+					}
+					
+				})
 			};
 			
 			$.ajax({
@@ -305,12 +321,24 @@
 					$('.memberId').attr('value', '${sessionScope.loginMember.memberId}');
 					$('.reportBandName').attr('value', bandInfomation.sbTitle);
 					$('#totalNo').attr('value', sno);
-					$('.readerId').attr('value', bandInfomation.memberIdId);
 					
 					
 					if(bandInfomation.sbRecruitMem == bandInfomation.sbNowMem){
-						$('.enrollBtn').css('display', 'none');
+						var value1 = "";
+						
+						value1 += "<button type='submit' id='writerStrat' class='enrollBtn' data-toggle='modal' data-target='#insertBandBoard'>글쓰기</button>"
+							  + "<input type='hidden' class='readerId' value=''>"
+						
+						if('${bandMem.sbNo}' == sno && '${bandMem.memId}' == '${loginMember.memberId}'){
+							$('.clear1').css('display', 'block');
+							$('.stbBtn').html(value1);
+						} else {
+							$('.clear1').css('display', 'none');
+							$('.stbBtn').css('display', 'none');
+						}						
 					};
+					
+					$('.readerId').attr('value', bandInfomation.memberIdId);
 
 					if(bandInfomation.memberIdId == '${loginMember.memberId}'){
 						$(".clear1").append("<li><a href='#' data-toggle='modal' data-target='#updaetBandReader'>리더 위임</a></li>");	
@@ -348,7 +376,8 @@
 				error : function(){
 					console.log('실패');
 				}
-			})
+			});
+
 			
 			alarmMessage();
 			
@@ -401,6 +430,7 @@
 
 					$('#disMissBoard').click(function(){
 							$('.img_container>#img1').attr('src', "");
+							$('.note-editable').empty();
 
 					})					
 				} 
@@ -462,6 +492,10 @@
 		
 		function alarmMessage(){
 			
+			var query = window.location.search;     
+			var param = new URLSearchParams(query);
+			var sno = param.get('sno');
+			
 			$(document).on('click', '#listMem', function(){
 				var mem = $(this).children(0).val();
 				$('.mem').attr('value', mem);
@@ -474,7 +508,16 @@
 			
 	
 			$(document).on('click', '#enrollMember', function(){
-				alert('밴드 가입이 완료되었습니다.');
+				if(${empty loginMember}){
+					alert('로그인 후 이용해주세요');
+				} else {
+					if('${memTotalTotal.sbNo}' == sno && '${memTotalTotal.memId}' == '${loginMember.memberId}' && '${memTotalTotal.banish}' == 'N'){
+						alert('밴드에 재가입 할 수 없습니다.');
+					} else {
+						alert('밴드 가입이 완료되었습니다.');					
+					}											
+				};
+
 			});
 			
 			$(document).on('click', '#deleteMember', function(){

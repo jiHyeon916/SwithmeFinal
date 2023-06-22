@@ -233,19 +233,19 @@
                      		  
                      		  
                      			 
-                     		  
+                     	/* 	  
                             };
 
                             
-                  /*           $(document).on('click','#adminMemberTable > tbody > tr', function() {
+                             $(document).on('click','#adminMemberTable > tbody > tr', function() {
                             	
                             	let boardNo = $(this).next('td').val();
                             	conosle.log(boardNo);
                     
                             	
                             	location.href="freeBoardDetail.bo?boardNo="+ boardNo;
-                            	
-                            }); */
+                            
+                            });  */
                       
                             
                             

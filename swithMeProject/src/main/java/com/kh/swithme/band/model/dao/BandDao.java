@@ -171,6 +171,14 @@ public class BandDao {
 		return (ArrayList)sqlSession.selectList("bandMapper.selectPhoto", sbBoardNo);
 	}
 
+	public int updateBandMemberCount(SqlSessionTemplate sqlSession, Band b) {
+		return sqlSession.update("bandMapper.updateBandMemberCount", b);
+	}
+
+	public BandMember memberTotalTotal(SqlSessionTemplate sqlSession, BandMember bm) {
+		return sqlSession.selectOne("bandMapper.memberTotalTotal", bm);
+	}
+
 
 
 }
