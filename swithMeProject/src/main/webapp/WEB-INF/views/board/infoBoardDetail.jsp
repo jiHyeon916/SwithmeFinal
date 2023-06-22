@@ -137,7 +137,7 @@
             </c:when>
             <c:otherwise>
                 <p class="writer">작성자 : ${sessionScope.loginMember.nickName}</p>
-            </c:otherwise>
+            </c:otherwise> 
         </c:choose>
         <p class="reportTitle">게시글 : ${b.boardTitle}</p>
         </div>
@@ -324,7 +324,7 @@
                             modifyBtn = '<div><p class="modiCheck" onclick="replyModify(this,' + list[i].boardReplyNo + ');">수정</p><p>삭제</p></div>';
                         };
 
-                        if('${ b.memberId }' == list[i].memberId ){
+                        if('${ b.memberId }' == '${ loginMember.nickName }'){
                             selectBtn = '<p class="oneTime" onclick="wantSelect(this)">채택<input type="hidden" value="'+ list[i].boardReplyNo + '"></p>'
                         }
 
@@ -647,6 +647,7 @@
 
         // 답변 채택 하기
         function wantSelect(e){
+
             if(confirm('채택 하시겠습니까? 한번 채택 후 변경 불가능 합니다.')){
                 
                 var selectNum = $(e).children().val();
@@ -665,6 +666,7 @@
 
                 })
             }
+
         }
 
         // 신고하기
