@@ -66,7 +66,7 @@
                     <button type="button" onclick="thumbNail();">업로드</button>
                 </div>
                 <div class="thumbnailArea"></div>
-                <input type="file" id="fileSelect" name="please" onchange="loadImg(this)" required>
+                <input type="file" id="fileSelect" name="please" onchange="loadImg(this)" requ>
                 
                 <input type="hidden" name="category" value="">
                 <input type="hidden" name="memberId" value="${ sessionScope.loginMember.memberId }">
@@ -115,7 +115,6 @@
       function text(){
 
         $('input[name=category]').val($('.btn-select').text());
-        alert($('#perNum').val());
 
         
         var form = $('#sorry')[0];

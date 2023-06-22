@@ -105,13 +105,17 @@ public class BoardController {
 	 * @return 게시판 상세 페이지
 	 */
 	@RequestMapping("freeBoardDetail.bo")
-	public String boardDetail(int boardNo, Model model) {
+	public String boardDetail(int boardNo, String memberId, Model model) {
 		
+			Board bBoard = new Board();
+			bBoard.setBoardNo(boardNo);
+			bBoard.setMemberId(memberId);
+			
 		if(boardService.boardCountUp(boardNo) > 0) {
 			// 로그인 유저가 좋아요 한상태인지 아닌
 			Board status = new Board();
-			status.setLikeStatus(boardService.likeStatus(boardNo));
-			status.setBookStatus(boardService.bookStatus(boardNo));
+			status.setLikeStatus(boardService.likeStatus(bBoard));
+			status.setBookStatus(boardService.bookStatus(bBoard));
 			
 			Board b = boardService.boardDetail(boardNo);
 			String tagList = b.getTagList();
@@ -140,10 +144,12 @@ public class BoardController {
 	 */
 	@ResponseBody
 	@RequestMapping("likeStatus.ck")
-	public String likeStatus(int boardNo, Model model) {
+	public String likeStatus(int boardNo, String memberId, Model model) {
+		Board b = new Board();
+		b.setMemberId(memberId);
+		b.setBoardNo(boardNo);
 		
-		Board status = new Board();
-		int likeStatus = boardService.likeStatus(boardNo);
+		int likeStatus = boardService.likeStatus(b);
 		
 		return new Gson().toJson(likeStatus);
 	}
@@ -166,14 +172,14 @@ public class BoardController {
 	 */
 	@ResponseBody
 	@RequestMapping("like.bo")
-	public String likeBoard(int boardNo) {
+	public String likeBoard(Board b) {
 		
-		int likeStatus = boardService.likeStatus(boardNo);
+		int likeStatus = boardService.likeStatus(b);
 		
 		if(likeStatus > 0) {
-			return new Gson().toJson(boardService.removeLike(boardNo));
+			return new Gson().toJson(boardService.removeLike(b));
 		}else {
-			return new Gson().toJson(boardService.likeBoard(boardNo));
+			return new Gson().toJson(boardService.likeBoard(b));
 		}
 	}
 	/**
@@ -182,9 +188,9 @@ public class BoardController {
 	 */
 	@ResponseBody
 	@RequestMapping("bookStatus.ck")
-	public String bookStatus(int boardNo) {
+	public String bookStatus(Board b) {
 		
-		int bookStatus = boardService.bookStatus(boardNo);
+		int bookStatus = boardService.bookStatus(b);
 		
 		return new Gson().toJson(bookStatus);
 	}
@@ -195,13 +201,13 @@ public class BoardController {
 	 */
 	@ResponseBody
 	@RequestMapping("book.bo")
-	public String bookBoard(int boardNo) {
+	public String bookBoard(Board b) {
 	
-		int bookStatus = boardService.bookStatus(boardNo);
+		int bookStatus = boardService.bookStatus(b);
 		if(bookStatus > 0) {
-			return new Gson().toJson(boardService.removeBook(boardNo));
+			return new Gson().toJson(boardService.removeBook(b));
 		}else {
-			return new Gson().toJson(boardService.bookBoard(boardNo));
+			return new Gson().toJson(boardService.bookBoard(b));
 		}
 	}
 	/**
@@ -265,7 +271,7 @@ public class BoardController {
 	@ResponseBody
 	@RequestMapping("replyCount.bo")
 	public int replyCount(int boardNo) {
-		return boardService.replyCount(boardNo);
+		return boardService.replyCount(boardNo) + boardService.rereplyCount(boardNo);
 	}
 	
 	/**
@@ -460,10 +466,8 @@ public class BoardController {
 	 */
 	@RequestMapping(value="boardModifyView.bo")
 	public String boardModifyView(int boardNo, Model model) {
-		System.out.println(boardNo);
 		
 		model.addAttribute("b", boardService.boardModifyView(boardNo));
-		System.out.println(boardService.boardModifyView(boardNo));
 		return "board/boardModify";
 	}
 	
@@ -621,7 +625,6 @@ public class BoardController {
 	         String changeName = saveFile(please, session);
 	         
 	         b.setSbChangeName("/swithme/resources/uploadFiles/band/" + changeName);
-	         // System.out.println(b);
 	      }
 	      
 		if(boardService.studyBandInsert(b) > 0) {
@@ -805,6 +808,18 @@ public class BoardController {
 		return boardService.boardReport(r);
 	}
 	
+	/**
+	 * 아이템 검색 창 
+	 * @param key 검색키워드
+	 * @param model 검색결과리스트 
+	 * @return 아이템 리스트 페이지 
+	 */
+	@RequestMapping("itemSearch.bo")
+	public String itemSearch(String key, Model model) {
+		model.addAttribute("item", boardService.itemSearch(key));
+		return "board/itemBoardList";
+	}
+	
 	
 	
 	
@@ -884,11 +899,6 @@ public class BoardController {
 	}
 	
 	
-
-		
-		
-
-
 	
 
 	

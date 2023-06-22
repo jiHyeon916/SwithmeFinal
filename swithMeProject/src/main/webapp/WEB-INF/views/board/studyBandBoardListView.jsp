@@ -152,7 +152,7 @@
                         result += '<div class="studyBandList clear">'
                                     + '<div class="studyBandId">' + r.list[i].memberId + '</div>'
                                     + '<div class="studyBandInfo">'
-                                        + '<img src="resources/images/board/test.png" alt="dd">'
+                                        + '<img src="' + r.list[i].sbChangeName +'" alt="dd">'
                                         + '<div>'
                                             + '<p class="studyBandName">'+ r.list[i].sbTitle + '</p>'
                                             + '<p class="studyBandIntro">' + r.list[i].sbIntroduce + '</p>'
@@ -188,3 +188,7 @@
         }
         
     </script>
+    <jsp:include page="../common/sideBtn.jsp" />
+    
+</body>
+</html>

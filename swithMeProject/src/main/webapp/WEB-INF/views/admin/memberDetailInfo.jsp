@@ -97,7 +97,7 @@
 		color:white;
       }
       .memberDetailInfo{
-      	margin-right:300px;
+      	margin-right:600px;
       	text-align:center;
       	padding-top:50px;
       	inline:block;
@@ -233,19 +233,19 @@
                      		  
                      		  
                      			 
-                     		  
+                     	/* 	  
                             };
 
                             
-                  /*           $(document).on('click','#adminMemberTable > tbody > tr', function() {
+                             $(document).on('click','#adminMemberTable > tbody > tr', function() {
                             	
                             	let boardNo = $(this).next('td').val();
                             	conosle.log(boardNo);
                     
                             	
                             	location.href="freeBoardDetail.bo?boardNo="+ boardNo;
-                            	
-                            }); */
+                            
+                            });  */
                       
                             
                             

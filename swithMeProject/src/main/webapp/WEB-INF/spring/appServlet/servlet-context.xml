@@ -84,7 +84,7 @@
 			<mapping path="/delete.mem"/>
 			<mapping path="/updateEnrollForm.mem"/>
 			<mapping path="/update.mem"/>
-			<mapping path="/searchPwd.mem"/>
+			<!--<mapping path="/searchPwd.mem"/>-->
 			<mapping path="/alarmList.me"/>
 			<mapping path="readAlarm/"/>
 			<mapping path="/readAlarmB"/>

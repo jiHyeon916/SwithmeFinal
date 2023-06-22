@@ -65,9 +65,11 @@
                         <input type="text" onkeypress="tagtext(this);">
                     </div>
                 </div>
+                <p class="tagAlarm"></p>
+                
+
                 
                 
-                <!-- <input type="text" id="tag" onkeyup="tagtext(this)"> -->
 
                 <div class="uploadBtnArea clear fileUp">
                     <p>파일</p>
@@ -211,6 +213,9 @@
         var lastTag = '';
         var realTag = '';
 
+
+        
+
         if(event == 13 || event == 32 || event == 8 ){
             var tag = ($(e).val());
             value += '<li class="tag">' + tag + '<img src="resources/images/board/tagClose.png" onclick="removeTag(this)"></li>';   
@@ -226,6 +231,8 @@
                 $('#tagBox input').val('');
             }
 
+            
+
         }
 
     }
@@ -233,7 +240,13 @@
 
     // 태그지우기 
     function removeTag(e){
+
+        var tag = document.getElementsByClassName('tag');
+
         $(e).parent().remove('');
+        if(tag.length < 5){
+            $('.tagAlarm').html('');
+        }
     }
     
     // 중복태그 자동으로 없애기
@@ -243,7 +256,8 @@
         //var lastTag = $('.tag').last();
         var result = '';
 
-        if(tag.length > 0){
+        if(tag.length < 4){
+            $('.tagAlarm').html('');
             $(tag).each(function(index, item){
                 if($(item).text() === e){
                     result = 1;
@@ -251,6 +265,11 @@
                     result = 2;
                 }
             });
+        }else{
+            if(tag.length > 4){
+                $('.tagAlarm').html('태그는 5개까지 입력가능합니다.');
+                result = 1;
+            }
         }
 
         return result;

@@ -90,7 +90,6 @@ input:focus{
     border-radius: 5px;
     cursor: pointer;
     text-align: left;
-    background: url("images/icon-Triangle-down.png") center right 14px no-repeat;
     /* 말줄임 */
     white-space: nowrap;
     text-overflow: ellipsis;
@@ -169,6 +168,7 @@ input:focus{
     margin: 5px 0 40px 0;
     overflow-x:auto;
     padding: 10px;
+    position: relative;
 }
 #F_writer_content .right #tagBox div,
 #F_writer_content .right #tagBox ul{
@@ -209,7 +209,12 @@ input:focus{
     width: 200px;
     background-color: red;
 }
-
+#F_writer_content .right .tagAlarm{
+    position: absolute;
+    font-size: 12px;
+    top : 426px;
+    color: rgb(54, 171, 105);
+}
 #F_writer_content .right input{
     width: 300px;
 }

@@ -43,31 +43,34 @@ public interface BoardService {
 	Board boardDetail(int boardNo);
 	
 	// 게시글 상세 조회 - 좋아요 상태 확인 
-	int likeStatus(int boardNo);
+	int likeStatus(Board bBoard);
 	
 	// 게시글 상세 조회 - 좋아요 총 수 확인 
 	int likeCount(int boardNo);
 	
 	// 게시글 상세 조회 - 좋아요 하기
-	int likeBoard(int boardNo);
+	int likeBoard(Board b);
 	
 	// 게시글 상세 조회 - 좋아요 취소 하기
-	int removeLike(int boardNo);
+	int removeLike(Board b);
 	
 	// 게시글 상세 조회 - 북마크 상태 확인 
-	int bookStatus(int boardNo);
+	int bookStatus(Board b);
 
 	// 게시글 상세 조회 - 북마크 하기 
-	int bookBoard(int boardNo);
+	int bookBoard(Board b);
 	
 	// 게시글 상세 조회 - 북마크 취소 하기 
-	int removeBook(int boardNo);
+	int removeBook(Board b);
 	
 	// 게시글 상세 조회 - 북마크 총 수 확인 
 	int bookCount(int boardNo);
 	
 	// 게시글 상세 조회 - 댓글 수 확인 
 	int replyCount(int boardNo);
+	
+	// 게시글 상세 조회 - 대댓글 수 확인 
+	int rereplyCount(int boardNo);
 	
 	// 게시글 상세 조회 - 댓글 리스트 불러오기
 	ArrayList<Reply> replyList(int boardNo);
@@ -181,7 +184,8 @@ public interface BoardService {
 	// 신고하기
 	int boardReport(Report r);
 	
-	
+	// 아이템 검색 
+	ArrayList<Item> itemSearch(String key);
 	
 	
 	

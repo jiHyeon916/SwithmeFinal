@@ -12,7 +12,7 @@
     <div class="wrap clear">
         <ul id="footerMenu" class="clear">
             <li>회사소개</li>
-            <li>개인정보처리방침</li>
+            <li>인재채용</li>
             <li>개인정보처리방침</li>
             <li>이용약관</li>
         </ul>

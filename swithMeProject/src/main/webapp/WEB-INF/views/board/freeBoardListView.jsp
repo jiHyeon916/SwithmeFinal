@@ -107,8 +107,8 @@
             
             <div id="ajaxList">
                 <!-- 리스트 영역 -->
+                <input type="hidden" value="free" id="bType">
                 <c:forEach items="${ list }" var="b">
-                <input type="hidden" value="${b.boardType}" id="bType">
                 <div class="freeBoardList" onclick="location.href='freeBoardDetail.bo?boardNo=${ b.boardNo }'">
                     <div class="freelist">
                         <div class="clear">
@@ -149,14 +149,14 @@
 
                     freeBoardCount();
 
-                    $(".freeBoardList").each(function() {
-                        var $textEncoder = $(this).find(".textEncoder"); // .textEncoder 클래스를 가진 요소 선택
-                        $textEncoder.find("p").empty(); // .textEncoder 하위의 <p> 요소 내용을 비움
-                        var html = $textEncoder.html(); // .textEncoder 내용 가져오기
-                        var strippedText = stripHtmlTags(html); // HTML 태그 제거
-                        $textEncoder.text(strippedText); // 제거된 HTML 태그가 적용된 텍스트로 설정
+                    // $(".freeBoardList").each(function() {
+                    //     var $textEncoder = $(this).find(".textEncoder"); // .textEncoder 클래스를 가진 요소 선택
+                    //     $textEncoder.find("p").empty(); // .textEncoder 하위의 <p> 요소 내용을 비움
+                    //     var html = $textEncoder.html(); // .textEncoder 내용 가져오기
+                    //     var strippedText = stripHtmlTags(html); // HTML 태그 제거
+                    //     $textEncoder.text(strippedText); // 제거된 HTML 태그가 적용된 텍스트로 설정
 
-                    });
+                    // });
 
                 })
 
@@ -264,8 +264,6 @@
 
                             var value = '';
                             
-                            console.log(r);
-
                             for(var i in r.list){
                                 value += '<div class="freeBoardList" onclick="location.href=\'freeBoardDetail.bo?boardNo=' + r.list[i].boardNo + '\'">'
                                         + '<div class="freelist">'
@@ -343,7 +341,6 @@
                         url : "topBoard.bo",
                         success : function(list){
 
-                            console.log(list);
                             var listTop = '';
                             for(var i in list){
                                 listTop += '<li class="F_sm_smr hotBod" onclick="location.href=\'freeBoardDetail.bo?boardNo=' + list[i].boardNo + '\'">' + list[i].boardTitle  + '</li>';
@@ -389,20 +386,28 @@
 
 
     <div id="mainButton">
-        <div>
-            <a href="#">
-                <img src="resources/question.png" alt="">
-                <p>글 작성하기</p>
-            </a>
-        </div>
-        <div>
-            <a id="top_btn">
-                <img src="resources/top.png" alt="">
-                <p>TOP</p>
-            </a>
+        <div class="toptop"><img src="resources/images/common/topBtn.png" alt=""></div>
+        <div class="setting"><img src="resources/images/common/settingBtn.png" alt="">
+            <div id="BtnBox" class="clear">
+                <div id="thumb"></div>
+                <p>${sessionScope.loginMember.nickName}</p>
+                <div class="mypagegoing clear">
+                    <button><a href="mypage.me">마이페이지</a></button>
+                    <button><a href="">로그아웃</a></button>
+                </div>
+            </div>
         </div>
     </div>
 
+    <script>
+        $('#mainButton > .toptop').click(function(){
+            $( 'html, body' ).animate( { scrollTop : 0 }, 400 );
+        })
+
+        $('.setting').click(function(){
+            $('#BtnBox').toggle();
+        })
+    </script>
     <jsp:include page="../common/footer.jsp" />
 
 </body>

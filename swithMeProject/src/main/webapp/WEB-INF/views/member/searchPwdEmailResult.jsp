@@ -85,7 +85,7 @@
 
 	 <jsp:include page="../common/header.jsp"/><br><br><br>
     
-    <h1 id="serchIdTitle" align="center">아이디 찾기</h1><br><br>
+    <h1 id="serchIdTitle" align="center">비밀번호 찾기</h1><br><br>
     
 
     

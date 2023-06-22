@@ -370,7 +370,7 @@
 	<!-- 지현 -->
 	
 		<!-- 아이디 체크용 쿼리  -->
-		<select id="idCheck" resultType="_int"><!-- v파라미터다시 -->
+		<select id="idCheck" resultType="_int">
 			SELECT
 				COUNT(*)
 			FROM
@@ -447,6 +447,7 @@
 					
 		
 		</insert>
+		
 		 <!-- 로그인 -->
 	      <select id="loginMember" parameterType="member" resultType="member">
 	         SELECT 
@@ -570,7 +571,7 @@
       	
       	
       	
-      	<!-- 이메일 임시번호 저장 -->
+      	<!-- 이메일 임시번호 UPDATE -->
       	<update id="sendMailInsert" parameterType="member">
       		UPDATE
       				MEMBER

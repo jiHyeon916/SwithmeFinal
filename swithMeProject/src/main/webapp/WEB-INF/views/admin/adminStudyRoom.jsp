@@ -175,9 +175,22 @@ tr:last-child{
 }
 tr.hover{
 	background-color: rgb(207, 254, 227);
+	cursor:pointer;
 }
 tr:hover{
 	background-color: rgb(207, 254, 227);
+	cursor:pointer;
+}
+input[name=checkSRoom]{
+	width: 20px;
+  	height: 20px;
+}
+.selectAll{
+	width: 20px;
+  	height: 20px;
+}
+th, td{
+	padding: 3px;
 }
 
 
@@ -212,7 +225,7 @@ tr:hover{
 	         		<table id="studyRoomList">
 	         			<thead>
 							<tr>
-								<th></th>
+								<th><input type="checkbox" class="selectAll"></th>
 								<th>NO</th>
 								<th>스터디룸 명</th>
 								<th>지역</th>
@@ -223,7 +236,7 @@ tr:hover{
 	         			</thead>
 	         			<tbody>
 	         				<c:forEach items="${list}" var="sr" varStatus="status">
-								<tr class="checkSRoom" onclick="check();">
+								<tr class="checkSRoomTr">
 									<td><input type="checkbox" value="${sr.studyRoomNo}" name="checkSRoom" class="checkDelete"></td>
 									<td>${status.count}</td>
 									<td>${sr.studyRoomName}</td>
@@ -273,9 +286,9 @@ tr:hover{
 	   </div>
 
 	   <script>
-		function sRoomCreate(){
-
-		}
+		$(function(){
+			checkBox();
+		})
 
 		// 스터디룸 선택 삭제
 		function sRoomDelete(){
@@ -305,31 +318,34 @@ tr:hover{
 			}
 		}
 
-		// 체크박스 선택
-		function check(){
-			$('.checkSRoom').click(function(){
-				if($(this).children().find('input[name=checkSRoom]:checked').length==0){
-					$(this).children().find('input').attr('checked', true);
-					$(this).addClass('hover');
-				} else{
-					$(this).children().find('input').attr('checked', false);
-					$(this).removeClass('hover');
-				}
-			})
-		}
+		// 체크박스 선택 시 hover
+		function checkBox(){
+			$('input[name=checkSRoom]').click(function() {
+				var checkbox = $(this);
+   			 	var checkTr = checkbox.parent().parent();
 
-		// 체크박스 선택
-		$(function(){
-			$("input:checkbox").change(function() {
-				let checkTr = $(this).parent().parent();
-				if ( $(this).prop('checked') ) {
+				if (checkbox.is(':checked')) {
 					checkTr.addClass('hover');
 				} else {
 					checkTr.removeClass('hover');
 				}
 			});
-		})
+		}
 
+		// 전체 선택
+		$(function() {
+			$(".selectAll").click(function() {
+				var isChecked = $(this).is(":checked");
+				// 모든 checkSRoom 클래스를 가진 체크박스 상태를 전체 선택 체크박스와 동기화
+				$("input[name='checkSRoom']").prop("checked", isChecked);
+			});
+
+			$("input[name='checkSRoom']").click(function() {
+				var allChecked = ($("input[name='checkSRoom']:checked").length === $("input[name='checkSRoom']").length);
+				$(".selectAll").prop("checked", allChecked);
+			});
+		});
+		
 
 
 	   </script>
