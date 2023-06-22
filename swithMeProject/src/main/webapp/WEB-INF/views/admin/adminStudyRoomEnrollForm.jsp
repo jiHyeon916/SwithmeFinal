@@ -119,12 +119,19 @@
     margin-left: 10px;
 }
 .uploadBtn{
-padding: 6px 25px;
-background-color:rgb(233, 233, 233);
-border-radius: 4px;
-color: black;
-cursor: pointer;
-
+    padding: 3px 10px;
+    background-color:rgb(233, 233, 233);
+    border-radius: 4px;
+    color: black;
+    cursor: pointer;
+}
+.deleteBtn{
+    padding: 3px 10px;
+    background-color:rgb(233, 233, 233);
+    border-radius: 4px;
+    color: black;
+    cursor: pointer;
+    border : none;
 }
 
 /*input*/
@@ -174,13 +181,18 @@ tr{
     border-radius: 5px;
     padding: 10px;
 }
-#studyRoomImg{
-    width : 400px;
-    height: 300px;
+.studyRoomImg{
+    width : 33%;
+    height: 250px;
+    text-align: right;
+    float: left;;
 }
-#studyRoomView{
-    width : 400px;
-    height: 300px;
+.studyRoomView{
+    width : 90%;
+    height: 200px;
+}
+.studyRoomView.selected{
+    border:2px solid black;
 }
 
 </style>
@@ -255,14 +267,29 @@ tr{
                                 </tr>
                                 <tr>
                                     <td><p>사진</p></td>
-                                    <td>
-                                        <label class="uploadBtn" for="upfile">업로드</label> 
-                                        <input type="file" id="upfile" name="upFile" onchange="preview(this);" style="display:none;">
+                                    <td id="imageArea">
+                                        <div class="studyRoomImg">
+                                            <input type="radio" name="checkThumnail" checked value="0">
+                                            <label class="uploadBtn" for="upFile1">추가</label> 
+                                            <input type="file" id="upFile1" name="upFile[]" onchange="preview(this,'studyRoomView1');" style="display:none;">
+                                            <button type="button" class="deleteBtn" onclick="deleteImage('studyRoomView1','upFile1');">삭제</button>
+                                            <img id="studyRoomView1" class="studyRoomView" src="resources/images/member/none.jpeg" />
+                                        </div>
+                                        <div class="studyRoomImg">
+                                            <input type="radio" name="checkThumnail" value="1">
+                                            <label class="uploadBtn" for="upFile2">추가</label> 
+                                            <input type="file" id="upFile2" name="upFile[]" onchange="preview(this,'studyRoomView2');" style="display:none;">
+                                            <button type="button" class="deleteBtn" onclick="deleteImage('studyRoomView2', 'upFile2');">삭제</button>
+                                            <img id="studyRoomView2" class="studyRoomView" src="resources/images/member/none.jpeg" />
+                                        </div>
+                                        <div class="studyRoomImg">
+                                            <input type="radio" name="checkThumnail" value="2">
+                                            <label class="uploadBtn" for="upFile3">추가</label> 
+                                            <input type="file" id="upFile3" name="upFile[]" onchange="preview(this,'studyRoomView3');" style="display:none;">
+                                            <button type="button" class="deleteBtn" onclick="deleteImage('studyRoomView3', 'upFile3');">삭제</button>
+                                            <img id="studyRoomView3" class="studyRoomView" src="resources/images/member/none.jpeg" />
+                                        </div>
                                     </td>
-                                </tr>
-                                <tr>
-                                    <td></td>
-                                    <td><div id="studyRoomImg"><img id="studyRoomView" src="resources/images/member/none.jpeg" /></div></td>
                                 </tr>
                                 <tr></tr>
                                 <tr>
@@ -277,6 +304,7 @@ tr{
                 </div>
 	      </div>
 	   </div>
+
     <script>
         // 카카오 주소
         function sample5_execDaumPostcode() {
@@ -309,19 +337,44 @@ tr{
         }
 
         // 이미지 미리보기
-        function preview(image){
+        function preview(image, imageView){
             // 파일이 첨부되었는지 확인
             if(image.files.length == 1){
                 let reader = new FileReader();
-                reader.readAsDataURL(image.files[0]);
-                reader.onload = e => {
-                    $('#studyRoomView').attr('src', e.target.result);
+                reader.onload = function(e) {
+                    $('#' + imageView).attr('src', e.target.result);
                 };
+                reader.readAsDataURL(image.files[0]);
             } else {
-                $('#studyRoomView').attr('src', noneImg);
+                $('#' + imageView).attr('src', noneImg);
             };
         };
 
+        // 이미지 삭제하기
+        function deleteImage(imageView, inputFile){
+            $('#' + imageView).attr('src', 'resources/images/member/none.jpeg');
+            $('#' + inputFile).val(null);
+        }
+
+           
+       $(function(){
+            if($('input[name="checkThumnail"]').is(':checked')) {
+                var select = $('input[name=checkThumnail]:checked').parent('.studyRoomImg').find('img').attr('id');
+                $('#' + select).addClass('selected');
+            }
+       });
+
+        // 썸네일 선택하기
+       $(function(){
+            $('input[name="checkThumnail"]').click(function() {
+                $('.studyRoomView').removeClass('selected');
+                if ($(this).is(':checked')) {
+                    var select = $(this).parent('.studyRoomImg').find('img').attr('id');
+                    $('#' + select).addClass('selected');
+                }
+            });
+       });
+    
         // 뒤로 가기
         function back(){
             if(confirm('작성된 내용은 저장되지 않습니다. 취소하시겠습니까?')){
@@ -329,6 +382,8 @@ tr{
             };
             
         };
+
+
 
 
     </script>

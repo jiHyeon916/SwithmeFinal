@@ -199,9 +199,12 @@ public class BoardDao {
 	public ArrayList<Item> itemSearch(SqlSessionTemplate sqlSession, String key) {
 		return (ArrayList)sqlSession.selectList("boardMapper.itemSearch", key);
 	}
+	public int rereplyCount(SqlSessionTemplate sqlSession, int boardNo) {
+		return sqlSession.selectOne("boardMapper.rereplyCount", boardNo);
+	}
 	
 	
-
+	
 
 	// 희재 스터디룸 ------------------------------------------------------------------------
 	public int sRoomListCount(SqlSessionTemplate sqlSession) {

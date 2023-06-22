@@ -252,6 +252,10 @@ public class BoardServiceImpl implements BoardService {
 	public ArrayList<Item> itemSearch(String key) {
 		return boardDao.itemSearch(sqlSession, key);
 	}
+	@Override
+	public int rereplyCount(int boardNo) {
+		return boardDao.rereplyCount(sqlSession, boardNo);
+	}
 	
 	
 	// ************* 메인 

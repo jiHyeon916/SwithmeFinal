@@ -580,6 +580,24 @@
 		  	  BOARD_REPLY
 		 WHERE
 		 	  BOARD_NO = #{ boardNo }
+		   AND
+		   	  BOARD_STATUS = 'Y'
+	</select>
+	
+	<!-- 대댓글 수 카운트 -->
+	<select id="rereplyCount" resultType="_int">
+		SELECT 
+			  COUNT(*)
+		  FROM
+		   	  BOARD_RE_REPLY
+ 		  JOIN
+ 		  	  BOARD_REPLY USING(BOARD_REPLY_NO)
+ 		 WHERE
+ 		 	  BOARD_NO = #{ boardNo }
+ 		   AND
+ 		   	  STATUS = 'Y'
+ 		   AND
+ 		   	  BOARD_STATUS = 'Y'
 	</select>
 	
 	<!-- 댓글 가져오기 -->
