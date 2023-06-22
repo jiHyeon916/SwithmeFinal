@@ -388,7 +388,7 @@ public class BandController {
 	// 리더 위임 목록
 	@ResponseBody
 	@RequestMapping(value="studyBand.bo/reader.sb", produces="application/json; charset=UTF-8")
-	public String readerList(int sno) {
+	public String readerList(int sno, HttpSession session) {
 		return new Gson().toJson(bandService.readerList(sno));
 	}
 	
@@ -416,6 +416,7 @@ public class BandController {
 	}
 	
 	// 리더 위임 닉네임 검색
+	@ResponseBody
 	@RequestMapping(value="studyBand.bo/nickSearch.sb", produces="application/json; charset=UTF-8")
 	public String nickSearch(String key, int sbNo, BandMember bm) {
 		bm.setSbNo(sbNo);
@@ -428,19 +429,33 @@ public class BandController {
 
 	// 밴드 강제 탈퇴
 	@RequestMapping("studyBand.bo/deleteMem.sb")
-	public String updateBandMember(int sbNo, String deleteMem, Model model, BandMember bm, HttpSession session) {
+	public String updateBandMember(int sbNo, String deleteMem, Model model, Band b, BandMember bm, HttpSession session) {
 
 		bm.setSbNo(sbNo);
 		bm.setMemId(deleteMem);
 		
 		if(bandService.updateBandMember(bm) > 0) {
 			model.addAttribute("bm", bandService.updateBandMember(bm));
+			b.setSbNo(sbNo);
+			bandService.updateBandMemberCount(b);
+			
 			session.setAttribute("banishMsg", "강제탈퇴에 성공했습니다.");	
 		} else{
 			session.setAttribute("banishMsg", "강제탈퇴에 실패했습니다.");	
 		};
 		
 		return "redirect:/studyBand.bo/bandMember.sb?sno=" + sbNo;
+	}
+	
+	// 밴드 전체 멤버 조회(강제탈퇴된 멤버 포함)
+	@ResponseBody
+	@RequestMapping(value="studyBand.bo/memberTotal.me", produces="application/json; charset=UTF-8")
+	public String memberTotalTotal(int sbNo, HttpSession session, BandMember bm, String memberId) {
+		bm.setMemId(memberId);
+		bm.setSbNo(sbNo);
+
+		session.setAttribute("memTotalTotal", bandService.memberTotalTotal(bm));
+		return new Gson().toJson(bandService.memberTotalTotal(bm));
 	}
 
 	// 밴드 일정

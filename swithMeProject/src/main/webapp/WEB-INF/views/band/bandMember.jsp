@@ -105,9 +105,8 @@
 		});
 
 		$(document).on('click', '#banish', function(){
-			var message = '${sessionScope.banishMsg}';
 			// console.log(message);
-			alert(message);
+			alert('강제탈퇴 완료되었습니다.');
 
 		});
 	</script>

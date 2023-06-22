@@ -186,6 +186,16 @@ public class BandServiceImpl implements BandService {
 		return bandDao.selectPhoto(sqlSession, sbBoardNo);
 	}
 
+	@Override
+	public int updateBandMemberCount(Band b) {
+		return bandDao.updateBandMemberCount(sqlSession, b);
+	}
+
+	@Override
+	public BandMember memberTotalTotal(BandMember bm) {
+		return bandDao.memberTotalTotal(sqlSession, bm);
+	}
+
 
 
 }

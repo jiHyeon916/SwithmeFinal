@@ -96,19 +96,13 @@
 		                        	<!-- 댓글영역 -->
 		                        		<div class="totalReply">
 				                        	<div class="replyBtn">
-			                        			<c:choose>
-			                        				<c:when test="${ empty loginMember }">
-											        		<textarea class="replyContent" readonly>로그인 후 이용가능합니다.</textarea><br>
-											        		<button type="button" class="replyEnroll">등록</button> <br>
-			                        				</c:when>
-											     	<c:otherwise>
-											        		<textarea class="replyContent"></textarea><br>
-											        		<button type="button" id="plzBtn" class="replyEnroll">등록</button>
-											     	</c:otherwise>	
-			                        			</c:choose>
+		                        				<c:if test="${ empty loginMember }">
+									        		<textarea class="replyContent" readonly>로그인 후 이용가능합니다.</textarea><br>
+									        		<button type="button" class="replyEnroll">등록</button> <br>
+		                        				</c:if>
 				                        	<input type="hidden" class="sBoardNoModal" name="bandNo" value="">
 								        	<input type="hidden" class="writerBoard" value="">
-								        	<input type="hidden" class="bandNo" value="">
+								        	<input type="hidden" class="sBoardNoModal" name="bandNo" value="">
 										    </div> <br>
 								        	<div class="replyBodyDetail">
 								        	
@@ -130,14 +124,42 @@
 		</div>
 		
 		<script>
+		
 			$(document).on('click', '.bPostList', function(){
-				var inputNo = $(this).children().eq(0).val();
-				$('.sBoardNoModal').attr('value', inputNo);
-				// console.log(inputNo);
-				selectReplyList(inputNo);
+				var query = window.location.search;     
+				var param = new URLSearchParams(query);
+				var sno = param.get('sno');
+				
+				var sbBoardNo = $(this).children().eq(0).val();
+				
+				if(${ !empty loginMember }){							
+					if('${bandMem.sbNo}' == sno && '${bandMem.memId}' == '${loginMember.memberId}' && '${bandMem.banish}' == 'Y'){
+						var valueText = "";
+						
+						valueText += '<textarea class="replyContent"></textarea><br>'
+			        		       + '<button type="button" id="plzBtn" class="replyEnroll">등록</button>'
+			        		       + '<input type="hidden" class="sBoardNoModal" name="bandNo" value="">'
+			        		       + '<input type="hidden" class="writerBoard" value="">'
+			        		       + '<input type="hidden" class="sBoardNoModal" name="bandNo" value="">';
+			        	$('.replyBtn').html(valueText);
+					} else {
+						var valueText1 = "";
+						valueText1 += '<textarea class="replyContent" readonly>밴드 가입 후 작성이 가능합니다.</textarea><br>'
+		        				   + '<button type="button" class="replyEnroll">등록</button> <br>'
+		        				   + '<input type="hidden" class="sBoardNoModal" name="bandNo" value="">'
+		        				   + '<input type="hidden" class="writerBoard" value="">'
+		        				   + '<input type="hidden" class="sBoardNoModal" name="bandNo" value="">';
+
+		        		$('.replyBtn').html(valueText1);
+					}
+				}
+				$('.sBoardNoModal').attr('value', sbBoardNo);
+				
+				console.log(sbBoardNo);
+				selectReplyList(sbBoardNo);
 				$.ajax({
 					url : 'detail.sb',
-					data : { sbBoardNo : inputNo },
+					data : { sbBoardNo : sbBoardNo },
 					success : function(list){
 						
 						// console.log(list.changeName);
@@ -154,14 +176,14 @@
 						} else {
 							$('#photoImg1').attr('src', list.changeName);
 							
-						}
-						
-						
+						}		
 					},
 					error : function(){
 						console.log('실패');
 					}
 				});
+				
+				
 			});
 
 		</script>
@@ -190,12 +212,12 @@
 			});
 			
 				
-			function photoSelect(inputNo){
+			function photoSelect(sbBoardNo){
 				
 				// sbBoardNo = $('#sBoardNo').val();
 		        $.ajax({
 		        	url : 'photoSelect.sb',
-		        	data : { sbBoardNo : inputNo },
+		        	data : { sbBoardNo : sbBoardNo },
 		        	success : function(photo){
 		        		console.log(photo);
 		        	},
@@ -271,9 +293,13 @@
 
 				var loginMem1 = '${loginMember.nickName}';
 				
+				var query = window.location.search;     
+				var param = new URLSearchParams(query);
+				var sno = param.get('sno');
+				
 				$.ajax({
 					url : 'rlist.sb',
-					data : { sbBoardNo : inputNo },
+					data : { sbBoardNo : sbBoardNo },
 					success : function(result){
 						//console.log(sBoardNo);
 						
@@ -299,8 +325,12 @@
 							var btnItems = item.children[4];
 							var idItems = item.children[0].innerHTML;
 							
-							if(idItems == '${loginMember.nickName}'){
-								$(btnItems).css('display','show');
+							if(idItems == '${loginMember.nickName}' ){
+								if('${bandMem.sbNo}' == sno && '${bandMem.memId}' == '${loginMember.memberId}'){
+									$(btnItems).css('display','show');									
+								} else {
+									$(btnItems).css('display','none');															
+								}
 							} else {
 								$(btnItems).css('display','none');						
 							}
@@ -360,8 +390,8 @@
                     		// console.log(result);
                      	$('button').not('#updateRe').attr('disabled',false);
                      	$('#replyDetailBtn').css('display','show');
-                     	selectReplyList(sbBoardNo);
 						}
+                     	selectReplyList(sbBoardNo);
                     },
                     error : function(){
 						console.log('댓글 수정영역 불러오기 실패');
@@ -403,7 +433,7 @@
 				var sbReplyNo = $(this).prev().val();
 				
 				console.log(sbBoardNo);
-				console.log(sbReplyNo);
+				// console.log(sbReplyNo);
 
 				$.ajax({
 					url : 'deleteReply.sb',
