@@ -3,6 +3,7 @@ package com.kh.swithme.band.model.service;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import com.google.gson.JsonElement;
 import com.kh.swithme.band.model.vo.Band;
 import com.kh.swithme.band.model.vo.BandAlarm;
 import com.kh.swithme.band.model.vo.BandAttach;
@@ -121,6 +122,9 @@ public interface BandService {
 	int readerAlarm(BandAlarm ba);
 
 	ArrayList<BandAttach> selectPhoto(int sbBoardNo);
+	
+	// 방장 혼자 남았을 때 밴드 삭제하기
+	int deleteBand(int sbNo);
 
 
 

@@ -155,7 +155,7 @@
 				}
 				$('.sBoardNoModal').attr('value', sbBoardNo);
 				
-				console.log(sbBoardNo);
+				// console.log(sbBoardNo);
 				selectReplyList(sbBoardNo);
 				$.ajax({
 					url : 'detail.sb',
@@ -194,21 +194,25 @@
 				
 		        $('#summernote').summernote();
 		        $('button').not('#updateRe').attr('disabled',false);
+		        var PostList = $('.bPostList');
+
 		        var target = document.getElementById('summary');
-
 		        
-		        if(target != null){
-		        	const extractTextPattern = /(<([^>]+)>)/gi;
-		        	
-		        	var src = target.innerHTML;
+		        $.each(PostList, function(index, item){
+					
+					var PostText = item.children[5].children[0];
+					
+					if(PostText != null){
+			        	const extractTextPattern = /(<([^>]+)>)/gi;
+			        	
+			        	var src = PostText.innerHTML;
 
-		        	var extractedText = src.replace(extractTextPattern, '');
-		        
-			        target.innerHTML = extractedText;	
+			        	var extractedText = src.replace(extractTextPattern, '');
 			        
-		        };
-		        
-					   
+			        	PostText.innerHTML = extractedText;	
+				        
+			        };
+				});	   
 			});
 			
 				
@@ -448,5 +452,29 @@
 				})	
 			});
 		</script>
+		
+	    <div id="mainButton">
+        <div class="toptop"><img src="resources/images/common/topBtn.png" alt=""></div>
+ 
+            <div id="BtnBox" class="clear">
+                <div id="thumb"></div>
+                <p>${sessionScope.loginMember.nickName}</p>
+                <div class="mypagegoing clear">
+                    <button><a href="mypage.me">마이페이지</a></button>
+                    <button><a href="">로그아웃</a></button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        $('#mainButton > .toptop').click(function(){
+            $( 'html, body' ).animate( { scrollTop : 0 }, 400 );
+        })
+
+        $('.setting').click(function(){
+            $('#BtnBox').toggle();
+        })
+    </script>
 </body>
 </html>

@@ -196,6 +196,11 @@ public class BandServiceImpl implements BandService {
 		return bandDao.memberTotalTotal(sqlSession, bm);
 	}
 
+	@Override
+	public int deleteBand(int sbNo) {
+		return bandDao.deleteBand(sqlSession, sbNo);
+	}
+
 
 
 }
