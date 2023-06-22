@@ -19,11 +19,17 @@
             <div id="contentBox" class="clear">
                 <!-- 글 보이는 곳 -->
                 <div>
-                    
+                    <!-- 썸네일 사진 -->
+                    <div class="thumbnail">
+                        <img src="resources/images/board/freeDetailBg.png">
+                    </div>
                     <!-- 글쓴 정보 : 제목, 날짜, 작성자 -->
                     <div class="writerInfo clear">
-                        <img src="" alt="" id="character">
-                        <div class="clear">
+                        <div id="memberTumb">
+                            <img src="" alt="" id="character">
+                            <img src="" alt="" id="bg">
+                        </div>
+                        <div class="divBox" class="clear">
                             <h6 class="title">${ b.boardTitle }</h6>
                             <div class="clear">
                                 <p class="writerId">${ b.memberId }</p>
@@ -131,7 +137,7 @@
             </c:when>
             <c:otherwise>
                 <p class="writer">작성자 : ${sessionScope.loginMember.nickName}</p>
-            </c:otherwise>
+            </c:otherwise> 
         </c:choose>
         <p class="reportTitle">게시글 : ${b.boardTitle}</p>
         </div>
@@ -164,6 +170,7 @@
             likeStatusCheck(); //좋아요 상태 표시
             bookStatusCheck(); //북마크 상태 표시
             selectioncheck(); //채택 여부 확인 
+            memberImg(); //멤버 캐릭터 이미지 가져오기 
 
             let btnOpenPopup = document.getElementsByClassName('btn-open-popup');
             const modal = document.querySelector('.msg1');
@@ -317,7 +324,7 @@
                             modifyBtn = '<div><p class="modiCheck" onclick="replyModify(this,' + list[i].boardReplyNo + ');">수정</p><p>삭제</p></div>';
                         };
 
-                        if('${ b.memberId }' == list[i].memberId ){
+                        if('${ b.memberId }' == '${ loginMember.nickName }'){
                             selectBtn = '<p class="oneTime" onclick="wantSelect(this)">채택<input type="hidden" value="'+ list[i].boardReplyNo + '"></p>'
                         }
 
@@ -640,6 +647,7 @@
 
         // 답변 채택 하기
         function wantSelect(e){
+
             if(confirm('채택 하시겠습니까? 한번 채택 후 변경 불가능 합니다.')){
                 
                 var selectNum = $(e).children().val();
@@ -658,6 +666,7 @@
 
                 })
             }
+
         }
 
         // 신고하기
@@ -688,6 +697,33 @@
                 });
             }
 
+        }
+
+        // 멤버 캐릭터 이미지 가져오기
+        function memberImg(){
+            $.ajax({
+                url : 'memberImg',
+                data : {
+                    memberId : '${ b.memberId }'
+                },
+                success : (r) => {
+                    console.log(r);
+
+                    for(var i in r){
+                        if(r[i].itemCategory == '캐릭터'){
+                            $('#character').prop('src', r[i].itemPhoto );
+                        }
+                        if(r[i].itemCategory == '배경'){
+                            $('#bg').prop('src', r[i].itemPhoto);
+                        }
+                    }
+                    
+                    
+                },
+                error : () => {
+
+                }
+            })
         }
 
 

@@ -256,6 +256,10 @@ public class BoardServiceImpl implements BoardService {
 	public int rereplyCount(int boardNo) {
 		return boardDao.rereplyCount(sqlSession, boardNo);
 	}
+	@Override
+	public ArrayList<Item> memberImg(String memberId) {
+		return boardDao.memberImg(sqlSession, memberId);
+	}
 	
 	
 	// ************* 메인 

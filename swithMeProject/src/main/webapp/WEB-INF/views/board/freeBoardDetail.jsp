@@ -20,12 +20,15 @@
                 <div>
                     <!-- 썸네일 사진 -->
                     <div class="thumbnail">
-                        <img src="resources/images/board/thumbnail8.jpg">
+                        <img src="resources/images/board/freeDetailBg.png">
                     </div>
                     <!-- 글쓴 정보 : 제목, 날짜, 작성자 -->
                     <div class="writerInfo clear">
-                        <img src="" alt="" id="character">
-                        <div class="clear">
+                        <div id="memberTumb">
+                            <img src="" alt="" id="character">
+                            <img src="" alt="" id="bg">
+                        </div>
+                        <div class="divBox" class="clear">
                             <h6 class="title">${ b.boardTitle }</h6>
                             <div class="clear">
                                 <p class="writerId">${ b.memberId }</p>
@@ -161,6 +164,7 @@
             replyCount(); //댓글 수 불러오기 
             likeStatusCheck(); //좋아요 상태 표시
             bookStatusCheck(); //북마크 상태 표시
+            memberImg(); //작성자 썸네일 불러오기 
             //reReplyList(); //대댓글 리스트 불러오기
 
             let btnOpenPopup = document.getElementsByClassName('btn-open-popup');
@@ -359,27 +363,31 @@
 
         // 댓글 달기
         function insertReply(){
+            if($('#replyContent').val() != ''){
 
-            $.ajax({
-                url : 'insertReply.bo',
-                data : {
-                    boardNo : '${ b.boardNo }',
-                    rCon : $('#replyContent').val(),
-                    memberId : '${ sessionScope.loginMember.memberId }'
-                },
-                type : 'post',
-                success : function(result){
-                    if(result == 'success'){
-                        $('#replyContent').val('');
-                        reply();
-                        replyCount();
+                $.ajax({
+                    url : 'insertReply.bo',
+                    data : {
+                        boardNo : '${ b.boardNo }',
+                        rCon : $('#replyContent').val(),
+                        memberId : '${ sessionScope.loginMember.memberId }'
+                    },
+                    type : 'post',
+                    success : function(result){
+                        if(result == 'success'){
+                            $('#replyContent').val('');
+                            reply();
+                            replyCount();
+                        }
+                    },
+                    result : function(){
+                        console.log('댓글작성 실패');
                     }
-                },
-                result : function(){
-                    console.log('댓글작성 실패');
-                }
 
-            })
+                })
+            }else{
+                alert('작성한 내용이 없어 등록되지 않았습니다.');
+            }
         }
 
         // 댓글 수 가져오기
@@ -499,24 +507,28 @@
         //대댓글 달기 
         function reReply(reReplyNo, e){
 
-            $.ajax({
-                url : 'reReply.bo',
-                data : {
-                    boardNo : '${ b.boardNo }',
-                    replyNo : reReplyNo,
-                    reReplyCon : $(e).prev().val(),
-                    memberId : '${ sessionScope.loginMember.memberId }'
-                },
-                success : function(r) {
-                    $('.replyWrite > textarea').val('');
-                    reReplyList(reReplyNo);
-                    
-                },
-                error : function(){
+            if($(e).prev().val() != ''){
+                $.ajax({
+                    url : 'reReply.bo',
+                    data : {
+                        boardNo : '${ b.boardNo }',
+                        replyNo : reReplyNo,
+                        reReplyCon : $(e).prev().val(),
+                        memberId : '${ sessionScope.loginMember.memberId }'
+                    },
+                    success : function(r) {
+                        $('.replyWrite > textarea').val('');
+                        reReplyList(reReplyNo);
+                        
+                    },
+                    error : function(){
 
-                }
+                    }
 
-            })
+                })
+            }else{
+                alert('작성한 내용이 없어 등록되지 않았습니다.');
+            }
         }
 
         // 대댓글 리스트 가져오기
@@ -677,6 +689,34 @@
                 
             }
             
+        }
+
+
+        // 멤버 캐릭터 이미지 가져오기
+        function memberImg(){
+            $.ajax({
+                url : 'memberImg',
+                data : {
+                    memberId : '${ b.memberId }'
+                },
+                success : (r) => {
+                    console.log(r);
+
+                    for(var i in r){
+                        if(r[i].itemCategory == '캐릭터'){
+                            $('#character').prop('src', r[i].itemPhoto );
+                        }
+                        if(r[i].itemCategory == '배경'){
+                            $('#bg').prop('src', r[i].itemPhoto);
+                        }
+                    }
+                    
+                    
+                },
+                error : () => {
+
+                }
+            })
         }
 
     </script>

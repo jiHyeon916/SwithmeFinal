@@ -265,6 +265,9 @@ a:hover {
 	    	  var date2 =  moment(arg.startStr).add(1, 'days').format('YYYY-MM-DD');
 	    	  document.getElementById('calendar_start_date').value = date;
 	    	  document.getElementById('calendar_end_date').value = date2;
+			  var endDay = $('#calendar_end_date').val();
+			  showEndDay = moment(endDay).add(1,'days').format('YYYY-MM-DD');
+			  console.log(endDay);
 	    	  $("#calendarModal").modal("show"); // modal 나타내기
 	    	  $('#addCalendar').on('click', function(){
 	        	  $.ajax({
@@ -274,7 +277,7 @@ a:hover {
 	            		  memberId : '${ loginMember.memberId }',
 	            		  calendarContent : $('#calendar_content').val(),
 	            		  startDay : $('#calendar_start_date').val(),
-	            		  endDay : $('#calendar_end_date').val(),
+	            		  endDay : showEndDay,
           				  color :  $('input[name=Color]:checked').val()
 	            	  },
 	            	  success : function(result){

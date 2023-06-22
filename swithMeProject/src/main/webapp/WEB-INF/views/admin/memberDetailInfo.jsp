@@ -218,7 +218,7 @@
 					                        	value 	+= '<tr>' 
 					                           		  	 +'<td>' + list.boardNo + '</td>'
 						                           		 +'<td>' + list.boardTitle + '</td>'
-						                           		 +'<td>' + list.boardContent + '</td>'
+						                           		 +'<td>' + list.summary + '</td>'
 						                           		 +'<td>' + list.createDate + '</td>'
 					                        			 +'<td>' + '<input type="checkbox" value="' + boardNo + '" name="BoardChkDel" id="admemBoardChkDel"></input>' + '</td>' 
 					                        			 +'</tr>' //value값에 원하는 값을 담아서 체크되면 넘기기 
@@ -233,10 +233,10 @@
                      		  
                      		  
                      			 
-                     	/* 	  
+                     	 	  
                             };
 
-                            
+                            /*
                              $(document).on('click','#adminMemberTable > tbody > tr', function() {
                             	
                             	let boardNo = $(this).next('td').val();
@@ -266,20 +266,39 @@
             		   		$('.memberBoardList').removeClass('selectBtn');
             		   		$('.memberBandList').addClass('selectBtn');
             		   		
+            		   		
             		   			if(listArr.length != 0) {
             		   				for(let i in listArr) {
 		            		   			let list = listArr[i];
-		            		   			let sbNo = listArr[i].sbNo;
+		            		   			let sbNo = listArr[i].sbBoardNo;
+		            		   			
+		            		   			let sbText = list.sbContent;
+	            		   					 console.log(list.sbContent);
+	            		   					 
+	            		   					 
+           		   	                    const extractTextPattern = /(<([^>]+)>)/gi;
+
+           		   	                    var extractedText = sbText.replace(extractTextPattern, '');
+           		   	                 
+           		   	                    sbText = extractedText;   
+
+
+	            		   					 
 			            		   			  value  += '<tr>' 
-				                          		  	 +'<td>' + list.sbNo + '</td>'
-					                           		 +'<td>' + list.sbTitle + '</td>'
-					                           		 +'<td>' + list.sbIntroduce + '</td>'
-					                           		 +'<td>' + list.createDate + '</td>'
-				                       				 //+'<td>' + '<input type="checkbox" value="' + list.sbNo + '" name="BandChkDel" id="admemBandChkDel"></input>' + '</td>'
-				                       				 +'<td>' + '<input type="checkbox" value="' + sbNo + '" name="BandChkDel" id="admemBandChkDel"></input>' + '</td>'
-				                       				 +'</tr>'
+				                          		  	 +'<td>' + list.sbBoardNo + '</td>'
+					                           		 +'<td>' + list.boardTitle + '</td>'
+					                           		 +'<td >' + sbText + '</td>'
+					                           		 +'<td>' + list.sbCreateDate + '</td>'
+				                       				 +'<td>' + '<input type="checkbox" value="' + sbNo + '" name="BandChkDel" id="admemBandChkDel">' + '</td>'
+				                       				 +'</tr>';
+				                       				 
+											
+				                       				 
             		   							}
             		   					 $('#adminMemberTable tbody').html(value);
+            		   					 
+            		   					 //console.log(arr);
+            		   					 
             		   				}else{
             		   					$('#adminMemberTable tbody').html('작성된 게시물이 존재하지 않습니다.');
             		   					}
@@ -388,7 +407,7 @@
 		           									value 	+= '<tr>' 
 			                                      		  	 +'<td>' + list[i].boardNo + '</td>'
 			           	                           			 +'<td>' + list[i].boardTitle + '</td>'
-			           	                           			 +'<td>' + list[i].boardContent + '</td>'
+			           	                           			 +'<td>' + list[i].summary + '</td>'
 			           	                           			 +'<td>' + list[i].createDate + '</td>'
 			           	                           		 	 +'<td>' + '<input type="checkbox" value="' + boardNo + '" name="BoardChkDel" id="admemBoardChkDel"></input>' + '</td>'
 			                                   				 +'</tr>'
@@ -417,7 +436,7 @@
 		           									value 	+= '<tr>' 
 			                                     		  	 +'<td>' + list[i].boardNo + '</td>'
 			          	                           			 +'<td>' + list[i].boardTitle + '</td>'
-			          	                           			 +'<td>' + list[i].boardContent + '</td>'
+			          	                           			 +'<td>' + list[i].summary + '</td>'
 			          	                           			 +'<td>' + list[i].createDate + '</td>'
 			          	                           		   	 +'<td>' + '<input type="checkbox" value="' + boardNo + '" name="BoardChkDel" id="admemBoardChkDel"></input>' + '</td>'
 			                                  				 +'</tr>'
@@ -444,10 +463,10 @@
            								for(let i in list) {
            									let sbNo = list[i].sbNo; 
 			       									value 	+= '<tr>' 
-			                                     		  	 +'<td>' + list[i].sbNO + '</td>'
-			          	                           			 +'<td>' + list[i].sbTitle + '</td>'
-			          	                           			 +'<td>' + list[i].sbIntroduce + '</td>'
-			          	                           			 +'<td>' + list[i].createDate + '</td>'
+			                                     		  	 +'<td>' + list[i].sbNo + '</td>'
+			          	                           			 +'<td>' + list[i].boardTitle + '</td>'
+			          	                           			 +'<td>' + list[i].sbContent + '</td>'
+			          	                           			 +'<td>' + list[i].sbCreateDate + '</td>'
 			          	                           		   	 +'<td>' + '<input type="checkbox" value="' + sbNo + '" name="BandChkDel" id="admemBandChkDel"></input>' + '</td>'
 			                                  				 +'</tr>'
            							  }
@@ -473,12 +492,12 @@
            									for(let i in list) {
            										let sbNo = list[i].sbNo; 
 		           									value 	+= '<tr>' 
-		                                         		  	 +'<td>' + list[i].sbNO + '</td>'
-		              	                           			 +'<td>' + list[i].sbTitle + '</td>'
-		              	                           			 +'<td>' + list[i].sbIntroduce + '</td>'
-		              	                           			 +'<td>' + list[i].createDate + '</td>'
-		              	                           		   	 +'<td>' + '<input type="checkbox" value="' + sbNo + '" name="BandChkDel" id="admemBandChkDel"></input>' + '</td>'
-		                                      				 +'</tr>'
+		           										+'<td>' + list[i].sbNo + '</td>'
+		          	                           			 +'<td>' + list[i].boardTitle + '</td>'
+		          	                           			 +'<td>' + list[i].sbContent + '</td>'
+		          	                           			 +'<td>' + list[i].sbCreateDate + '</td>'
+		          	                           		   	 +'<td>' + '<input type="checkbox" value="' + sbNo + '" name="BandChkDel" id="admemBandChkDel"></input>' + '</td>'
+		                                  				 +'</tr>'
            								}
            								$('#adminMemberTable tbody').html(value);
            							}else{

@@ -222,7 +222,7 @@ tr{
                         <div class="post_content" >
                             <table>
                                 <tr>
-                                    <td><p>스터디룸 이름</p></td>
+                                    <td style="width:15%;"><p>스터디룸 이름</p></td>
                                     <td><input type="text" name="studyRoomName" id="studyRoomName" required></td>
                                 </tr>
                                 <tr>
@@ -378,7 +378,7 @@ tr{
         // 뒤로 가기
         function back(){
             if(confirm('작성된 내용은 저장되지 않습니다. 취소하시겠습니까?')){
-                location.herf="adminStudyRoom.ad";
+                location.href="adminStudyRoom.ad";
             };
             
         };

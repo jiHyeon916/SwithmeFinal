@@ -17,4 +17,5 @@ public class BandBoard {
 	private String count;
 	private String keyword; // 검색 키워드
 	private String memId; // memberId
+	private String boardTitle;
 }
