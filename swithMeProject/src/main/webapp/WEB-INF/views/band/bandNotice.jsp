@@ -60,7 +60,17 @@
 		        </div>
 	        </c:forEach>
 	    </div>
+		<div class="mainButton">
+	    	<div class="toptop"><img src="/swithme/resources/images/band/inventory.png" alt=""></div>
+	    </div>
 	</div>
+
+    <script>
+        $('.mainButton > .toptop').click(function(){
+        	location.href="/swithme/studyBand.bo";
+        })
+
+    </script>
 	
 	<!--밴드 게시글 디테일창-->
        	<div class="modal" id="detailBandNotice">
