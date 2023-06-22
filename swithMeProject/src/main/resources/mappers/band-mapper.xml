@@ -670,4 +670,12 @@
            		MEMBER_ID = #{memId}
 	</select>
 	
+	<delete id="deleteBand">
+		DELETE
+		  FROM
+				SBAND
+		 WHERE
+		 		SB_NO = #{sbNo}
+	</delete>
+	
 </mapper>
