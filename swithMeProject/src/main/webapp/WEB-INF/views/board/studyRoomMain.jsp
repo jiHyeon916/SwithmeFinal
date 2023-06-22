@@ -10,15 +10,72 @@
 
 <style>
     .content>div{height:100%;float:left;}
-    #sRoomList{width:65%;}
+    #sRoomList{width:65%; border: solid 0.5px lightgrey;}
     #sRoomMap{width:35%;}
+	#map{
+		margin-left: 20px;
+		width:90%;
+		height:450px;
+	}
+	.sRoomListTables td{
+		padding-left: 20px; 
+		width: 500px;
+		font-size: 20px;
+	}
+	.studyRoomimg{
+		width:200px;
+		height:200px;
+		border-radius: 10%;
+	}
+	span{
+		font-size: 15px;
+		color: grey;
+	}
+	.sRoomListTables{
+		margin-top: 15px;
+		margin-left:10px;
+	}
+	.sRoomListTables:hover{
+		background-color: rgb(207, 254, 227);
+	}
+
+
     /*검색*/
-    table {display: inline-block;}
+    .searchTable {
+		width: 40%;
+		margin-left:auto; 
+    	margin-right:auto;
+	}
+
     .search {text-align: center;}
 
+	.searchSelect{
+    width : 100%;
+    border: 1.5px solid #cecece;
+    border-radius: 5px;
+    padding: 10px;
+	}
+
+	#sRoomSearchInput{
+	width : 75%;
+    border: 1.5px solid #cecece;
+    border-radius: 5px;
+	height: 45px;
+	padding: 10px;
+	}
+	#sRoomBtnSearch{
+	background-color: rgb(3, 195, 115);
+    color: white;
+    width : 90px;
+    height: 45px;
+	border-radius : 5px;
+    border: none;
+	}
     #sRoomBtnSearch:hover {
         transform: scale(1.1);
     }
+
+
         
     </style>
 </head>
@@ -28,32 +85,35 @@
         <div class="wrap clear">
             <div class="search">
                 <br><br>
-				<table>
-					<tr>
-						<td>
-						<form action="sRoomSearch.bo" method="get">
-						<select class="searchSelect" name="searchSelect" id="sRoomSearchSelect">
-                        <option  value="10">강원</option>
-						<option  value="20">경기</option>
-						<option  value="30">경남</option>
-						<option  value="40">경북</option>
-						<option  value="50">광주</option>
-						<option  value="60">대구</option>
-						<option  value="70">대전</option>
-						<option  value="80">부산</option>
-						<option  value="90">서울</option>
-						<option  value="11">세종</option>
-						<option  value="12">울산</option>
-						<option  value="13">인천</option>
-						<option  value="14">전남</option>
-						<option  value="15">전북</option>
-						<option  value="16">제주</option>
-						<option  value="17">충남</option>
-						<option  value="18">충북</option>
-                    	</select></td>
-						<td><input id="sRoomSearchInput" type="text" placeholder="검색어 입력" name="searchText" value="${ searchText }" maxlength="200">&nbsp;
-							<button type="submit" id="sRoomBtnSearch">검색</button></td>
-					</tr>
+				<table class="searchTable">
+					<form action="sRoomSearch.bo" method="get">
+						<tr>
+							<td>
+								<select class="searchSelect" name="searchSelect" id="sRoomSearchSelect">
+								<option  value="10">강원</option>
+								<option  value="20">경기</option>
+								<option  value="30">경남</option>
+								<option  value="40">경북</option>
+								<option  value="50">광주</option>
+								<option  value="60">대구</option>
+								<option  value="70">대전</option>
+								<option  value="80">부산</option>
+								<option  value="90">서울</option>
+								<option  value="11">세종</option>
+								<option  value="12">울산</option>
+								<option  value="13">인천</option>
+								<option  value="14">전남</option>
+								<option  value="15">전북</option>
+								<option  value="16">제주</option>
+								<option  value="17">충남</option>
+								<option  value="18">충북</option>
+								</select>
+							</td>
+							<td>
+								<input id="sRoomSearchInput" type="text" placeholder="검색어 입력" name="searchText" value="${ searchText }" maxlength="200">&nbsp;
+								<button type="submit" id="sRoomBtnSearch">검색</button>
+							</td>
+						</tr>
 					</form>
 				</table>
             </div>
@@ -66,23 +126,31 @@
                 		</c:when>
                 		<c:otherwise>
                 			<c:forEach items="${sRoomList}" var="sRoom">
-			                    <table border="1" class="sRoomListTables">
+			                    <table class="sRoomListTables">
 			                    <input type="hidden" value="${sRoom.studyRoomNo }">
 			                        <tbody>
 			                            <tr>
-			                                <th rowspan="4" style="width:250px;height:250px;">
-											<img src="${sRoom.titleImg}" style="width:250px;height:250px;">
+			                                <th rowspan="6">
+											<img class="studyRoomimg" src="${sRoom.titleImg}" style="width:250px;height:250px;">
 											</th>
-			                                <td style="width: 500px;">${sRoom.studyRoomName}</td>
 			                            </tr>
+										<tr>
+											<td>
+												<span>${sRoom.studyRoomLocation}</span>
+												<h3>${sRoom.studyRoomName}</h3>
+											</td>
+										</tr>
 			                            <tr>
 			                                <td>${sRoom.studyRoomAddress}</td>
 			                            </tr>
 			                            <tr>
 			                                <td>${sRoom.studyRoomPhone}</td>
 			                            </tr>
+										<tr><td>&nbsp;</td></tr>
+										<tr><td>&nbsp;</td></tr>
 			                        </tbody>
 			                    </table>
+								<hr>
 		                    </c:forEach>
 	                    </c:otherwise>
                     </c:choose>
@@ -96,7 +164,7 @@
                 </script>
                 <div id="sRoomMap">
 	                <!-- 지도를 표시할 div 입니다 -->
-					<div id="map" style="width:100%;height:450px;"></div>
+					<div id="map"></div>
 					
 					<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=8188ba557a9044b5d922513c971fc6ac"></script>
 					<script>
