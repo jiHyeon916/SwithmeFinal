@@ -969,7 +969,6 @@
 		  FROM MEMBER_ITEM
 		  JOIN BOARD_ITEM USING(ITEM_NO)
 		 WHERE MEMBER_ID = #{ memberId }
-		   AND ITEM_STATUS = 'Y'
 		   <if test="itemCategory != '전체보기'">
 		   AND ITEM_CATEGORY = #{ itemCategory }
 		   </if>
@@ -981,10 +980,10 @@
 		  FROM MEMBER_ITEM
 		  JOIN BOARD_ITEM USING(ITEM_NO)
 		 WHERE MEMBER_ID = #{ memberId }
-		   AND ITEM_STATUS = 'Y'
 		   <if test="itemCategory != '전체보기'">
 		   AND ITEM_CATEGORY = #{ itemCategory }
 		   </if>
+		 ORDER BY ITEM_NO DESC
 	</select>
 	
 	<!-- 보유 아이템 삭제 -->
@@ -1001,7 +1000,6 @@
 		  FROM MEMBER_ITEM
 		  JOIN BOARD_ITEM USING(ITEM_NO)
 		 WHERE MEMBER_ID = #{ memberId }
-		   AND ITEM_STATUS = 'Y'
 		   AND WEAR_STATUS = 'Y'
 		   ORDER BY ITEM_CATEGORY
 	</select>

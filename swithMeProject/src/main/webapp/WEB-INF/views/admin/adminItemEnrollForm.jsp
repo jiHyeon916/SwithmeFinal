@@ -40,14 +40,16 @@
                         <div class="myBtn">
                             <button type="button" class="noneBtn">배경</button>
                             <button type="button" class="noneBtn">캐릭터</button>
+                            <!-- 
                             <button type="button" class="noneBtn">모자</button>
                             <button type="button" class="noneBtn">도구</button>
+                             -->
                             <input type="hidden" id="itemCate" name="itemCategory" value="">
                         </div>
 
                         <p>이름<input type="text" id="itemName" name="itemName" required placeholder="아이템 이름을 입력해주세요."></p>
                         <p><span>설명</span><textarea id="itemContent" name="itemContent" placeholder="아이템 설명을 입력해주세요."></textarea></p>
-                        <p>가격<input type="number" id="itemPrice" name="itemPrice" required placeholder="ex) 300"> Point</p>
+                        <p>가격<input type="number" id="itemPrice" name="itemPrice" required placeholder="ex) 300" min="0"> Point</p>
 
                         <div id="itemEnrollBtn">
                             <button type="button" class="qnaBack" onclick="backPage();">취소</button>
