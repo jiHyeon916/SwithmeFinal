@@ -457,6 +457,13 @@ public class BandController {
 		session.setAttribute("memTotalTotal", bandService.memberTotalTotal(bm));
 		return new Gson().toJson(bandService.memberTotalTotal(bm));
 	}
+	
+	// 방장 혼자 남았을 때 밴드 전체 삭제하기
+	@ResponseBody
+	@RequestMapping(value="studyBand.bo/deleteBand.sb", produces="application/json; charset=UTF-8")
+	public String deleteBand(int sbNo) {
+		return new Gson().toJson(bandService.deleteBand(sbNo));
+	}
 
 	// 밴드 일정
 	@RequestMapping("studyBand.bo/bandSchedule.sb")
