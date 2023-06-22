@@ -11,7 +11,6 @@
    <div id="adminMenuBar-area">
       <ul id="adSide">
          <li><a href="adminMember.ad">회원관리</a></li>
-         <li><a href="adminStudyBand.ad">스터디밴드관리</a></li>
          <li><a href="adminStudyRoom.ad">스터디룸관리</a></li>
 		 <li><a href="itemList.ad">상점관리</a></li>
          <li><a href="qna.me">문의사항관리</a></li>

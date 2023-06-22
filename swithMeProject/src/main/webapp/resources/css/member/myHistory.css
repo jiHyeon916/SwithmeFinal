@@ -41,16 +41,9 @@
 	font-weight : 500;
 	margin-bottom : 30px;
 }
-
-
-/* .topBlock>span{
-    margin-right: 10px;
-    cursor: pointer;
-    color :rgb(136, 136, 136);
-} */
 .selectSpan{
 	margin-right: 10px;
-    cursor: pointer;
+    cursor: pointer; 
 	color : rgb(3, 195, 115);
 }
 .noneSpan{
@@ -59,11 +52,6 @@
 	color :rgb(136, 136, 136);
 }
 
-/* .topBlock>span:nth-of-type(1){
-    margin-right: 10px;
-    color : rgb(3, 195, 115);
-    cursor: pointer;
-} */
 
 /* 내역블록 */
 .block{
@@ -138,6 +126,7 @@
     /* background-color: antiquewhite; */
     width : 870px;
     margin-left : 30px;
+   	cursor : pointer;
 }
 .post_block:last-child{
     border-bottom: none;

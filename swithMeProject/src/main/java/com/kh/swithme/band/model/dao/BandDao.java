@@ -179,6 +179,10 @@ public class BandDao {
 		return sqlSession.selectOne("bandMapper.memberTotalTotal", bm);
 	}
 
+	public int deleteBand(SqlSessionTemplate sqlSession, int sbNo) {
+		return sqlSession.delete("bandMapper.deleteBand", sbNo);
+	}
+
 
 
 }
