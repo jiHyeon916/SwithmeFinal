@@ -568,6 +568,7 @@ public class AdminController {
 	// 스터디룸 수정
 	@RequestMapping("updateStudyRoom.ad")
 	public String updateStudyRoom(StudyRoom sr, Attach at, @RequestParam("reUpFile[]") MultipartFile[] reUpFiles, @RequestParam("checkThumnail") int value, @RequestParam("originName") String origin, HttpSession session, Model model) {
+		System.out.println(at);
 		switch(sr.getStudyRoomLocation()) {
 			case "10" : sr.setStudyRoomLocation("강원");break;
 			case "20" : sr.setStudyRoomLocation("경기");break;
@@ -603,6 +604,7 @@ public class AdminController {
 				}
 				result2 = adminService.updateStudyRoomImage(at);
 			} else {
+				System.out.println(origin);
 				at.setOriginName(origin);
 				result2 = adminService.updateStudyRoomImage(at);
 			}

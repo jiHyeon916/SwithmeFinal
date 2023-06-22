@@ -19,11 +19,17 @@
             <div id="contentBox" class="clear">
                 <!-- 글 보이는 곳 -->
                 <div>
-                    
+                    <!-- 썸네일 사진 -->
+                    <div class="thumbnail">
+                        <img src="resources/images/board/thumbnail8.jpg">
+                    </div>
                     <!-- 글쓴 정보 : 제목, 날짜, 작성자 -->
                     <div class="writerInfo clear">
-                        <img src="" alt="" id="character">
-                        <div class="clear">
+                        <div id="memberTumb">
+                            <img src="" alt="" id="character">
+                            <img src="" alt="" id="bg">
+                        </div>
+                        <div class="divBox" class="clear">
                             <h6 class="title">${ b.boardTitle }</h6>
                             <div class="clear">
                                 <p class="writerId">${ b.memberId }</p>
@@ -164,6 +170,7 @@
             likeStatusCheck(); //좋아요 상태 표시
             bookStatusCheck(); //북마크 상태 표시
             selectioncheck(); //채택 여부 확인 
+            memberImg(); //멤버 캐릭터 이미지 가져오기 
 
             let btnOpenPopup = document.getElementsByClassName('btn-open-popup');
             const modal = document.querySelector('.msg1');
@@ -688,6 +695,33 @@
                 });
             }
 
+        }
+
+        // 멤버 캐릭터 이미지 가져오기
+        function memberImg(){
+            $.ajax({
+                url : 'memberImg',
+                data : {
+                    memberId : '${ b.memberId }'
+                },
+                success : (r) => {
+                    console.log(r);
+
+                    for(var i in r){
+                        if(r[i].itemCategory == '캐릭터'){
+                            $('#character').prop('src', r[i].itemPhoto );
+                        }
+                        if(r[i].itemCategory == '배경'){
+                            $('#bg').prop('src', r[i].itemPhoto);
+                        }
+                    }
+                    
+                    
+                },
+                error : () => {
+
+                }
+            })
         }
 
 

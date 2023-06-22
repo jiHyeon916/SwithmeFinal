@@ -249,6 +249,35 @@
         	</div>
 		</div>
 		
+		<!--밴드 삭제창-->
+        <div class="modal" id="deleteBand">
+	        <div class="modal-dialog">
+	            <div class="modal-content">
+	            
+	                <!-- Modal Header -->
+	                <div class="modal-header">
+	                    <h4 class="modal-title">밴드 삭제</h4>
+	                </div>
+	                
+	                <!-- Modal body -->
+	                <div class="modal-body">
+	                    <form action="" method="post">
+	                 		<br>
+	                        <div class="form-group">
+	                        	<input type="hidden" class="sno" name="sbNo" value="">
+	                        	<p class="textModal">밴드를 삭제하시겠습니까?</p>
+	                        </div>
+	                        <br>
+	                        <div class="btnGroup">
+		                        <button class="enrollConfirm" id="deleteBand" type="submit">삭제</button>
+		                        <button class="enrollDismiss" type="button" data-dismiss="modal">취소</button>
+	                        </div>
+	                    </form>
+	                </div>
+	            </div>
+	        </div>
+		</div>
+		
 	<script>
 		// 로딩됐을 때
 		$(function(){
@@ -341,14 +370,35 @@
 					$('.readerId').attr('value', bandInfomation.memberIdId);
 
 					if(bandInfomation.memberIdId == '${loginMember.memberId}'){
-						$(".clear1").append("<li><a href='#' data-toggle='modal' data-target='#updaetBandReader'>리더 위임</a></li>");	
+						$(".clear1").append("<li><a href='#' id='readerPass' data-toggle='modal' data-target='#updaetBandReader'>리더 위임</a></li>");	
 						$("#sbCategory").append("<option value='N'>공지사항</option>");
 						$('#deleteMem1').css('display','none');
+
+						if(bandInfomation.sbNowMem == 1){
+							$('#readerPass').css('display','none');
+							
+							$(".clear1").append("<li><a href='#' id='BandDelete' data-toggle='modal' data-target='#deleteBand'>밴드 삭제</a></li>");	
+							
+							$(document).on('click', '#deleteBand', function(){
+
+								$.ajax({
+									url : 'deleteBand.sb',
+									data : {sbNo : sno},
+									success : function(){									
+										alert('밴드 삭제가 완료되었습니다.');
+									},
+									error : function(){
+										console.log('밴드삭제 실패');
+									}
+								})
+							});
+						} else {
+							$('#BandDelete').css('display','none');
+						}
 		
 					};
 					
 
-					// $('#bandCover').attr('src', result)
 					
 				},
 				error : function(){
@@ -505,7 +555,6 @@
 			$(document).on('click', '#finishReader', function(){
 				alert('리더가 변경되었습니다.');
 			});
-			
 	
 			$(document).on('click', '#enrollMember', function(){
 				if(${empty loginMember}){

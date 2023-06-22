@@ -34,19 +34,22 @@ textarea:focus{
 }
 
 /* 글 - 글정보(제목,글쓴이,날짜 등등) */
-.writerInfo > img{
+#memberTumb > img{
     width: 80px;
     height: 80px;
     float: left;
     border-radius: 50px;
-    background-color: black;
     margin-right: 30px;
+    position: absolute;
 }
-.writerInfo > div{
-    padding: 20px 20px 24px;
+#memberTumb #character{
+    z-index: 8888;
+}
+.writerInfo > .divBox{
+    padding: 20px 0px 24px 100px;
     border-bottom: 1px solid rgb(224, 224, 224);
 }
-.writerInfo > div > div > p {
+.writerInfo > .divBox > div > p {
     float: left;
     font-size: 14px;
     margin-right: 20px;
