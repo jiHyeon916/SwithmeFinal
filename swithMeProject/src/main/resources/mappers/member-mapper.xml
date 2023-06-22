@@ -697,7 +697,7 @@
 	
 	<!-- 사용자의 포인트 리스트 조회 -->
 	<select id="myPointList" parameterType="string" resultMap="pointResultSet">
-		SELECT POINT_STATUS, POINT_SCORE, POINT_DETAIL, TO_CHAR(POINT_TIME, 'YYYY-MM-DD') "POINT_TIME"
+		SELECT POINT_STATUS, POINT_SCORE, POINT_DETAIL, TO_CHAR(POINT_TIME, 'YYYY-MM-DD HH:MI:SS') "POINT_TIME"
 		  FROM POINT
 		 WHERE MEMBER_ID = #{ memberId }
 		 ORDER
@@ -710,7 +710,7 @@
 		  FROM (SELECT distinct SUM(POINT_SCORE) OVER(PARTITION BY POINT_STATUS ORDER BY POINT_STATUS) "A", MEMBER_ID
 		          FROM POINT
 		         WHERE POINT_STATUS = 'Y'
-		           AND MEMBER_ID = 'user03'
+		           AND MEMBER_ID = #{ memberId }
 		           AND TO_CHAR(SYSDATE, 'YYYYMMDD') = TO_CHAR(POINT_TIME, 'YYYYMMDD'))
 	</select>
 	

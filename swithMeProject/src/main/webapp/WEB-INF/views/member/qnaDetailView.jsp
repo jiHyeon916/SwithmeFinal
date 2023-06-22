@@ -191,11 +191,13 @@
 					if(list.length > 0){
 						for(let i in list){
 							value += '<div class="replyList">'
-									   + '<p>관리자</p>'
-									   + '<p>' + list[i].qnaReplyCreateDate +'</p>'
-									   + '<p>' + list[i].qnaReplyContent +'</p>'
-								   + '</div>'
-								   + '<hr/>'
+								   + '<div class="rInfo">'
+										+ '<p>관리자</p>'
+										+ '<p>' + list[i].qnaReplyCreateDate +'</p>'
+									+ '</div>'
+									+ '<p>' + list[i].qnaReplyContent +'</p>'
+							   + '</div>'
+							   + '<hr/>'
 						}
 						
 					}
