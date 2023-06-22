@@ -31,6 +31,8 @@ a:hover{
 /* 메뉴바영역 */
 #myMenuBar-area{
 	width : 200px;
+    /* height : 500px;
+    position : fixed; */
 	/* padding-top : 80px; */
 }
 #myMenuBar-area li{
@@ -53,5 +55,25 @@ a:hover{
 	margin-top : 50px;
 	margin-bottom : 50px;
 }
+
+
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
 
 

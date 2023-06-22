@@ -73,7 +73,7 @@
 #itemImg{
     width : 400px;
     height: 400px;
-    background-color: antiquewhite;
+    /* background-color: antiquewhite; */
     /* margin-bottom: 30px; */
     overflow:hidden;
 }
@@ -123,22 +123,26 @@
  */
 .selectBtn{
 	background-color: white;
-    width : 80px;
+	width : 178px;
     height: 40px;
 	border : 1.5px solid #03c373;
 	border-radius : 5px;
 	color : #03c373;
-	margin : 0px 4px;
+}
+.selectBtn:first-child{
+    margin-right : 8px;
 }
 .noneBtn{
 	display : inline-block;
-	width : 80px;
+	width : 178px;
 	height : 40px;
 	background-color : white;
 	border : 1.5px solid #cecece;
 	border-radius : 5px;
 	color : #cecece;
-	margin : 0px 4px;
+}
+.noneBtn:first-child{
+    margin-right : 8px;
 }
 
 /* 아이템 등록 input */

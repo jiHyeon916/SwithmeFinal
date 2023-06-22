@@ -61,6 +61,8 @@
 	box-sizing : border-box;
 	margin : auto;
 	margin-top : 30px;
+	/* background-color: #03c373; */
+	width: 950px;
 }
 
 /* 카테고리버튼 */
@@ -106,7 +108,7 @@
 	margin-left: 10px;
     font-size: 14px;
     color:#a3a3a3;
-}
+} 
 .selectStatus{
 	margin-left: 10px;
     font-size: 14px;
@@ -136,30 +138,31 @@
 
 /* 아이템리스트 */
 #myItem {
-	width: 100%;
+	/* width: 100%; */
 	/* background-color: #03c373; */
+	width: 950px;
+
 }
-#myItem > table{
-	width: 300px;
-	/* background-color :#a3a3a3; */
-}
-#myItem td{
+
+.tableList{
 	/* border : 1px solid black; */
 	padding : 30px 12px;
 	text-align : center;
+	display: inline-block;
+	width : 225px;
 	/* width : 100%; */
 }
-#myItem td>p{
+.tableList>p{
 	color : #a3a3a3;
 }
-#myItem div{
+.tableList>div{
 	width : 200px;
 	height : 200px;
 	margin : 15px auto;
 	overflow:hidden;
 	
 }
-#myItem div>img{
+.tableList>div>img{
 	width : 100%;
 	height : 100%;
 	object-fit : cover;
@@ -256,7 +259,4 @@
     font-size: 13px;
 	margin-right: 10px;
     margin-bottom: 10px;
-}
-#reUpFile{
-	display : none;
 }
