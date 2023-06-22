@@ -152,3 +152,15 @@ textarea:focus{
 #rrList .rRL{
     width: 635px;
 }
+
+
+/* 댓글 수정하기 영역 수정 */
+.replayModify{
+    width: 740px !important;
+}
+.replyWrap .rCon button{
+    width: 359px !important;
+}
+.replyWrap .rCon button:last-child{
+    margin-right: 0;
+}

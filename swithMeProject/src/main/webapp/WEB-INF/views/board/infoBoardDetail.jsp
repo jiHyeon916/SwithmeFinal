@@ -21,7 +21,7 @@
                 <div>
                     <!-- 썸네일 사진 -->
                     <div class="thumbnail">
-                        <img src="resources/images/board/thumbnail8.jpg">
+                        <img src="resources/images/board/freeDetailBg.png">
                     </div>
                     <!-- 글쓴 정보 : 제목, 날짜, 작성자 -->
                     <div class="writerInfo clear">

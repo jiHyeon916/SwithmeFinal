@@ -217,6 +217,7 @@
 			BOARD_SROOM_REVIEW
 		SET
 			REVIEW_CONTENT=#{reviewContent}
+			,REVIEW_STAR=#{reviewStar}
 			,REVIEW_DATE=SYSDATE
         WHERE
             REVIEW_NO = #{reviewNo}
