@@ -69,7 +69,7 @@
     height: 50px;
 }
 .checkFavorite{background-color: white;}
-img{width : 250px;height : 250px;padding: 10px;}
+.studyBandImg{width : 250px;height : 250px;padding: 10px;}
 .studyBand {
     display: inline-block;
 	width: 250px;
@@ -134,8 +134,8 @@ img{width : 250px;height : 250px;padding: 10px;}
                         value += '<div class="studyBand">'
                                 + '<button class="checkFavorite" id="checkFavorite'+list[i].sbNo+'" style="border:none;">☆</button>'
                                 + '<input type="hidden" value="'+list[i].sbNo+'">'
-                                + '<div id="studyBandImg"><img src="'+ list[i].sbChangeName+'"></div>'
-                                + '<div id="studyBandImg">'+ list[i].sbTitle+'</div>'
+                                + '<div class="studyBandImgBox"><img class="studyBandImg" src="'+ list[i].sbChangeName+'"></div>'
+                                + '<div class="studyBandImgBox">'+ list[i].sbTitle+'</div>'
                                 + '</div>';
                             }
                     $('.allStudyBand').html(value); 
