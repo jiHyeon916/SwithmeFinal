@@ -211,11 +211,7 @@
 			if(board == 's'){ // 일반게시판일 경우
 				location.href = 'freeBoardDetail.bo?boardNo=' + bNo;
 			} else { // 스터디밴드인경우
-				if(category == '방장으로 임명되었습니다.'){
-					location.href = '/studyBand.bo/detail.bo?sno=' + bNo;
-				} else {
-					location.href = '/studyBand.bo/detail.sb' //+ bNo;
-				}
+				location.href = '/studyBand.bo/detail.bo?sno=' + bNo;
 			}
 		});
 		

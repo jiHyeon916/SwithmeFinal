@@ -11,13 +11,13 @@
 		
 	<div id="myMenuBar-area">
 		<ul id="mySide1">
-		
+			<li><a href="mypage.me">마이페이지</a></li>
 			<li><a href="profil.me">프로필</a></li>
 			<li><a href="alarm.me">알림</a></li>
 			<li><a href="item.me">캐릭터</a></li>
 			<li><a href="point.me">포인트</a></li>
 			<li><a href="mail.me">메일</a></li>
-			<li><a href="chat.me">채팅</a></li>
+			<!-- <li><a href="chat.me">채팅</a></li> -->
 		</ul>
 		<ul id="mySide2">
 			<li><a href="calendar.me">일정관리</a></li>
