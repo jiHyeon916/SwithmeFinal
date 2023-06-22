@@ -105,27 +105,23 @@
 	
 	<script>
 		$(function(){
-			myCharacter(); // 내 캐릭터
+			myCharacter(); // 문의글 작성자 캐릭터
 			selectQnaReply(); // 답변 목록 불러오기
 		})
 
-		// 착용 아이템
+		// 문의글 작성자 캐릭터
 		function myCharacter(){
 			let wearItemArr = $('.wearItem');
 			
 			$.ajax({
 				url : 'myCharacter.me',
 				data : {
-					memberId : '${ loginMember.memberId }'
+					memberId : '${ qna.memberId }'
 				},
 				success : list => {
 					value = '';
 					for(let i in list){
 						// 순서 : 도구 > 모자 > 배경 > 캐릭터
-
-						//console.log(list[i].itemNo);
-						//console.log($('#wearItem' + 0).attr('name'));
-
 						$('.wearItem').each(function(){
 							let imgAlt = $(this).attr('alt');
 							
@@ -136,13 +132,6 @@
 							};
 						});
 					};
-
-					// $('.wearItem').each(function(){
-					// 	if($(this).attr('src') == ''){
-					// 		$(this).css('display', 'none');
-					// 	}
-					// });
-
 				},
 				error : () => {
 				}

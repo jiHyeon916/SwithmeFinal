@@ -73,7 +73,7 @@
 			<mapping path="/qnaDelete"/>
 			<mapping path="/selectMyItemList.ad"/>
 			<mapping path="/deleteItem.me"/>
-			<mapping path="/myCharacter.me"/>
+			<!-- <mapping path="/myCharacter.me"/> -->
 			<mapping path="/wearUpdate.me"/>
 			<mapping path="/alarm.me"/>
 			<mapping path="/mail.me"/>
