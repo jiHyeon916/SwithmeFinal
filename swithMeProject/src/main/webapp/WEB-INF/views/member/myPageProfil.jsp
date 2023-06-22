@@ -43,7 +43,9 @@
          <div class="block">
          
             <div align="center">
-                 <div>
+            
+        <%--    ${ loginMember.memberId } --%>
+      <!--            <div>
                         프로필 사진
                     </div>
                     <div>
@@ -54,7 +56,12 @@
                     </div>
                     <div>
                         이메일
-                    </div>
+                    </div> -->
+                    
+                    <table>
+                    
+                    
+                    </table>
             </div>
             
             
