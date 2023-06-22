@@ -77,6 +77,8 @@ input:focus{
 #freeCategory {
     position: relative;
     width: 300px;
+    z-index: 8888;
+
 }
 #freeCategory .btn-select {
     width: 100%;
@@ -123,6 +125,7 @@ input:focus{
     font-size: 13px;
     background-color: #fff;
     border-radius: 10px;
+    z-index: 7777;
   }
   
 #freeCategory .list-member li button {
