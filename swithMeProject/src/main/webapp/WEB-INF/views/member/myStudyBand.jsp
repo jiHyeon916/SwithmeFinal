@@ -160,13 +160,18 @@
                     memberId : '${loginMember.memberId}' 
                 },
                 success : function(list){
+                    console.log(list);
                     if(list != ''){
                 		$('#message').remove();
+                        var value='';
 	                    for(let i in list){
-	                        var checkFavorite = $('#checkFavorite'+list[i].sbNo);
-	                        var p = checkFavorite.parent();
-	                        checkFavorite.css('color','red');
-                            p.clone().prop('class', 'clone').appendTo('.favoriteStudyBand');
+	                        value += '<div class="studyBand">'
+                                + '<button class="favorite" id="checkFavorite'+list[i].sbNo+'" style="border:none; color:red;">☆</button>'
+                                + '<input type="hidden" value="'+list[i].sbNo+'">'
+                                + '<div class="studyBandImgBox"><img class="studyBandImg" src="'+ list[i].sbChangeName+'"></div>'
+                                + '<span>'+ list[i].sbTitle+'</span>'
+                                + '<button class="detailBtn" onclick="detailView('+ list[i].sbNo+');">바로가기</button>'
+                                + '</div>';
 	                    }    
                 	} else {
                 		$('.favoriteStudyBand').append('<p id="message">즐겨찾는 밴드를 등록해보세요!</p>');
@@ -198,6 +203,7 @@
                         success : function(){
                             console.log('북마크 삭제 성공');
                             favoriteStudyBand();
+                            location.reload();
                         },
                         error : function(){
                             console.log('실패');

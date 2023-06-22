@@ -876,9 +876,9 @@ public class BoardController {
 	}
 	
 	@ResponseBody
-	@RequestMapping(value="updateReview.bo", produces="application/json; charset=UTF-8")
-	public String ajaxUpdateReview(SRoomReview sr) {
-		return new Gson().toJson(boardService.updateStudyRoomReview(sr));
+	@RequestMapping(value="updateReview.bo")
+	public int ajaxUpdateReview(SRoomReview sr) {
+		return boardService.updateStudyRoomReview(sr);
 	}
 	
 	@ResponseBody
