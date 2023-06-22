@@ -662,7 +662,7 @@
 		  	  BOARD_ALARM
 		VALUES
 			  (
-			  SEQ_BOARD_ALARM_NO.NEXTVAL
+			  's_'||SEQ_BOARD_ALARM_NO.NEXTVAL
 			 ,(SELECT MEMBER_ID FROM MAINBOARD WHERE BOARD_NO = #{boardNo})
 			 ,#{boardNo}
 			 ,'댓글'
@@ -695,7 +695,7 @@
 		  	  BOARD_ALARM
 		VALUES
 			  (
-			  SEQ_BOARD_ALARM_NO.NEXTVAL
+			  's_'||BSEQ_BOARD_ALARM_NO.NEXTVAL
 			 ,(SELECT MEMBER_ID FROM MAINBOARD WHERE BOARD_NO = #{ reReplyNo })
 			 ,#{ reReplyNo }
 			 ,'대댓글'
