@@ -189,31 +189,37 @@
                     $('#itemImg > img').attr('src', selector.querySelector('.itemImg > img').getAttribute('src'));
                     $('input[name=itemNo]').attr('value', selector.querySelector('#itemNo').value);
 
-                    $('#buyBtn').click(function(){
-                        $.ajax({
-                            url : 'itemGet',
-                            data : {
-                                itemNo : $('input[name=itemNo]').val(),
-                                point : $('.itempricemodal').text()
-                            },
-                            success : function(r){
-                                if(r > 0){
-                                    if(confirm('아이템 구매에 성공하셨습니다. 마이페이지로 이동하겠습니까?')){
-                                        location.href="item.me";
+                    
+                        $('#buyBtn').click(function(){
+                            if($('.itempricemodal').text() < $('#totalPoint').text()){
+                                $.ajax({
+                                    url : 'itemGet',
+                                    data : {
+                                        itemNo : $('input[name=itemNo]').val(),
+                                        point : $('.itempricemodal').text()
+                                    },
+                                    success : function(r){
+                                        if(r > 0){
+                                            if(confirm('아이템 구매에 성공하셨습니다. 마이페이지로 이동하겠습니까?')){
+                                                location.href="item.me";
+                                            }
+                                        }else if(r == 0){
+                                            alert('본 서비스는 로그인 후 이용 가능합니다.');
+                                        }else if(r < 0){
+                                            if(confirm('이미 보유중인 아이템 입니다. 마이페이지로 이동하겠습니까?')){
+                                                location.href="item.me";
+                                            };   
+                                        };
+                                    },
+                                    error : function(){
+                                        alert('통신실패');
                                     }
-                                }else if(r == 0){
-                                    alert('본 서비스는 로그인 후 이용 가능합니다.');
-                                }else if(r < 0){
-                                    if(confirm('이미 보유중인 아이템 입니다. 마이페이지로 이동하겠습니까?')){
-                                        location.href="item.me";
-                                    };   
-                                };
-                            },
-                            error : function(){
-                                alert('통신실패');
+                                })
+                            }else{
+                                alert('포인트가 부족합니다.');
                             }
-                        })
-                    });
+                        });
+                    
                     
 
                     

@@ -1355,9 +1355,24 @@
 			  )
 	</insert>
 	
+	<!--  디테일 작성자 썸네일 가져오기  -->
+	<select id="memberImg" resultMap="itemResultSet">
 	
-	
-	
+		SELECT
+		      ITEM_PHOTO
+		     ,ITEM_CATEGORY
+		  FROM
+		  	  BOARD_ITEM
+		  JOIN
+		  	  MEMBER_ITEM USING(ITEM_NO)
+          JOIN
+              MEMBER USING(MEMBER_ID)
+		 WHERE
+		 	  NICKNAME = #{ memberId }
+		   AND
+		   	  WEAR_STATUS = 'N'
+		   	  
+	</select>
 	
 	
 	

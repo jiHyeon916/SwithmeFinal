@@ -187,6 +187,9 @@ public interface BoardService {
 	// 아이템 검색 
 	ArrayList<Item> itemSearch(String key);
 	
+	// 멤버 이미지 가져오기 
+	ArrayList<Item> memberImg(String memberId);
+	
 	
 	
 	// **************** 메인 어디다.?

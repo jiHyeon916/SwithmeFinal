@@ -202,6 +202,9 @@ public class BoardDao {
 	public int rereplyCount(SqlSessionTemplate sqlSession, int boardNo) {
 		return sqlSession.selectOne("boardMapper.rereplyCount", boardNo);
 	}
+	public ArrayList<Item> memberImg(SqlSessionTemplate sqlSession, String memberId) {
+		return (ArrayList)sqlSession.selectList("boardMapper.memberImg", memberId);
+	}
 	
 	
 	
