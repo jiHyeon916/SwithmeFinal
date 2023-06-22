@@ -820,6 +820,14 @@ public class BoardController {
 		return "board/itemBoardList";
 	}
 	
+	@ResponseBody
+	@RequestMapping(value="memberImg", produces="application/json; charset=UTF-8")
+	public String memberImg(String memberId) {
+		System.out.println(memberId);
+		System.out.println(boardService.memberImg(memberId));
+		return new Gson().toJson(boardService.memberImg(memberId));
+	}
+	
 	
 	
 	
