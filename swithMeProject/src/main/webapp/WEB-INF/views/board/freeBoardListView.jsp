@@ -107,8 +107,8 @@
             
             <div id="ajaxList">
                 <!-- 리스트 영역 -->
+                <input type="hidden" value="free" id="bType">
                 <c:forEach items="${ list }" var="b">
-                <input type="hidden" value="${b.boardType}" id="bType">
                 <div class="freeBoardList" onclick="location.href='freeBoardDetail.bo?boardNo=${ b.boardNo }'">
                     <div class="freelist">
                         <div class="clear">

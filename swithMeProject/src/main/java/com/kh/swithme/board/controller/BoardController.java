@@ -271,7 +271,7 @@ public class BoardController {
 	@ResponseBody
 	@RequestMapping("replyCount.bo")
 	public int replyCount(int boardNo) {
-		return boardService.replyCount(boardNo);
+		return boardService.replyCount(boardNo) + boardService.rereplyCount(boardNo);
 	}
 	
 	/**
