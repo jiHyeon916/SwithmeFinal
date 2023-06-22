@@ -250,6 +250,8 @@
 			SBAND
 		WHERE
 			MEMBER_ID=#{memberId}
+		AND
+			SB_STATUS = 'Y'	
 	</select>
 	
 	<select id="favoriteStudyBand" parameterType="string" resultMap="MyStudyBandResultSet">
