@@ -157,6 +157,7 @@
 			,CALENDAR_CONTENT=#{calendarContent}
 			,START_DAY=#{startDay}
 			,END_DAY=#{endDay}
+			,COLOR=#{color}
 		WHERE
 			CALENDAR_NO=#{calendarNo}
 		AND
@@ -250,13 +251,18 @@
 			SBAND
 		WHERE
 			MEMBER_ID=#{memberId}
+		AND
+			SB_STATUS = 'Y'	
 	</select>
 	
 	<select id="favoriteStudyBand" parameterType="string" resultMap="MyStudyBandResultSet">
 		SELECT 
-			SB_NO
+			A.SB_NO, B.SB_TITLE, B.SB_CHANGE_NAME
 		FROM 
-			SBAND_BOOKMARK
+			SBAND_BOOKMARK A
+        JOIN SBAND B ON A.SB_NO = B.SB_NO
+        WHERE
+            B.MEMBER_ID=#{memberId}
 	</select>
 	
 	<!-- 스터디밴드 북마크 추가 -->

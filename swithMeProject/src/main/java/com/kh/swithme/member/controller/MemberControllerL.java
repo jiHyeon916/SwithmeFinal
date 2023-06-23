@@ -128,6 +128,7 @@ public class MemberControllerL {
       
          if(memberService.joinMember(m) > 0) { //회원가입 성공
             memberService.joinPoint(m);
+            
             if(memberService.defaultCharacter(m) > 0) {
             	memberService.defaultBackground(m);
             };

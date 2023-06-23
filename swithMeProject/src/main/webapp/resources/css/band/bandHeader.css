@@ -138,3 +138,78 @@ header{
 	cursor : pointer;
 }
 
+/* 메인버튼 */
+.mainButton{
+    position: fixed;
+    right: 2%;
+    bottom: 3%;
+    border-radius: 10px;
+    text-align: center;
+}
+.mainButton > div{
+    float: left;
+    background-color: #fff;
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
+    border-radius: 50%;
+    box-shadow: 0 0 0 1px #dadcdf, 0 4px 8px 0 rgba(0,0,0,.15);
+}
+.mainButton div:first-child{
+    margin-right: 10px;
+}
+.mainButton div img{
+    object-fit: cover;
+    height: 50%;
+    margin-top: 10px;
+    display: inline-block;
+    cursor: pointer;
+}
+.mainButton .setting{
+    position: relative;
+}
+.mainButton #BtnBox{
+    width: 200px;
+    height: 230px;
+    background-color: #fff;
+    position: absolute;
+    border-radius: 0;
+    top : -250px;
+    right: 1%;
+    display: none;
+    box-shadow: 0 0 0 1px #dadcdf, 0 4px 8px 0 rgba(0,0,0,.15);
+}
+.mainButton #thumb{
+    width: 100px;
+    height: 100px;
+    background-color: #f1f1f1;
+    margin: 0 auto;
+    border-radius: 50%;
+    margin-top: 30px;
+    margin-bottom: 10px;
+}
+
+#BtnBox > p {
+    margin-bottom: 10px;
+}
+#BtnBox > .mypagegoing{
+    width: 170px;
+    margin: 0 auto;
+}
+#BtnBox button{
+    width: 80px;
+    float: left;
+    border: none;
+    font-size: 12px;
+    padding: 2px 5px 2px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+}
+#BtnBox button:first-child{
+    margin-right: 10px;
+}
+
+#BtnBox ul li{
+    font-size: 14px;
+    padding: 3px 10px 3px;
+}

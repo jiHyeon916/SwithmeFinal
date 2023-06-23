@@ -133,8 +133,9 @@ public class BandController {
 		return bandService.insertBandBoard(bb) > 0 ? "success" : "fail";
 	}
 	// 밴드 게시글 사진
+	@ResponseBody
 	@RequestMapping(value="studyBand.bo/photoInsert.sb", produces="application/json; charset=UTF-8")
-	public void insertPhoto(HttpSession session, BandAttach bat, @RequestParam("file") MultipartFile file) {
+	public String insertPhoto(HttpSession session, BandAttach bat, @RequestParam("file") MultipartFile file) {
 		
 			
 			if(!file.getOriginalFilename().equals("")) {
@@ -142,10 +143,9 @@ public class BandController {
 				bat.setChangeName("/swithme/resources/uploadFiles/band/" + saveFile(file, session));
 			}
 			if(bandService.insertPhoto(bat) > 0) {
-				session.setAttribute("alert", "게시글 성공");
-				session.setAttribute("photoList", bandService.insertPhoto(bat));
-				
+				session.setAttribute("photoList", bandService.insertPhoto(bat));	
 			}
+			return new Gson().toJson(bandService.insertPhoto(bat));
 	}
 	
 	// 밴드 게시글 수정 

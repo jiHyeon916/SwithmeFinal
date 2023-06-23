@@ -103,7 +103,7 @@
 		                        		<div class="img_box">
 		                        			<label class="labetPhoto" for="file1">첨부</label>
 		                        			<div class="img_container">
-		                        				<img id="img1" src="">
+		                        				<img id="img1" src="/swithme/resources/images/member/none.jpeg">
 		                        			</div>
 		                        		</div>
 		                        	
@@ -125,6 +125,12 @@
             	</div>
         	</div>
 		</div>
+		
+		<script>
+			$('.img_container').click(function(){
+				$('#file1').click();					
+			})
+		</script>
 		
 		<!--밴드 탈퇴창-->
         <div class="modal" id="deleteBandMember">
@@ -492,6 +498,7 @@
 			var query = window.location.search;     
 			var param = new URLSearchParams(query);
 			var sno = param.get('sno');
+			let no = 1;
 			
 			// 글
 			$.ajax({
@@ -505,15 +512,11 @@
 				},
 				success : function(result){
 					if(result === 'success'){
-						if($("select[name=sbCategory]").val() == 'Y'){
-							location.href="detail.bo?sno="+sno;
-						} else {
-							location.href="bandNotice.sb?sno="+sno;
-						};
 						
 						// 사진
 						var form = $('#photoForm')[0];
 						var formData = new FormData(form);
+									no = 2;
 						
 						if($('#file1').val() != ""){
 							$.ajax({
@@ -524,14 +527,23 @@
 								data : formData ,
 								success : function(photoList){
 									console.log(photoList);
+									no = 3;
 								},
 								error : function(){
 									console.log('사진 작성 실패');
 								}
 							})
-						}
+						};
+						
 					}
 					alert('글작성 성공');
+					
+					if($("select[name=sbCategory]").val() == 'Y'){
+						location.href="detail.bo?sno="+sno;
+					} else {
+						location.href="bandNotice.sb?sno="+sno;
+					};
+
 				},
 				error : function(){
 					console.log('게시글 작성 실패');

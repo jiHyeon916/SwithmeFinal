@@ -120,7 +120,6 @@
                 </div>
                 <div class="info2">
                     ${sRoomDetail.studyRoomIntroduce}
-
                 </div>
             </div>
             <div id="sRoomMap">
@@ -154,7 +153,6 @@
                 </tr>
             </thead>
             <tbody>
-               
             </tbody>
         </table>
     </div>
@@ -169,6 +167,7 @@
                 level: 3 // 지도의 확대 레벨
             };
         
+            
         var map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
         
         // 마커가 표시될 위치입니다 
@@ -220,7 +219,6 @@
                             + '<tr style="border-bottom:solid 0.3px lightgrey;">'
                             + '<td colspan="4" style="height:100px; vertical-align:top;" class="reviewContent">' + result[i].reviewContent + '</td>'
                             + '</tr>';
-                        
     				}
     				$('#reviewArea tbody').html(value);
     				$('#rcount').text(result.length);
@@ -233,12 +231,13 @@
     
         // 이용후기 등록
     	function insertReview(){
+            console.log($('input[name="reviewStar"]:checked').val());
     		$.ajax({
     			url : 'insertstudyRoomReview.bo',
     			data : {
     				memberId : '${ loginMember.memberId }',
     				reviewContent : $('#content').val(),
-    				reviewStar : $('input:radio[name=reviewStar]').filter(':checked').val(),
+    				reviewStar : $('input[name="reviewStar"]:checked').val(),
     				studyRoomNo : ${sRoomDetail.studyRoomNo}
     			},
     			success : function(result){
@@ -274,7 +273,7 @@
 
         // 이용후기 별점 선택
         $('#reviewArea').on('click','.reviewStar label', function(){
-            var value=$('input:radio[name=reviewStar]').filter(':checked').val();
+            var value=$('input[name="reviewStar"]:checked').val();
             $('.reviewStar label').removeClass("hover");
             for(var i=0; i<value; i++){
                 $('.reviewStar label').eq(i).addClass("hover");
@@ -283,14 +282,14 @@
 
         // 이용후기 수정 별점 선택
         $('#reviewArea').on('click','.reviewStarUpdate label', function(){
-            var value=$('input:radio[name=reviewStarUpdate]').filter(':checked').val();
+            var value=$('input[name="reviewStarUpdate"]:checked').val();
             $('.reviewStarUpdate label').removeClass("hover");
             for(var i=0; i<value; i++){
                 $('.reviewStarUpdate label').eq(i).addClass("hover");
             }
         });
 
-                // 이용후기 수정
+        // 이용후기 수정
         // 리뷰 불러오기
         $('#reviewArea').on('click','.updateBtn',function(){
         	var reviewNo = $(this).next().val();
@@ -303,7 +302,7 @@
             //console.log(currentRating);
             
             ratingForm ='<td class="reviewStarUpdate">'+ currentRating + '/5 &nbsp;';
-            for (var i = 1; i <= currentRating; i++) {
+            for (var i = 1; i <= 5 ; i++) {
                 ratingForm += '<label><input type="radio" name="reviewStarUpdate" value="'+i+'" id="rate'+i+'">' 
                             +'★</label>';
             }
@@ -319,17 +318,16 @@
 
         // 리뷰 수정하기
         $('#reviewArea').on('click','.completeBtn', function(){
-        	var reviewNo = $(this).next().val();
-            var reviewContent = $('#updateContent').val();
-            var reviewStar = $('input:radio[name=reviewStarUpdate]').filter(':checked').val();
-          console.log(reviewContent);
-            console.log(reviewStar);
+        	var updateReviewNo = $(this).next().val();
+            var updateReviewContent = $('#updateContent').val();
+            var updateReviewStar = $('input:radio[name="reviewStarUpdate"]:checked').val();
+            console.log(updateReviewStar);
             $.ajax({
 				url: 'updateReview.bo',
 		        data: {
-		            reviewNo: reviewNo,
-		            reviewContent: reviewContent,
-                    reviewStar : reviewStar
+		            reviewNo: updateReviewNo,
+		            reviewContent: updateReviewContent,
+                    reviewStar : updateReviewStar
 		        },
 		        success: function (result) {
 		            console.log(result);
@@ -361,6 +359,7 @@
                 nextEl: '.swiper-button-next'
             }
         }); 
+
 
     
     </script>
