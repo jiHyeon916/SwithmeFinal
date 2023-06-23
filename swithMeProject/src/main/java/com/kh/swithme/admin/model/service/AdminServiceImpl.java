@@ -53,6 +53,7 @@ public class AdminServiceImpl implements AdminService {
    public ArrayList<Member> selectMemberSearchList(HashMap<String, String> map, PageInfo pi) {
       return adminDao.selectMemberSearchList(sqlSession, map,pi);
    }
+   
    //회원 상태 조회
    @Override
    public Member memberStatus(String memberId) {
@@ -63,7 +64,6 @@ public class AdminServiceImpl implements AdminService {
    public int memberStopFree(String memberId) {
       return adminDao.memberStopFree(sqlSession,memberId);
    }
-
    // 회원 정지
    @Override
    public int memberStop(String memberId) {

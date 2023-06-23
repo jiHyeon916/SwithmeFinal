@@ -329,13 +329,11 @@
          MEMBER
       WHERE
          MEMBER_ID = #{memberId}   
-   
    </select>
-   
    
    <!-- 회원 정지 해제  -->
    <update id="memberStopFree" parameterType="string">
-      UPDATE
+     	 UPDATE
                MEMBER
             SET
                MEMBER_STATUS = 'Y'
@@ -345,7 +343,7 @@
    
    <!-- 회원 정지 -->
    <update id="memberStop" parameterType="string">
-      UPDATE
+      	UPDATE
                MEMBER
             SET
                MEMBER_STATUS = 'N'

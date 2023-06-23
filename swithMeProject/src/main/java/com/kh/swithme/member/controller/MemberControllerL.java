@@ -281,7 +281,7 @@ public class MemberControllerL {
 				}else { //비번 잘못침.
 				
 					session.setAttribute("alertMsg", "비밀번호를 다시 입력해주세요.");
-					return "redirect:profil.me";
+					return "redirect:mypage.me";
 		}
 	
 		//암호화하기 

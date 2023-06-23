@@ -596,6 +596,7 @@
 		                	SELECT ALARM_CATEGORY, ALARM_SB_NO, SUBSTR(ALARM_NO, 1, 1) "ALARM_SORT", SUBSTR(ALARM_NO, 3,2) "ALARMSUB_NO", TO_CHAR(ALARM_DATE, 'YYYY-MM-DD HH:MI:SS') "ALARM_DATE", B.ALARM_STATUS
 		                  FROM BAND_ALARM B
 		                 	WHERE ALARM_MEMBER = #{memberId}
+		                 		
 		                 ORDER 
 		                    BY ALARM_DATE DESC
 			</select>

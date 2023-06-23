@@ -178,90 +178,62 @@
                        </tbody>
                     </table>
                     
+                 <!-- 회원 정지 및 해제 -->
                  <script>
-
-                 
-                  //원래 색깔로 조건주려했는데 안됨. 
-                  
                     function adminStopBtn(button) { 
-                	  
-                       
-                	  
-                     
-                       //var memberId = $(button).closest('tr').children('.memberId').text();
-                       var memberId = $(button).data('memberId');
-                       //var memberId = $(button).children('.memberId').text(); 
-                    console.log(memberId);
-                       
-                       //memberStatus의 값 뽑아내기 접근하기. 
-                      // var memberStatus = $(button).closest('tr').children('.memberStatus').text();
-                       
-                       
-                   // console.log(memberStatus);
-                      
-                   
-                	
-                		
-                	
-                    	   
+                       let memberId = $(button).data('memberId');
                        
                           $.ajax({
                              url : 'memberStatusSelect.ad',
                              data :{memberId : memberId},
                              success : function(result){
-                            	 
-                                if(result == 'N'){ // 회원 조회 
-                                   
+                                if(result == 'N'){ 
                                    if(confirm('회원을 정지 해제시키겠습니까?')) {
-                                      
+                                	   
                                       $.ajax({ // 회원 정지 해제
-                                         
                                          url : 'adminMemberStopFree.ad',
                                          data : {memberId : memberId},
                                          success : function(result) {
                                             if(result == 'Y') {//성공
                                                $(button).css('background-color','red');
-            //memberStatus선택해서 N으로 바꾸기 안되는지 ? . .                            
-                                    location.reload();
-                                            
-                                               alert('정지 해제되었습니다.');
-                                            }
-                                         },error : function() {alert('정지해제 실패 ');}
-                                       });
-                                        }
-                                }else{
-                                   if(confirm('회원을 정지시키겠습니까?')) {
-                                      
-                                       $.ajax({ // 회원 정지 
-                                         url : 'adminMemberStop.ad',
-                                         data : {memberId : memberId},
-                                         success : function(result) {
-                                            if(result == 'Y') {//성공
-                                               $(button).css('background-color','gray');
-                                               //memberStatus.text('Y');
-                                               
-                                    location.reload();
-                                               
-                                               alert('정지되었습니다.');
-                                            }
-                                         },error : function(){alert('정지 실패');}
-                                        });
-                                       }
-                                      }
-                                    }
-                                   });
-                 
-                  
-                  }
-                  
-                  
-                  
+                                 				   location.reload();
+                                               	   alert('정지 해제되었습니다.');
+                                           		 }
+                                         		},error : function() {alert('정지해제 실패 ');}
+                                      		 });
+                                       		 }
+			                                }else{
+			                                   if(confirm('회원을 정지시키겠습니까?')) {
+
+			                                	   $.ajax({ // 회원 정지 
+			                                         url : 'adminMemberStop.ad',
+			                                         data : {memberId : memberId},
+			                                         success : function(result) {
+			                                            if(result == 'Y') {//성공
+			                                               $(button).css('background-color','gray');
+			                                   					 location.reload();
+			                                               alert('정지되었습니다.');
+			                                            }
+			                                         },error : function(){alert('정지 실패');}
+			                                        });
+			                                      }
+			                                    }
+			                                  }
+			                               });
+                   						 }
+               	  </script>
+                    
+                    
+                    
+                    
+                    
+               
                  
                      
-                 /*
+                 
                         
                    
-               //버튼눌러도 넘어가는 부분 해결하기 . . ! 아니면 아이디를 눌러야 넘어가게 할건지 ?  / NO게시판 번호 매기기 
+             <!--   //버튼눌러도 넘어가는 부분 해결하기 . . ! 아니면 아이디를 눌러야 넘어가게 할건지 ?  / NO게시판 번호 매기기 
                  
                      $(function() {
                         
@@ -273,31 +245,10 @@
                              
                               location.href="memberDetailInfo.ad?memberId=" + memberId;
                         });
-                }); 
+                });  -->
                          
-                   */
                    
                    
-                   
-                   
-                   
-                   
-                   
-                   
-                   
-                   
-          
-                   
-                               
-              
-                 </script>
-                    
-                    
-                    
-                    
-                    
-               
-                 
                  
                  
                  
