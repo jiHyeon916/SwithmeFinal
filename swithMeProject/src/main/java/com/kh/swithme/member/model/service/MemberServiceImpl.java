@@ -275,7 +275,6 @@ public class MemberServiceImpl implements MemberService{
 		return memberDao.selectPointList3(sqlSession, memberId);
 	}
 
-	// 포인트 내역 조회 + 페이징처리
 	// 사용자의 포인트 내역 수 가져오기
 	@Override
 	public int myPointListCount(String memberId) {
@@ -294,14 +293,12 @@ public class MemberServiceImpl implements MemberService{
 		return memberDao.todayPoint(sqlSession, memberId);
 	};
 	
-	
 	// 마이페이지 메인 - 알림 내역(최신 5개)
 	@Override
 	public ArrayList<Alarm> selectAlarmList5(String memberId) {
 		return memberDao.selectAlarmList5(sqlSession, memberId);
 	}
 	
-	// 사용자가 작성한 게시글 리스트 조회 + 페이징 처리
 	// 사용자가 작성한 게시글 수 가져오기
 	@Override
 	public int myBoardListCount(Board b) {
@@ -314,14 +311,11 @@ public class MemberServiceImpl implements MemberService{
 		return memberDao.myBoardList(sqlSession, pi, b);
 	};
 	
-	
-	// 사용자가 작성한 댓글 리스트 조회 + 페이징 처리
 	// 사용자가 작성한 댓글 수 가져오기	
 	@Override
 	public int myReplyListCount(Reply r) {
 		return memberDao.myReplyListCount(sqlSession, r);
 	};
-	
 	
 	// 사용자가 작성한 댓글 리스트 조회
 	@Override
@@ -329,7 +323,6 @@ public class MemberServiceImpl implements MemberService{
 		return memberDao.myReplyList(sqlSession, pi, r);
 	};
 	
-	// 문의글 리스트 조회 + 페이징처리
 	// 사용자가 작성한 게시글 수 가져오기
 	@Override
 	public int selectQnaListCount(QNA qna) {
