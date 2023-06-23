@@ -158,7 +158,6 @@ input[type=checkbox]{
 
 </style>
 <title>Insert title here</title>
-<link rel="stylesheet" href="resources/css/member/memberQNA.css">
 </head>
 <body>
 	<jsp:include page="../common/header.jsp" />
@@ -192,24 +191,24 @@ input[type=checkbox]{
                 	<c:choose>
                 		<c:when test="${ not empty list }">
                 			<c:forEach items="${list}" var="bm">
-                			<div class="post_block" onclick="location.href='freeBoardDetail.bo?boardNo=${ bm.boardNo }'">
-                				<div class="post_top">
-		                            <input type="checkbox" name="bMarkCheck">
-		                            <input type="hidden" value="${bm.boardNo }">
-		                            <div class="post_cate">${bm.category}</div>
-		                            <p class="post_title">${bm.boardTitle}</p>
-		                        </div>
-		                        <p class="post_con">${bm.summary}</p>
-		                        <ul id="post_etc">
-		                        	<c:if test="${bm.boardType eq 'free'}">
-		                        		<li>자유게시판</li>
-		                        	</c:if>
-		                        	<c:if test="${bm.boardType eq 'info'}">
-		                        		<li>정보게시판</li>
-		                        	</c:if>
-		                            <li>${bm.createDate }</li>
-		                        </ul>
-		                    </div>
+	                			<input type="checkbox" name="bMarkCheck">
+	                			<div class="post_block"  onclick="location.href='freeBoardDetail.bo?boardNo=${ bm.boardNo }'">
+	                				<div class="post_top">
+			                            <input type="hidden" value="${bm.boardNo }">
+			                            <div class="post_cate">${bm.category}</div>
+			                            <p class="post_title">${bm.boardTitle}</p>
+			                        </div>
+			                        <p class="post_con">${bm.summary}</p>
+			                        <ul id="post_etc">
+			                        	<c:if test="${bm.boardType eq 'free'}">
+			                        		<li>자유게시판</li>
+			                        	</c:if>
+			                        	<c:if test="${bm.boardType eq 'info'}">
+			                        		<li>정보게시판</li>
+			                        	</c:if>
+			                            <li>${bm.createDate }</li>
+			                        </ul>
+			                    </div>
                     		</c:forEach>
                     				                    
 		                     <!-- 페이징버튼 -->
@@ -283,10 +282,6 @@ input[type=checkbox]{
 					} 
 				}
 			}
-
-			
-		
-		
 	
 	
 	</script>
