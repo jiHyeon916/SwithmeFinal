@@ -157,6 +157,7 @@
 			,CALENDAR_CONTENT=#{calendarContent}
 			,START_DAY=#{startDay}
 			,END_DAY=#{endDay}
+			,COLOR=#{color}
 		WHERE
 			CALENDAR_NO=#{calendarNo}
 		AND
