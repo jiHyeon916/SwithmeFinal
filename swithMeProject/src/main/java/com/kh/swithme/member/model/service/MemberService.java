@@ -121,6 +121,9 @@ public interface MemberService {
  	// 마이페이지-스터디밴드
  	ArrayList<Band> favoriteStudyBand(String memberId);
  	
+ 	// 마이페이지 - 스터디밴드 북마크 유무 조회
+ 	int selectSbandBookmark(BandBookMark bm);
+ 	
  	// 마이페이지-스터디밴드 북마크 추가
  	int insertSbandBookmark(BandBookMark bm);
  	

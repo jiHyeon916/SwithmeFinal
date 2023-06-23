@@ -193,11 +193,6 @@ public class MemberServiceImpl implements MemberService{
 		}
 
 		@Override
-		public int completeTodo(int todoNo) {
-			return 0;
-		}
-
-		@Override
 		public int insertTodoList(TodoList td) {
 			return memberDao.insertTodoList(sqlSession, td);
 		}
@@ -231,6 +226,12 @@ public class MemberServiceImpl implements MemberService{
 		public ArrayList<Band> favoriteStudyBand(String memberId) {
 			return memberDao.favoriteStudyBand(sqlSession, memberId);
 		}
+		
+		@Override
+		public int selectSbandBookmark(BandBookMark bm) {
+			return memberDao.selectSbandBookMark(sqlSession, bm);
+		}
+		
 
 		@Override
 		public int insertSbandBookmark(BandBookMark bm) {
@@ -406,7 +407,14 @@ public class MemberServiceImpl implements MemberService{
 	public int wearStatusUpdate(MemberItem mItem) {
 		return memberDao.wearStatusUpdate(sqlSession, mItem);
 	}
-	
+
+	@Override
+	public int completeTodo(int todoNo) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+
 	
 
 	

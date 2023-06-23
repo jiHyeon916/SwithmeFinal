@@ -129,6 +129,12 @@ public class MemberControllerK {
 		return new Gson().toJson(memberService.favoriteStudyBand(memberId));
 	}
 	
+	@ResponseBody
+	@RequestMapping(value="selectSbandBookmark.me")
+	public int selectSbandBookmark(BandBookMark bm) {
+		return memberService.selectSbandBookmark(bm);
+	}
+	
 	// 스터디밴드 북마크 추가
 	@ResponseBody
 	@RequestMapping(value="insertSbandBookmark.me")
