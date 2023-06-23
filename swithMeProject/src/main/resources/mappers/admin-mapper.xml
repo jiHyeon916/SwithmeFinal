@@ -77,6 +77,14 @@
    		WHERE
    			SR_NO=#{studyRoomNo}
    	</delete>
+   	
+   	<delete id="deleteCheckStudyRoomImage" parameterType="_int">
+   		DELETE
+   		FROM
+   			ATTACH
+   		WHERE
+   			REF_NO=#{studyRoomNo}
+   	</delete>
    			
    <!-- 스터디룸 추가 -->
    <insert id="insertStudyRoom" parameterType="studyRoom">

@@ -244,6 +244,12 @@ public class AdminServiceImpl implements AdminService {
 	public int deleteCheckStudyRoom(int studyRoomNo) {
 		return adminDao.deleteCheckStudyRoom(sqlSession,studyRoomNo);
 	}
+	
+	@Override
+	public int deleteCheckStudyRoomImage(int studyRoomNo) {
+		return adminDao.deleteCheckStudyRoomImage(sqlSession,studyRoomNo);
+	}
+
 
 	// 스터디룸 상세보기 삭제
 	@Override
@@ -272,6 +278,7 @@ public class AdminServiceImpl implements AdminService {
 	public int updateStudyRoomImage(Attach at) {
 		return adminDao.updateStudyRoomImage(sqlSession, at);
 	}
+
 
 
 

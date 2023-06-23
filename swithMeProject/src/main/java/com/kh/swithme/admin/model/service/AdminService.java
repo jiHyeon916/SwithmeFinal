@@ -125,6 +125,7 @@ public interface AdminService {
 	
 	// 스터디룸 선택 삭제
 	int deleteCheckStudyRoom(int studyRoomNo);
+	int deleteCheckStudyRoomImage(int studyRoomNo);
 	
 	// 스터디룸 상세보기 삭제
 	int deleteStudyRoom(int studyRoomNo);

@@ -362,6 +362,7 @@ tr{
                     $('#' + imageView).attr('src', e.target.result);
                 };
                 reader.readAsDataURL(image.files[0]);
+                alert(image.files[0]);
             } else {
                 $('#' + imageView).attr('src', noneImg);
             };
@@ -370,7 +371,7 @@ tr{
         // 이미지 삭제하기
         function deleteImage(imageView, inputFile){
             $('#' + imageView).attr('src', 'resources/images/member/none.jpeg');
-            $('#' + inputFile).val(null);
+            alert($('#' + inputFile).files[0]);
         }
 
         
@@ -398,15 +399,14 @@ tr{
             if(confirm('작성된 내용은 저장되지 않습니다. 취소하시겠습니까?')){
                 location.href='adminStudyRoom.ad';
             };
-            
-        };
+        }
 
         // 저장된 지역 값 불러오기
         $(function(){
             var selectLocation = $('#studyRoomLocation');
             var saveLocation = "${studyRoom.studyRoomLocation}";
-            console.log(selectLocation[0].length);
-            console.log(selectLocation.text());
+            //console.log(selectLocation[0].length);
+            //console.log(selectLocation.text());
             for(var i = 0; i < selectLocation[0].length; i++){
                 var option = selectLocation[0].options[i];
                 if(option.text === saveLocation){
@@ -418,8 +418,7 @@ tr{
 
         // 저장된 썸네일 값 불러오기
         $(function(){
-            var imageListSize = "${fn:length(imageList)}";
-            console.log(imageListSize);
+        	
             
         })
     </script>

@@ -541,6 +541,7 @@ public class AdminController {
 		int result2 = 1;
 		for(int i = 0; i < upFiles.length; i++) {
 			MultipartFile upFile = upFiles[i];
+			System.out.println(upFile);
 			if (!upFile.getOriginalFilename().equals("")) {
 				at.setOriginName(upFile.getOriginalFilename());
 				at.setChangeName("resources/uploadFiles/admin/" + saveFile(upFile, session, "study"));
@@ -571,7 +572,6 @@ public class AdminController {
 	// 스터디룸 수정
 	@RequestMapping("updateStudyRoom.ad")
 	public String updateStudyRoom(StudyRoom sr, Attach at, @RequestParam("reUpFile[]") MultipartFile[] reUpFiles, @RequestParam("checkThumnail") int value, @RequestParam("originName") String origin, HttpSession session, Model model) {
-		System.out.println(at);
 		switch(sr.getStudyRoomLocation()) {
 			case "10" : sr.setStudyRoomLocation("강원");break;
 			case "20" : sr.setStudyRoomLocation("경기");break;
@@ -596,6 +596,7 @@ public class AdminController {
 		int result2 = 1;
 		for(int i = 0; i < reUpFiles.length; i++) {
 			MultipartFile reUpFile = reUpFiles[i];
+			System.out.println(reUpFiles);
 			if (!reUpFile.getOriginalFilename().equals("")) {
 				new File(session.getServletContext().getRealPath(origin)).delete();
 				at.setOriginName(reUpFile.getOriginalFilename());
@@ -607,9 +608,7 @@ public class AdminController {
 				}
 				result2 = adminService.updateStudyRoomImage(at);
 			} else {
-				System.out.println(origin);
-				at.setOriginName(origin);
-				result2 = adminService.updateStudyRoomImage(at);
+
 			}
 		}
 		if((result1 * result2) > 0) {
@@ -626,12 +625,14 @@ public class AdminController {
 	@RequestMapping(value="deleteCheckStudyRoom.ad", produces="application/json; charset=UTF-8")
 	public int deleteCheckStudyRoom(@RequestParam(value="studyRoomNo[]")int[] studyRoomNo) {
 
-		int result = 1;
+		int result1 = 0;
+		int result2 = 0;
 		for(int i = 0; i < studyRoomNo.length; i++) {
-			result = adminService.deleteCheckStudyRoom(studyRoomNo[i]);
+			result1 = adminService.deleteCheckStudyRoom(studyRoomNo[i]);
+			result2 = adminService.deleteCheckStudyRoomImage(studyRoomNo[i]);
 		}
 
-		return result;
+		return result1*result2;
 	}
 
 
