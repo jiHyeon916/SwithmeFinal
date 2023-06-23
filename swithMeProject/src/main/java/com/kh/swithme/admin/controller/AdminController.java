@@ -136,6 +136,9 @@ public class AdminController {
 		   
 		   return adminService.memberStop(memberId) > 0 ? 'Y' : 'N';
 	   }
+   
+   
+   
 	
 	   
 	   
