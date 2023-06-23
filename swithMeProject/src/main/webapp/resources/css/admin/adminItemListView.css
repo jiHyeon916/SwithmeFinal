@@ -25,6 +25,7 @@
 	width : 100%;
 	float : left;
 	padding-left : 250px;
+	min-height: 600px;
 }
 
 
@@ -63,6 +64,7 @@
 	margin-top : 30px;
 	/* background-color: #03c373; */
 	width: 950px;
+	margin-bottom : 100px;
 }
 
 /* 카테고리버튼 */

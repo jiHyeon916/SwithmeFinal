@@ -115,6 +115,7 @@ a:hover{
 	border-radius: 10px;
 	box-sizing : border-box;
 	margin : auto;
+	margin-bottom : 100px;
 }
 .myBtn>button{
 	display : inline-block;
