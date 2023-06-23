@@ -54,7 +54,17 @@
 		        </div>
 	        </c:forEach>
 	    </div>
+		<div class="mainButton">
+	    	<div class="toptop"><img src="/swithme/resources/images/band/inventory.png" alt=""></div>
+	    </div>
 	</div>
+	
+    <script>
+        $('.mainButton > .toptop').click(function(){
+        	location.href="/swithme/studyBand.bo";
+        })
+
+    </script>
 	
 	<!--밴드 게시글 디테일창-->
        	<div class="modal" id="detailBandBoard">
@@ -63,8 +73,8 @@
             
 	                <!-- Modal body -->
 	                <div class="modal-body">
-	                <button type="button" class="close" data-dismiss="modal">&times;</button>
-	                    <form action="delete.me" method="post">
+	                <button type="button" id="originModal" class="close" data-dismiss="modal">&times;</button>
+	                    <form action="" method="post">
 	                 		<br>
 	                        <div class="form-group1">
 	                        	<div>
@@ -113,11 +123,67 @@
 	                        </div>
 	                        <br>
 	                        <div class="btnGroupMain">
-		                        <button class="enrollConfirm" type="submit">수정하기</button>
+		                        <button class="enrollConfirm" type="button" onclick="test1()" data-toggle="modal" data-target="#updateBandBoard" >수정하기</button>
 		                        <button class="enrollDismiss" id="deleteBoard" type="button">삭제하기</button>
 		                        <input type="hidden" class="sBoardNoModal" name="bandNo" value="">
 	                        </div>
 	                    </form>
+	                </div>
+            	</div>
+        	</div>
+		</div>
+		
+		<script>
+			function test1(){
+				$('#originModal').click();
+				$('#originModal').click(function(){
+					$('#originModal').click();					
+				});
+			}
+		</script>
+		
+		<!--밴드 게시글 수정 창-->
+       	<div class="modal" id="updateBandBoard">
+        	<div class="modal-dialog modal-lg">
+            	<div class="modal-content">
+            
+	                <!-- Modal body -->
+	                <div class="modal-body1">
+                 		<br>
+                        <div class="form-group">
+                        	<div>
+                        		<div class="selectType">
+                        			<select id="sbCategory" name="sbCategory">
+										<option value="Y" selected>일반글</option>
+
+									</select>
+                        		</div>
+                        		<div class="totalDetail1">
+									<textarea id="summernote" name="editordata"></textarea>
+                        		</div>
+                        		<form method="post" enctype="multipart/form-data" id="photoForm">
+	                        		<div class="totalPhoto">
+		                        		<div class="img_box">
+		                        			<label class="labetPhoto" for="file1">첨부</label>
+		                        			<div class="img_container">
+		                        				<img id="img1" src="">
+		                        			</div>
+		                        		</div>
+		                        	
+	
+		                        		<div class="fileType">
+		                        			<input type="hidden" name="sbBoardNo" >
+		                        			<input type="file" id="file1" accept="image/*" name="file" onchange="setImage(this);" />
+		                        		</div>
+	                        		</div>
+                        		</form>
+                        	</div>
+                        </div>
+                        <br>
+                        <div class="btnGroupMain">
+	                        <button class="enrollConfirm" id="bandBoardEnroll" type="button">등록하기</button>
+	                        <button class="enrollDismiss" id="disMissBoard" type="button" data-dismiss="modal">취소하기</button>
+                        </div>
 	                </div>
             	</div>
         	</div>
@@ -283,7 +349,7 @@
 								$('.replyContent').val('');
 							}
 						},
-						error : function(){
+						error : function(){cl
 							console.log('실패');
 						}
 					})
@@ -453,28 +519,5 @@
 			});
 		</script>
 		
-	    <div id="mainButton">
-        <div class="toptop"><img src="resources/images/common/topBtn.png" alt=""></div>
- 
-            <div id="BtnBox" class="clear">
-                <div id="thumb"></div>
-                <p>${sessionScope.loginMember.nickName}</p>
-                <div class="mypagegoing clear">
-                    <button><a href="mypage.me">마이페이지</a></button>
-                    <button><a href="">로그아웃</a></button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <script>
-        $('#mainButton > .toptop').click(function(){
-            $( 'html, body' ).animate( { scrollTop : 0 }, 400 );
-        })
-
-        $('.setting').click(function(){
-            $('#BtnBox').toggle();
-        })
-    </script>
 </body>
 </html>

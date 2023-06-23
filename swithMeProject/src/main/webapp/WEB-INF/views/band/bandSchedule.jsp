@@ -38,7 +38,17 @@
 	    	<br><br><br>
 	    	<div id='calendar'></div>
 	    </div>
+		<div class="mainButton">
+	    	<div class="toptop"><img src="/swithme/resources/images/band/inventory.png" alt=""></div>
+	    </div>
 	</div>
+
+    <script>
+        $('.mainButton > .toptop').click(function(){
+        	location.href="/swithme/studyBand.bo";
+        })
+
+    </script>
 	
 </body>
 </html>

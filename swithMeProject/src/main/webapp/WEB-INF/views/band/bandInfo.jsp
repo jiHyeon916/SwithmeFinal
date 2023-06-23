@@ -63,7 +63,17 @@
 	    		</div>
 	    	</div>
 	    </div>
+		<div class="mainButton">
+	    	<div class="toptop"><img src="/swithme/resources/images/band/inventory.png" alt=""></div>
+	    </div>
 	</div>
+
+    <script>
+        $('.mainButton > .toptop').click(function(){
+        	location.href="/swithme/studyBand.bo";
+        })
+
+    </script>
 	<br><br><br>
 	
 	<!--밴드 사진 변경창-->
@@ -97,9 +107,9 @@
 								 </div>
 		                    </div>
 		                        <br>
-	                        <div class="btnGroup">
-		                        <button class="enrollConfirm" type="submit">변경</button>
-		                        <button class="profileDismiss" type="button" data-dismiss="modal">취소</button>
+	                        <div class="btnGroup1">
+		                        <button class="enrollConfirm" id="photoChange"  type="submit">변경</button>
+		                        <button class="profileDismiss" id="pass1" type="button" data-dismiss="modal">취소</button>
 	                        </div>
 	                    </form>
 	                </div>
@@ -172,7 +182,22 @@
 					$('#image_container>img').attr('src', imgSrc);
 			})
 		};
-	};		
+	};	
+	
+	$(document).ready(function(){ 
+		$('#photoChange').css('display','none');
+		var fileTarget = $('#image'); 
+		
+		console.log(fileTarget);
+		
+		fileTarget.change(function(){
+			alert('dd');
+			$('#photoChange').css('display','inline');
+		}); 
+		
+		
+	}); 
+	
 	/*
 	if(isImageFile(file)) {
 	      var reader = new FileReader(); 
