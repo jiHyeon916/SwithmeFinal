@@ -205,6 +205,9 @@ public class BoardDao {
 	public ArrayList<Item> memberImg(SqlSessionTemplate sqlSession, String memberId) {
 		return (ArrayList)sqlSession.selectList("boardMapper.memberImg", memberId);
 	}
+	public Board boardlist(SqlSessionTemplate sqlSession, int boardNo) {
+		return sqlSession.selectOne("boardMapper.boardlist", boardNo);
+	}
 	
 	
 	

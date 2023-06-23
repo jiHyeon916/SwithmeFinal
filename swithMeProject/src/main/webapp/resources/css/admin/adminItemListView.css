@@ -25,6 +25,7 @@
 	width : 100%;
 	float : left;
 	padding-left : 250px;
+	min-height: 600px;
 }
 
 
@@ -63,6 +64,7 @@
 	margin-top : 30px;
 	/* background-color: #03c373; */
 	width: 950px;
+	margin-bottom : 100px;
 }
 
 /* 카테고리버튼 */
@@ -231,7 +233,9 @@
 #itemImg2 > img{
 	width: 100%;
 	border-radius: 10px;
-
+}
+#reUpFile{
+	display: none;
 }
 #itemIntro2{
     width: 320px;
@@ -259,4 +263,24 @@
     font-size: 13px;
 	margin-right: 10px;
     margin-bottom: 10px;
+}
+.mainInfo{
+	margin-bottom : 5px;
+}
+.mainInfo input{
+	margin-bottom : 5px;
+	margin-left: 15px;
+	width: 220px;
+}
+#itemIntro2 > span{
+	float: left;
+    margin-top: 20px;
+}
+#itemIntro2 textarea{
+	margin-left: 15px;
+	margin-bottom: 10px;
+	width: 260px;
+	height: 55px;
+	resize: none;
+	overflow: auto;
 }

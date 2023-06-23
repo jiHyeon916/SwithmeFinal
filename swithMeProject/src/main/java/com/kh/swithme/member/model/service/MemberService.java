@@ -153,40 +153,34 @@ public interface MemberService {
 	// 마이페이지 메인 - 포인트 내역(최신 3개)
 	ArrayList<Point> selectPointList3(String memberId);
 	
-	// 포인트 내역 조회 + 페이징처리
 	// 사용자의 포인트 내역 수 가져오기
 	int myPointListCount(String memberId);
+	
 	// 사용자의 포인트 리스트 조회
 	ArrayList<Point> myPointList(PageInfo pi, String memberId);
 	
 	// 오늘 얻은 포인트 가져오기(적립내용만)
 	int todayPoint(String memberId);
 	
-	
 	// 마이페이지 메인 - 알림 내역(최신 5개)
 	ArrayList<Alarm> selectAlarmList5(String memberId);
 	
-	
-	// 사용자가 작성한 게시글 리스트 조회 + 페이징 처리
 	// 사용자가 작성한 게시글 수 가져오기
 	int myBoardListCount(Board b);
+	
 	// 사용자가 작성한 게시글 리스트 조회
 	ArrayList<Board> myBoardList(PageInfo pi, Board b);
 	
-	
-	// 사용자가 작성한 댓글 리스트 조회 + 페이징 처리
 	// 사용자가 작성한 댓글 수 가져오기
 	int myReplyListCount(Reply r);
+	
 	// 사용자가 작성한 댓글 리스트 조회
 	ArrayList<Reply> myReplyList(PageInfo pi, Reply r);
 
-	
-	// 문의글 리스트 조회 + 페이징처리
 	// 사용자가 작성한 문의글 수 가져오기
-	//int selectQnaListCount(String memberId);
 	int selectQnaListCount(QNA qna);
+	
 	// 사용자가 작성한 문의글 리스트 조회
-	//ArrayList<QNA> selectQnaList(PageInfo pi, String memberId);
 	ArrayList<QNA> selectQnaList(PageInfo pi, QNA qna);
 	
 	// 문의글 작성하기
@@ -200,13 +194,6 @@ public interface MemberService {
 	
 	// 문의글 삭제하기
 	int qnaDelete(int qno);
-
-	
-
-	
-	/*
-	 * // 회원가입시 기본 캐릭터 지급 int joinItem(Member m);
-	 */
 
 	// 회원가입시 기본 캐릭터 지급
 	int	defaultCharacter(Member m);

@@ -190,6 +190,7 @@ public interface BoardService {
 	// 멤버 이미지 가져오기 
 	ArrayList<Item> memberImg(String memberId);
 	
+	Board boardlist(int boardNo);
 	
 	
 	// **************** 메인 어디다.?

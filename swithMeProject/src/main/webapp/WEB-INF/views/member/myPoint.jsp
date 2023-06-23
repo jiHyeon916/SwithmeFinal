@@ -33,11 +33,7 @@
 			</div>
 			
 			<div class="block">
-				<!-- <div class="myBtn">
-					<button>포인트내역</button>
-					<button>적립내역</button>
-					<button>사용내역</button>
-				</div> -->
+				
 				
 				<table id="pointList">
 					<thead>
@@ -49,38 +45,35 @@
 						</tr>
 					</thead>				
 					<tbody>
-						<c:if test="${ list.get(0).pointStatus eq 'Y' }">
-							<c:set var="originPoint" value="${ totalPoint + list.get(0).pointScore }" />
-						</c:if>
-						<c:if test="${ list.get(0).pointStatus eq 'N' }">
-							<c:set var="originPoint" value="${ totalPoint - list.get(0).pointScore }" />
-						</c:if>
-						
-						<c:forEach items="${ list }" var="p">
-						<c:choose>
-							<c:when test="${ p.pointStatus eq 'Y' }">
-								<c:set var="originPoint" value="${ originPoint - p.pointScore }" />
-							</c:when>
-							<c:otherwise>
-								<c:set var="originPoint" value="${ originPoint + p.pointScore }" />
-							</c:otherwise>
-						</c:choose>
+						<c:set var="myTotalPoint" value="${ totalPoint }" />
+						<c:set var="pointAccumulation" value="0" />
+						<c:set var="pointUsage" value="0" />
+						<c:set var="pointValue" value="${ myTotalPoint }" />
+	
+						<c:forEach items="${list}" var="p">
+							<c:if test="${p.pointStatus eq 'Y'}">
+								<c:set var="pointUsage" value="${myTotalPoint - p.pointScore}" />
+								<c:set var="myTotalPoint" value="${pointUsage}" />
+							</c:if>
+							<c:if test="${p.pointStatus eq 'N'}">
+								<c:set var="pointAccumulation" value="${myTotalPoint + p.pointScore}" />
+								<c:set var="myTotalPoint" value="${pointAccumulation}" />
+							</c:if>
+	
 							<tr>
-								
-								<td>${ p.pointTime }</td>
-								
+								<td>${p.pointTime}</td>
 								<c:choose>
-									<c:when test="${ p.pointStatus eq 'Y' }">
-										<td>+ ${ p.pointScore }</td>
+									<c:when test="${p.pointStatus eq 'Y'}">
+										<td>+ ${p.pointScore}</td>
 									</c:when>
 									<c:otherwise>
-										<td>- ${ p.pointScore }</td>
+										<td>- ${p.pointScore}</td>
 									</c:otherwise>
 								</c:choose>
-								
-								<td>${ p.pointDetail }</td>
-								<td>${ originPoint }</td>
+								<td>${p.pointDetail}</td>
+								<td>${pointValue}</td>
 							</tr>
+							<c:set var="pointValue" value="${myTotalPoint}" />
 						</c:forEach>
 					</tbody>
 				</table>
@@ -120,6 +113,8 @@
 			<br><br><br>
 		</div>
 	</div>
+	
+	<jsp:include page="../common/footer.jsp" />
 	
 	<script>
 		$(function(){

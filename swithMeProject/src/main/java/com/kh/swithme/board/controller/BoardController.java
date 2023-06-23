@@ -831,6 +831,12 @@ public class BoardController {
 		return new Gson().toJson(boardService.memberImg(memberId));
 	}
 	
+	@ResponseBody
+	@RequestMapping(value="boardlist", produces="application/json; charset=UTF-8")
+	public String boardlist(int boardNo) {
+		return new Gson().toJson(boardService.boardlist(boardNo));
+	}
+	
 	
 	
 	

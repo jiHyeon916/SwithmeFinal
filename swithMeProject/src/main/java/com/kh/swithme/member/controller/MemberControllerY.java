@@ -57,7 +57,7 @@ public class MemberControllerY {
 		
 		String memberId = ((Member)session.getAttribute("loginMember")).getMemberId();
 		
-		PageInfo pi = Pagination.getPageInfo(memberService.myPointListCount(memberId), currentPage, 10, 5);
+		PageInfo pi = Pagination.getPageInfo(memberService.myPointListCount(memberId), currentPage, 15, 5);
 		
 		// 보내야할 값
 		// 페이징, 포인트내역 리스트, 오늘 얻은 포인트, 토탈포인트

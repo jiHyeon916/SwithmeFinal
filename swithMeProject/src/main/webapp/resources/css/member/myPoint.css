@@ -56,6 +56,7 @@ a:hover{
 	width : 100%;
 	float:left;
 	padding-left : 250px;
+	min-height: 600px;
 }
 
 /* 포인트페이지 */
@@ -114,6 +115,7 @@ a:hover{
 	border-radius: 10px;
 	box-sizing : border-box;
 	margin : auto;
+	margin-bottom : 100px;
 }
 .myBtn>button{
 	display : inline-block;
