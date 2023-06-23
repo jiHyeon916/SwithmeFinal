@@ -1369,7 +1369,7 @@
 		 WHERE
 		 	  NICKNAME = #{ memberId }
 		   AND
-		   	  WEAR_STATUS = 'N'
+		   	  WEAR_STATUS = 'Y'
 		   	  
 	</select>
 	

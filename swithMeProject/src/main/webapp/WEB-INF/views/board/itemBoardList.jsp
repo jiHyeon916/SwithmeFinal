@@ -202,13 +202,17 @@
                                         if(r > 0){
                                             if(confirm('아이템 구매에 성공하셨습니다. 마이페이지로 이동하겠습니까?')){
                                                 location.href="item.me";
+                                            }else{
+                                                location.href="itemBoard";
                                             }
                                         }else if(r == 0){
                                             alert('본 서비스는 로그인 후 이용 가능합니다.');
                                         }else if(r < 0){
                                             if(confirm('이미 보유중인 아이템 입니다. 마이페이지로 이동하겠습니까?')){
                                                 location.href="item.me";
-                                            };   
+                                            }else{
+                                                location.href="itemBoard";
+                                            }
                                         };
                                     },
                                     error : function(){
