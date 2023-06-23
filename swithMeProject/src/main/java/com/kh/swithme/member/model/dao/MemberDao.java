@@ -153,6 +153,10 @@ public class MemberDao {
 		return (ArrayList)sqlSession.selectList("memberMapper.favoriteStudyBand", memberId);
 	}
 	
+	public int selectSbandBookMark(SqlSessionTemplate sqlSession, BandBookMark bm) {
+		return sqlSession.selectOne("memberMapper.selectSbandBookmark", bm);
+	}
+	
 	public int insertSbandBookmark(SqlSessionTemplate sqlSession, BandBookMark bm) {
 		return sqlSession.insert("memberMapper.insertSbandBookmark", bm);
 	}

@@ -78,7 +78,7 @@
                 </c:choose>
                 
                 <div>
-                    <input type="text" id="searchBar" placeholder="키워드 검색" onkeyup="textSearch(this)"><img src="resources/search.png" alt="">
+                    <input type="text" id="searchBar" placeholder="키워드 검색" onkeyup="textSearch(this)"><img id="searchImg" src="resources/images/board/search.png" alt="">
                 </div>
             </div>
 
@@ -158,6 +158,12 @@
 
                     // });
 
+
+                    // 검색 이미지 클릭 
+                    $('#searchImg').click(function(){
+                        var searchText = $(this).prev().val();
+                        location.href="tagSearch.bo?key=" + searchText + '&boardType=' + $('#bType').val() + '&keyType=text';
+                    })
                 })
 
                 
@@ -322,6 +328,9 @@
                         location.href="tagSearch.bo?key=" + $(e).val() + '&boardType=' + $('#bType').val() + '&keyType=text';
                     }
                 }
+
+
+
 
 
                 // 페이징 처리 

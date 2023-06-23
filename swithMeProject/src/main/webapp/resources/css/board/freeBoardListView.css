@@ -102,6 +102,7 @@ textarea:focus{
 /* 검색  */
 #searchBox {
     margin-bottom: 20px;
+    
 }
 #searchBox > P{
     font-size: 20px;
@@ -111,15 +112,22 @@ textarea:focus{
 }
 #searchBox > div{
     float: right;
+    border: 1px solid rgb(191, 191, 191);
+    border-radius: 8px;
+    padding: 2px;
 }
 #searchBox > div input{
-    border: 1px solid rgb(191, 191, 191);
-    height: 36px;
-    border-radius: 5px;
-    width: 240px;
+    height: 34px;
+    width: 220px;
+    border: none;
+    font-size: 14px;
+    padding-left: 10px;
 }
 #searchBox > div > img{
-    width: 20px;
+    width: 14px;
+    margin-right: 10px;
+    margin-top: -5px;
+    cursor: pointer;
 }
 #searchBox > div input::placeholder{
     padding-left: 10px;
@@ -185,6 +193,7 @@ textarea:focus{
     box-sizing: border-box;
     box-shadow: 4px 4px 14px rgba(0, 0, 0, 0.15);
     border-radius: 10px;
+    background-color: #fff;
   }
   
 #freeCategory .btn-select.on {
