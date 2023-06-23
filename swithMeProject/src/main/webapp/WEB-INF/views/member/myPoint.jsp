@@ -33,6 +33,8 @@
 			</div>
 			
 			<div class="block">
+				
+				
 				<table id="pointList">
 					<thead>
 						<tr>
