@@ -35,7 +35,7 @@
                 </ul>
             </div>
             <div id="searchBox" class="clear">
-                <input type="text" id="searchBar" placeholder="키워드 검색" onkeyup="textSearch(this)"><img src="resources/search.png" alt="">
+                <input type="text" id="searchBar" placeholder="키워드 검색" onkeyup="textSearch(this)"><img id="searchImg" src="resources/images/board/search.png" alt="">
             </div>
         </div>
     </div>
@@ -146,6 +146,13 @@
                     btn.classList.remove('on');
                 }
             });
+
+            // 검색 이미지 클릭 
+            $('#searchImg').click(function(){
+                var searchText = $(this).prev().val();
+                location.href="tagSearch.bo?key=" + searchText + '&boardType=' + $('#bType').val() + '&keyType=text';
+                
+            })
 
 
 

@@ -71,12 +71,6 @@
                 
                 
 
-                <div class="uploadBtnArea clear fileUp">
-                    <p>파일</p>
-                    <button>업로드</button>
-                </div>
-                <div class="fileArea"></div>
-                <input type="file" name="file" id="">
 
                 <c:choose>
                     <c:when test="${Btype eq 'free'}">

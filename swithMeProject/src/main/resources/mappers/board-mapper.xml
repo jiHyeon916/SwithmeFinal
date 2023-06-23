@@ -19,6 +19,10 @@
 		<result column="LIKECOUNT" property="likeCount" />
 		<result column="COMMENTCOUNT" property="commentCount" />
 		<result column="SB_RECRUIT_MEM" property="totalPerson" />
+		<result column="RPEV_TITLE" property="prev" />
+		<result column="PREV" property="prevNo" />
+		<result column="NEXT_TITLE" property="next" />
+		<result column="NEXT" property="nextNo" />
 	</resultMap>
 	
 	<resultMap id="replyResultMap" type="reply">
@@ -1374,6 +1378,27 @@
 		   AND
 		   	  WEAR_STATUS = 'Y'
 		   	  
+	</select>
+	
+	<!-- 이전글 다음글  -->
+	<select id="boardlist" resultMap="boardResultSet">
+	
+	SELECT *
+	  FROM (SELECT
+	               BOARD_NO, 
+	               LAG(BOARD_NO, 1) OVER(ORDER BY ROWNUM) AS PREV,
+	               LAG(BOARD_TITLE, 1) OVER(ORDER BY ROWNUM) AS RPEV_TITLE,
+	               LEAD(BOARD_NO, 1) OVER(ORDER BY ROWNUM) AS NEXT,
+	               LEAD(BOARD_TITLE, 1) OVER(ORDER BY ROWNUM) AS NEXT_TITLE
+   			  FROM	
+	               (select ROWNUM, A.*
+	                   from(SELECT * 
+	                           FROM MAINBOARD 
+	                        WHERE BOARD_TYPE = 'free'
+	                        AND BOARD_STATUS = 'Y') A)
+            )
+	WHERE BOARD_NO = #{ boardNo }
+	
 	</select>
 	
 	

@@ -16,8 +16,48 @@
         <div class="wrap">
             <!-- 스티키 영역 -->
             <div id="contentBox" class="clear">
+                
+                <div id="boardList">
+                    <div id="prevList" class="clear">
+                        <!-- 이전글 목록  -->
+                    </div>
+                    <div id="nextList" class="clear">
+                        <!-- 다음글 목록 -->
+                    </div>
+                    <button onclick="location.href='freeBoardListView.bo?boardType=1'">목록으로</button>
+                </div>
+                <script>
+                    $(function(){
+                        $.ajax({
+                            url : 'boardlist',
+                            data : {
+                                boardNo : '${ b.boardNo }'
+                            },
+                            success : (r) => {
+                                console.log(r);
+                                var prev = '';
+                                var next = '';
+                                prev += '<p onclick="location.href=\'freeBoardDetail.bo?boardNo=' + r.prevNo + '\'">'
+                                        + '이전글'
+                                        + '</p>'
+                                $('#prevList').html(prev);
+                                next += '<p onclick="location.href=\'freeBoardDetail.bo?boardNo=' + r.nextNo + '\'">다음글</p>'
+                                     //+ '<p class="title">' + r.next + '</p>'
+                                     + '<input type="hidden" value=' + r.nextNo + '>';
+                                $('#nextList').html(next);
+
+                            
+                            },
+                            error : () => {
+
+                            }
+                        })
+                    })
+                </script>
+
                 <!-- 글 보이는 곳 -->
                 <div>
+                    
                     <!-- 썸네일 사진 -->
                     <div class="thumbnail">
                         <img src="resources/images/board/freeDetailBg.png">
@@ -84,9 +124,13 @@
                             <!-- 댓글 컨텐츠 영역 -->
                         </div>
                     </div>
+
+                    
+
                     
                 </div>
 
+                
 
 
                 
@@ -108,13 +152,22 @@
                         <img src="resources/images/board/emergency.png" alt="">
                     </div>
                 </div>
+
+                
+
+
+
+                
             </div>
+
 
             <!-- 댓글 영역 -->
             <div>
                 
             </div>
 
+
+           
 
             <!-- 신고 모달 -->
             <div class="modal msg1">
@@ -152,6 +205,9 @@
                 <p class="ment">* 허위 기재 및 무분별한 신고시 불이익이 있을 수 있습니다.</p>
                 <button onclick="report();">신고하기</button>
             </div>
+
+
+
     </div>
 
 
@@ -518,6 +574,7 @@
                     },
                     success : function(r) {
                         $('.replyWrite > textarea').val('');
+                        $('.replyWrite').css('display', 'none');
                         reReplyList(reReplyNo);
                         
                     },

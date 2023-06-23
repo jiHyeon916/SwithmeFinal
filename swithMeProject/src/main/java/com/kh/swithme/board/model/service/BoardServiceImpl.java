@@ -260,6 +260,10 @@ public class BoardServiceImpl implements BoardService {
 	public ArrayList<Item> memberImg(String memberId) {
 		return boardDao.memberImg(sqlSession, memberId);
 	}
+	@Override
+	public Board boardlist(int boardNo) {
+		return boardDao.boardlist(sqlSession, boardNo);
+	}
 	
 	
 	// ************* 메인 
