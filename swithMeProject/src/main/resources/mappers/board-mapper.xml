@@ -1330,7 +1330,9 @@
 		 WHERE
               ITEM_STATUS = 'Y'
            AND
-           	  ITEM_NO != 0
+           	  ITEM_NO != 1
+           AND
+           	  ITEM_NO != 2
            <if test="category != '전체보기'">
            AND
               ITEM_CATEGORY = #{category}
