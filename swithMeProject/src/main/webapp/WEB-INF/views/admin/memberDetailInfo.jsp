@@ -224,6 +224,7 @@
 					                        			 +'</tr>' //value값에 원하는 값을 담아서 체크되면 넘기기 
                         						}
                        					 $('#adminMemberTable tbody').html(value);
+                       					 
                         			 }else{
                         	  			$('#adminMemberTable tbody').html('작성된 게시물이 존재하지 않습니다.');
                          				}
@@ -236,6 +237,9 @@
                      	 	  
                             };
 
+                            
+                            
+                            
                             /*
                              $(document).on('click','#adminMemberTable > tbody > tr', function() {
                             	
@@ -273,7 +277,7 @@
 		            		   			let sbNo = listArr[i].sbBoardNo;
 		            		   			
 		            		   			let sbText = list.sbContent;
-	            		   					 console.log(list.sbContent);
+	            		   					// console.log(list.sbContent);
 	            		   					 
 	            		   					 
            		   	                    const extractTextPattern = /(<([^>]+)>)/gi;
@@ -328,10 +332,10 @@
 				            						if(yes) {
 							            				if(boardChk.each(function(index, i){
 							            					boardChkArr[index] = $(this).val(); // 체크박스에서 band 혹은 board의 no값을 넘겼음. 
-							            				}));
-				            					    if(bandChk.each(function(index,i){
-				            							bandChkArr[index] = $(this).val();  
-				            							}));
+							            					}));
+					            					    if(bandChk.each(function(index,i){
+					            							bandChkArr[index] = $(this).val();  
+					            							}));
 								            					$.ajax({
 								        	 						url :'deleteBoardDetail.ad',
 								        	 						data : {boardNo : boardChkArr},
@@ -341,11 +345,12 @@
 								        	 							if(result > 0) {
 								        	 								alert('삭제되었습니다.');
 								        	 								location.reload();
+								        	 								
 								        	 							}else{
 								        	 								alert('삭제에 실패하였습니다.');
 								        	 								}
 								        	 							},error: () => {console.log('실패');}
-								        	 						});
+								        	 						}); // 이거 board if문 안으로 넣으면 두개 삭제할 때 알럿 두번뜸.
 								            					
 								            					$.ajax({
 								        	 						url :'deleteBandDetail.ad',
@@ -460,12 +465,27 @@
            							
            							if(list.length != 0) {
            								let value = "";
+           								
            								for(let i in list) {
-           									let sbNo = list[i].sbNo; 
+           									
+           									let sbNo = list[i].sbNo;
+           									
+           									let sbText = list[i].sbContent
+	            		   					 console.log(sbText);
+	            		   					 
+	            		   					 
+          		   	                     const extractTextPattern = /(<([^>]+)>)/gi;
+
+          		   	                     var extractedText = sbText.replace(extractTextPattern, '');
+          		   	                 
+          		   	                     sbText = extractedText;     
+           									
+           									
+           									
 			       									value 	+= '<tr>' 
 			                                     		  	 +'<td>' + list[i].sbNo + '</td>'
 			          	                           			 +'<td>' + list[i].boardTitle + '</td>'
-			          	                           			 +'<td>' + list[i].sbContent + '</td>'
+			          	                           			 +'<td>' + sbText + '</td>'
 			          	                           			 +'<td>' + list[i].sbCreateDate + '</td>'
 			          	                           		   	 +'<td>' + '<input type="checkbox" value="' + sbNo + '" name="BandChkDel" id="admemBandChkDel"></input>' + '</td>'
 			                                  				 +'</tr>'
@@ -491,10 +511,22 @@
            								value = "";
            									for(let i in list) {
            										let sbNo = list[i].sbNo; 
+           										
+           										let sbText = list[i].sbContent
+   	            		   							 console.log(sbText);
+   	            		   					 
+   	            		   					 
+             		   	                     const extractTextPattern = /(<([^>]+)>)/gi;
+
+             		   	                     var extractedText = sbText.replace(extractTextPattern, '');
+             		   	                 
+             		   	                     sbText = extractedText;     
+              									
+           										
 		           									value 	+= '<tr>' 
 		           										+'<td>' + list[i].sbNo + '</td>'
 		          	                           			 +'<td>' + list[i].boardTitle + '</td>'
-		          	                           			 +'<td>' + list[i].sbContent + '</td>'
+		          	                           			 +'<td>' + sbText + '</td>'
 		          	                           			 +'<td>' + list[i].sbCreateDate + '</td>'
 		          	                           		   	 +'<td>' + '<input type="checkbox" value="' + sbNo + '" name="BandChkDel" id="admemBandChkDel"></input>' + '</td>'
 		                                  				 +'</tr>'
@@ -508,6 +540,21 @@
            					    };
            					 });
            				 });
+           		
+           		
+           		
+           		
+         
+           		
+           		
+           		
+           		
+           		
+           		
+           		
+           		
+           		
+           		
            </script> 
             
             

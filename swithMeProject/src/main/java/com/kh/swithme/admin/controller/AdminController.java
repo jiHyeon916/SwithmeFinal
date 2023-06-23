@@ -136,6 +136,9 @@ public class AdminController {
 		   
 		   return adminService.memberStop(memberId) > 0 ? 'Y' : 'N';
 	   }
+   
+   
+   
 	
 	   
 	   
@@ -224,10 +227,10 @@ public class AdminController {
   // 회원 board삭제
   @ResponseBody
   @RequestMapping("deleteBoardDetail.ad")
-  public int deleteBoardDetail(int[] boardNo) {
+  public int deleteBoardDetail(@RequestParam("boardNo")int[] boardNo) {
 	  
 	  int result = 1;
-	  //System.out.println(boardNo);
+	  System.out.println(boardNo);
 	  
 	  for(int i = 0; i <boardNo.length; i++) {
 		  result *= adminService.deleteBoardDetail(boardNo[i]);
@@ -255,7 +258,7 @@ public class AdminController {
 		  result *= adminService.deleteBandDetail(bandNo[i]);
 		  
 	  }
-	  System.out.println(result + "result");
+	 // System.out.println(result + "result");
 	  
 	 return result;
 	  //return adminService.deleteBandDetail(boardNo) > 0 ? 'Y' : 'N';

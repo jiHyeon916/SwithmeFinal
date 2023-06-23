@@ -31,9 +31,7 @@
                 <ul class="list-member">
                     <li><button type="button" onclick="categorySearch(this.innerText, 1);">전체보기</button></li>
                     <li><button type="button" onclick="categorySearch(this.innerText, 1);">배경</button></li>
-                    <li><button type="button" onclick="categorySearch(this.innerText, 1);">도구</button></li>
                     <li><button type="button" onclick="categorySearch(this.innerText, 1);">캐릭터</button></li>
-                    <li><button type="button" onclick="categorySearch(this.innerText, 1);">모자</button></li>
                 </ul>
             </div>
             <div id="searchBox" class="clear">
@@ -190,38 +188,6 @@
                     $('input[name=itemNo]').attr('value', selector.querySelector('#itemNo').value);
 
                     
-                        $('#buyBtn').click(function(){
-                            if($('.itempricemodal').text() < $('#totalPoint').text()){
-                                $.ajax({
-                                    url : 'itemGet',
-                                    data : {
-                                        itemNo : $('input[name=itemNo]').val(),
-                                        point : $('.itempricemodal').text()
-                                    },
-                                    success : function(r){
-                                        if(r > 0){
-                                            if(confirm('아이템 구매에 성공하셨습니다. 마이페이지로 이동하겠습니까?')){
-                                                location.href="item.me";
-                                            }
-                                        }else if(r == 0){
-                                            alert('본 서비스는 로그인 후 이용 가능합니다.');
-                                        }else if(r < 0){
-                                            if(confirm('이미 보유중인 아이템 입니다. 마이페이지로 이동하겠습니까?')){
-                                                location.href="item.me";
-                                            };   
-                                        };
-                                    },
-                                    error : function(){
-                                        alert('통신실패');
-                                    }
-                                })
-                            }else{
-                                alert('포인트가 부족합니다.');
-                            }
-                        });
-                    
-                    
-
                     
                     
                 };
@@ -237,6 +203,40 @@
                 $('body').css('overflow','auto');
             })
             
+
+            $('#buyBtn').click(function(){
+                if($('.itempricemodal').text() < $('#totalPoint').text()){
+                    $.ajax({
+                        url : 'itemGet',
+                        data : {
+                            itemNo : $('input[name=itemNo]').val(),
+                            point : $('.itempricemodal').text()
+                        },
+                        success : function(r){
+                            if(r > 0){
+                                if(confirm('아이템 구매에 성공하셨습니다. 마이페이지로 이동하겠습니까?')){
+                                    location.href="item.me";
+                                }else{
+                                    location.href="itemBoard";
+                                }
+                            }else if(r == 0){
+                                alert('본 서비스는 로그인 후 이용 가능합니다.');
+                            }else if(r < 0){
+                                if(confirm('이미 보유중인 아이템 입니다. 마이페이지로 이동하겠습니까?')){
+                                    location.href="item.me";
+                                }else{
+                                    location.href="itemBoard";
+                                }
+                            };
+                        },
+                        error : function(){
+                            alert('통신실패');
+                        }
+                    })
+                }else{
+                    alert('포인트가 부족합니다.');
+                }
+            });
             
             
 
@@ -252,7 +252,6 @@
                         category : e
                     },
                     success : (r) => {
-                        console.log(r.list);
 
                         var result = '';
                         for(var i in r.list){
@@ -267,9 +266,97 @@
                         }
 
                         $('.itemlistupdate').html(result);
-                    },
-                    error : () => {
-                        console.log('통신실패')
+
+                        // 아이템 모달 띄우기
+                        let btnOpenPopup = document.getElementsByClassName('btn-open-popup');
+                        const modal = document.querySelector('.msg1');
+                    
+                        for(var i = 0; i < btnOpenPopup.length; i++){
+                            btnOpenPopup[i].addEventListener("click", click);
+                            function click(e) {
+
+                                
+
+                                $('.msg1_body').show().css('z-index','7777');
+                                $('.msg1').show();
+                                $('body').css('overflow','hidden');
+                                $('.msg1').click(function(){
+                                    $('.msg1_body').hide();
+                                    $('.msg1').hide();
+                                    $('body').css('overflow','auto');
+                                });
+                                $('.cloesBtn').click(function(){
+                                    $('.msg1_body').hide();
+                                    $('.msg1').hide();
+                                    $('body').css('overflow','auto');
+                                });
+                                
+
+                                // 모달에 해당 하는 값 넣기
+                                var selector = event.currentTarget;
+
+                                console.log(selector.querySelector('.itemImg > img').getAttribute('src'));
+
+                                $('.itemText').html(selector.querySelector('#itemcon').value);
+                                $('.itemType').html(selector.querySelector('#itemCategory').value);
+                                $('.itempricemodal').html(selector.querySelector('.itemPrice').innerText);
+                                $('.itemnamemodal').html(selector.querySelector('.itemTitle').innerText);
+                                $('#itemImg > img').attr('src', selector.querySelector('.itemImg > img').getAttribute('src'));
+                                $('input[name=itemNo]').attr('value', selector.querySelector('#itemNo').value);
+
+                                
+                                
+                                
+                            };
+
+
+                            
+                        }
+                        
+                        // 모달 닫기
+                        $('.cloesBtn3').click(function(){
+                            $('.send').hide();
+                            $('.send_body').hide();
+                            $('body').css('overflow','auto');
+                        })
+                        
+
+                        $('#buyBtn').click(function(){
+                            if($('.itempricemodal').text() < $('#totalPoint').text()){
+                                $.ajax({
+                                    url : 'itemGet',
+                                    data : {
+                                        itemNo : $('input[name=itemNo]').val(),
+                                        point : $('.itempricemodal').text()
+                                    },
+                                    success : function(r){
+                                        if(r > 0){
+                                            if(confirm('아이템 구매에 성공하셨습니다. 마이페이지로 이동하겠습니까?')){
+                                                location.href="item.me";
+                                            }else{
+                                                location.href="itemBoard";
+                                            }
+                                        }else if(r == 0){
+                                            alert('본 서비스는 로그인 후 이용 가능합니다.');
+                                        }else if(r < 0){
+                                            if(confirm('이미 보유중인 아이템 입니다. 마이페이지로 이동하겠습니까?')){
+                                                location.href="item.me";
+                                            }else{
+                                                location.href="itemBoard";
+                                            }
+                                        };
+                                    },
+                                    error : function(){
+                                        alert('통신실패');
+                                    }
+                                })
+                            }else{
+                                alert('포인트가 부족합니다.');
+                            }
+                        });
+                        
+
+                        
                     }
 
                 })
