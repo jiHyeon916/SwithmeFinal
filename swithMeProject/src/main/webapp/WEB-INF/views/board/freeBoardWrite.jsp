@@ -175,33 +175,37 @@
             tagAtrr += (tata + ',')
         });
 
-        $.ajax({
-            
-            url : 'test.bo',
-            type : 'post',
-            data : {
-                memberId : '${ sessionScope.loginMember.memberId }',
-                bCon : $('.note-editable').html(),
-                summary : $('.note-editable').text(),
-                title : $('#title').val(),
-                category : $('.btn-select').text(),
-                tagList : tagAtrr,
-                Btype : '${ Btype }'
-            },
-            success : function(r){
-                if(r == 'success'){
-                    alert('글 작성 성공');
-                    if('${ Btype }' == 'free' ){
-                        location.href="freeBoardListView.bo?boardType=1";
-                    }else{
-                        location.href="freeBoardListView.bo?boardType=2";
+        if($('.btn-select').text() == '전체보기'){
+            alert('카테고리를 설정해주세요');
+        }else{
+            $.ajax({
+                
+                url : 'test.bo',
+                type : 'post',
+                data : {
+                    memberId : '${ sessionScope.loginMember.memberId }',
+                    bCon : $('.note-editable').html(),
+                    summary : $('.note-editable').text(),
+                    title : $('#title').val(),
+                    category : $('.btn-select').text(),
+                    tagList : tagAtrr,
+                    Btype : '${ Btype }'
+                },
+                success : function(r){
+                    if(r == 'success'){
+                        alert('글 작성 성공');
+                        if('${ Btype }' == 'free' ){
+                            location.href="freeBoardListView.bo?boardType=1";
+                        }else{
+                            location.href="freeBoardListView.bo?boardType=2";
+                        }
                     }
+                },
+                error : function(){
+                    console.log('ajax통신 실패');
                 }
-            },
-            error : function(){
-                console.log('ajax통신 실패');
-            }
-        })
+            })
+        }
     }
 
     
