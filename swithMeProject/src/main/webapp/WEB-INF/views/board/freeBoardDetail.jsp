@@ -18,11 +18,12 @@
             <div id="contentBox" class="clear">
                 
                 <div id="boardList">
-                    <div id="prevList" class="clear">
-                        <!-- 이전글 목록  -->
-                    </div>
+                    
                     <div id="nextList" class="clear">
                         <!-- 다음글 목록 -->
+                    </div>
+                    <div id="prevList" class="clear">
+                        <!-- 이전글 목록  -->
                     </div>
                     <button onclick="location.href='freeBoardListView.bo?boardType=1'">목록으로</button>
                 </div>
@@ -34,18 +35,31 @@
                                 boardNo : '${ b.boardNo }'
                             },
                             success : (r) => {
-                                console.log(r);
+
                                 var prev = '';
                                 var next = '';
-                                prev += '<p onclick="location.href=\'freeBoardDetail.bo?boardNo=' + r.prevNo + '\'">'
+                                var lastprev = '';
+                                var lastnext = '';
+
+                                if(r.prevNo == ''){
+                                    lastprev += '<p onclick="alert(\'맨 처음 글 입니다.\');>이전글<p>'
+                                    $('#prevList').html(lastprev);
+                                }else{
+                                    prev += '<p onclick="location.href=\'freeBoardDetail.bo?boardNo=' + r.prevNo + '\'">'
                                         + '이전글'
                                         + '</p>'
-                                $('#prevList').html(prev);
-                                next += '<p onclick="location.href=\'freeBoardDetail.bo?boardNo=' + r.nextNo + '\'">다음글</p>'
+                                    $('#prevList').html(prev);
+                                }
+                                
+                                if(r.nextNo == ''){
+                                    lastnext += '<p onclick="alert(\'마지막글입니다.\');">다음글<p>'
+                                    $('#nextList').html(lastnext);
+                                }else{
+                                    next += '<p onclick="location.href=\'freeBoardDetail.bo?boardNo=' + r.nextNo + '\'">다음글</p>'
                                      //+ '<p class="title">' + r.next + '</p>'
                                      + '<input type="hidden" value=' + r.nextNo + '>';
-                                $('#nextList').html(next);
-
+                                    $('#nextList').html(next);
+                                }
                             
                             },
                             error : () => {
