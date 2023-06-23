@@ -25,7 +25,7 @@
 	width : 100%;
 	float:left;
 	padding-left : 250px;
-    margin-bottom: 50px;
+    min-height: 600px;
 }
 
 /* 포인트페이지 */

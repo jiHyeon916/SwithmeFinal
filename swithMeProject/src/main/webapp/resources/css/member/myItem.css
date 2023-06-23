@@ -57,6 +57,7 @@ a:hover{
 	width : 100%;
 	float:left;
 	padding-left : 250px;
+	min-height: 600px;
 }
 
 /* 아이템페이지 */
