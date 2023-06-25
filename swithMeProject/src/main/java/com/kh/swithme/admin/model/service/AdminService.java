@@ -42,10 +42,10 @@ public interface AdminService {
 	   public int memberStop(String memberId);
 	   
 	   
-	   //회원 디테일 조회정보(Band)
+	   //회원 디테일 조회정보(board)
 	   public ArrayList<Board> memberDetailBoard(String memberId);
 	
-	   //회원 디테일 조회정보(Sband)
+	   //회원 디테일 조회정보(band)
 	   public ArrayList<Band> memberDetailBand(String memberId);
 	   
 	   //회원 정보 조회

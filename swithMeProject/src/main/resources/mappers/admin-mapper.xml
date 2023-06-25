@@ -375,9 +375,9 @@
               ORDER
               	BY
               	B.CREATE_DATE DESC
-        	
-         
    </select>
+   
+   
   <!--   회원이 작성한 밴드 글 조회   
     <select id="memberDetailBand" parameterType="string" resultMap="bandResultSet">
           SELECT
@@ -401,7 +401,7 @@
                 
     </select>-->
     
-    
+    <!-- 회원이 Band에 작성한 글 -->
       <select id="memberDetailBand" parameterType="string" resultType="bandBoard">
       		
       		SELECT
@@ -421,7 +421,7 @@
             JOIN
       			SBAND S ON (S.SB_NO = SB.SB_NO)    
       		WHERE
-      			M.MEMBER_ID = 'dfdf1234'
+      			M.MEMBER_ID = #{memberId}
       		AND
       			SB.MEMBER_ID IS NOT NULL
       		AND
@@ -430,7 +430,6 @@
       		ORDER
       			BY
       				CREATE_DATE DESC					
-      
       </select> 
     
    

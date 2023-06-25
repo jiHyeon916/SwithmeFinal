@@ -148,12 +148,7 @@ public class AdminController {
 	   
 	   return mv;
 	  
-	   
-	   
-	   // mv.addObject("memberId", memberId);
-	   //memberId로 회원 정보 가져오기
-	  // mv.setViewName("admin/memberDetailInfo");
-	   
+
 	  
 	   
    }
@@ -172,21 +167,11 @@ public class AdminController {
   @ResponseBody
   @RequestMapping(value="memberBandList.ad", produces="application/json; charset=UTF-8")
   public String memberBandList(String memberId) {
-	  
+
 	  ArrayList<Band> list = adminService.memberDetailBand(memberId);
 	  return new Gson().toJson(list);
-		
   }
-   
-  
-  
-	/*
-	 * @RequestMapping("memberReplyList.ad") public String memberReplyList(String
-	 * memberId) {
-	 * 
-	 * adminService.memberReplyList(memberId) }
-	 * 
-	 */
+
   
   // 회원 board삭제
   @ResponseBody
@@ -194,19 +179,10 @@ public class AdminController {
   public int deleteBoardDetail(@RequestParam("boardNo")int[] boardNo) {
 	  
 	  int result = 1;
-	  System.out.println(boardNo);
-	  
 	  for(int i = 0; i <boardNo.length; i++) {
 		  result *= adminService.deleteBoardDetail(boardNo[i]);
-		  
 	  }
-	  //System.out.println(result);
-	  
 	 return result;
-	  
-	  //return adminService.deleteBoardDetail(boardNo) > 0 ? 'Y' : 'N';
-  
-  
   }
   
   // 회원 band삭제
@@ -214,38 +190,24 @@ public class AdminController {
   @RequestMapping("deleteBandDetail.ad")
   public int deleteBandDetail( @RequestParam("bandNo")int[] bandNo) {
 	  
-	  
 	  int result = 1;
-	  System.out.println(bandNo + "넘버");
-	  
 	  for(int i = 0; i <bandNo.length; i++) {
 		  result *= adminService.deleteBandDetail(bandNo[i]);
-		  
 	  }
-	 // System.out.println(result + "result");
-	  
 	 return result;
-	  //return adminService.deleteBandDetail(boardNo) > 0 ? 'Y' : 'N';
   }
   
   
   
   //회원 board 글 검색(게시글 제목)
-  
   @ResponseBody
   @RequestMapping(value="memBoardSearchTitle.ad",  produces="application/json; charset=UTF-8")
   public String memBoardSearch(String memberId, String keyword) {
-	  
-	  
 	  HashMap<String, String> map = new HashMap();
 	  map.put("keyword",keyword);
 	  map.put("memberId", memberId);
-	  
 	  ArrayList<Board> list = adminService.memBoardSearch(map);
-	
-	  //System.out.println(list);
-	  
-	 return new Gson().toJson(list);
+	  return new Gson().toJson(list);
   }
  
  
@@ -253,16 +215,10 @@ public class AdminController {
    @ResponseBody
    @RequestMapping(value="memBoardSearchContent.ad", produces="application/json; charset=UTF-8")
    public String memSearchContent(String memberId, String keyword) {
-	   
-	   //System.out.println(keyword);
 	   HashMap<String, String> map = new HashMap();
 	   map.put("keyword", keyword);
 	   map.put("memberId", memberId);
-	   
 	   ArrayList<Board> list = adminService.memSearchContent(map);
-	   
-	   //System.out.println(list);
-	   
 	   return new Gson().toJson(list);
    }
   
@@ -271,15 +227,10 @@ public class AdminController {
    @ResponseBody
    @RequestMapping(value="memBandSearchTitle.ad", produces="application/json; charset=UTF-8")
    public String memBandSearchTitle(String memberId, String keyword) {
-	   
 	   HashMap<String, String> map = new HashMap();
 	   map.put("keyword", keyword);
 	   map.put("memberId", memberId);
-	   
 	   ArrayList<Band> list = adminService.memBandSearchTitle(map);
-	   
-	   //System.out.println(list);
-	   
 	   return new Gson().toJson(list);
    }
    
@@ -287,15 +238,10 @@ public class AdminController {
    @ResponseBody
    @RequestMapping(value="memBandSearchContent.ad", produces="application/json; charset=UTF-8")
    public String memBandSearchContent(String memberId, String keyword) {
-	   
 	   HashMap<String,String> map = new HashMap();
 	   map.put("keyword", keyword);
 	   map.put("memberId", memberId);
-	   
 	   ArrayList<Band> list = adminService.memBandSearchContent(map);
-	   
-	   System.out.println(list);
-	   
 	   return new Gson().toJson(list);
    }
    

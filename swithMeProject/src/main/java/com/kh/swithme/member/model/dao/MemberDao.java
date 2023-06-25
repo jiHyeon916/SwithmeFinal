@@ -92,14 +92,13 @@ public class MemberDao {
 
 	//알람 읽음 여부 - 게시판
 	public int readAlarm(SqlSessionTemplate sqlSession, HashMap<String, Integer> map) {
-
 		return sqlSession.update("memberMapper.readAlarm", map);
 	}
 	
 	//알림 읽음 여부 - 밴드
 	public int readAlarmB(SqlSessionTemplate sqlSession, HashMap<String, Integer> map) {
 		return sqlSession.update("memberMapper.readAlarmB",map);
-	};
+	}
 	
 
 

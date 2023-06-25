@@ -62,11 +62,11 @@ public class AdminDao {
 		return sqlSession.update("adminMapper.memberStop", memberId);
 	}
 
-	//회원 디테일 조회정보(select) band
+	//회원 디테일 조회정보(select) board
 	public ArrayList<Board> memberDetailBoard(SqlSessionTemplate sqlSession, String memberId) {
 		return (ArrayList)sqlSession.selectList("adminMapper.memberDetailBoard", memberId);
 	}
-	//회원 디테일 조회정보(select) Sband
+	//회원 디테일 조회정보(select) band
 	public ArrayList<Band> memberDetailBand(SqlSessionTemplate sqlSession, String memberId) {
 		return (ArrayList)sqlSession.selectList("adminMapper.memberDetailBand", memberId);
 	}
@@ -77,7 +77,7 @@ public class AdminDao {
 
 	}
 	
-	//회원 baord 글 삭제
+	//회원 board 글 삭제
 	public int deleteBoardDetail(SqlSessionTemplate sqlSession, int boardNo) {
 		return sqlSession.update("adminMapper.deleteBoardDetail", boardNo);
 	}
@@ -86,9 +86,9 @@ public class AdminDao {
 	public int deleteBandDetail(SqlSessionTemplate sqlSession, int boardNo) {
 		return sqlSession.update("adminMapper.deleteBandDetail",boardNo);
 	}
+	
 	//회원 board글 검색(내용으로)
 	public ArrayList<Board> memBoardSearch(SqlSessionTemplate sqlSession, HashMap<String, String> map) {
-		// TODO Auto-generated method stub
 		return (ArrayList)sqlSession.selectList("adminMapper.memBoardSearch", map);
 	}
 	
