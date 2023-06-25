@@ -271,7 +271,7 @@ public class BoardController {
 	@ResponseBody
 	@RequestMapping("replyCount.bo")
 	public int replyCount(int boardNo) {
-		return boardService.replyCount(boardNo);
+		return boardService.replyCount(boardNo) + boardService.rereplyCount(boardNo);
 	}
 	
 	/**
@@ -820,6 +820,23 @@ public class BoardController {
 		return "board/itemBoardList";
 	}
 	
+	/**
+	 * 캐릭터 이미지 가져오기 
+	 * @param memberId 가져올 멤버 아이디 
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value="memberImg", produces="application/json; charset=UTF-8")
+	public String memberImg(String memberId) {
+		return new Gson().toJson(boardService.memberImg(memberId));
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="boardlist", produces="application/json; charset=UTF-8")
+	public String boardlist(int boardNo) {
+		return new Gson().toJson(boardService.boardlist(boardNo));
+	}
+	
 	
 	
 	
@@ -876,9 +893,9 @@ public class BoardController {
 	}
 	
 	@ResponseBody
-	@RequestMapping(value="updateReview.bo", produces="application/json; charset=UTF-8")
-	public String ajaxUpdateReview(SRoomReview sr) {
-		return new Gson().toJson(boardService.updateStudyRoomReview(sr));
+	@RequestMapping(value="updateReview.bo")
+	public int ajaxUpdateReview(SRoomReview sr) {
+		return boardService.updateStudyRoomReview(sr);
 	}
 	
 	@ResponseBody
@@ -899,11 +916,6 @@ public class BoardController {
 	}
 	
 	
-
-		
-		
-
-
 	
 
 	

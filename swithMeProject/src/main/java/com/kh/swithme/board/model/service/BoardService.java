@@ -69,6 +69,9 @@ public interface BoardService {
 	// 게시글 상세 조회 - 댓글 수 확인 
 	int replyCount(int boardNo);
 	
+	// 게시글 상세 조회 - 대댓글 수 확인 
+	int rereplyCount(int boardNo);
+	
 	// 게시글 상세 조회 - 댓글 리스트 불러오기
 	ArrayList<Reply> replyList(int boardNo);
 	
@@ -184,6 +187,10 @@ public interface BoardService {
 	// 아이템 검색 
 	ArrayList<Item> itemSearch(String key);
 	
+	// 멤버 이미지 가져오기 
+	ArrayList<Item> memberImg(String memberId);
+	
+	Board boardlist(int boardNo);
 	
 	
 	// **************** 메인 어디다.?

@@ -65,15 +65,12 @@
                         <input type="text" onkeypress="tagtext(this);">
                     </div>
                 </div>
+                <p class="tagAlarm"></p>
+                
+
                 
                 
 
-                <div class="uploadBtnArea clear fileUp">
-                    <p>파일</p>
-                    <button>업로드</button>
-                </div>
-                <div class="fileArea"></div>
-                <input type="file" name="file" id="">
 
                 <c:choose>
                     <c:when test="${Btype eq 'free'}">
@@ -172,33 +169,37 @@
             tagAtrr += (tata + ',')
         });
 
-        $.ajax({
-            
-            url : 'test.bo',
-            type : 'post',
-            data : {
-                memberId : '${ sessionScope.loginMember.memberId }',
-                bCon : $('.note-editable').html(),
-                summary : $('.note-editable').text(),
-                title : $('#title').val(),
-                category : $('.btn-select').text(),
-                tagList : tagAtrr,
-                Btype : '${ Btype }'
-            },
-            success : function(r){
-                if(r == 'success'){
-                    alert('글 작성 성공');
-                    if('${ Btype }' == 'free' ){
-                        location.href="freeBoardListView.bo?boardType=1";
-                    }else{
-                        location.href="freeBoardListView.bo?boardType=2";
+        if($('.btn-select').text() == '전체보기'){
+            alert('카테고리를 설정해주세요');
+        }else{
+            $.ajax({
+                
+                url : 'test.bo',
+                type : 'post',
+                data : {
+                    memberId : '${ sessionScope.loginMember.memberId }',
+                    bCon : $('.note-editable').html(),
+                    summary : $('.note-editable').text(),
+                    title : $('#title').val(),
+                    category : $('.btn-select').text(),
+                    tagList : tagAtrr,
+                    Btype : '${ Btype }'
+                },
+                success : function(r){
+                    if(r == 'success'){
+                        alert('글 작성 성공');
+                        if('${ Btype }' == 'free' ){
+                            location.href="freeBoardListView.bo?boardType=1";
+                        }else{
+                            location.href="freeBoardListView.bo?boardType=2";
+                        }
                     }
+                },
+                error : function(){
+                    console.log('ajax통신 실패');
                 }
-            },
-            error : function(){
-                console.log('ajax통신 실패');
-            }
-        })
+            })
+        }
     }
 
     
@@ -209,6 +210,9 @@
         var value = '';
         var lastTag = '';
         var realTag = '';
+
+
+        
 
         if(event == 13 || event == 32 || event == 8 ){
             var tag = ($(e).val());
@@ -234,7 +238,13 @@
 
     // 태그지우기 
     function removeTag(e){
+
+        var tag = document.getElementsByClassName('tag');
+
         $(e).parent().remove('');
+        if(tag.length < 5){
+            $('.tagAlarm').html('');
+        }
     }
     
     // 중복태그 자동으로 없애기
@@ -244,7 +254,8 @@
         //var lastTag = $('.tag').last();
         var result = '';
 
-        if(tag.length > 0){
+        if(tag.length < 4){
+            $('.tagAlarm').html('');
             $(tag).each(function(index, item){
                 if($(item).text() === e){
                     result = 1;
@@ -252,6 +263,11 @@
                     result = 2;
                 }
             });
+        }else{
+            if(tag.length > 4){
+                $('.tagAlarm').html('태그는 5개까지 입력가능합니다.');
+                result = 1;
+            }
         }
 
         return result;

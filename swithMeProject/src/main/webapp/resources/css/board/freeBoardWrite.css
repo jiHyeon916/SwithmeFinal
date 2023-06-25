@@ -77,6 +77,8 @@ input:focus{
 #freeCategory {
     position: relative;
     width: 300px;
+    z-index: 8888;
+
 }
 #freeCategory .btn-select {
     width: 100%;
@@ -123,6 +125,7 @@ input:focus{
     font-size: 13px;
     background-color: #fff;
     border-radius: 10px;
+    z-index: 7777;
   }
   
 #freeCategory .list-member li button {
@@ -168,6 +171,7 @@ input:focus{
     margin: 5px 0 40px 0;
     overflow-x:auto;
     padding: 10px;
+    position: relative;
 }
 #F_writer_content .right #tagBox div,
 #F_writer_content .right #tagBox ul{
@@ -208,7 +212,12 @@ input:focus{
     width: 200px;
     background-color: red;
 }
-
+#F_writer_content .right .tagAlarm{
+    position: absolute;
+    font-size: 12px;
+    top : 426px;
+    color: rgb(54, 171, 105);
+}
 #F_writer_content .right input{
     width: 300px;
 }

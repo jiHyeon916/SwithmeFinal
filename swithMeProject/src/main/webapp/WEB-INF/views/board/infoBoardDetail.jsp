@@ -17,13 +17,30 @@
         <div class="wrap">
             <!-- 스티키 영역 -->
             <div id="contentBox" class="clear">
+                <div id="boardList">
+                    
+                    <div id="nextList" class="clear">
+                        <!-- 다음글 목록 -->
+                    </div>
+                    <div id="prevList" class="clear">
+                        <!-- 이전글 목록  -->
+                    </div>
+                    <button onclick="location.href='freeBoardListView.bo?boardType=1'">목록으로</button>
+                </div>
+                
                 <!-- 글 보이는 곳 -->
                 <div>
-                    
+                    <!-- 썸네일 사진 -->
+                    <div class="thumbnail">
+                        <img src="resources/images/board/freeDetailBg.png">
+                    </div>
                     <!-- 글쓴 정보 : 제목, 날짜, 작성자 -->
                     <div class="writerInfo clear">
-                        <img src="" alt="" id="character">
-                        <div class="clear">
+                        <div id="memberTumb">
+                            <img src="" alt="" id="character">
+                            <img src="" alt="" id="bg">
+                        </div>
+                        <div class="divBox" class="clear">
                             <h6 class="title">${ b.boardTitle }</h6>
                             <div class="clear">
                                 <p class="writerId">${ b.memberId }</p>
@@ -131,7 +148,7 @@
             </c:when>
             <c:otherwise>
                 <p class="writer">작성자 : ${sessionScope.loginMember.nickName}</p>
-            </c:otherwise>
+            </c:otherwise> 
         </c:choose>
         <p class="reportTitle">게시글 : ${b.boardTitle}</p>
         </div>
@@ -164,6 +181,7 @@
             likeStatusCheck(); //좋아요 상태 표시
             bookStatusCheck(); //북마크 상태 표시
             selectioncheck(); //채택 여부 확인 
+            memberImg(); //멤버 캐릭터 이미지 가져오기 
 
             let btnOpenPopup = document.getElementsByClassName('btn-open-popup');
             const modal = document.querySelector('.msg1');
@@ -317,7 +335,7 @@
                             modifyBtn = '<div><p class="modiCheck" onclick="replyModify(this,' + list[i].boardReplyNo + ');">수정</p><p>삭제</p></div>';
                         };
 
-                        if('${ b.memberId }' == list[i].memberId ){
+                        if('${ b.memberId }' == '${ loginMember.nickName }'){
                             selectBtn = '<p class="oneTime" onclick="wantSelect(this)">채택<input type="hidden" value="'+ list[i].boardReplyNo + '"></p>'
                         }
 
@@ -545,7 +563,17 @@
                 success: function(r) {
                     
                     let result = '';
+                    let modifyBtn = '';
+
                     for (var i in r) {
+
+                        if('${ sessionScope.loginMember.nickName }' == r[i].memberId){
+                            modifyBtn  = '<div>'
+                                            + '<p class="reReplyModify" onclick=reReplyModify(this,' + r[i].reReplyNo + ')>수정</p>'
+                                            + '<p onclick="deleteRe(2,' + r[i].reReplyNo + ')">삭제</p>'
+                                        + '</div>'
+                        }
+
                         result += '<div class="clear">'
                                     + '<div id="rrCon"><img src=""></div>'
                                     + '<div id="rrList" class="clear">'
@@ -554,12 +582,9 @@
                                                 +  '<div class="clear">'
                                                     + '<p>' + r[i].memberId + '</p>'
                                                     + '<p>' + r[i].createDate + '</p>' 
-                                                    + '<div>'
-                                                        + '<p>수정</p>'
-                                                        + '<p>삭제</p>'
-                                                    + '</div>'
+                                                    + modifyBtn
                                                 + '</div>'
-                                                +  '<p>' + r[i].reReplyContent + '</p>'
+                                                + '<p class="reReplyCon' + r[i].reReplyNo + '">' + r[i].reReplyContent + '</p>'
                                             + '</div>'
                                         + '</div>'
                                     + '</div>'
@@ -575,6 +600,43 @@
                     console.log('대댓글 불러오기 실패');
                 }
             }); 
+        }
+
+        // 대댓글 수정하기 
+        function reReplyModify(e, num){
+            
+            var textdata = $(e).parent().parent().next().text();
+
+            $(".modiCheck").attr('onclick', null);
+            $('.reReplyModify').attr('onclick', null);
+
+            var modifyArea = '<textarea class="reReplayModify">' + textdata + '</textarea>'
+                            + '<button class="reReplyMBtn">수정</button>'
+                            + '<button class="reset reReplyRBtn">취소</button>'
+
+            $('.reReplyCon' + num ).html(modifyArea);
+
+            $('.reReplyMBtn').click(function(){
+                $.ajax({
+                    url : 'reReplyModify.bo',
+                    data : {
+                        reReplyNo : num,
+                        reReplyContent : $('.reReplayModify').val()
+                    },
+                    success : function(r){
+                        reply();
+                    },
+                    error : function(){
+
+                    }
+
+                });
+            });
+
+            $('.reset').click(function(){
+                reply();
+            })
+            
         }
 
         //태그 검색 
@@ -640,6 +702,7 @@
 
         // 답변 채택 하기
         function wantSelect(e){
+
             if(confirm('채택 하시겠습니까? 한번 채택 후 변경 불가능 합니다.')){
                 
                 var selectNum = $(e).children().val();
@@ -658,6 +721,7 @@
 
                 })
             }
+
         }
 
         // 신고하기
@@ -688,6 +752,33 @@
                 });
             }
 
+        }
+
+        // 멤버 캐릭터 이미지 가져오기
+        function memberImg(){
+            $.ajax({
+                url : 'memberImg',
+                data : {
+                    memberId : '${ b.memberId }'
+                },
+                success : (r) => {
+                    console.log(r);
+
+                    for(var i in r){
+                        if(r[i].itemCategory == '캐릭터'){
+                            $('#character').prop('src', r[i].itemPhoto );
+                        }
+                        if(r[i].itemCategory == '배경'){
+                            $('#bg').prop('src', r[i].itemPhoto);
+                        }
+                    }
+                    
+                    
+                },
+                error : () => {
+
+                }
+            })
         }
 
 

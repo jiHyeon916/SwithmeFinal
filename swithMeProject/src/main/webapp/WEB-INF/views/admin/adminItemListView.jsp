@@ -37,8 +37,10 @@
 					<button id="item1" class="noneBtn" onclick="selectBtn(this);">전체보기</button>
 					<button id="item2" class="noneBtn" onclick="selectBtn(this);">배경</button>
 					<button id="item3" class="noneBtn" onclick="selectBtn(this);">캐릭터</button>
+					<!-- 
 					<button id="item4" class="noneBtn" onclick="selectBtn(this);">모자</button>
 					<button id="item5" class="noneBtn" onclick="selectBtn(this);">도구</button>
+					 -->
 				</div>
                 <div class="status">
                     <span id="filter1" class="noneStatus" onclick="selectSpan(this);">⦁ 전체보기</span>
@@ -48,9 +50,7 @@
 
                 <!-- 아이템목록 -->
 				<div id="myItem">
-					<table>
-						<!-- 리스트 반복 -->
-					</table>
+					<!-- 리스트 반복 -->
 				</div>
 
 
@@ -78,8 +78,10 @@
 				<div id="itemIntro2">
 					<p id="modalCate1" class="itemType3" onclick="modalCategory(this.innerText);">배경</p>
 					<p id="modalCate2" class="itemType3" onclick="modalCategory(this.innerText);">캐릭터</p>
+					<!-- 					
 					<p id="modalCate3" class="itemType3" onclick="modalCategory(this.innerText);">모자</p>
-					<p id="modalCate4" class="itemType3" onclick="modalCategory(this.innerText);">도구</p>
+					<p id="modalCate4" class="itemType3" onclick="modalCategory(this.innerText);">도구</p> 
+					-->
 					<div class="mainInfo clear">
 						이름 : <input type="text" class="itemName" name="itemName"> <br>
 						가격 : <input type="number" class="itemPrice" name="itemPrice">point
@@ -95,6 +97,8 @@
 			</form>
 		</div>
 	</div>
+	
+	<jsp:include page="../common/footer.jsp" />
 
 	<script>
 		let item = '';
@@ -291,7 +295,7 @@
 								status = '<button class="notSale" onclick="statusUpdate(this);" value="Y" name="' + list[i].itemNo + '">판매중단</button>';
 							}
 
-							value += '<td>'
+							value += '<div class="tableList">'
 										+ '<input type="hidden" name="category" class="category" value="' + list[i].itemCategory + '" >'
 										+ '<input type="hidden" name="price" class="price" value="' + list[i].itemPrice + '" >'
 										+ '<input type="hidden" name="content" class="content" value="' + list[i].itemContent + '" >'
@@ -300,17 +304,11 @@
 										+ '<div><img src="' + list[i].itemPhoto + '" /></div>'
 										+ '<button class="update btn-open-popup">수정</button>'
 										+ status 
-								   + '</td>';
-
-							/*
-							if( i % 4 != 0){
-								test = '<tr>' + value + '</tr>';
-							}
-							*/
+								   + '</div>';
 						}
 
 					}
-					$('#myItem > table').html(value);
+					$('#myItem').html(value);
 				},
 				error : () => {
 					console.log('실패');
@@ -323,28 +321,32 @@
 			let itemNo = $(e).prop('name'); // 아이템 넘버
 			let statusText = e.value; // 아이템 판매 상태
 
-			let alertComment = '';
-			if(e.innerText == '판매중'){ alertComment = '[ No. ' + itemNo + ' ] 아이템을 판매중단 하시겠습니까?'}
-			else{ alertComment = '[ No. ' + itemNo + ' ] 판매중으로 변경하시겠습니까?'}
-			
-			if(confirm(alertComment)){
-				$.ajax({
-					url : 'itemSatusUpdate.ad',
-					data : {
-						itemNo : itemNo,
-						itemStatus : statusText
-					},
-					success : result => {
-						if(result > 0){
-							selectItemList(item, filter);			
-						} else {
-							alert('아이템 상태 변경 실패')
+			if(itemNo == 1 || itemNo == 2){
+				alert('회원가입시 지급된 기본 아이템은 판매중단이 불가능합니다.')
+			} else {
+				let alertComment = '';
+				if(e.innerText == '판매중'){ alertComment = '[ No. ' + itemNo + ' ] 아이템을 판매중단 하시겠습니까?'}
+				else{ alertComment = '[ No. ' + itemNo + ' ] 판매중으로 변경하시겠습니까?'}
+				
+				if(confirm(alertComment)){
+					$.ajax({
+						url : 'itemSatusUpdate.ad',
+						data : {
+							itemNo : itemNo,
+							itemStatus : statusText
+						},
+						success : result => {
+							if(result > 0){
+								selectItemList(item, filter);			
+							} else {
+								alert('아이템 상태 변경 실패')
+							}
+						},
+						error : () => {
+							console.log('상태변경 실패')
 						}
-					},
-					error : () => {
-						console.log('상태변경 실패')
-					}
-				});
+					});
+				};
 			};
 		};
 

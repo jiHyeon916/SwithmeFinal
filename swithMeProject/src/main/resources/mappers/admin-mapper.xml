@@ -43,6 +43,8 @@
 		<result column="SR_WEBSITE" property="studyRoomWebsite" />
 	</resultMap>
 	
+	
+	
 	<!-- 희재 -->
 	<!-- 스터디룸 게시글 수 -->
 	<select id="adminStudyRoomListCount" resultType="_int">
@@ -202,22 +204,19 @@
    </resultMap>
    
    
-   
-   
-   
-      <resultMap type="memberDetailInfo" id="memberDetailInfoReesultSet">
-         <result column="BOARD_NO" property="boardNo" />
-         <result column="MEMBER_ID" property="memberId" />
-         <result column="BOARD_TITLE" property="boardTitle" />
-         <result column="BOARD_CONTENT" property="boardContent"/>
-         <result column="CREATE_DATE" property="createDate" />
-   
-         <result column="SB_NO" property="sbNo"/>
-         <result column="MEMBER_ID" property="memberId" />
-         <result column="SB_TITLE" property="sbTitle" />
-         <result column="SB_INTRODICE" property="sbIntroduce" />
-         <result column="CREATE_DATE" property="createDate" />
-   </resultMap>
+    <resultMap type="memberDetailInfo" id="memberDetailInfoReesultSet">
+       <result column="BOARD_NO" property="boardNo" />
+       <result column="MEMBER_ID" property="memberId" />
+       <result column="BOARD_TITLE" property="boardTitle" />
+       <result column="BOARD_CONTENT" property="boardContent"/>
+       <result column="CREATE_DATE" property="createDate" />
+ 
+       <result column="SB_NO" property="sbNo"/>
+       <result column="MEMBER_ID" property="memberId" />
+       <result column="SB_TITLE" property="sbTitle" />
+       <result column="SB_INTRODICE" property="sbIntroduce" />
+       <result column="CREATE_DATE" property="createDate" />
+  </resultMap>
   
    
    
@@ -237,7 +236,20 @@
          <result column="SB_INTRODUCE" property="sbIntroduce" />
          <result column="CREATE_DATE" property="createDate" />
    </resultMap>
-  
+   
+<!--     <resultMap type="bandBoard" id="sbandResultset">
+   		<result column="SB_NO" property="sbNo" />
+   		<result column="SB_BOARD_NO" property="sbBoardNo" />
+   		<result column="MEMBER_ID" property="memberId" />
+   		<result column="SB_CATEGORY" property="sbCategory" />
+   		<result column="SB_CONTENT" property="sbContent" />
+   		<result column="SB_CREATE_DATE" property="sbCreateDate"/>
+   		<result column="SB_STATUS" property="sbStatus" />
+   		<result column="SB_COUNT" property="count"/>
+   		<result column="SB_TITLE" property="sbTitle" />
+   
+   </resultMap> -->
+   
    
    
    
@@ -317,13 +329,11 @@
          MEMBER
       WHERE
          MEMBER_ID = #{memberId}   
-   
    </select>
-   
    
    <!-- 회원 정지 해제  -->
    <update id="memberStopFree" parameterType="string">
-      UPDATE
+     	 UPDATE
                MEMBER
             SET
                MEMBER_STATUS = 'Y'
@@ -333,7 +343,7 @@
    
    <!-- 회원 정지 -->
    <update id="memberStop" parameterType="string">
-      UPDATE
+      	UPDATE
                MEMBER
             SET
                MEMBER_STATUS = 'N'
@@ -349,7 +359,8 @@
                 ,B.MEMBER_ID
                 ,BOARD_TITLE
                 ,BOARD_CONTENT
-               ,B.CREATE_DATE          
+               ,B.CREATE_DATE
+               ,B.SUMMARY          
             FROM
                 MEMBER M
             JOIN
@@ -367,7 +378,7 @@
         	
          
    </select>
-   <!-- 회원이 작성한 BAND글  -->
+  <!--   회원이 작성한 밴드 글 조회   
     <select id="memberDetailBand" parameterType="string" resultMap="bandResultSet">
           SELECT
              SB_NO
@@ -385,10 +396,47 @@
              AND SB_STATUS = 'Y'
         ORDER
             BY
-              CREATE_DATE DESC
+              CREATE_DATE DESC 
              
                 
-    </select>
+    </select>-->
+    
+    
+      <select id="memberDetailBand" parameterType="string" resultType="bandBoard">
+      		
+      		SELECT
+      			SB.SB_NO sbNo
+      			,SB_BOARD_NO sbBoardNo
+      			,SB.MEMBER_ID memberId
+      			,SB_CATEGORY sbCategory
+      			,SB_CONTENT sbContent
+      			,SB_CREATE_DATE sbCreateDate
+      			,SB.SB_STATUS sbStatus
+      			,SB.SB_COUNT sbCount
+               ,S.SB_TITLE boardTitle
+      		FROM
+      			MEMBER M
+      		JOIN
+      			SBAND_BOARD SB ON(M.MEMBER_ID = SB.MEMBER_ID)
+            JOIN
+      			SBAND S ON (S.SB_NO = SB.SB_NO)    
+      		WHERE
+      			M.MEMBER_ID = 'dfdf1234'
+      		AND
+      			SB.MEMBER_ID IS NOT NULL
+      		AND
+      			SB.SB_STATUS = 'Y'
+                 
+      		ORDER
+      			BY
+      				CREATE_DATE DESC					
+      
+      </select> 
+    
+   
+    
+    
+    
     
     <!-- 회원정보조회 -->
    <select id="memberInfo" parameterType="string" resultType="member">
@@ -421,11 +469,11 @@
    <!-- 회원 band삭제 -->
    <update id="deleteBandDetail" parameterType="_int">
 	   	UPDATE
-	   			SBAND
+	   			SBAND_BOARD
 	   		SET
 	   			SB_STATUS = 'N'
 	   		WHERE
-	   			SB_NO = #{boardNo}	
+	   			SB_BOARD_NO = #{boardNo}	
    
    </update>
    
@@ -437,7 +485,8 @@
                 ,B.MEMBER_ID
                 ,BOARD_TITLE
                 ,BOARD_CONTENT
-               ,B.CREATE_DATE          
+               ,B.CREATE_DATE
+               ,B.SUMMARY           
             FROM
                 MEMBER M
             JOIN
@@ -462,7 +511,8 @@
                 ,B.MEMBER_ID
                 ,BOARD_TITLE
                 ,BOARD_CONTENT
-               ,B.CREATE_DATE          
+               ,B.CREATE_DATE
+               ,B.SUMMARY           
             FROM
                 MEMBER M
             JOIN
@@ -483,48 +533,52 @@
   
   
   <!-- 회원이 밴드 글 BAND 제목으로 검색 -->
-  <select id="memBandSearchTitle" parameterType="hashmap" resultMap="bandResultSet">
-  			SELECT
-                SB_NO
-                ,S.MEMBER_ID
-                ,SB_TITLE
-                ,SB_INTRODUCE
-               ,S.CREATE_DATE          
+  <select id="memBandSearchTitle" parameterType="hashmap" resultType="bandBoard">
+  			   SELECT
+                SB.SB_NO sbNo
+                ,SB.MEMBER_ID memberId
+                ,S.SB_TITLE boardTitle
+                ,SB.SB_CONTENT sbContent
+               ,SB.SB_CREATE_DATE   sbCreateDate
             FROM
                 MEMBER M
             JOIN
-                SBAND S ON M.MEMBER_ID = S.MEMBER_ID
+                SBAND_BOARD SB ON (M.MEMBER_ID = SB.MEMBER_ID)
+            JOIN
+                SBAND S ON(SB.SB_NO = S.SB_NO)
             
             WHERE
                 M.MEMBER_ID = #{memberId}
             AND 
                 SB_TITLE LIKE '%' || #{keyword} || '%'
             AND
-            	SB_STATUS = 'Y'    
+            	SB.SB_STATUS = 'Y'    
             ORDER
                 BY
                 S.CREATE_DATE DESC
     </select>
    
    <!-- 회원 band글 내용으로 검색 -->
-   <select id="memBandSearchContent" parameterType="hashMap" resultMap="bandResultSet">
-   		SELECT
-                SB_NO
-                ,S.MEMBER_ID
-                ,SB_TITLE
-                ,SB_INTRODUCE
-               ,S.CREATE_DATE          
+   <select id="memBandSearchContent" parameterType="hashMap" resultType="bandBoard">
+         SELECT
+                SB.SB_NO sbNo
+                ,SB.MEMBER_ID memberId
+                ,S.SB_TITLE boardTitle
+                ,SB.SB_CONTENT sbContent
+               ,SB.SB_CREATE_DATE   sbCreateDate
             FROM
                 MEMBER M
             JOIN
-                SBAND S ON M.MEMBER_ID = S.MEMBER_ID
+                SBAND_BOARD SB ON (M.MEMBER_ID = SB.MEMBER_ID)
+            JOIN
+                SBAND S ON(SB.SB_NO = S.SB_NO)
             
             WHERE
                 M.MEMBER_ID = #{memberId}
             AND 
-                SB_INTRODUCE LIKE '%' || #{keyword} || '%'
+                SB_CONTENT LIKE '%' || #{keyword} || '%'
             AND
-            	SB_STATUS = 'Y'    
+            	SB.SB_STATUS = 'Y'    
             ORDER
                 BY
                 S.CREATE_DATE DESC

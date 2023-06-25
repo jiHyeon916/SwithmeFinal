@@ -135,13 +135,14 @@ header{
 }
 
 
+
+
 /* 메인버튼 */
 #mainButton{
     position: fixed;
     right: 2%;
     bottom: 3%;
     border-radius: 10px;
-    text-align: center;
 }
 #mainButton > div{
     float: left;
@@ -158,7 +159,7 @@ header{
 #mainButton div img{
     object-fit: cover;
     height: 50%;
-    margin-top: 10px;
+    margin: 10px 0px 0px 11px;
     display: inline-block;
 }
 #mainButton .setting{
@@ -178,15 +179,26 @@ header{
 #mainButton #thumb{
     width: 100px;
     height: 100px;
-    background-color: #f1f1f1;
     margin: 0 auto;
     border-radius: 50%;
     margin-top: 30px;
     margin-bottom: 10px;
+    position: relative;
+    overflow: hidden;
 }
-
+#mainButton #thumb img{
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    margin: 0;
+    padding: 0;
+}
+#mainButton #thumb #mainCh{
+    z-index: 7777;
+}
 #BtnBox > p {
     margin-bottom: 10px;
+    text-align: center;
 }
 #BtnBox > .mypagegoing{
     width: 170px;
@@ -208,4 +220,26 @@ header{
 #BtnBox ul li{
     font-size: 14px;
     padding: 3px 10px 3px;
+}
+
+
+/* 비로그인시 사이드 버튼  */
+#BtnBox .loginP{
+    font-size: 14px;
+    text-align: center;
+    margin-top: 80px;
+}
+
+#BtnBox .plzBtn{
+    width: 170px;
+    margin: 0 auto;
+}
+
+#BtnBox .loginPlz a,
+#BtnBox .joinPlz a{
+    font-size: 14px;
+}
+#BtnBox .loginPlz:hover,
+#BtnBox .joinPlz:hover{
+    background-color: #eeffe0;
 }

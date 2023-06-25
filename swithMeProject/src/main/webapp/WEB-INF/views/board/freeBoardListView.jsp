@@ -78,7 +78,7 @@
                 </c:choose>
                 
                 <div>
-                    <input type="text" id="searchBar" placeholder="키워드 검색" onkeyup="textSearch(this)"><img src="resources/search.png" alt="">
+                    <input type="text" id="searchBar" placeholder="키워드 검색" onkeyup="textSearch(this)"><img id="searchImg" src="resources/images/board/search.png" alt="">
                 </div>
             </div>
 
@@ -107,8 +107,8 @@
             
             <div id="ajaxList">
                 <!-- 리스트 영역 -->
+                <input type="hidden" value="free" id="bType">
                 <c:forEach items="${ list }" var="b">
-                <input type="hidden" value="${b.boardType}" id="bType">
                 <div class="freeBoardList" onclick="location.href='freeBoardDetail.bo?boardNo=${ b.boardNo }'">
                     <div class="freelist">
                         <div class="clear">
@@ -158,6 +158,12 @@
 
                     // });
 
+
+                    // 검색 이미지 클릭 
+                    $('#searchImg').click(function(){
+                        var searchText = $(this).prev().val();
+                        location.href="tagSearch.bo?key=" + searchText + '&boardType=' + $('#bType').val() + '&keyType=text';
+                    })
                 })
 
                 
@@ -324,6 +330,9 @@
                 }
 
 
+
+
+
                 // 페이징 처리 
                 function paging(e){
 
@@ -385,29 +394,7 @@
 
 
 
-    <div id="mainButton">
-        <div class="toptop"><img src="resources/images/common/topBtn.png" alt=""></div>
-        <div class="setting"><img src="resources/images/common/settingBtn.png" alt="">
-            <div id="BtnBox" class="clear">
-                <div id="thumb"></div>
-                <p>${sessionScope.loginMember.nickName}</p>
-                <div class="mypagegoing clear">
-                    <button><a href="mypage.me">마이페이지</a></button>
-                    <button><a href="">로그아웃</a></button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <script>
-        $('#mainButton > .toptop').click(function(){
-            $( 'html, body' ).animate( { scrollTop : 0 }, 400 );
-        })
-
-        $('.setting').click(function(){
-            $('#BtnBox').toggle();
-        })
-    </script>
+    <jsp:include page="../common/sideBtn.jsp" />
     <jsp:include page="../common/footer.jsp" />
 
 </body>

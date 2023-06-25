@@ -19,6 +19,10 @@
 		<result column="LIKECOUNT" property="likeCount" />
 		<result column="COMMENTCOUNT" property="commentCount" />
 		<result column="SB_RECRUIT_MEM" property="totalPerson" />
+		<result column="RPEV_TITLE" property="prev" />
+		<result column="PREV" property="prevNo" />
+		<result column="NEXT_TITLE" property="next" />
+		<result column="NEXT" property="nextNo" />
 	</resultMap>
 	
 	<resultMap id="replyResultMap" type="reply">
@@ -217,6 +221,7 @@
 			BOARD_SROOM_REVIEW
 		SET
 			REVIEW_CONTENT=#{reviewContent}
+			,REVIEW_STAR=#{reviewStar}
 			,REVIEW_DATE=SYSDATE
         WHERE
             REVIEW_NO = #{reviewNo}
@@ -580,6 +585,24 @@
 		  	  BOARD_REPLY
 		 WHERE
 		 	  BOARD_NO = #{ boardNo }
+		   AND
+		   	  BOARD_STATUS = 'Y'
+	</select>
+	
+	<!-- 대댓글 수 카운트 -->
+	<select id="rereplyCount" resultType="_int">
+		SELECT 
+			  COUNT(*)
+		  FROM
+		   	  BOARD_RE_REPLY
+ 		  JOIN
+ 		  	  BOARD_REPLY USING(BOARD_REPLY_NO)
+ 		 WHERE
+ 		 	  BOARD_NO = #{ boardNo }
+ 		   AND
+ 		   	  STATUS = 'Y'
+ 		   AND
+ 		   	  BOARD_STATUS = 'Y'
 	</select>
 	
 	<!-- 댓글 가져오기 -->
@@ -644,7 +667,7 @@
 		  	  BOARD_ALARM
 		VALUES
 			  (
-			  SEQ_BOARD_ALARM_NO.NEXTVAL
+			  's_'||SEQ_BOARD_ALARM_NO.NEXTVAL
 			 ,(SELECT MEMBER_ID FROM MAINBOARD WHERE BOARD_NO = #{boardNo})
 			 ,#{boardNo}
 			 ,'댓글'
@@ -677,7 +700,7 @@
 		  	  BOARD_ALARM
 		VALUES
 			  (
-			  SEQ_BOARD_ALARM_NO.NEXTVAL
+			  's_'||SEQ_BOARD_ALARM_NO.NEXTVAL
 			 ,(SELECT MEMBER_ID FROM MAINBOARD WHERE BOARD_NO = #{ reReplyNo })
 			 ,#{ reReplyNo }
 			 ,'대댓글'
@@ -1311,7 +1334,9 @@
 		 WHERE
               ITEM_STATUS = 'Y'
            AND
-           	  ITEM_NO != 0
+           	  ITEM_NO != 1
+           AND
+           	  ITEM_NO != 2
            <if test="category != '전체보기'">
            AND
               ITEM_CATEGORY = #{category}
@@ -1336,9 +1361,45 @@
 			  )
 	</insert>
 	
+	<!--  디테일 작성자 썸네일 가져오기  -->
+	<select id="memberImg" resultMap="itemResultSet">
 	
+		SELECT
+		      ITEM_PHOTO
+		     ,ITEM_CATEGORY
+		  FROM
+		  	  BOARD_ITEM
+		  JOIN
+		  	  MEMBER_ITEM USING(ITEM_NO)
+          JOIN
+              MEMBER USING(MEMBER_ID)
+		 WHERE
+		 	  NICKNAME = #{ memberId }
+		   AND
+		   	  WEAR_STATUS = 'Y'
+		   	  
+	</select>
 	
+	<!-- 이전글 다음글  -->
+	<select id="boardlist" resultMap="boardResultSet">
 	
+	SELECT *
+	  FROM (SELECT
+	               BOARD_NO, 
+	               LAG(BOARD_NO, 1) OVER(ORDER BY ROWNUM) AS PREV,
+	               LAG(BOARD_TITLE, 1) OVER(ORDER BY ROWNUM) AS RPEV_TITLE,
+	               LEAD(BOARD_NO, 1) OVER(ORDER BY ROWNUM) AS NEXT,
+	               LEAD(BOARD_TITLE, 1) OVER(ORDER BY ROWNUM) AS NEXT_TITLE
+   			  FROM	
+	               (select ROWNUM, A.*
+	                   from(SELECT * 
+	                           FROM MAINBOARD 
+	                        WHERE BOARD_TYPE = 'free'
+	                        AND BOARD_STATUS = 'Y') A)
+            )
+	WHERE BOARD_NO = #{ boardNo }
+	
+	</select>
 	
 	
 	

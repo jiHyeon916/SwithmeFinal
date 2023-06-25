@@ -47,9 +47,6 @@
 			<mapping path="/memBoardSearchContent.ad"/>
 			<mapping path="/memBandSearchTitle.ad"/>
 			<mapping path="/memBandSearchContent.ad"/>
-			<mapping path="/qnaAnswer"/>
-			<mapping path="/qnaAnswerList"/>
-			<mapping path="/qnaAnswerUpdate"/>
 			<mapping path="/itemList.ad"/>
 			<mapping path="/itemSatusUpdate.ad"/>
 			<mapping path="/itemUpdate.ad"/>
@@ -76,7 +73,7 @@
 			<mapping path="/qnaDelete"/>
 			<mapping path="/selectMyItemList.ad"/>
 			<mapping path="/deleteItem.me"/>
-			<mapping path="/myCharacter.me"/>
+			<!-- <mapping path="/myCharacter.me"/> -->
 			<mapping path="/wearUpdate.me"/>
 			<mapping path="/alarm.me"/>
 			<mapping path="/mail.me"/>

@@ -230,6 +230,7 @@
 			   ,NICKNAME
 			   ,A.MEMBER_ID
 			   ,NVL2(B.MEMBER_ID,'리더','일반') "SORT"
+			   ,BANISH
 		  FROM 
 		  		SBAND_MEMBER A
 		  JOIN 
@@ -549,6 +550,7 @@
 		SELECT 
 				NVL(SB_NO,0) sbNo
 			   ,NVL(MEMBER_ID,'0') memId
+			   ,BANISH
 		  FROM 
 		  		SBAND_MEMBER
 		 WHERE 
@@ -643,5 +645,37 @@
 		 WHERE
 				REF_NO = #{sbBoardNo}		
 	</select>
+	
+	<update id="updateBandMemberCount">
+		UPDATE
+				SBAND
+		   SET
+				SB_NOW_MEM = SB_NOW_MEM - 1
+		 WHERE
+				SB_NO = #{sbNo}
+	</update>
+
+	<select id="memberTotalTotal" resultType="bandMember">
+		SELECT
+                NVL(SB_NO,0) sbNo
+			   ,NVL(MEMBER_ID,'0') memId
+			   ,BANISH
+          FROM
+                SBAND_MEMBER
+         WHERE
+                SB_NO = #{sbNo}
+           AND
+          		BANISH = 'N'
+           AND
+           		MEMBER_ID = #{memId}
+	</select>
+	
+	<delete id="deleteBand">
+		DELETE
+		  FROM
+				SBAND
+		 WHERE
+		 		SB_NO = #{sbNo}
+	</delete>
 	
 </mapper>

@@ -122,11 +122,11 @@
         var formData = new FormData(form);
 
         
-
-        $.ajax({
+        if($('#fileSelect').val() != ''){
+                $.ajax({
             url : 'studyBandInsert.bo',
             processData: false,
-		    contentType: false,
+            contentType: false,
             type : 'post',
             data : formData,
             // data : {
@@ -146,7 +146,10 @@
             error : function(){
                 console.log('ajax통신 실패');
             }
-        })
+        })      
+        }else{
+            alert('사진은 필수 등록 사항 입니다.');
+        }
 
 
         

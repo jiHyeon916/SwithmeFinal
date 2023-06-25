@@ -52,11 +52,18 @@
 				
 				<!-- 글쓴 정보 : 제목, 날짜, 작성자 -->
 				<div class="writerInfo clear">
-					<img src="" alt="" id="character">
+					<div class="character">
+						<!-- 
+						<img id="wearItem0" class="wearItem" src="" alt="도구" name="0"/>
+						<img id="wearItem1" class="wearItem" src="" alt="모자" name="0"/>
+						 -->
+						<img id="wearItem2" class="wearItem" src="" alt="배경" name="0"/>
+						<img id="wearItem3" class="wearItem" src="" alt="캐릭터" name="0"/>
+					</div>
 					<div class="clear">
 						<h6 class="title">${ qna.qnaTitle }</h6>
 						<div class="clear">
-							<p class="writerId">${ qna.qnaTitle }</p>
+							<p class="writerId">${ qna.memberId }</p>
 							<p class="writerDate">${ qna.qnaDate }</p>
 						</div>
 					</div>
@@ -67,6 +74,7 @@
 					<p>${ qna.qnaContent }</p>
 				</div>
 
+				<!-- 답변영역 -->
 				<div class="replyArea">
 					<c:choose>
 						<c:when test="${ loginMember.memberId eq 'admin' }">
@@ -80,7 +88,7 @@
 					<div class="blank"></div>
 
 					<div class="replyWrap">
-						<!-- 댓글 컨텐츠 영역 -->
+						<!-- 답변 내용 영역 -->
 					</div>
 				</div>
 
@@ -93,11 +101,42 @@
 		</div>
 	</div>
 	
+	<jsp:include page="../common/footer.jsp" />
+	
 	<script>
 		$(function(){
-			//console.log('${ qna.qnaNo }');
-			selectQnaReply('${ qna.qnaNo }'); // 답변 목록 불러오기
+			myCharacter(); // 문의글 작성자 캐릭터
+			selectQnaReply(); // 답변 목록 불러오기
 		})
+
+		// 문의글 작성자 캐릭터
+		function myCharacter(){
+			let wearItemArr = $('.wearItem');
+			
+			$.ajax({
+				url : 'myCharacter.me',
+				data : {
+					memberId : '${ qna.memberId }'
+				},
+				success : list => {
+					value = '';
+					for(let i in list){
+						// 순서 : 도구 > 모자 > 배경 > 캐릭터
+						$('.wearItem').each(function(){
+							let imgAlt = $(this).attr('alt');
+							
+							if(list[i].itemCategory == imgAlt){
+								$(this).attr('src', list[i].itemPhoto);
+								$(this).attr('name', list[i].itemNo);
+								$(this).css('display', 'inline');
+							};
+						});
+					};
+				},
+				error : () => {
+				}
+			});
+		};
 	
 		// 문의글 삭제
 		function qnaDelete(){
@@ -140,27 +179,30 @@
 		
 		
 		// 답변 출력
-		function selectQnaReply(qnaNo2){
-			console.log(qnaNo2);
+		function selectQnaReply(){
 			 // adminController
 			$.ajax({
 				url : 'qnaAnswerList',
 				data : {
-					qnaNo : qnaNo2
+					qnaNo : ${ qna.qnaNo }
 				},
 				success : list => {
-						
-						let value = '';
-						
+					let value = '';
+					if(list.length > 0){
 						for(let i in list){
 							value += '<div class="replyList">'
-									   + '<p>관리자</p>'
-									   + '<p>' + list[i].qnaReplyCreateDate +'</p>'
-									   + '<p>' + list[i].qnaReplyContent +'</p>'
-								   + '</div>'
-								   + '<hr/>'
+								   + '<div class="rInfo">'
+										+ '<p>관리자</p>'
+										+ '<p>' + list[i].qnaReplyCreateDate +'</p>'
+									+ '</div>'
+									+ '<p>' + list[i].qnaReplyContent +'</p>'
+							   + '</div>'
+							   + '<hr/>'
 						}
-						$('.replyWrap').html(value);
+						
+					}
+					$('.replyWrap').html(value);
+					
 				},
 				error : () => {
 					console.log('댓글 불러오기 실패');

@@ -3,6 +3,7 @@ package com.kh.swithme.band.model.service;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import com.google.gson.JsonElement;
 import com.kh.swithme.band.model.vo.Band;
 import com.kh.swithme.band.model.vo.BandAlarm;
 import com.kh.swithme.band.model.vo.BandAttach;
@@ -64,6 +65,8 @@ public interface BandService {
 	int insertBandMember(BandMember bm);
 	int enrollBandMember(int sbNo);
 	int banishComfirm(BandMember bm);
+	// 강제탈퇴 당한 멤버 조회(가입 막기 위해서)
+	BandMember memberTotalTotal(BandMember bm);
 	
 	// ------------------- 밴드 정보 -------------------
 	Band selectBandInfo(int sbNo);
@@ -93,6 +96,8 @@ public interface BandService {
 	ArrayList<BandMember> selectMemberList(int sbNo);
 	// 밴드 멤버 강제탈퇴(방장)
 	int updateBandMember(BandMember bm);
+	// 밴드 멤버 강제탈퇴 후 밴드 멤버 카운트 수 변경
+	int updateBandMemberCount(Band b);
 	
 	
 	// ------------------- 밴드 탈퇴 -------------------
@@ -117,6 +122,9 @@ public interface BandService {
 	int readerAlarm(BandAlarm ba);
 
 	ArrayList<BandAttach> selectPhoto(int sbBoardNo);
+	
+	// 방장 혼자 남았을 때 밴드 삭제하기
+	int deleteBand(int sbNo);
 
 
 

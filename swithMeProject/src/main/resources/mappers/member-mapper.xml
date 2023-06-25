@@ -157,6 +157,7 @@
 			,CALENDAR_CONTENT=#{calendarContent}
 			,START_DAY=#{startDay}
 			,END_DAY=#{endDay}
+			,COLOR=#{color}
 		WHERE
 			CALENDAR_NO=#{calendarNo}
 		AND
@@ -241,26 +242,45 @@
 	
 	<!-- myStudyBand List 조회 -->
 	<select id="allStudyBandList" parameterType="string" resultMap="MyStudyBandResultSet">
-		SELECT DISTINCT
-			SB_NO
-			,SB_TITLE
-			,SB_INTRODUCE
-			,SB_CHANGE_NAME
-		FROM
-			SBAND
+		SELECT 
+		    A.SB_NO 
+		    ,A.SB_TITLE
+		    ,A.SB_INTRODUCE
+		    ,A.SB_CHANGE_NAME
+		FROM 
+			SBAND A
+		JOIN 
+			SBAND_MEMBER B ON A.SB_NO = B.SB_NO
 		WHERE
-			MEMBER_ID=#{memberId}
+		    B.MEMBER_ID=#{memberId}
+		AND 
+			B.BANISH='Y'
 	</select>
 	
 	<select id="favoriteStudyBand" parameterType="string" resultMap="MyStudyBandResultSet">
 		SELECT 
-			SB_NO
+			A.SB_NO, B.SB_TITLE, B.SB_INTRODUCE, B.SB_CHANGE_NAME
 		FROM 
+			SBAND_BOOKMARK A
+        JOIN SBAND B ON A.SB_NO = B.SB_NO
+        WHERE
+            A.MEMBER_ID=#{memberId}
+	</select>
+	
+	<!-- 북마크 존재하는지 조회 -->
+	<select id="selectSbandBookmark" parameterType="bandBookMark" resultType="_int">
+		SELECT COUNT(*)
+		FROM
 			SBAND_BOOKMARK
+		WHERE
+			SB_NO=#{sbNo}
+		AND
+			MEMBER_ID=#{memberId}
+
 	</select>
 	
 	<!-- 스터디밴드 북마크 추가 -->
-	<insert id="insertSbandBookmark" parameterType="BandBookMark">
+	<insert id="insertSbandBookmark" parameterType="bandBookMark">
 		INSERT
 		INTO
 			SBAND_BOOKMARK
@@ -271,7 +291,7 @@
 			)
 	</insert>
 	
-	<delete id="deleteSbandBookmark" parameterType="BandBookMark">
+	<delete id="deleteSbandBookmark" parameterType="bandBookMark">
 		DELETE
 		FROM
 			SBAND_BOOKMARK
@@ -590,6 +610,7 @@
 		                	SELECT ALARM_CATEGORY, ALARM_SB_NO, SUBSTR(ALARM_NO, 1, 1) "ALARM_SORT", SUBSTR(ALARM_NO, 3,2) "ALARMSUB_NO", TO_CHAR(ALARM_DATE, 'YYYY-MM-DD HH:MI:SS') "ALARM_DATE", B.ALARM_STATUS
 		                  FROM BAND_ALARM B
 		                 	WHERE ALARM_MEMBER = #{memberId}
+		                 		
 		                 ORDER 
 		                    BY ALARM_DATE DESC
 			</select>
@@ -697,7 +718,7 @@
 	
 	<!-- 사용자의 포인트 리스트 조회 -->
 	<select id="myPointList" parameterType="string" resultMap="pointResultSet">
-		SELECT POINT_STATUS, POINT_SCORE, POINT_DETAIL, TO_CHAR(POINT_TIME, 'YYYY-MM-DD') "POINT_TIME"
+		SELECT POINT_STATUS, POINT_SCORE, POINT_DETAIL, TO_CHAR(POINT_TIME, 'YYYY-MM-DD HH:MI:SS') "POINT_TIME"
 		  FROM POINT
 		 WHERE MEMBER_ID = #{ memberId }
 		 ORDER
@@ -710,7 +731,7 @@
 		  FROM (SELECT distinct SUM(POINT_SCORE) OVER(PARTITION BY POINT_STATUS ORDER BY POINT_STATUS) "A", MEMBER_ID
 		          FROM POINT
 		         WHERE POINT_STATUS = 'Y'
-		           AND MEMBER_ID = 'user03'
+		           AND MEMBER_ID = #{ memberId }
 		           AND TO_CHAR(SYSDATE, 'YYYYMMDD') = TO_CHAR(POINT_TIME, 'YYYYMMDD'))
 	</select>
 	
@@ -969,7 +990,6 @@
 		  FROM MEMBER_ITEM
 		  JOIN BOARD_ITEM USING(ITEM_NO)
 		 WHERE MEMBER_ID = #{ memberId }
-		   AND ITEM_STATUS = 'Y'
 		   <if test="itemCategory != '전체보기'">
 		   AND ITEM_CATEGORY = #{ itemCategory }
 		   </if>
@@ -981,10 +1001,10 @@
 		  FROM MEMBER_ITEM
 		  JOIN BOARD_ITEM USING(ITEM_NO)
 		 WHERE MEMBER_ID = #{ memberId }
-		   AND ITEM_STATUS = 'Y'
 		   <if test="itemCategory != '전체보기'">
 		   AND ITEM_CATEGORY = #{ itemCategory }
 		   </if>
+		 ORDER BY ITEM_NO DESC
 	</select>
 	
 	<!-- 보유 아이템 삭제 -->
@@ -1001,7 +1021,6 @@
 		  FROM MEMBER_ITEM
 		  JOIN BOARD_ITEM USING(ITEM_NO)
 		 WHERE MEMBER_ID = #{ memberId }
-		   AND ITEM_STATUS = 'Y'
 		   AND WEAR_STATUS = 'Y'
 		   ORDER BY ITEM_CATEGORY
 	</select>

@@ -128,14 +128,13 @@ public class MemberControllerL {
       
          if(memberService.joinMember(m) > 0) { //회원가입 성공
             memberService.joinPoint(m);
+            
             if(memberService.defaultCharacter(m) > 0) {
             	memberService.defaultBackground(m);
             };
-            	//message = "<script>alert('환영합니다 ! 500p가 지급되었습니다 !');location.href='loginForm.me';</script>";
                session.setAttribute("alertMsg","회원가입을 축하합니다 ! 500p가 지급되었습니다 !");   
                mv.setViewName("member/loginForm");
             }else {
-               //message = "<script>alert('회원가입을 다시 시도해주세요.');location.href='memberEnrollForm.me';</script>";
             	session.setAttribute("alertMsg","회원가입에 실패했습니다.");   
                 mv.setViewName("member/memberEnrollForm");
             }
@@ -282,7 +281,7 @@ public class MemberControllerL {
 				}else { //비번 잘못침.
 				
 					session.setAttribute("alertMsg", "비밀번호를 다시 입력해주세요.");
-					return "redirect:profil.me";
+					return "redirect:mypage.me";
 		}
 	
 		//암호화하기 

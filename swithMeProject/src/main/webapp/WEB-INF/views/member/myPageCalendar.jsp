@@ -116,6 +116,12 @@ a:hover {
 	border: 1px solid black;
 }
 
+.selectedColor.hover
+{
+	border: 1px solid black;
+}
+
+
 
 </style>
 
@@ -197,7 +203,7 @@ a:hover {
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">일정을 입력하세요.</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">일정</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -205,30 +211,30 @@ a:hover {
                 <div class="modal-body">
                     <div class="form-group">
 						<label for="taskId" class="col-form-label">색 선택</label>
-                    	<div class="selectColors">
-	                    	<input type="radio" name="Color" value="#80f0c1ea" id="Color1" style="display:none;"checked>
-	                    	<div class="selectColor" style="display:inline-block;width : 50px;height : 50px;background-color:#80f0c1ea; "></div> &nbsp;&nbsp;
-	                    	<input type="radio" name="Color" value="lightpink" id="Color2" style="display:none;">
-                    		<div class="selectColor" style="display:inline-block;width : 50px;height : 50px;background-color:lightpink;"></div>&nbsp;&nbsp;
-	                    	<input type="radio" name="Color" value="lightgoldenrodyellow" id="Color3" style="display:none;">
-                    		<div class="selectColor" style="display:inline-block;width : 50px;height : 50px;background-color:lightgoldenrodyellow;"></div>&nbsp;&nbsp;
-	                    	<input type="radio" name="Color" value="lightblue" id="Color4" style="display:none;">
-                    		<div class="selectColor" style="display:inline-block;width : 50px;height : 50px;background-color:lightblue;"></div>&nbsp;&nbsp;
-	                    	<input type="radio" name="Color" value="lightgrey" id="Color5" style="display:none;">
-                    		<div class="selectColor" style="display:inline-block;width : 50px;height : 50px;background-color:lightgrey;"></div> &nbsp;&nbsp;
+                    	<div class="selectedColors">
+	                    	<input type="radio" name="Color" value="#80f0c1ea" id="sColor1" style="display:none;"checked>
+	                    	<div class="selectedColor" style="display:inline-block;width : 50px;height : 50px;background-color:#80f0c1ea; "></div> &nbsp;&nbsp;
+	                    	<input type="radio" name="Color" value="lightpink" id="sColor2" style="display:none;">
+                    		<div class="selectedColor" style="display:inline-block;width : 50px;height : 50px;background-color:lightpink;"></div>&nbsp;&nbsp;
+	                    	<input type="radio" name="Color" value="lightgoldenrodyellow" id="sColor3" style="display:none;">
+                    		<div class="selectedColor" style="display:inline-block;width : 50px;height : 50px;background-color:lightgoldenrodyellow;"></div>&nbsp;&nbsp;
+	                    	<input type="radio" name="Color" value="lightblue" id="sColor4" style="display:none;">
+                    		<div class="selectedColor" style="display:inline-block;width : 50px;height : 50px;background-color:lightblue;"></div>&nbsp;&nbsp;
+	                    	<input type="radio" name="Color" value="lightgrey" id="sColor5" style="display:none;">
+                    		<div class="selectedColor" style="display:inline-block;width : 50px;height : 50px;background-color:lightgrey;"></div> &nbsp;&nbsp;
                     	</div>
                         <label for="taskId" class="col-form-label">일정 제목</label>
-                        <input type="text" class="form-control" id="detail_calendar_title" name="detail_calendar_title"  disabled >
+                        <input type="text" class="form-control" id="detail_calendar_title" name="detail_calendar_title"  readonly >
                         <label for="taskId" class="col-form-label">일정 내용</label>
-                        <input type="text" class="form-control" id="detail_calendar_content" name="detail_calendar_content" disabled>
+                        <input type="text" class="form-control" id="detail_calendar_content" name="detail_calendar_content" readonly>
                         <label for="taskId" class="col-form-label">시작 날짜</label>
-		                <input type="date" class="form-control" id="detail_calendar_start_date" name="detail_calendar_start_day" disabled >
+		                <input type="date" class="form-control" id="detail_calendar_start_date" name="detail_calendar_start_day" readonly >
                         <label for="taskId" class="col-form-label">종료 날짜</label>
-                        <input type="date" class="form-control" id="detail_calendar_end_date" name="detail_calendar_end_day" disabled>
+                        <input type="date" class="form-control" id="detail_calendar_end_date" name="detail_calendar_end_day" readonly>
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" id="updateSchedule">수정하기</button>
+                    <button type="button" id="updateSchedule" >수정하기</button>
                     <button type="button" id="deleteSchedule">삭제하기</button>
                     <button type="button" data-dismiss="modal" id="sprintSettingModalClose">취소</button>
                 </div>
@@ -267,6 +273,8 @@ a:hover {
 	    	  document.getElementById('calendar_end_date').value = date2;
 	    	  $("#calendarModal").modal("show"); // modal 나타내기
 	    	  $('#addCalendar').on('click', function(){
+				  var endDay = $('#calendar_end_date').val();
+				  showEndDay = moment(endDay).add(1,'days').format('YYYY-MM-DD');
 	        	  $.ajax({
 	            	  url:'addSchedule.me',
 	            	  data : {
@@ -274,7 +282,7 @@ a:hover {
 	            		  memberId : '${ loginMember.memberId }',
 	            		  calendarContent : $('#calendar_content').val(),
 	            		  startDay : $('#calendar_start_date').val(),
-	            		  endDay : $('#calendar_end_date').val(),
+	            		  endDay : showEndDay,
           				  color :  $('input[name=Color]:checked').val()
 	            	  },
 	            	  success : function(result){
@@ -291,30 +299,34 @@ a:hover {
 	      eventClick: function(arg) {
 	    	  //캘린더 수정
 	    	  $("#calendarModalDetail").modal("show"); // modal 나타내기
+	    	  
+  			
 	    	  var title = arg.event._def.title;
 	    	  var calendarNo = arg.event._def.extendedProps.calendarNo;
 	    	  var calendarContent = arg.event._def.extendedProps.calendarContent;
-	    	  
+	    	  var color = arg.event._def.ui.backgroundColor;
 	    	  var startDay =  moment(arg.event._instance.range.start).format('YYYY-MM-DD');
-	    	  var endDay =  moment(arg.event._instance.range.end).format('YYYY-MM-DD');
-	    	  
+	    	  var endDay =  moment(arg.event._instance.range.end).subtract(1,'days').format('YYYY-MM-DD');
+	  
 	    	  document.getElementById('detail_calendar_title').value = title;
 	    	  document.getElementById('detail_calendar_content').value = calendarContent;
 	    	  document.getElementById('detail_calendar_start_date').value = startDay;
 	    	  document.getElementById('detail_calendar_end_date').value = endDay;
-	     		
+
 	    	  $('#updateSchedule').on('click', function(){
-	    		  $('#detail_calendar_title').removeAttr('disabled');
-	    		  $('#detail_calendar_content').removeAttr('disabled');
-	    		  $('#detail_calendar_start_date').removeAttr('disabled');
-	    		  $('#detail_calendar_end_date').removeAttr('disabled');
+
+	    		  $('#detail_calendar_title').removeAttr('readonly');
+	    		  $('#detail_calendar_content').removeAttr('readonly');
+	    		  $('#detail_calendar_start_date').removeAttr('readonly');
+	    		  $('#detail_calendar_end_date').removeAttr('readonly');
 	    		  
 	    		  let updateBtn=document.getElementById('updateSchedule');
 	    		  updateBtn.innerText='확인';
 	    		  $('#deleteSchedule').remove();
 	    		  
 	    		  $(updateBtn).on('click',function(){
-	    			  console.log(calendarNo);
+					  var endDay = $('#detail_calendar_end_date').val();
+					  showEndDay = moment(endDay).add(1,'days').format('YYYY-MM-DD');
 	    			  $.ajax({
 	    				  url : 'updateSchedule.me',
 	    				  data : {
@@ -323,7 +335,8 @@ a:hover {
 		            		  memberId : '${ loginMember.memberId }',
 		            		  calendarContent : $('#detail_calendar_content').val(),
 		            		  startDay : $('#detail_calendar_start_date').val(),
-		            		  endDay : $('#detail_calendar_end_date').val()
+		            		  endDay : showEndDay,
+		            		 color :  $('input[name=Color]:checked').val()
 	    				  },
 	    				  success: function(){
 	    					  console.log('성공');
@@ -334,6 +347,33 @@ a:hover {
 	    				  }
 	    			  })
 	    		  })
+	    		  
+	    		  $('.selectedColor').hover(function(){
+	    			    $(this).css('transform','scale(1.2)');
+	    			  }, function(){
+	    			    $(this).css('transform','scale(1.0)');
+	    			  });
+	    		  
+	    			$(function(){
+	    				$('.selectedColor').click(function(){
+	    					var selectColor = $(this).prev();
+	    					var selectColor2 = $(this);
+	    					console.log(selectColor.val());
+	    					$('input[name=Color]:checked').removeAttr('checked');
+	    					$('.selectedColor').removeClass('hover');
+	    					selectColor.attr('checked', true);
+	    					selectColor2.addClass('hover');
+	    					});
+	    				});
+	    			$(function(){
+	    				for(var i = 0; i< 5; i++){
+	    			    	if($('input[name=Color]').eq(i).attr("value") === color){
+	    			    		console.log($('input[name=Color]').eq(i).attr("value"));
+	    			    		$('input[name=Color]').eq(i).attr('checked', true);
+	    			    		$('input[name=Color]').eq(i).next().addClass('hover');
+	    			    	}
+	    				}
+	    			})
 	    		  
 	    	  });
 	    	  
@@ -398,6 +438,7 @@ a:hover {
 	    calendar.render();
 	  });
 	
+	
 	//색상 선택
 	$(function(){
 		$('#Color1').next().addClass('hover');
@@ -411,6 +452,9 @@ a:hover {
 			});
 		});
 	
+
+	
+
 		
 
 

@@ -119,12 +119,19 @@
     margin-left: 10px;
 }
 .uploadBtn{
-padding: 6px 25px;
-background-color:rgb(233, 233, 233);
-border-radius: 4px;
-color: black;
-cursor: pointer;
-
+    padding: 3px 10px;
+    background-color:rgb(233, 233, 233);
+    border-radius: 4px;
+    color: black;
+    cursor: pointer;
+}
+.deleteBtn{
+    padding: 3px 10px;
+    background-color:rgb(233, 233, 233);
+    border-radius: 4px;
+    color: black;
+    cursor: pointer;
+    border : none;
 }
 
 /*input*/
@@ -174,13 +181,18 @@ tr{
     border-radius: 5px;
     padding: 10px;
 }
-#studyRoomImg{
-    width : 400px;
-    height: 300px;
+.studyRoomImg{
+    width : 33%;
+    height: 250px;
+    text-align: right;
+    float: left;;
 }
-#studyRoomView{
-    width : 400px;
-    height: 300px;
+.studyRoomView{
+    width : 90%;
+    height: 200px;
+}
+.studyRoomView.selected{
+    border:2px solid black;
 }
 
 </style>
@@ -211,7 +223,7 @@ tr{
                         <div class="post_content" >
                             <table>
                                 <tr>
-                                    <td><p>스터디룸 이름</p></td>
+                                    <td style="width:15%;"><p>스터디룸 이름</p></td>
                                     <td><input type="text" name="studyRoomName" id="studyRoomName" required value="${studyRoom.studyRoomName}"></td>
                                 </tr>
                                 <tr>
@@ -256,18 +268,45 @@ tr{
                                 </tr>
                                 <tr>
                                     <td><p>사진</p></td>
-                                    <td>
-                                        <label class="uploadBtn" for="upfile">업로드</label> 
-                                        <input type="file" id="upfile" name="reUpFile" onchange="preview(this);" style="display:none;">
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td></td>
-                                    <td>
-                                        <div id="studyRoomImg">
-                                            <img id="studyRoomView" src="${change}" /></div>
-                                            <input type="hidden" name="originName" value="${origin}"/>
-                                            <input type="hidden" name="changeName" value="${change}" />
+                                    <td id="imageArea">
+                                        <div class="studyRoomImg">
+                                            <input type="radio" name="checkThumnail" checked value="0">
+                                            <label class="uploadBtn" for="reUpFile1">추가</label> 
+                                            <input type="file" id="reUpFile1" name="reUpFile[]" onchange="preview(this,'studyRoomView1');" style="display:none;">
+                                            <button type="button" class="deleteBtn" onclick="deleteImage('studyRoomView1','upFile1');">삭제</button>
+                                            <img id="studyRoomView1" class="studyRoomView" src="${imageList[0].changeName} " />
+                                            <input type="hidden" name="originName" value="${imageList[0].originName}"/>
+                                        </div>
+                                        <div class="studyRoomImg">
+                                            <input type="radio" name="checkThumnail" value="1">
+                                            <label class="uploadBtn" for="reUpFile2">추가</label> 
+                                            <input type="file" id="reUpFile2" name="reUpFile[]" onchange="preview(this,'studyRoomView2');" style="display:none;">
+                                            <button type="button" class="deleteBtn" onclick="deleteImage('studyRoomView2', 'upFile2');">삭제</button>
+                                            <c:choose>
+                                                <c:when test="${not empty imageList[1]}">
+                                                    <img id="studyRoomView2" class="studyRoomView" src="${imageList[1].changeName}" />
+                                                    <input type="hidden" name="originName" value="${imageList[1].originName}"/>
+                                                </c:when>
+                                                <c:otherwise>
+                                                    <img id="studyRoomView2" class="studyRoomView" src="resources/images/member/none.jpeg" />
+                                                </c:otherwise>
+                                            </c:choose>
+                                        </div>
+                                        <div class="studyRoomImg">
+                                            <input type="radio" name="checkThumnail" value="2">
+                                            <label class="uploadBtn" for="reUpFile3">추가</label> 
+                                            <input type="file" id="reUpFile3" name="reUpFile[]" onchange="preview(this,'studyRoomView3');" style="display:none;">
+                                            <button type="button" class="deleteBtn" onclick="deleteImage('studyRoomView3', 'upFile3');">삭제</button>
+                                            <c:choose>
+                                                <c:when test="${not empty imageList[2]}">
+                                                    <img id="studyRoomView3" class="studyRoomView" src="${imageList[2].changeName}" />
+                                                    <input type="hidden" name="originName" value="${imageList[2].originName}"/>
+                                                </c:when>
+                                                <c:otherwise>
+                                                    <img id="studyRoomView3" class="studyRoomView" src="resources/images/member/none.jpeg" />
+                                                </c:otherwise>
+                                            </c:choose>
+                                        </div>
                                     </td>
                                 </tr>
                                 <tr></tr>
@@ -315,28 +354,74 @@ tr{
         }
 
         // 이미지 미리보기
-        function preview(image){
+        function preview(image, imageView){
             // 파일이 첨부되었는지 확인
             if(image.files.length == 1){
                 let reader = new FileReader();
-                reader.readAsDataURL(image.files[0]);
-                reader.onload = e => {
-                    $('#studyRoomView').attr('src', e.target.result);
+                reader.onload = function(e) {
+                    $('#' + imageView).attr('src', e.target.result);
                 };
+                reader.readAsDataURL(image.files[0]);
             } else {
-                $('#studyRoomView').attr('src', noneImg);
+                $('#' + imageView).attr('src', noneImg);
             };
         };
 
+        // 이미지 삭제하기
+        function deleteImage(imageView, inputFile){
+            $('#' + imageView).attr('src', 'resources/images/member/none.jpeg');
+            $('#' + inputFile).val(null);
+        }
+
+        
+        // 썸네일 선택하기(기본값)
+       $(function(){
+            if($('input[name="checkThumnail"]').is(':checked')) {
+                var select = $('input[name=checkThumnail]:checked').parent('.studyRoomImg').find('img').attr('id');
+                $('#' + select).addClass('selected');
+            }
+       });
+
+        // 썸네일 선택하기
+       $(function(){
+            $('input[name="checkThumnail"]').click(function() {
+                $('.studyRoomView').removeClass('selected');
+                if ($(this).is(':checked')) {
+                    var select = $(this).parent('.studyRoomImg').find('img').attr('id');
+                    $('#' + select).addClass('selected');
+                }
+            });
+       });
+    
         // 뒤로 가기
         function back(){
             if(confirm('작성된 내용은 저장되지 않습니다. 취소하시겠습니까?')){
-                location.herf="adminStudyRoom.ad";
+                location.href='adminStudyRoom.ad';
             };
             
         };
 
+        // 저장된 지역 값 불러오기
+        $(function(){
+            var selectLocation = $('#studyRoomLocation');
+            var saveLocation = "${studyRoom.studyRoomLocation}";
+            console.log(selectLocation[0].length);
+            console.log(selectLocation.text());
+            for(var i = 0; i < selectLocation[0].length; i++){
+                var option = selectLocation[0].options[i];
+                if(option.text === saveLocation){
+                    option.selected = true;
+                    break;
+                }
+            }
+        });
 
+        // 저장된 썸네일 값 불러오기
+        $(function(){
+            var imageListSize = "${fn:length(imageList)}";
+            console.log(imageListSize);
+            
+        })
     </script>
      
 

@@ -16,16 +16,85 @@
         <div class="wrap">
             <!-- 스티키 영역 -->
             <div id="contentBox" class="clear">
+                
+                <div id="boardList">
+                    
+                    <div id="nextList" class="clear">
+                        <!-- 다음글 목록 -->
+                    </div>
+                    <div id="prevList" class="clear">
+                        <!-- 이전글 목록  -->
+                    </div>
+                    <button onclick="location.href='freeBoardListView.bo?boardType=1'">목록으로</button>
+                </div>
+                <script>
+                    $(function(){
+                        $.ajax({
+                            url : 'boardlist',
+                            data : {
+                                boardNo : '${ b.boardNo }'
+                            },
+                            success : (r) => {
+
+                                var prev = '';
+                                var next = '';
+                                var lastprev = '';
+                                var lastnext = '';
+
+                                if(r.prevNo == ''){
+                                    lastprev += '<p onclick="alert(\'맨 처음 글 입니다.\');>'
+                                                +  '이전글<br>'
+                                                + '<img src="resources/images/board/prevList.png">'
+                                             + '<p>'
+                                    $('#prevList').html(lastprev);
+                                }else{
+                                    prev += '<p onclick="location.href=\'freeBoardDetail.bo?boardNo=' + r.prevNo + '\'">'
+                                            + '이전글<br>'
+                                            + '<img src="resources/images/board/prevList.png">'
+                                            // + '<div class="preview"><p>' + r.prev + '</p></div>'
+                                        + '</p>'
+                                        
+                                    $('#prevList').html(prev);
+                                }
+                                
+                                if(r.nextNo == ''){
+                                    lastnext += '<p onclick="alert(\'마지막글입니다.\');">'
+                                                + '다음글<br>'
+                                                + '<img src="resources/images/board/nextList.png">'
+                                             + '<p>'
+                                    $('#nextList').html(lastnext);
+                                }else{
+                                    next += '<p onclick="location.href=\'freeBoardDetail.bo?boardNo=' + r.nextNo + '\'">'
+                                            + '다음글<br>'
+                                            + '<img src="resources/images/board/nextList.png">'
+                                            // + '<div class="preview"><p>' + r.next + '</p></div>'
+                                         + '</p>'
+        
+                                    $('#nextList').html(next);
+                                }
+                            
+                            },
+                            error : () => {
+
+                            }
+                        })
+                    })
+                </script>
+
                 <!-- 글 보이는 곳 -->
                 <div>
+                    
                     <!-- 썸네일 사진 -->
                     <div class="thumbnail">
-                        <img src="resources/images/board/thumbnail8.jpg">
+                        <img src="resources/images/board/freeDetailBg.png">
                     </div>
                     <!-- 글쓴 정보 : 제목, 날짜, 작성자 -->
                     <div class="writerInfo clear">
-                        <img src="" alt="" id="character">
-                        <div class="clear">
+                        <div id="memberTumb">
+                            <img src="" alt="" id="character">
+                            <img src="" alt="" id="bg">
+                        </div>
+                        <div class="divBox" class="clear">
                             <h6 class="title">${ b.boardTitle }</h6>
                             <div class="clear">
                                 <p class="writerId">${ b.memberId }</p>
@@ -81,9 +150,13 @@
                             <!-- 댓글 컨텐츠 영역 -->
                         </div>
                     </div>
+
+                    
+
                     
                 </div>
 
+                
 
 
                 
@@ -105,13 +178,22 @@
                         <img src="resources/images/board/emergency.png" alt="">
                     </div>
                 </div>
+
+                
+
+
+
+                
             </div>
+
 
             <!-- 댓글 영역 -->
             <div>
                 
             </div>
 
+
+           
 
             <!-- 신고 모달 -->
             <div class="modal msg1">
@@ -149,6 +231,9 @@
                 <p class="ment">* 허위 기재 및 무분별한 신고시 불이익이 있을 수 있습니다.</p>
                 <button onclick="report();">신고하기</button>
             </div>
+
+
+
     </div>
 
 
@@ -161,6 +246,7 @@
             replyCount(); //댓글 수 불러오기 
             likeStatusCheck(); //좋아요 상태 표시
             bookStatusCheck(); //북마크 상태 표시
+            memberImg(); //작성자 썸네일 불러오기 
             //reReplyList(); //대댓글 리스트 불러오기
 
             let btnOpenPopup = document.getElementsByClassName('btn-open-popup');
@@ -359,27 +445,31 @@
 
         // 댓글 달기
         function insertReply(){
+            if($('#replyContent').val() != ''){
 
-            $.ajax({
-                url : 'insertReply.bo',
-                data : {
-                    boardNo : '${ b.boardNo }',
-                    rCon : $('#replyContent').val(),
-                    memberId : '${ sessionScope.loginMember.memberId }'
-                },
-                type : 'post',
-                success : function(result){
-                    if(result == 'success'){
-                        $('#replyContent').val('');
-                        reply();
-                        replyCount();
+                $.ajax({
+                    url : 'insertReply.bo',
+                    data : {
+                        boardNo : '${ b.boardNo }',
+                        rCon : $('#replyContent').val(),
+                        memberId : '${ sessionScope.loginMember.memberId }'
+                    },
+                    type : 'post',
+                    success : function(result){
+                        if(result == 'success'){
+                            $('#replyContent').val('');
+                            reply();
+                            replyCount();
+                        }
+                    },
+                    result : function(){
+                        console.log('댓글작성 실패');
                     }
-                },
-                result : function(){
-                    console.log('댓글작성 실패');
-                }
 
-            })
+                })
+            }else{
+                alert('작성한 내용이 없어 등록되지 않았습니다.');
+            }
         }
 
         // 댓글 수 가져오기
@@ -499,28 +589,35 @@
         //대댓글 달기 
         function reReply(reReplyNo, e){
 
-            $.ajax({
-                url : 'reReply.bo',
-                data : {
-                    boardNo : '${ b.boardNo }',
-                    replyNo : reReplyNo,
-                    reReplyCon : $(e).prev().val(),
-                    memberId : '${ sessionScope.loginMember.memberId }'
-                },
-                success : function(r) {
-                    $('.replyWrite > textarea').val('');
-                    reReplyList(reReplyNo);
-                    
-                },
-                error : function(){
+            if($(e).prev().val() != ''){
+                $.ajax({
+                    url : 'reReply.bo',
+                    data : {
+                        boardNo : '${ b.boardNo }',
+                        replyNo : reReplyNo,
+                        reReplyCon : $(e).prev().val(),
+                        memberId : '${ sessionScope.loginMember.memberId }'
+                    },
+                    success : function(r) {
+                        $('.replyWrite > textarea').val('');
+                        $('.replyWrite').css('display', 'none');
+                        reReplyList(reReplyNo);
+                        
+                    },
+                    error : function(){
 
-                }
+                    }
 
-            })
+                })
+            }else{
+                alert('작성한 내용이 없어 등록되지 않았습니다.');
+            }
         }
 
         // 대댓글 리스트 가져오기
         function reReplyList(replyNo) {
+
+            
             $.ajax({
                 url: 'reReplyList.bo',
                 data: {
@@ -675,6 +772,34 @@
                 
             }
             
+        }
+
+
+        // 멤버 캐릭터 이미지 가져오기
+        function memberImg(){
+            $.ajax({
+                url : 'memberImg',
+                data : {
+                    memberId : '${ b.memberId }'
+                },
+                success : (r) => {
+                    console.log(r);
+
+                    for(var i in r){
+                        if(r[i].itemCategory == '캐릭터'){
+                            $('#character').prop('src', r[i].itemPhoto );
+                        }
+                        if(r[i].itemCategory == '배경'){
+                            $('#bg').prop('src', r[i].itemPhoto);
+                        }
+                    }
+                    
+                    
+                },
+                error : () => {
+
+                }
+            })
         }
 
     </script>

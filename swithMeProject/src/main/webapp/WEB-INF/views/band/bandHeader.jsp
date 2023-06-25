@@ -26,6 +26,15 @@
     
 </head>
 <body>
+
+<c:if test = "${not empty alertMsg }">
+   <script>
+      alert('${alertMsg }');
+   
+   </script>
+   </c:if>
+<c:remove var = "alertMsg" scope="session"/> 
+
     <header>
         <div class="wrap clear">
             <h1 id="logo"><a href="/swithme">스터디윗미</a></h1>

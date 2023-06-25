@@ -103,7 +103,7 @@
 		                        		<div class="img_box">
 		                        			<label class="labetPhoto" for="file1">첨부</label>
 		                        			<div class="img_container">
-		                        				<img id="img1" src="">
+		                        				<img id="img1" src="/swithme/resources/images/member/none.jpeg">
 		                        			</div>
 		                        		</div>
 		                        	
@@ -125,6 +125,12 @@
             	</div>
         	</div>
 		</div>
+		
+		<script>
+			$('.img_container').click(function(){
+				$('#file1').click();					
+			})
+		</script>
 		
 		<!--밴드 탈퇴창-->
         <div class="modal" id="deleteBandMember">
@@ -249,6 +255,35 @@
         	</div>
 		</div>
 		
+		<!--밴드 삭제창-->
+        <div class="modal" id="deleteBand">
+	        <div class="modal-dialog">
+	            <div class="modal-content">
+	            
+	                <!-- Modal Header -->
+	                <div class="modal-header">
+	                    <h4 class="modal-title">밴드 삭제</h4>
+	                </div>
+	                
+	                <!-- Modal body -->
+	                <div class="modal-body">
+	                    <form action="" method="post">
+	                 		<br>
+	                        <div class="form-group">
+	                        	<input type="hidden" class="sno" name="sbNo" value="">
+	                        	<p class="textModal">밴드를 삭제하시겠습니까?</p>
+	                        </div>
+	                        <br>
+	                        <div class="btnGroup">
+		                        <button class="enrollConfirm" id="deleteBand" type="submit">삭제</button>
+		                        <button class="enrollDismiss" type="button" data-dismiss="modal">취소</button>
+	                        </div>
+	                    </form>
+	                </div>
+	            </div>
+	        </div>
+		</div>
+		
 	<script>
 		// 로딩됐을 때
 		$(function(){
@@ -287,6 +322,22 @@
 						console.log('실패');
 					}
 				});
+				
+				$.ajax({
+					url : 'memberTotal.me',
+					data : { 
+							sbNo : sno,
+							memberId : '${loginMember.memberId}'
+					
+					},
+					success : function(memTotalTotal){
+						console.log('강제탈퇴 멤버 조회 성공');						
+					},
+					error : function(){
+						console.log('전체 리스트 조회 실패');
+					}
+					
+				})
 			};
 			
 			$.ajax({
@@ -305,22 +356,55 @@
 					$('.memberId').attr('value', '${sessionScope.loginMember.memberId}');
 					$('.reportBandName').attr('value', bandInfomation.sbTitle);
 					$('#totalNo').attr('value', sno);
-					$('.readerId').attr('value', bandInfomation.memberIdId);
 					
 					
 					if(bandInfomation.sbRecruitMem == bandInfomation.sbNowMem){
-						$('.enrollBtn').css('display', 'none');
+						var value1 = "";
+						
+						value1 += "<button type='submit' id='writerStrat' class='enrollBtn' data-toggle='modal' data-target='#insertBandBoard'>글쓰기</button>"
+							  + "<input type='hidden' class='readerId' value=''>"
+						
+						if('${bandMem.sbNo}' == sno && '${bandMem.memId}' == '${loginMember.memberId}'){
+							$('.clear1').css('display', 'block');
+							$('.stbBtn').html(value1);
+						} else {
+							$('.clear1').css('display', 'none');
+							$('.stbBtn').css('display', 'none');
+						}						
 					};
+					
+					$('.readerId').attr('value', bandInfomation.memberIdId);
 
 					if(bandInfomation.memberIdId == '${loginMember.memberId}'){
-						$(".clear1").append("<li><a href='#' data-toggle='modal' data-target='#updaetBandReader'>리더 위임</a></li>");	
+						$(".clear1").append("<li><a href='#' id='readerPass' data-toggle='modal' data-target='#updaetBandReader'>리더 위임</a></li>");	
 						$("#sbCategory").append("<option value='N'>공지사항</option>");
 						$('#deleteMem1').css('display','none');
+
+						if(bandInfomation.sbNowMem == 1){
+							$('#readerPass').css('display','none');
+							
+							$(".clear1").append("<li><a href='#' id='BandDelete' data-toggle='modal' data-target='#deleteBand'>밴드 삭제</a></li>");	
+							
+							$(document).on('click', '#deleteBand', function(){
+
+								$.ajax({
+									url : 'deleteBand.sb',
+									data : {sbNo : sno},
+									success : function(){									
+										alert('밴드 삭제가 완료되었습니다.');
+									},
+									error : function(){
+										console.log('밴드삭제 실패');
+									}
+								})
+							});
+						} else {
+							$('#BandDelete').css('display','none');
+						}
 		
 					};
 					
 
-					// $('#bandCover').attr('src', result)
 					
 				},
 				error : function(){
@@ -348,7 +432,8 @@
 				error : function(){
 					console.log('실패');
 				}
-			})
+			});
+
 			
 			alarmMessage();
 			
@@ -401,6 +486,7 @@
 
 					$('#disMissBoard').click(function(){
 							$('.img_container>#img1').attr('src', "");
+							$('.note-editable').empty();
 
 					})					
 				} 
@@ -412,6 +498,7 @@
 			var query = window.location.search;     
 			var param = new URLSearchParams(query);
 			var sno = param.get('sno');
+			let no = 1;
 			
 			// 글
 			$.ajax({
@@ -425,15 +512,11 @@
 				},
 				success : function(result){
 					if(result === 'success'){
-						if($("select[name=sbCategory]").val() == 'Y'){
-							location.href="detail.bo?sno="+sno;
-						} else {
-							location.href="bandNotice.sb?sno="+sno;
-						};
 						
 						// 사진
 						var form = $('#photoForm')[0];
 						var formData = new FormData(form);
+									no = 2;
 						
 						if($('#file1').val() != ""){
 							$.ajax({
@@ -444,14 +527,23 @@
 								data : formData ,
 								success : function(photoList){
 									console.log(photoList);
+									no = 3;
 								},
 								error : function(){
 									console.log('사진 작성 실패');
 								}
 							})
-						}
+						};
+						
 					}
 					alert('글작성 성공');
+					
+					if($("select[name=sbCategory]").val() == 'Y'){
+						location.href="detail.bo?sno="+sno;
+					} else {
+						location.href="bandNotice.sb?sno="+sno;
+					};
+
 				},
 				error : function(){
 					console.log('게시글 작성 실패');
@@ -462,6 +554,10 @@
 		
 		function alarmMessage(){
 			
+			var query = window.location.search;     
+			var param = new URLSearchParams(query);
+			var sno = param.get('sno');
+			
 			$(document).on('click', '#listMem', function(){
 				var mem = $(this).children(0).val();
 				$('.mem').attr('value', mem);
@@ -471,10 +567,18 @@
 			$(document).on('click', '#finishReader', function(){
 				alert('리더가 변경되었습니다.');
 			});
-			
 	
 			$(document).on('click', '#enrollMember', function(){
-				alert('밴드 가입이 완료되었습니다.');
+				if(${empty loginMember}){
+					alert('로그인 후 이용해주세요');
+				} else {
+					if('${memTotalTotal.sbNo}' == sno && '${memTotalTotal.memId}' == '${loginMember.memberId}' && '${memTotalTotal.banish}' == 'N'){
+						alert('밴드에 재가입 할 수 없습니다.');
+					} else {
+						alert('밴드 가입이 완료되었습니다.');					
+					}											
+				};
+
 			});
 			
 			$(document).on('click', '#deleteMember', function(){

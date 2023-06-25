@@ -7,10 +7,10 @@ textarea:focus{
 
 /* 기본영역 지정 */
 #contentBox{
-    margin: 50px 20px 30px 100px;
+    margin: 50px 20px 30px 0px;
     position: relative;
 }
-#contentBox > div:first-child{
+#contentBox > div:nth-of-type(2){
     float: left;
 }
 .blank{
@@ -34,19 +34,22 @@ textarea:focus{
 }
 
 /* 글 - 글정보(제목,글쓴이,날짜 등등) */
-.writerInfo > img{
+#memberTumb > img{
     width: 80px;
     height: 80px;
     float: left;
     border-radius: 50px;
-    background-color: black;
     margin-right: 30px;
+    position: absolute;
 }
-.writerInfo > div{
-    padding: 20px 20px 24px;
+#memberTumb #character{
+    z-index: 7777;
+}
+.writerInfo > .divBox{
+    padding: 20px 0px 24px 100px;
     border-bottom: 1px solid rgb(224, 224, 224);
 }
-.writerInfo > div > div > p {
+.writerInfo > .divBox > div > p {
     float: left;
     font-size: 14px;
     margin-right: 20px;
@@ -231,7 +234,7 @@ textarea:focus{
 .reReArea > div > img{
     position: absolute;
     width: 20px;
-    left: 45px;
+    left: 190px;
     margin: 10px 10px 0px 0px;
 }
 .reReArea > div{
@@ -299,6 +302,74 @@ textarea:focus{
 .reReplyRBtn{
     margin-left: 20px;
 }
+
+
+/* 이전글 다음글 리스트 */
+#boardList {
+    width: 70px;
+    margin-right: 75px;
+    position: sticky;
+    float: left;
+    top: 150px;
+    z-index: 9999;
+}
+#boardList > div{
+    margin-bottom: 5px;
+    cursor: pointer;
+    height: 100px;
+    border: 1px solid rgb(223, 223, 223);
+    border-radius: 10px;
+    position: relative;
+}
+#boardList > div:nth-of-type(2){
+    margin-bottom: 20px;
+    margin-top: 20px;
+}
+/* #boardList > div:hover .preview {
+    display: block;
+    position: absolute;
+    z-index: 9999999 !important;
+} */
+#boardList > div > p:first-child{
+    text-align: center;
+    font-size: 13px;
+    color: rgb(131, 131, 131);
+    margin-top: 25px;
+}
+#boardList > div img{
+    width: 30px;
+    margin-top: 10px;
+}
+#boardList > button{
+    border: none;
+    float: right;
+    font-size: 13px;
+    width: 70px;
+    padding: 5px;
+    border-radius: 5px;
+    margin-bottom: 100px;
+}
+/* #boardList .preview{
+    width: 200px;
+    height: 40px;
+    background-color: #ffffff;
+    position: absolute;
+    padding: 5px;
+    border: 1px solid rgb(223,223,223);
+    right: -220px;
+    top: 25%;
+    z-index: 9999;
+    display: none;
+    overflow: hidden;
+}
+#boardList .preview p{
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+} */
+
+
+
 
 /* 사이드바 */
 #contentBox .sideBtn{
@@ -440,3 +511,4 @@ textarea:focus{
     background-color: #d9ffd2;
     margin: 0 auto;
 }
+

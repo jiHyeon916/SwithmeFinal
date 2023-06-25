@@ -50,7 +50,17 @@
 	    		</ul>
 	    	</div>
 	    </div>
+		<div class="mainButton">
+	    	<div class="toptop"><img src="/swithme/resources/images/band/inventory.png" alt=""></div>
+	    </div>
 	</div>
+
+    <script>
+        $('.mainButton > .toptop').click(function(){
+        	location.href="/swithme/studyBand.bo";
+        })
+
+    </script>
 	
 		<!--밴드 강제탈퇴창-->
        	<div class="modal" id="banishBandMember">
@@ -105,9 +115,8 @@
 		});
 
 		$(document).on('click', '#banish', function(){
-			var message = '${sessionScope.banishMsg}';
 			// console.log(message);
-			alert(message);
+			alert('강제탈퇴 완료되었습니다.');
 
 		});
 	</script>

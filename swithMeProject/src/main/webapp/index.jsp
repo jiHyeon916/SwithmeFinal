@@ -369,6 +369,7 @@
 	</div>
   </div>
 
+	
 
   <script>
 	const swiper = new Swiper('.swiper', {
@@ -526,10 +527,13 @@
 	function band(){
 		location.href="studyBand.bo";
 	}
+
 	
   </script>
 	
 
+	<jsp:include page="WEB-INF/views/common/sideBtn.jsp" />
 	<jsp:include page="WEB-INF/views/common/footer.jsp"></jsp:include>
+
 </body>
 </html>

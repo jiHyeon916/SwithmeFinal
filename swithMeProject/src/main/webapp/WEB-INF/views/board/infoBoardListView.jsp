@@ -41,7 +41,7 @@
                 </c:choose>
                 
                 <div>
-                    <input type="text" id="searchBar" placeholder="키워드 검색" onkeyup="textSearch(this)"><img src="resources/search.png" alt="">
+                    <input type="text" id="searchBar" placeholder="키워드 검색" onkeyup="textSearch(this)"><img id="searchImg" src="resources/images/board/search.png" alt="">
                 </div>
             </div>
 
@@ -109,14 +109,22 @@
 
                     freeBoardCount();
 
-                    $(".freeBoardList").each(function() {
-                        var $textEncoder = $(this).find(".textEncoder"); // .textEncoder 클래스를 가진 요소 선택
-                        $textEncoder.find("p").empty(); // .textEncoder 하위의 <p> 요소 내용을 비움
-                        var html = $textEncoder.html(); // .textEncoder 내용 가져오기
-                        var strippedText = stripHtmlTags(html); // HTML 태그 제거
-                        $textEncoder.text(strippedText); // 제거된 HTML 태그가 적용된 텍스트로 설정
+                    // $(".freeBoardList").each(function() {
+                    //     var $textEncoder = $(this).find(".textEncoder"); // .textEncoder 클래스를 가진 요소 선택
+                    //     $textEncoder.find("p").empty(); // .textEncoder 하위의 <p> 요소 내용을 비움
+                    //     var html = $textEncoder.html(); // .textEncoder 내용 가져오기
+                    //     var strippedText = stripHtmlTags(html); // HTML 태그 제거
+                    //     $textEncoder.text(strippedText); // 제거된 HTML 태그가 적용된 텍스트로 설정
 
-                    });
+                    // });
+
+                    // 검색 이미지 클릭 
+                    $('#searchImg').click(function(){
+                        var searchText = $(this).prev().val();
+                        location.href="tagSearch.bo?key=" + searchText + '&boardType=' + $('#bType').val() + '&keyType=text';
+                        
+                    })
+                    
                 })
 
                 

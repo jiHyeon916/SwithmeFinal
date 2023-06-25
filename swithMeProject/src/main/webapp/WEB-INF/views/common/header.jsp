@@ -28,7 +28,7 @@
  
  <c:if test = "${not empty alertMsg }">
     <script>
-       alert('${alertMsg }');
+       alert('${ alertMsg }');
     
     </script>
     </c:if>

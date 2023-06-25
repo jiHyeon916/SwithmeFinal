@@ -54,7 +54,17 @@
 		        </div>
 	        </c:forEach>
 	    </div>
+		<div class="mainButton">
+	    	<div class="toptop"><img src="/swithme/resources/images/band/inventory.png" alt=""></div>
+	    </div>
 	</div>
+	
+    <script>
+        $('.mainButton > .toptop').click(function(){
+        	location.href="/swithme/studyBand.bo";
+        })
+
+    </script>
 	
 	<!--밴드 게시글 디테일창-->
        	<div class="modal" id="detailBandBoard">
@@ -63,8 +73,8 @@
             
 	                <!-- Modal body -->
 	                <div class="modal-body">
-	                <button type="button" class="close" data-dismiss="modal">&times;</button>
-	                    <form action="delete.me" method="post">
+	                <button type="button" id="originModal" class="close" data-dismiss="modal">&times;</button>
+	                    <form action="" method="post">
 	                 		<br>
 	                        <div class="form-group1">
 	                        	<div>
@@ -96,19 +106,13 @@
 		                        	<!-- 댓글영역 -->
 		                        		<div class="totalReply">
 				                        	<div class="replyBtn">
-			                        			<c:choose>
-			                        				<c:when test="${ empty loginMember }">
-											        		<textarea class="replyContent" readonly>로그인 후 이용가능합니다.</textarea><br>
-											        		<button type="button" class="replyEnroll">등록</button> <br>
-			                        				</c:when>
-											     	<c:otherwise>
-											        		<textarea class="replyContent"></textarea><br>
-											        		<button type="button" id="plzBtn" class="replyEnroll">등록</button>
-											     	</c:otherwise>	
-			                        			</c:choose>
+		                        				<c:if test="${ empty loginMember }">
+									        		<textarea class="replyContent" readonly>로그인 후 이용가능합니다.</textarea><br>
+									        		<button type="button" class="replyEnroll">등록</button> <br>
+		                        				</c:if>
 				                        	<input type="hidden" class="sBoardNoModal" name="bandNo" value="">
 								        	<input type="hidden" class="writerBoard" value="">
-								        	<input type="hidden" class="bandNo" value="">
+								        	<input type="hidden" class="sBoardNoModal" name="bandNo" value="">
 										    </div> <br>
 								        	<div class="replyBodyDetail">
 								        	
@@ -119,7 +123,7 @@
 	                        </div>
 	                        <br>
 	                        <div class="btnGroupMain">
-		                        <button class="enrollConfirm" type="submit">수정하기</button>
+		                        <button class="enrollConfirm" type="button" onclick="test1()" data-toggle="modal" data-target="#updateBandBoard" >수정하기</button>
 		                        <button class="enrollDismiss" id="deleteBoard" type="button">삭제하기</button>
 		                        <input type="hidden" class="sBoardNoModal" name="bandNo" value="">
 	                        </div>
@@ -130,14 +134,98 @@
 		</div>
 		
 		<script>
+			function test1(){
+				$('#originModal').click();
+				$('#originModal').click(function(){
+					$('#originModal').click();					
+				});
+			}
+		</script>
+		
+		<!--밴드 게시글 수정 창-->
+       	<div class="modal" id="updateBandBoard">
+        	<div class="modal-dialog modal-lg">
+            	<div class="modal-content">
+            
+	                <!-- Modal body -->
+	                <div class="modal-body1">
+                 		<br>
+                        <div class="form-group">
+                        	<div>
+                        		<div class="selectType">
+                        			<select id="sbCategory" name="sbCategory">
+										<option value="Y" selected>일반글</option>
+
+									</select>
+                        		</div>
+                        		<div class="totalDetail1">
+									<textarea id="summernote" name="editordata"></textarea>
+                        		</div>
+                        		<form method="post" enctype="multipart/form-data" id="photoForm">
+	                        		<div class="totalPhoto">
+		                        		<div class="img_box">
+		                        			<label class="labetPhoto" for="file1">첨부</label>
+		                        			<div class="img_container">
+		                        				<img id="img1" src="">
+		                        			</div>
+		                        		</div>
+		                        	
+	
+		                        		<div class="fileType">
+		                        			<input type="hidden" name="sbBoardNo" >
+		                        			<input type="file" id="file1" accept="image/*" name="file" onchange="setImage(this);" />
+		                        		</div>
+	                        		</div>
+                        		</form>
+                        	</div>
+                        </div>
+                        <br>
+                        <div class="btnGroupMain">
+	                        <button class="enrollConfirm" id="bandBoardEnroll" type="button">등록하기</button>
+	                        <button class="enrollDismiss" id="disMissBoard" type="button" data-dismiss="modal">취소하기</button>
+                        </div>
+	                </div>
+            	</div>
+        	</div>
+		</div>
+		
+		<script>
+		
 			$(document).on('click', '.bPostList', function(){
-				var inputNo = $(this).children().eq(0).val();
-				$('.sBoardNoModal').attr('value', inputNo);
-				// console.log(inputNo);
-				selectReplyList(inputNo);
+				var query = window.location.search;     
+				var param = new URLSearchParams(query);
+				var sno = param.get('sno');
+				
+				var sbBoardNo = $(this).children().eq(0).val();
+				
+				if(${ !empty loginMember }){							
+					if('${bandMem.sbNo}' == sno && '${bandMem.memId}' == '${loginMember.memberId}' && '${bandMem.banish}' == 'Y'){
+						var valueText = "";
+						
+						valueText += '<textarea class="replyContent"></textarea><br>'
+			        		       + '<button type="button" id="plzBtn" class="replyEnroll">등록</button>'
+			        		       + '<input type="hidden" class="sBoardNoModal" name="bandNo" value="">'
+			        		       + '<input type="hidden" class="writerBoard" value="">'
+			        		       + '<input type="hidden" class="sBoardNoModal" name="bandNo" value="">';
+			        	$('.replyBtn').html(valueText);
+					} else {
+						var valueText1 = "";
+						valueText1 += '<textarea class="replyContent" readonly>밴드 가입 후 작성이 가능합니다.</textarea><br>'
+		        				   + '<button type="button" class="replyEnroll">등록</button> <br>'
+		        				   + '<input type="hidden" class="sBoardNoModal" name="bandNo" value="">'
+		        				   + '<input type="hidden" class="writerBoard" value="">'
+		        				   + '<input type="hidden" class="sBoardNoModal" name="bandNo" value="">';
+
+		        		$('.replyBtn').html(valueText1);
+					}
+				}
+				$('.sBoardNoModal').attr('value', sbBoardNo);
+				
+				// console.log(sbBoardNo);
+				selectReplyList(sbBoardNo);
 				$.ajax({
 					url : 'detail.sb',
-					data : { sbBoardNo : inputNo },
+					data : { sbBoardNo : sbBoardNo },
 					success : function(list){
 						
 						// console.log(list.changeName);
@@ -154,14 +242,14 @@
 						} else {
 							$('#photoImg1').attr('src', list.changeName);
 							
-						}
-						
-						
+						}		
 					},
 					error : function(){
 						console.log('실패');
 					}
 				});
+				
+				
 			});
 
 		</script>
@@ -172,30 +260,34 @@
 				
 		        $('#summernote').summernote();
 		        $('button').not('#updateRe').attr('disabled',false);
+		        var PostList = $('.bPostList');
+
 		        var target = document.getElementById('summary');
-
 		        
-		        if(target != null){
-		        	const extractTextPattern = /(<([^>]+)>)/gi;
-		        	
-		        	var src = target.innerHTML;
+		        $.each(PostList, function(index, item){
+					
+					var PostText = item.children[5].children[0];
+					
+					if(PostText != null){
+			        	const extractTextPattern = /(<([^>]+)>)/gi;
+			        	
+			        	var src = PostText.innerHTML;
 
-		        	var extractedText = src.replace(extractTextPattern, '');
-		        
-			        target.innerHTML = extractedText;	
+			        	var extractedText = src.replace(extractTextPattern, '');
 			        
-		        };
-		        
-					   
+			        	PostText.innerHTML = extractedText;	
+				        
+			        };
+				});	   
 			});
 			
 				
-			function photoSelect(inputNo){
+			function photoSelect(sbBoardNo){
 				
 				// sbBoardNo = $('#sBoardNo').val();
 		        $.ajax({
 		        	url : 'photoSelect.sb',
-		        	data : { sbBoardNo : inputNo },
+		        	data : { sbBoardNo : sbBoardNo },
 		        	success : function(photo){
 		        		console.log(photo);
 		        	},
@@ -257,7 +349,7 @@
 								$('.replyContent').val('');
 							}
 						},
-						error : function(){
+						error : function(){cl
 							console.log('실패');
 						}
 					})
@@ -271,9 +363,13 @@
 
 				var loginMem1 = '${loginMember.nickName}';
 				
+				var query = window.location.search;     
+				var param = new URLSearchParams(query);
+				var sno = param.get('sno');
+				
 				$.ajax({
 					url : 'rlist.sb',
-					data : { sbBoardNo : inputNo },
+					data : { sbBoardNo : sbBoardNo },
 					success : function(result){
 						//console.log(sBoardNo);
 						
@@ -299,8 +395,12 @@
 							var btnItems = item.children[4];
 							var idItems = item.children[0].innerHTML;
 							
-							if(idItems == '${loginMember.nickName}'){
-								$(btnItems).css('display','show');
+							if(idItems == '${loginMember.nickName}' ){
+								if('${bandMem.sbNo}' == sno && '${bandMem.memId}' == '${loginMember.memberId}'){
+									$(btnItems).css('display','show');									
+								} else {
+									$(btnItems).css('display','none');															
+								}
 							} else {
 								$(btnItems).css('display','none');						
 							}
@@ -360,8 +460,8 @@
                     		// console.log(result);
                      	$('button').not('#updateRe').attr('disabled',false);
                      	$('#replyDetailBtn').css('display','show');
-                     	selectReplyList(sbBoardNo);
 						}
+                     	selectReplyList(sbBoardNo);
                     },
                     error : function(){
 						console.log('댓글 수정영역 불러오기 실패');
@@ -403,7 +503,7 @@
 				var sbReplyNo = $(this).prev().val();
 				
 				console.log(sbBoardNo);
-				console.log(sbReplyNo);
+				// console.log(sbReplyNo);
 
 				$.ajax({
 					url : 'deleteReply.sb',
@@ -418,5 +518,6 @@
 				})	
 			});
 		</script>
+		
 </body>
 </html>

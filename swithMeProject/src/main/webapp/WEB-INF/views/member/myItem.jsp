@@ -21,8 +21,10 @@
 		<div class="content">
 			<div class="character">
 				<!-- 레이어 순서 : 맨뒤 배경 > 캐릭터 > 모자 > 도구 -->
+				<!-- 
 				<img id="wearItem0" class="wearItem" src="" alt="도구" name="0"/>
 				<img id="wearItem1" class="wearItem" src="" alt="모자" name="0"/>
+				 -->
 				<img id="wearItem2" class="wearItem" src="" alt="배경" name="0"/>
 				<img id="wearItem3" class="wearItem" src="" alt="캐릭터" name="0"/>
 			</div>
@@ -31,8 +33,10 @@
 					<button id="myItem1" class="noneBtn" onclick="selectBtn(this);">전체보기</button>
 					<button id="myItem2" class="noneBtn" onclick="selectBtn(this);">배경</button>
 					<button id="myItem3" class="noneBtn" onclick="selectBtn(this);">캐릭터</button>
+					<!-- 
 					<button id="myItem4" class="noneBtn" onclick="selectBtn(this);">모자</button>
 					<button id="myItem5" class="noneBtn" onclick="selectBtn(this);">도구</button>
+					-->
 				</div>
 
 				<!-- 아이템목록 -->
@@ -43,6 +47,8 @@
 			<br><br><br>
 		</div>
 	</div>
+	
+	<jsp:include page="../common/footer.jsp" />
 
 	<script>
 		let item = '';
@@ -100,7 +106,8 @@
 							if(list[i].wearStatus == 'Y'){
 								status = '<button class="wear" onclick="wearUpdate(this);" value="N" name="' + list[i].itemNo + '" disabled>착용중</button>';
 							} else {
-								status = '<button class="notWear" onclick="wearUpdate(this);" value="Y" name="' + list[i].itemNo + '">착용하기</button>';
+								status = '<button class="deleteItemBtn" onclick="deleteItem(' + list[i].itemNo + ');">삭제</button>'
+									   + '<button class="notWear" onclick="wearUpdate(this);" value="Y" name="' + list[i].itemNo + '">착용하기</button>';
 							}
 
 							value += '<div class="tableList">'
@@ -109,7 +116,6 @@
 										+ '<input type="hidden" name="content" class="content" value="' + list[i].itemContent + '" >'
 										+ '<p>' + list[i].itemName + '</p>'
 										+ '<div><img src="' + list[i].itemPhoto + '" /></div>'
-										+ '<button class="deleteItemBtn" onclick="deleteItem(' + list[i].itemNo + ');">삭제</button>'
 										+ status 
 								   + '</div>';
 						}
@@ -125,24 +131,29 @@
 
 		// 아이템 삭제
 		function deleteItem(itemNo){
-			if(confirm('아이템 삭제 시 복구가 불가능합니다. 삭제하시겠습니까?')){
-				$.ajax({
-					url : 'deleteItem.me',
-					data : {
-						memberId : '${ loginMember.memberId }',
-						itemNo : itemNo
-					},
-					success : result => {
-						if(result > 0){
-							alert('아이템이 삭제되었습니다.');
-							selectMyItemList(item);
+
+			if(itemNo == 1 || itemNo == 2){
+				alert('회원가입시 지급된 기본 아이템은 삭제가 불가능합니다.')
+			} else {
+				if(confirm('아이템 삭제 시 복구가 불가능합니다. 삭제하시겠습니까?')){
+					$.ajax({
+						url : 'deleteItem.me',
+						data : {
+							memberId : '${ loginMember.memberId }',
+							itemNo : itemNo
+						},
+						success : result => {
+							if(result > 0){
+								alert('아이템이 삭제되었습니다.');
+								selectMyItemList(item);
+							}
+						},
+						error : () => {
+			
 						}
-					},
-					error : () => {
-		
-					}
-				});
-			};
+					});
+				};
+			}
 		};
 		
 		// 착용 아이템
@@ -159,7 +170,7 @@
 					for(let i in list){
 						// 순서 : 도구 > 모자 > 배경 > 캐릭터
 
-						console.log(list[i].itemNo);
+						//console.log(list[i].itemNo);
 						//console.log($('#wearItem' + 0).attr('name'));
 
 						$('.wearItem').each(function(){
