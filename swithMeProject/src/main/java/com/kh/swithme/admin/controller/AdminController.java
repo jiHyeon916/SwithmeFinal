@@ -45,6 +45,7 @@ public class AdminController {
    
    
    //지현
+   
    // 사용자들 모두 조회
    @RequestMapping("adminMember.ad")
    public ModelAndView adminMember(ModelAndView mv, @RequestParam(value="amPage", defaultValue="1")int currentPage) {
@@ -120,7 +121,7 @@ public class AdminController {
    
    
    
-   //회원 정지 해제 (앞단 해야함..)
+   //회원 정지 해제 
    @ResponseBody
    @RequestMapping("adminMemberStopFree.ad")
    public char memberStopFree(String memberId) {

@@ -102,23 +102,18 @@
       
       <div class="content">
          <div class="topBlock">회원 검색결과</div>
-         
-         
-                  <div class="block">
-                     
+             <div class="block">
                      
                <form action="adminMemberSearch.ad" method="post" id="adminMemberForm">
-         
                      <input type="hidden" name="currentPage" value="1">
          
                      <select name="condition" id="adminMemberSelect">
                          <option value="memberId">아이디</option>
                          <option value="nickName">닉네임</option>
                      </select>
-         
+                     
                      <input type="text" name="keyword" value="${keyword}">
                      <button type="submit" id="adminMemberBtn" >검색</button>
-         
                  </form>
                  
                  <c:if test="${ !empty condition }">
@@ -131,6 +126,7 @@
                  
                  
                  <br><br><br>
+                 
                  <table id="adminMemberTable">
                     <thead>
                          <tr>
@@ -143,9 +139,7 @@
                              <th> </th>
                          </tr>
                     </thead>
-                    
                     <tbody>
-                    
                        <c:choose>
                           <c:when test="${empty searchList }">
                              <tr>
@@ -161,16 +155,10 @@
                                    <td>${m.nickName }</td>
                                    <td>${m.memberEnrollDate }</td>
                                    <td class="memberStatus">${m.memberStatus }</td>
-                                   
-                                   
-                                  
                                    <td><button onclick="adminStopBtn(this);" id="adminStopBtn"
                                          style="background-color:${m.memberStatus == 'Y'?'red':'gray'}" 
                                          data-member-id="${m.memberId}">정지</button>
                                    </td>
-                                  
-                                  
-                                  
                                   </tr>
                                  </c:forEach>
                               </c:otherwise>   
