@@ -62,7 +62,7 @@ a:hover{
 }
 
 /* 마이페이지 */
-.content>div{
+#mb1, #mb2, #mb3, #grass{
 	display : inline-block;
 	width : 300px;
 	height : 300px;
@@ -72,17 +72,24 @@ a:hover{
 	box-sizing : border-box;
 }
 .balance{
+	display : inline-block;
+	width : 600px;
+	height : 300px;
+	padding : 25px;
+	border : 1.5px solid rgb(175, 175, 175);
+	border-radius: 10px;
+	box-sizing : border-box;
 	margin-left : 20px;
 	margin-bottom : 20px;
 }
-#grass{
-	width : 300px;
-	height : 300px;
-
+#mainPostList{
+	
 }
 
 /* 메인 화면 블럭 5개 */
-.content button{
+#mb1 > button,
+#mb2 > button,
+#mb3 > button{
 	display : block;
 	margin :10px auto;
 	width : 100px;
@@ -92,7 +99,9 @@ a:hover{
 	border-radius : 5px;
 	color : #cecece;
 }
-.content button:hover{
+#mb1 > button:hover,
+#mb2 > button:hover,
+#mb3 > button:hover{
 	/* background-color : #03c373;
 	color : white;
 	border : none; */
@@ -161,7 +170,8 @@ a:hover{
 	font-size : 17px;
 	line-height : 33px;
 }
-#mb3>h5{
+#mb3 > h5,
+#mainPostList > h5{
 	color: rgb(94, 94, 94);
 	font-size : 17px;
 }
@@ -196,10 +206,106 @@ a:hover{
 	font-size : 17px;
 }
 
+/* 잔디영역 */
+thead{
+    display: none;
+}
+tbody td{
+    width: 15px;
+    height: 10px;
+}
+/* 이전달 다음달 등등 표시 */
+fc-header-toolbar{
+	margin-bottom:0;
+}
+.fc-toolbar-chunk{ 
+   /*  background-color : red; */
+   /*  width : 50%; */
+}
+.fc-toolbar-chunk:nth-of-type(2){
+	display : none;
+}
+.fc-toolbar-chunk:nth-of-type(3){
+	float : right;
+	/* margin-left : 100px; */
+	mergin-right : 0px;
+}
+#fc-dom-1{
+	color : #03c373;
+	font-size : 20px;
+}
+/* 
+.fc .fc-button-primary{
+	display : none;
+} */
+.fc .fc-button-primary[title="This month"]{
+	display : none;
+}
+.fc-daygrid-day-events{
+    display: none;
+} 
+.fc-daygrid-day-top a {
+    /* display: none; */
+    font-size: 10px;
+}
+.fc .fc-button-group > .fc-button{
+	background-color : #03c373;
+	border : none;
+	margin-left : 5px;
+	margin-right : 5px;
+}
+.fc-prev-button{
+	width : 25px;
+	height : 25px;
+	margin-right : 10px;
+}
+.fc-next-button{
+	width : 25px;
+	height : 25px;
+	margin-right : 10px;
+	background-color : white;
+}
+.fc .fc-button{
+	padding : 0px;
+}
+.fc .fc-button .fc-icon{
+	font-size : 20px;
+	color : white;
+	font-align : center;
+}
 
+.fc-today-button{
+	display : none;
+}
 
-
-
+/* 최신글 리스트 */
+#mainPostList{
+	margin-top : 40px;
+	margin-bottom : 0;
+}
+#mainPostList li{
+	margin : 0;
+	padding : 0;
+}
+.post_block{
+    border-bottom: 1px solid rgb(227, 227, 227);
+   	cursor : pointer;
+   	height : 47px;
+}
+.post_block:nth-of-type(5){
+	border-bottom : none;
+}
+.post_block span {
+	line-height : 47px;
+}
+.post_title:hover{
+	color : : #03c373;
+}
+.post_date{
+	float : right;
+	font-size : 13px;
+	color : #cecece;
+}
 
 
 

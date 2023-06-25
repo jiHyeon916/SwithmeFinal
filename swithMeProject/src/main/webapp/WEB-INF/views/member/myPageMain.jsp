@@ -6,9 +6,14 @@
 <head>
 <meta charset="UTF-8">
 <link rel="stylesheet" href="resources/css/member/myPageMain.css">
-<link rel="stylesheet" href="resources/css/member/grass.css">
+<!-- <link rel="stylesheet" href="resources/css/member/grass.css"> -->
 	<!-- fullcalendar -->
+	<!-- <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js'></script> -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 	<script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js'></script>
+	<!-- moment js -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+		
 <title>Insert title here</title>
 </head>
 <body>
@@ -34,7 +39,7 @@
 				</div>
 				<p id="mNick">${ loginMember.nickName }</p>
 				<p id="mMail">${ loginMember.memberEmail }</p>
-				<button  data-toggle="modal" data-target="#basicExampleModal2" >수정하기</button>
+				<button onclick="location.href='profil.me'">수정하기</button>
 			</div><!-- 
 		 --><div class="balance" id="mb2">
 				<h1 id="totalP"></h1>
@@ -47,74 +52,22 @@
 				<button onclick="location.href='alarm.me'">자세히보기</button>
 			</div><!-- 
 		 --><div id="grass">
-				<h5>목표 달성(미완)</h5>
+				<h5><!-- 목표 달성 --></h5>
 				<div id="grassBox">
 					<div id="calendar"></div>
+					<div id="todoCalendar">
+						<div id='calendar'></div>
+					</div>
 				</div>
 			</div><!-- 
-		 --><div class="balance">
-				달력
+		 --><div class="balance" id="mainPostList">
+				<h5>최근 작성한 글</h5>
+				<ul id="mainPostArea"></ul>
 			</div>
 		</div>
 	</div>
 	
-	  <!-- 정보수정 Modal -->
-<div class="modal fade" id="basicExampleModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-  aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">정보수정</h5>
-     </div>
-         <form action="updateEnrollForm.mem" method="post">
-               <div class="modal-body">
-                 <div align="center">
-                               정보수정을 원하시면 현재 비밀번호를 입력해주세요. <br><br>
-                   </div><br>
-                      <label for="userPwd" class="mr-sm-2">Password : </label>
-                      <input type="password" class="form-control mb-2 mr-sm-2" placeholder="Enter Password" id="userPwd" name="memberPwdUpdate"> <br>
-                    </div>
-                    <!-- Modal footer -->
-                    <div class="modal-footer" align="center">
-                        <button type="submit" class="btn btn-danger" >수정하기</button>
-                 </div>
-            </form>
-       </div>
-     </div>
-   </div>
-	
-	
-	<!-- 회원탈퇴 Modal -->
- <div class="modal fade" id="basicExampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-  aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">회원탈퇴</h5>
-     </div>
-         <form action="delete.mem" method="post">
-               <div class="modal-body">
-                 <div align="center">
-                               탈퇴 후 복구가 불가능합니다. <br>
-                               정말로 탈퇴 하시겠습니까? <br>
-                   </div><br>
-                      <label for="userPwd" class="mr-sm-2">Password : </label>
-                      <input type="password" class="form-control mb-2 mr-sm-2" placeholder="Enter Password" id="userPwd" name="memberPwd"> <br>
-                    </div>
-                   
-                    <div class="modal-footer" align="center">
-                        <button type="submit" class="btn btn-danger">탈퇴하기</button>
-                 </div>
-            </form>
-       	</div>
-     </div>
-   </div> 
-	
 	<jsp:include page="../common/footer.jsp" />
-	
-	
-	
-	
 	
 	<script>
 		let sortType = '';
@@ -125,7 +78,8 @@
 			totalPoint(); // 총 포인트 불러오기
 			miniPointList(); // 포인트내역 최신3개
 			miniAlarmList(); // 알림내역 최신 5개
-			dateFormat();
+			mainPost();
+			
 		}); 
 		
 		// 착용 아이템
@@ -269,10 +223,76 @@
 			if(board == 's'){ // 일반게시판일 경우
 				location.href = 'freeBoardDetail.bo?boardNo=' + bNo;
 			} else { // 스터디밴드인경우
-				location.href = 'studyBand.bo/detail.bo?sno=' + bNo;
+				location.href = '/studyBand.bo/detail.bo?sno=' + bNo;
 			}
 		});
 		
+
+		// 일정관리 - 잔디
+		document.addEventListener('DOMContentLoaded', function() {
+		var calendarEl = document.getElementById('calendar');
+		var now = moment();
+		var calendar = new FullCalendar.Calendar(calendarEl, {
+			initialDate: now.format('YYYY-MM-DD'),
+			selectable: true,
+			events: function(info, successCallback, failureCallback) {
+	    	  //캘린더 조회
+			  $.ajax({
+				url:'todoAchievementRate.me',
+				data:{
+					memberId : '${ loginMember.memberId }'
+				},
+				success : function(result){
+					//console.log(result);
+					var events=[];
+					if(result!=null){
+	    		        $.each(result, function(index, item) {
+							var backgroundColor='';
+							var achievementRate=item.achievementRate;
+
+							if(0 <= achievementRate && achievementRate < 20){
+								backgroundColor = '#F2FFEB';
+							} else if(20 <= achievementRate && achievementRate < 40){
+								backgroundColor = '#BCFFB5';
+							} else if(40 <= achievementRate && achievementRate < 60){
+								backgroundColor = '#86E57F';
+							} else if(60 <= achievementRate && achievementRate < 80){
+								backgroundColor = '#50AF49';
+							} else if(80 <= achievementRate && achievementRate < 100 ){
+								backgroundColor = '#1A7913';
+							} else {
+								backgroundColor = '#004300';
+							}		
+	    		            events.push({
+								start: item.todoDate, 
+								color: backgroundColor,
+								display:'background'
+							});
+	    		        });
+	    		    }
+					successCallback(events); 
+				},
+				error : function(){
+					console.log('실패');
+				}
+			  });
+	      	}
+	    });
+	    calendar.render();
+	  });
+
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		/* 
 		// 잔디가 가능하냐?
 		function test(){
 			
@@ -324,8 +344,45 @@
 
 			  calendar.render();
 			});
+		
+		
+		 */
+		function mainPost(){
+			 $.ajax({
+				 url : 'myPostList.me',
+				 data : {
+					 memberId : '${ loginMember.memberId }'
+				 },
+				 success : list => {
+					 console.log(list);
+					 let value = '';
+					 if(list.length == 0){
+						value = '<span class="emptyList">등록된 게시글이 없습니다.</span>';
+					 } else {
+						 for(let i in list){
+							 value += '<li class="post_block">'
+								   	   + '<input type="hidden" name="bno" value="' + list[i].boardNo + '"/>'
+									   + '<span class="post_title">' + list[i].boardTitle + '</span>'
+									   + '<span class="post_date"">' + list[i].createDate + '</span>'
+								   + '</li>';
+						 }
+					 }
+					 console.log(value);
+					 $('#mainPostArea').html(value);
+				 },
+				 error : () => {
+				 }
+			 });
+		 };
+		 
+		// 해당 게시글 상세 페이지로 이동
+		$(document).on('click', '.post_block', function(){
+			let boardNo = $(this).children().eq(0).val();
+			location.href = 'freeBoardDetail.bo?boardNo=' + boardNo;
+		});
 	</script>
 	
-
+	
+	
 </body>
 </html>

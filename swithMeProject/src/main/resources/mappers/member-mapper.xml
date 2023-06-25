@@ -1039,6 +1039,27 @@
 		   	   MEMBER_ID = #{ memberId }
 	</update>
 	
+	<!-- 마이페이지 메인 - 작성글 리스트(최신 5개) -->
+	<select id="mainPostList" parameterType="string" resultMap="boardResultSet">
+		SELECT A.*
+		  FROM (SELECT
+		              BOARD_NO
+		             ,BOARD_TITLE
+		             ,TO_CHAR(CREATE_DATE, 'YYYY-MM-DD HH24:MI') AS "CREATE_DATE"
+		         FROM
+		             MAINBOARD
+		         JOIN
+		             MEMBER M using(MEMBER_ID)
+		        WHERE
+		             BOARD_STATUS = 'Y'
+		          AND
+		             MEMBER_ID = #{ memberId }
+		         ORDER
+		            BY
+		              BOARD_NO DESC) A
+		 WHERE ROWNUM BETWEEN 1 AND 5
+	</select>
+	
 	
 	
 	

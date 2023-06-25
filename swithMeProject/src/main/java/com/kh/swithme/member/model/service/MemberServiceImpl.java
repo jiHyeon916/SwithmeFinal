@@ -405,6 +405,12 @@ public class MemberServiceImpl implements MemberService{
 	}
 
 
+	// 마이페이지 메인 - 작성글 리스트(최신 5개)
+	@Override
+	public ArrayList<Board> mainPostList(String memberId){
+		return memberDao.mainPostList(sqlSession, memberId);
+	};
+
 	
 
 	
