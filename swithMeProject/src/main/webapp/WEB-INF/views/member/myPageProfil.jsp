@@ -79,59 +79,7 @@
             
          </div>
     
-    <!-- Button trigger modal -->
 
-<!-- 회원탈퇴 Modal -->
-<div class="modal fade" id="basicExampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-  aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">회원탈퇴</h5>
-     </div>
-         <form action="delete.mem" method="post">
-               <div class="modal-body">
-                 <div align="center">
-                               탈퇴 후 복구가 불가능합니다. <br>
-                               정말로 탈퇴 하시겠습니까? <br>
-                   </div><br>
-                      <label for="userPwd" class="mr-sm-2">Password : </label>
-                      <input type="password" class="form-control mb-2 mr-sm-2" placeholder="Enter Password" id="userPwd" name="memberPwd"> <br>
-                    </div>
-                    <!-- Modal footer -->
-                    <div class="modal-footer" align="center">
-                        <button type="submit" class="btn btn-danger">탈퇴하기</button>
-                 </div>
-            </form>
-       </div>
-     </div>
-   </div>
-    
-    
-    <!-- 정보수정 Modal -->
-<div class="modal fade" id="basicExampleModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-  aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">회원탈퇴</h5>
-     </div>
-         <form action="updateEnrollForm.mem" method="post">
-               <div class="modal-body">
-                 <div align="center">
-                               정보수정을 원하시면 현재 비밀번호를 입력해주세요. <br><br>
-                   </div><br>
-                      <label for="userPwd" class="mr-sm-2">Password : </label>
-                      <input type="password" class="form-control mb-2 mr-sm-2" placeholder="Enter Password" id="userPwd" name="memberPwdUpdate"> <br>
-                    </div>
-                    <!-- Modal footer -->
-                    <div class="modal-footer" align="center">
-                        <button type="submit" class="btn btn-danger">수정하기</button>
-                 </div>
-            </form>
-       </div>
-     </div>
-   </div>
          
          <br><br><br>
       </div>
