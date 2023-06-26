@@ -216,17 +216,17 @@
 			                        	let boardNo = listArr[i].boardNo;
 					                        	value 	+= '<tr>' 
 					                           		  	 +'<td>' + list.boardNo + '</td>'
-						                           		 +'<td>' + list.boardTitle + '</td>'
+						                           		 +'<td id="boardClick">' + list.boardTitle + '</td>' //제목을 클릭하면 넘어감
 						                           		 +'<td>' + list.summary + '</td>'
 						                           		 +'<td>' + list.createDate + '</td>'
 					                        			 +'<td>' + '<input type="checkbox" value="' + boardNo + '" name="BoardChkDel" id="admemBoardChkDel"></input>' + '</td>' 
 					                        			 +'</tr>' //value값에 원하는 값을 담아서 체크되면 넘기기 
                         							}
-                        			
                        								 $('#adminMemberTable tbody').html(value);
                        								 
-                       								 $('#adminMemberTable tbody tr').click(function() {
-                       									let boardNo = $(this).find('td:first').text();
+                       								 $('#adminMemberTable tbody tr #boardClick').click(function() {
+                       									let boardNo = $(this).parent().find('td:first').text();
+                       									console.log(boardNo);
                        									location.href='freeBoardDetail.bo?boardNo=' + boardNo;
                        									
                        								 });
@@ -270,20 +270,17 @@
 			            		   			  value  += '<tr>' 
 			            		   					 +'<input type="hidden" value="' + list.sbNo + '">' 
 				                          		  	 +'<td>' + list.sbBoardNo + '</td>'
-					                           		 +'<td>' + list.boardTitle + '</td>'
+					                           		 +'<td id="bandClick">' + list.boardTitle + '</td>' //제목을 클릭하면 해당 게시글로 페이지로 이동
 					                           		 +'<td >' + sbText + '</td>'
 					                           		 +'<td>' + list.sbCreateDate + '</td>'
 				                       				 +'<td>' + '<input type="checkbox" value="' + sbNo + '" name="BandChkDel" id="admemBandChkDel">' + '</td>'
 				                       				 +'</tr>';
             		   							}
             		   					 $('#adminMemberTable tbody').html(value);
-            		   					 
-            		   					 $('#adminMemberTable tbody tr').click(function() {
-            									let sbandNo = $(this).find('input[type="hidden"]').val();
-            									location.href='studyBand.bo/detail.bo?sno=' + sbandNo;
-            									
-            		   					 });
-            									
+            		   					 $('#adminMemberTable tbody tr #bandClick').click(function() {
+            		 						let sbandNo = $(this).parent().find('input[type="hidden"]').val();
+            		 						location.href='studyBand.bo/detail.bo?sno=' + sbandNo;
+            		  					 });
             		   				}else{
             		   					$('#adminMemberTable tbody').html('작성된 게시물이 존재하지 않습니다.');
             		   					}
@@ -291,8 +288,8 @@
             	     		  });
                             };
                             
-                            
-                            
+ 					
+						
                             
                   </script>
                   
