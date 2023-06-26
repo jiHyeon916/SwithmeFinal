@@ -148,8 +148,59 @@ public class BandController {
 			return new Gson().toJson(bandService.insertPhoto(bat));
 	}
 	
-	// 밴드 게시글 수정 
+	// 밴드 게시글 수정 불러오기
+	@ResponseBody
+	@RequestMapping(value="studyBand.bo/updateSelect.sb", produces="application/json; charset=UTF-8")
+	public String updateSelectBandBoard(Model model, BandBoard bb, int sbBoardNo, String sbContent, String sbPhoto) {
+		bb.setSbBoardNo(sbBoardNo);
+		bb.setSbContent(sbContent);
+		bb.setChangeName(sbPhoto);
+		
+		model.addAttribute("BandSelect", bandService.updateSelectBandBoard(bb));
+		return new Gson().toJson(bandService.updateSelectBandBoard(bb));
+	}
 	
+	// 밴드 게시글 텍스트 수정하기
+	@ResponseBody
+	@RequestMapping(value="studyBand.bo/updateBoardText.sb", produces="application/json; charset=UTF-8")
+	public String updateBandText(BandBoard bb, String sbContent, int sbBoardNo) {
+
+		bb.setSbBoardNo(sbBoardNo);
+		bb.setSbContent(sbContent);
+		
+		return new Gson().toJson(bandService.updateBandText(bb));
+	}
+	
+	// 밴드 게시글 사진 수정하기
+	@ResponseBody
+	@RequestMapping(value="studyBand.bo/updatePhoto.sb", produces="application/json; charset=UTF-8")
+	public String updateBoardPhoto(BandAttach bat, String photoSrc, MultipartFile refile, Integer refNo, HttpSession session) {
+
+
+		System.out.println(refNo);
+		System.out.println(photoSrc);
+		System.out.println(refile);
+		
+		bat.setRefNo(refNo);
+
+		if(!refile.getOriginalFilename().equals("")){ // input 사진첨부 했을 때
+			if(bat.getChangeName() != null) { // attach에 기존 파일이 있을 경우 
+				new File(session.getServletContext().getRealPath(bat.getChangeName())).delete();
+			}
+			String changeName = saveFile(refile, session);
+			bat.setChangeName("/swithme/resources/uploadFiles/band/" + changeName);
+
+		} else {
+			if(photoSrc == "/swithme/resources/none.jpeg") {
+				bat.setChangeName(photoSrc);
+			} else {
+				bat.setChangeName(photoSrc);
+			}
+		}
+		return new Gson().toJson(bandService.updateBoardPhoto(bat));
+		
+	}
+
 	// 밴드 게시글 삭제
 	@ResponseBody
 	@RequestMapping(value="studyBand.bo/deleteBoard.sb", produces="application/json; charset=UTF-8")

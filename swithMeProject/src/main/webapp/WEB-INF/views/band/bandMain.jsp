@@ -133,14 +133,6 @@
         	</div>
 		</div>
 		
-		<script>
-			function test1(){
-				$('#originModal').click();
-				$('#originModal').click(function(){
-					$('#originModal').click();					
-				});
-			}
-		</script>
 		
 		<!--밴드 게시글 수정 창-->
        	<div class="modal" id="updateBandBoard">
@@ -148,6 +140,7 @@
             	<div class="modal-content">
             
 	                <!-- Modal body -->
+           		<form method="POST" enctype="multipart/form-data" id="photoForm">
 	                <div class="modal-body1">
                  		<br>
                         <div class="form-group">
@@ -158,39 +151,203 @@
 
 									</select>
                         		</div>
+			           		<div>
                         		<div class="totalDetail1">
-									<textarea id="summernote" name="editordata"></textarea>
+									<textarea id="updateText" class="summernote" name="editordata"></textarea>
                         		</div>
-                        		<form method="post" enctype="multipart/form-data" id="photoForm">
 	                        		<div class="totalPhoto">
 		                        		<div class="img_box">
 		                        			<label class="labetPhoto" for="file1">첨부</label>
+		                        			<label class="labetPhoto" onclick="photoReset();">삭제</label>
 		                        			<div class="img_container">
-		                        				<img id="img1" src="">
+		                        				<img id="img2" src="">
 		                        			</div>
 		                        		</div>
 		                        	
-	
 		                        		<div class="fileType">
-		                        			<input type="hidden" name="sbBoardNo" >
-		                        			<input type="file" id="file1" accept="image/*" name="file" onchange="setImage(this);" />
+		                        			<input type="text" name="test" value="test">
+		                        			<input type="text" class="sBoardNoModal" name="refNo" value="">
+		                        			<input type="text" name="photoSrc" id="photoSrc" value="">
+		                        			<input type="file" id="file1" accept="image/*" name="refile" value="" onchange="setImage(this);" />
 		                        		</div>
 	                        		</div>
-                        		</form>
+	                        </div>
                         	</div>
                         </div>
                         <br>
+                        
                         <div class="btnGroupMain">
-	                        <button class="enrollConfirm" id="bandBoardEnroll" type="button">등록하기</button>
+	                        <button class="enrollConfirm" id="bandBoardEnroll1" onclick="plzzz();" type="button">수정하기</button>
 	                        <button class="enrollDismiss" id="disMissBoard" type="button" data-dismiss="modal">취소하기</button>
                         </div>
 	                </div>
+                </form>
             	</div>
         	</div>
 		</div>
 		
 		<script>
+			
+		    // 게시글 수정 영역 사진 삭제 버튼
+			function photoReset(){
+				$('#img2').attr('src','/swithme/resources/none.jpeg');
+				$('#file1').val("");
+				
+				// console.log($('#img2').attr('src'));
+				// console.log($('#file1').val());
+			}
+		    // 게시글 수정 버튼 누를 때
+			function test1(){
+				$('#originModal').click();
+				// console.log($(target).parent().siblings('.form-group1').find('#photoImg1').attr('src'));
+				// $('#photoSrc').val($('#photoImg1').attr('src'));
+				
+				$('.summernote').summernote({
+					dialogsInBody: true,
+					height: 200,							// 에디터 높이
+					disableResizeEditor: true,
+					minHeight: null,						// 최소 높이
+					maxHeight: null,						// 최대 높이
+					focus: true,							// 에디터 로딩후 포커스를 맞출지 여부
+					lang: "ko-KR",							// 한글 설정
+					placeholder: '내용을 작성하여 주십시요',	//placeholder 설정
+					tabsize: 2,
+					toolbar: [
+						['fontname', ['fontname']],
+			            ['fontsize', ['fontsize']],
+			            ['style', ['bold', 'italic', 'underline','strikethrough', 'clear']],
+			            ['color', ['forecolor','color']],
+			            ['para', ['ul', 'ol', 'paragraph']],
+			            ['height', ['height']],
+					],
+					callbacks: {
+						onImageUpload : function(files){
+							sendFile(files[0],this);
+						}
+					}
+				});
+				
+				var sbBoardNo = $('.sBoardNoModal').val();
+				var sbContent = $('#detailContent').html();
+				var sbPhoto = $('#photoImg1').attr('src');
+
+				// 게시글 수정하기 뷰 
+				$.ajax({
+					url : 'updateSelect.sb',
+					data : {
+							sbBoardNo : sbBoardNo,
+							sbContent : sbContent,
+							sbPhoto : sbPhoto
+					},
+					success : function(BandSelect){
+						
+						$('.note-placeholder').html("");
+						$('.note-editable').html(BandSelect.sbContent);
+						$('#img2').attr('src', BandSelect.changeName);
+						
+						// console.log($('#img2').attr('src'));
+						// console.log($('#file1').val());
+					},
+					error : function(){
+						console.log('밴드 내용 조회 실패');
+					}
+				})
+			};
+			
+			// 게시글 이미지 영역
+			function setImage(inputFile) {
+				var imgSrc1 = $('#img1').attr('src');
+
+				if(inputFile.files.length == 1){
 		
+					let reader = new FileReader();
+		
+		            reader.readAsDataURL(inputFile.files[0]);
+		
+		            reader.onload = function(e){
+		    				
+		                $('#img2').attr('src', e.target.result);
+
+						$('#disMissBoard').click(function(){
+								
+								$('.note-editable').empty();
+
+						})					
+					} 
+				}
+				// console.log($('#img2').attr('src'));
+				// console.log($('#file1').val());
+			};	
+			
+			// 게시글 글 수정 영역
+			$(document).on('click', '#bandBoardEnroll1', function(){
+					
+				let sbBoardNo1 = $('.sBoardNoModal').val();
+				let sbContent1 = $(this).parent().siblings('.form-group').find('.note-editable').html();
+				let sbPhotoSrc = $(this).parent().siblings('.form-group').find('#img2').attr('src');
+				let sbPhotoInput = $('#file1');
+				
+				$('#photoSrc').val(sbPhotoSrc);
+
+				jQuery.ajax({
+					url : 'updateBoardText.sb',
+					data : {
+							sbBoardNo : sbBoardNo1,
+							sbContent : sbContent1 
+					},
+					success : ()=>{
+						console.log('게시글 글 수정 성공');
+						
+					},
+					error : ()=>{
+						console.log('게시글 글 영역 수정 실패');
+					}
+				});
+				
+				var form = $('#photoForm')[0];
+			    var formData = new FormData(form);
+			    formData.append('refNo', sbBoardNo1);
+			    formData.append('photoSrc', sbPhotoSrc);
+			    formData.append('refile', sbPhotoInput.files);
+			    // formData.append('refile', sbPhotoInput);
+				console.log($('.sBoardNoModal').val());
+				console.log($('#photoSrc').val());
+				console.log($('#file1').val());
+			    
+				/*
+				<input type="text" class="sBoardNoModal" name="bandNo" value="">
+		       <input type="text" name="photoSrc" id="photoSrc" value="">
+		       <input type="file" id="file1" accept="image/*" name="refile" value="" onchange="setImage(this);" />
+				*/
+
+				
+			    $.ajax({
+					
+			        url : 'updatePhoto.sb',
+					processData: false,
+			        contentType: false,
+			        type : 'POST',
+			        data : formData,
+					success : ()=>{
+						console.log('게시글 전체 수정 성공');
+					},
+					error : ()=>{
+						console.log('게시글 사진 영역 수정 실패');
+					}
+				});
+				
+			});
+			
+			// 게시글 사진 영역 수정
+			function plzzz(){
+				
+				
+
+			}
+		</script>
+
+		<script>
+			// 게시글 클릭
 			$(document).on('click', '.bPostList', function(){
 				var query = window.location.search;     
 				var param = new URLSearchParams(query);
@@ -209,7 +366,7 @@
 			        		       + '<input type="hidden" class="sBoardNoModal" name="bandNo" value="">';
 			        	$('.replyBtn').html(valueText);
 					} else {
-						var valueText1 = "";
+						let valueText1 = "";
 						valueText1 += '<textarea class="replyContent" readonly>밴드 가입 후 작성이 가능합니다.</textarea><br>'
 		        				   + '<button type="button" class="replyEnroll">등록</button> <br>'
 		        				   + '<input type="hidden" class="sBoardNoModal" name="bandNo" value="">'

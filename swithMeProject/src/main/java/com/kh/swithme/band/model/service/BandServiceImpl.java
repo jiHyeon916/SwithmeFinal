@@ -59,8 +59,16 @@ public class BandServiceImpl implements BandService {
 		return bandDao.insertBandBoard(sqlSession, bb);
 	}
 	@Override
-	public int updateBandBoard(BandBoard bb) {
-		return 0;
+	public BandBoard updateSelectBandBoard(BandBoard bb) {
+		return bandDao.updateSelectBandBoard(sqlSession, bb);
+	}
+	@Override
+	public int updateBandText(BandBoard bb) {
+		return bandDao.updateBandText(sqlSession, bb);
+	}
+	@Override
+	public int updateBoardPhoto(BandAttach bat) {
+		return bandDao.updateBoardPhoto(sqlSession, bat);
 	}
 	@Override
 	public int deleteBandBoard(int sbBoardNo) {

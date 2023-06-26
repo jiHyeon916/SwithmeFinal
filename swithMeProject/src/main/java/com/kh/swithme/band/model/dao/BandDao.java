@@ -183,6 +183,18 @@ public class BandDao {
 		return sqlSession.delete("bandMapper.deleteBand", sbNo);
 	}
 
+	public BandBoard updateSelectBandBoard(SqlSessionTemplate sqlSession, BandBoard bb) {
+		return sqlSession.selectOne("bandMapper.updateSelectBandBoard", bb);
+	}
+
+	public int updateBandText(SqlSessionTemplate sqlSession, BandBoard bb) {
+		return sqlSession.update("bandMapper.updateBandText", bb);
+	}
+
+	public int updateBoardPhoto(SqlSessionTemplate sqlSession, BandAttach bat) {
+		return sqlSession.update("bandMapper.updateBoardPhoto", bat);
+	}
+
 
 
 }
