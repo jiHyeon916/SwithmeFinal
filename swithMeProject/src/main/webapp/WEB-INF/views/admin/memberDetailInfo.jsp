@@ -120,11 +120,11 @@
   		border-color:red;
       }
  
-/*  	#adminMemberTable > tbody > tr:hover{
+	#adminMemberTable > tbody > tr:hover{
  		cursor:pointer;
  		background-color:lightgray;
  		
- 		} */
+ 		} 
     
       
 </style>
@@ -222,14 +222,30 @@
 					                        			 +'<td>' + '<input type="checkbox" value="' + boardNo + '" name="BoardChkDel" id="admemBoardChkDel"></input>' + '</td>' 
 					                        			 +'</tr>' //value값에 원하는 값을 담아서 체크되면 넘기기 
                         							}
+                        			
                        								 $('#adminMemberTable tbody').html(value);
+                       								 
+                       								 $('#adminMemberTable tbody tr').click(function() {
+                       									let boardNo = $(this).find('td:first').text();
+                       									location.href='freeBoardDetail.bo?boardNo=' + boardNo;
+                       									
+                       								 });
+                       								 
                         					   }else{
                         	  					     $('#adminMemberTable tbody').html('작성된 게시물이 존재하지 않습니다.');
                          					}
                         					},error:() => {console.log('실패');}
                      					  })
                      		            };
-
+                     		            
+                     		  
+                    	             
+                    	                      
+                    	                         
+                     		            
+                     		            
+                     		            
+                     		            
                      		            
                //회원이 작성한 밴드 글 조회            
                function memberBandList() {
@@ -243,12 +259,16 @@
             		   			if(listArr.length != 0) {
             		   				for(let i in listArr) {
 		            		   			let list = listArr[i];
+		            		   			
+		            		   			let sbandNo = listArr[i].sbNo;
+		            		   			
 		            		   			let sbNo = listArr[i].sbBoardNo;
 		            		   			let sbText = list.sbContent;
            		   	                    const extractTextPattern = /(<([^>]+)>)/gi;
            		   	                    let extractedText = sbText.replace(extractTextPattern, '');
            		   	                    sbText = extractedText;   
 			            		   			  value  += '<tr>' 
+			            		   					 +'<input type="hidden" value="' + list.sbNo + '">' 
 				                          		  	 +'<td>' + list.sbBoardNo + '</td>'
 					                           		 +'<td>' + list.boardTitle + '</td>'
 					                           		 +'<td >' + sbText + '</td>'
@@ -257,12 +277,23 @@
 				                       				 +'</tr>';
             		   							}
             		   					 $('#adminMemberTable tbody').html(value);
+            		   					 
+            		   					 $('#adminMemberTable tbody tr').click(function() {
+            									let sbandNo = $(this).find('input[type="hidden"]').val();
+            									location.href='studyBand.bo/detail.bo?sno=' + sbandNo;
+            									
+            		   					 });
+            									
             		   				}else{
             		   					$('#adminMemberTable tbody').html('작성된 게시물이 존재하지 않습니다.');
             		   					}
             		   			},error: () => {console.log('실패');}
             	     		  });
                             };
+                            
+                            
+                            
+                            
                   </script>
                   
                   
