@@ -71,20 +71,15 @@ a:hover{
 	border-radius: 10px;
 	box-sizing : border-box;
 }
+#grass{
+	float : left;
+}
 .balance{
-	display : inline-block;
-	width : 600px;
-	height : 300px;
-	padding : 25px;
-	border : 1.5px solid rgb(175, 175, 175);
-	border-radius: 10px;
-	box-sizing : border-box;
+	/* display : inline-block; */
 	margin-left : 20px;
 	margin-bottom : 20px;
 }
-#mainPostList{
-	
-}
+
 
 /* 메인 화면 블럭 5개 */
 #mb1 > button,
@@ -280,8 +275,13 @@ fc-header-toolbar{
 
 /* 최신글 리스트 */
 #mainPostList{
-	margin-top : 40px;
-	margin-bottom : 0;
+	display : inline-block;
+	width : 620px;
+	height : 300px;
+	padding : 25px;
+	border : 1.5px solid rgb(175, 175, 175);
+	border-radius: 10px;
+	box-sizing : border-box;
 }
 #mainPostList li{
 	margin : 0;
