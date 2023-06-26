@@ -288,20 +288,20 @@
    
    </select>
    
-   <!-- 검색한 키워드가 포함된  -->
+   <!-- 검색한 키워드가 포함된 Member Count  -->
    <select id="selectMemberSearchCount" resultType="_int" parameterType="hashmap">
-      SELECT
-         COUNT(*)
-      FROM
-         MEMBER
-      WHERE   
-      <if test="condition == 'memberId'">
-         MEMBER_ID 
-      </if>
-      <if test="condition == 'nickName'">
-         NICKNAME
-      </if>
-         LIKE '%' || #{keyword} || '%'      
+	      SELECT
+	         COUNT(*)
+	      FROM
+	         MEMBER
+	      WHERE   
+	      <if test="condition == 'memberId'">
+	         MEMBER_ID 
+	      </if>
+	      <if test="condition == 'nickName'">
+	         NICKNAME
+	      </if>
+	         LIKE '%' || #{keyword} || '%'      
    </select>
    
    <!-- 검색결과 ArrayList -->
@@ -324,7 +324,7 @@
                LIKE '%' || #{keyword} || '%'      
            ORDER 
                BY 
-                   MEMBER_ENROLL_DATE DESC
+                  MEMBER_ENROLL_DATE DESC
    
    </select>
    
