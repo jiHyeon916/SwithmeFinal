@@ -45,24 +45,21 @@ public class AdminController {
    
    
    //지현
+   
    // 사용자들 모두 조회
    @RequestMapping("adminMember.ad")
    public ModelAndView adminMember(ModelAndView mv, @RequestParam(value="amPage", defaultValue="1")int currentPage) {
-                                       //getParameter같은 존재 , 특정값이 넘어오지않으면 기본값 1로 넘어오게 설정         
-      //페이징처리
-      //회원의 count가져오기(DB)
-      PageInfo pi = Pagination.getPageInfo(adminService.selectMemberCount(), currentPage, 5, 10);
       
-      
-      
+	  //페이징처리
+	  //회원의 count가져오기(DB)
+	  PageInfo pi = Pagination.getPageInfo(adminService.selectMemberCount(), currentPage, 5, 10);
+	  
       //리스트 넘기기
-     mv.addObject("pi", pi);
-     mv.addObject("memList", adminService.adminMemberList(pi)); //memList 가 Key값
-     mv.setViewName("admin/adminMember");
-     return mv; 
-      
-
-   }
+	  mv.addObject("pi", pi);
+	  mv.addObject("memList", adminService.adminMemberList(pi)); //memList 가 Key값
+	  mv.setViewName("admin/adminMember");
+	  return mv; 
+   	  }
    
    //검색 결과
    @RequestMapping("adminMemberSearch.ad")
@@ -71,24 +68,16 @@ public class AdminController {
                               String condition 
                               ,ModelAndView mv 
                               ) {
-      //System.out.println(currentPage);
-      //System.out.println(keyword);
-      //System.out.println(condition);
-    
       //Map에 String 2개를 담기.(키워드값, 옵션 담기)
       HashMap<String, String> map = new HashMap();
       map.put("condition", condition);
       map.put("keyword", keyword);
       
-     // System.out.println(adminService.selectMemberSearchCount(map));
-      
       
       //페이징처리(키워드가 포함된 글의 개수)
       PageInfo pi = Pagination.getPageInfo(adminService.selectMemberSearchCount(map), currentPage, 5, 10);
      
-      //System.out.println(pi);
       ArrayList<Member> searchList =  adminService.selectMemberSearchList(map,pi);
-      //System.out.println(searchList);
       
       
       //페이징 처리된 결과ArrayList
@@ -98,13 +87,8 @@ public class AdminController {
       mv.addObject("condition", condition);
       mv.setViewName("admin/adminMemberSearch");
       
-      
-      
-      //검색 결과가 없을땐 조회된 결과가 없습니다. 뿌려주기
-      
-      //검색한 키워드 검색창에 그대로 
       return mv;
-   }
+      }
    
    
    //회원 상태 조회
@@ -116,15 +100,12 @@ public class AdminController {
       return m.getMemberStatus();
    }
    
-  
    
    
-   
-   //회원 정지 해제 (앞단 해야함..)
+   //회원 정지 해제 
    @ResponseBody
    @RequestMapping("adminMemberStopFree.ad")
    public char memberStopFree(String memberId) {
-   //   System.out.println(memberId);
      return adminService.memberStopFree(memberId) > 0 ? 'Y' : 'N';
    }
    
@@ -132,19 +113,10 @@ public class AdminController {
    @ResponseBody
    @RequestMapping("adminMemberStop.ad")
    public char memberStop(String memberId, HttpSession session) {
-	   
-		   
-		   return adminService.memberStop(memberId) > 0 ? 'Y' : 'N';
-	   }
+	 return adminService.memberStop(memberId) > 0 ? 'Y' : 'N';
+   }
    
    
-   
-	
-	   
-	   
-    //  System.out.println(memberId);
-     
-     
    
    
    /*
@@ -176,12 +148,7 @@ public class AdminController {
 	   
 	   return mv;
 	  
-	   
-	   
-	   // mv.addObject("memberId", memberId);
-	   //memberId로 회원 정보 가져오기
-	  // mv.setViewName("admin/memberDetailInfo");
-	   
+
 	  
 	   
    }
@@ -191,14 +158,8 @@ public class AdminController {
    @ResponseBody
    @RequestMapping(value="memberDetailBoardList.ad", produces="application/json; charset=UTF-8")
    public String memberDetailBoard(String memberId) {
-	  
-	   //System.out.println(memberId);
 	   
 	   ArrayList<Board> list = adminService.memberDetailBoard(memberId);
-	   //ArrayList<Band> Slist = adminService.memberDetailBand(memberId);
-	   
-	   System.out.println(list);
-	   
 	   return new Gson().toJson(list);
    }
    
@@ -206,23 +167,11 @@ public class AdminController {
   @ResponseBody
   @RequestMapping(value="memberBandList.ad", produces="application/json; charset=UTF-8")
   public String memberBandList(String memberId) {
-	  
+
 	  ArrayList<Band> list = adminService.memberDetailBand(memberId);
-	  System.out.println(list);
-	  
 	  return new Gson().toJson(list);
-		
   }
-   
-  
-  
-	/*
-	 * @RequestMapping("memberReplyList.ad") public String memberReplyList(String
-	 * memberId) {
-	 * 
-	 * adminService.memberReplyList(memberId) }
-	 * 
-	 */
+
   
   // 회원 board삭제
   @ResponseBody
@@ -230,19 +179,10 @@ public class AdminController {
   public int deleteBoardDetail(@RequestParam("boardNo")int[] boardNo) {
 	  
 	  int result = 1;
-	  System.out.println(boardNo);
-	  
 	  for(int i = 0; i <boardNo.length; i++) {
 		  result *= adminService.deleteBoardDetail(boardNo[i]);
-		  
 	  }
-	  //System.out.println(result);
-	  
 	 return result;
-	  
-	  //return adminService.deleteBoardDetail(boardNo) > 0 ? 'Y' : 'N';
-  
-  
   }
   
   // 회원 band삭제
@@ -250,38 +190,24 @@ public class AdminController {
   @RequestMapping("deleteBandDetail.ad")
   public int deleteBandDetail( @RequestParam("bandNo")int[] bandNo) {
 	  
-	  
 	  int result = 1;
-	  System.out.println(bandNo + "넘버");
-	  
 	  for(int i = 0; i <bandNo.length; i++) {
 		  result *= adminService.deleteBandDetail(bandNo[i]);
-		  
 	  }
-	 // System.out.println(result + "result");
-	  
 	 return result;
-	  //return adminService.deleteBandDetail(boardNo) > 0 ? 'Y' : 'N';
   }
   
   
   
   //회원 board 글 검색(게시글 제목)
-  
   @ResponseBody
   @RequestMapping(value="memBoardSearchTitle.ad",  produces="application/json; charset=UTF-8")
   public String memBoardSearch(String memberId, String keyword) {
-	  
-	  
 	  HashMap<String, String> map = new HashMap();
 	  map.put("keyword",keyword);
 	  map.put("memberId", memberId);
-	  
 	  ArrayList<Board> list = adminService.memBoardSearch(map);
-	
-	  //System.out.println(list);
-	  
-	 return new Gson().toJson(list);
+	  return new Gson().toJson(list);
   }
  
  
@@ -289,16 +215,10 @@ public class AdminController {
    @ResponseBody
    @RequestMapping(value="memBoardSearchContent.ad", produces="application/json; charset=UTF-8")
    public String memSearchContent(String memberId, String keyword) {
-	   
-	   //System.out.println(keyword);
 	   HashMap<String, String> map = new HashMap();
 	   map.put("keyword", keyword);
 	   map.put("memberId", memberId);
-	   
 	   ArrayList<Board> list = adminService.memSearchContent(map);
-	   
-	   //System.out.println(list);
-	   
 	   return new Gson().toJson(list);
    }
   
@@ -307,15 +227,10 @@ public class AdminController {
    @ResponseBody
    @RequestMapping(value="memBandSearchTitle.ad", produces="application/json; charset=UTF-8")
    public String memBandSearchTitle(String memberId, String keyword) {
-	   
 	   HashMap<String, String> map = new HashMap();
 	   map.put("keyword", keyword);
 	   map.put("memberId", memberId);
-	   
 	   ArrayList<Band> list = adminService.memBandSearchTitle(map);
-	   
-	   //System.out.println(list);
-	   
 	   return new Gson().toJson(list);
    }
    
@@ -323,15 +238,10 @@ public class AdminController {
    @ResponseBody
    @RequestMapping(value="memBandSearchContent.ad", produces="application/json; charset=UTF-8")
    public String memBandSearchContent(String memberId, String keyword) {
-	   
 	   HashMap<String,String> map = new HashMap();
 	   map.put("keyword", keyword);
 	   map.put("memberId", memberId);
-	   
 	   ArrayList<Band> list = adminService.memBandSearchContent(map);
-	   
-	   System.out.println(list);
-	   
 	   return new Gson().toJson(list);
    }
    

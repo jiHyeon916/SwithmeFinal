@@ -120,6 +120,7 @@ public class MemberServiceImpl implements MemberService{
 	public int updateMember(Member m) {
 		return memberDao.updateMember(sqlSession,m);
 	}
+		
 
 	/**
 	 *비밀번호 찾기(회원이 입력한 값이 일치한지 확인)
@@ -418,6 +419,13 @@ public class MemberServiceImpl implements MemberService{
 	}
 
 
+	// 마이페이지 메인 - 작성글 리스트(최신 5개)
+	@Override
+	public ArrayList<Board> mainPostList(String memberId){
+		return memberDao.mainPostList(sqlSession, memberId);
+	};
+
+	
 
 
 

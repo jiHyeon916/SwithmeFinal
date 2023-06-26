@@ -633,27 +633,36 @@
       	</update>
 		
 		<!-- 알림 조회 -->
-		<select id="selectAlarmList" parameterType="string" resultMap="alarmResultSet">
-		SELECT ALARM_CATEGORY, ALARM_BOARD_NO , SUBSTR(ALARM_NO, 1, 1) "ALARM_SORT", SUBSTR(ALARM_NO, 3,2) "ALARMSUB_NO", TO_CHAR(ALARM_DATE, 'YYYY-MM-DD HH:MI:SS') "ALARM_DATE", S.ALARM_STATUS
-		                  FROM BOARD_ALARM S
-		                 WHERE ALARM_MEMBER_ID = #{memberId}
-		                 UNION ALL
-		                	SELECT ALARM_CATEGORY, ALARM_SB_NO, SUBSTR(ALARM_NO, 1, 1) "ALARM_SORT", SUBSTR(ALARM_NO, 3,2) "ALARMSUB_NO", TO_CHAR(ALARM_DATE, 'YYYY-MM-DD HH:MI:SS') "ALARM_DATE", B.ALARM_STATUS
-		                  FROM BAND_ALARM B
-		                 	WHERE ALARM_MEMBER = #{memberId}
-		                 ORDER 
-		                    BY ALARM_DATE DESC
+			<select id="selectAlarmList" parameterType="string" resultMap="alarmResultSet">
+					SELECT 
+							ALARM_CATEGORY
+							, ALARM_BOARD_NO 
+							, SUBSTR(ALARM_NO, 1, 1) "ALARM_SORT"
+							, SUBSTR(ALARM_NO, 3) "ALARMSUB_NO"
+							, TO_CHAR(ALARM_DATE, 'YYYY-MM-DD HH:MI:SS') "ALARM_DATE"
+							, S.ALARM_STATUS
+					   FROM 
+					   		BOARD_ALARM S
+					   WHERE 
+					   		ALARM_MEMBER_ID = #{memberId}
+	                   UNION ALL
+		               SELECT 
+			               ALARM_CATEGORY
+			               , ALARM_SB_NO
+			               , SUBSTR(ALARM_NO, 1, 1) "ALARM_SORT"
+			               , SUBSTR(ALARM_NO, 3) "ALARMSUB_NO"
+			               , TO_CHAR(ALARM_DATE, 'YYYY-MM-DD HH:MI:SS') "ALARM_DATE"
+			               , B.ALARM_STATUS
+	                   FROM
+	                   		 BAND_ALARM B
+	               	   WHERE
+	               	   		 ALARM_MEMBER = #{memberId}
+	                   ORDER 
+	                  	  BY 
+	                  	  	ALARM_DATE DESC
 			</select>
-		
-	
-		
-		
-
-
 		<!-- 알람 읽음여부 - 게시판 -->
-
 			<update id="readAlarm" parameterType="hashmap">
-
 				UPDATE
 					BOARD_ALARM
 				SET
@@ -661,13 +670,10 @@
 				WHERE
 					ALARM_BOARD_NO = #{boardNo}	
 				AND
-					SUBSTR(ALARM_NO, 3, 2) = #{alarmNo}		
-						
+					SUBSTR(ALARM_NO, 3) = #{alarmNo}		
 			</update>
-			
 		<!-- 알람 읽음 여부 - 밴드 -->
 		<update id="readAlarmB" parameterType="hashmap">
-		
 			UPDATE
 				BAND_ALARM
 			SET		
@@ -675,10 +681,7 @@
 			WHERE
 				ALARM_SB_NO = #{boardNo}
 			AND
-				SUBSTR(ALARM_NO, 3, 2) = #{alarmNo}			
-				
-		
-		
+				SUBSTR(ALARM_NO, 3) = #{alarmNo}			
 		</update>
 	
 	
@@ -1066,6 +1069,27 @@
 		   AND
 		   	   MEMBER_ID = #{ memberId }
 	</update>
+	
+	<!-- 마이페이지 메인 - 작성글 리스트(최신 5개) -->
+	<select id="mainPostList" parameterType="string" resultMap="boardResultSet">
+		SELECT A.*
+		  FROM (SELECT
+		              BOARD_NO
+		             ,BOARD_TITLE
+		             ,TO_CHAR(CREATE_DATE, 'YYYY-MM-DD HH24:MI') AS "CREATE_DATE"
+		         FROM
+		             MAINBOARD
+		         JOIN
+		             MEMBER M using(MEMBER_ID)
+		        WHERE
+		             BOARD_STATUS = 'Y'
+		          AND
+		             MEMBER_ID = #{ memberId }
+		         ORDER
+		            BY
+		              BOARD_NO DESC) A
+		 WHERE ROWNUM BETWEEN 1 AND 5
+	</select>
 	
 	
 	

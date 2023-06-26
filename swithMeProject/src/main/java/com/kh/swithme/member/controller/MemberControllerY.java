@@ -310,6 +310,13 @@ public class MemberControllerY {
 		return result;
 	}
 	
+
+	// 마이페이지 메인 - 작성글목록
+	@ResponseBody
+	@RequestMapping(value="myPostList.me", produces="application/json; charset=UTF-8")
+	public String mainPostListView(String memberId) {
+		return new Gson().toJson(memberService.mainPostList(memberId));
+	}
 	
 	
 	

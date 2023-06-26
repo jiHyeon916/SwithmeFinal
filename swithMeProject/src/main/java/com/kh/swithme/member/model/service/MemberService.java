@@ -217,6 +217,10 @@ public interface MemberService {
 
 	// 착용상태 변경
 	int wearStatusUpdate(MemberItem mItem);
+
+	// 마이페이지 메인 - 작성글 리스트(최신 5개)
+	ArrayList<Board> mainPostList(String memberId);
+	
 	
 	
 	  

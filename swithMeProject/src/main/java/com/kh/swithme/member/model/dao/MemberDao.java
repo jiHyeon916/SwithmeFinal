@@ -92,15 +92,13 @@ public class MemberDao {
 
 	//알람 읽음 여부 - 게시판
 	public int readAlarm(SqlSessionTemplate sqlSession, HashMap<String, Integer> map) {
-
 		return sqlSession.update("memberMapper.readAlarm", map);
 	}
 
 	//알림 읽음 여부 - 밴드
 	public int readAlarmB(SqlSessionTemplate sqlSession, HashMap<String, Integer> map) {
 		return sqlSession.update("memberMapper.readAlarmB",map);
-	};
-
+	}
 
 
 
@@ -319,4 +317,9 @@ public class MemberDao {
 		return sqlSession.update("memberMapper.wearStatusUpdate", mItem);
 	}
 
+	// 마이페이지 메인 - 작성글 리스트(최신 5개)
+	public ArrayList<Board> mainPostList(SqlSessionTemplate sqlSession, String memberId){
+		return (ArrayList)sqlSession.selectList("memberMapper.mainPostList", memberId);
+	};
+	
 }
