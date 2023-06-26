@@ -333,6 +333,14 @@ public class BoardServiceImpl implements BoardService {
 	public ArrayList<StudyRoom> selectAddressSearch(HashMap<String, String> map) {
 		return boardDao.selectAddressSearch(sqlSession, map);
 	}
+	@Override
+	public ArrayList<StudyRoom> selectAddressSearchAll(String searchText) {
+		return boardDao.selectAddressSearchAll(sqlSession, searchText);
+	}
+	@Override
+	public ArrayList<StudyRoom> studyRoomSearchAll(String searchText) {
+		return boardDao.studyRoomSearchAll(sqlSession, searchText);
+	}
 
 
 

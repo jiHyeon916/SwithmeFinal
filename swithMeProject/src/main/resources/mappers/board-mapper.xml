@@ -327,7 +327,7 @@
 		FROM
 			BOARD_STUDYROOM
         WHERE
-						<if test="searchSelect == '10'">
+			<if test="searchSelect == '10'">
 				SR_LOCATION='강원'
 			</if>
 			<if test="searchSelect == '20'">
@@ -381,6 +381,40 @@
 			AND
 				SR_NAME LIKE '%' || #{searchText} || '%'
 	</select>
+	
+	<!-- 스터디룸 위치 검색 -->
+	<select id="selectAddressSearchAll" resultMap="sRoomResultSet">
+		SELECT 
+			SR_LAT
+			,SR_LNG
+		FROM
+			BOARD_STUDYROOM
+        WHERE
+			SR_NAME LIKE '%' || #{searchText} || '%'
+	</select>
+	
+	<!-- 스터디룸 검색 -->
+	<select id="studyRoomSearchAll" resultType="studyRoom">
+		SELECT 
+			SR_NO studyRoomNo
+			,SR_NAME studyRoomName
+			,SR_LOCATION studyRoomLocation
+			,SR_ADDRESS studyRoomAddress
+			,SR_PHONE studyRoomPhone
+			,CHANGE_NAME titleImg
+		FROM
+			BOARD_STUDYROOM
+		JOIN
+			ATTACH ON(BOARD_STUDYROOM.SR_NO = ATTACH.REF_NO)
+        WHERE
+            FILE_LEVEL=1
+		AND
+			SR_NAME LIKE '%' || #{searchText} || '%'
+		ORDER
+		BY
+			SR_CREATEDATE DESC
+	</select>
+	
 	
 	
 	

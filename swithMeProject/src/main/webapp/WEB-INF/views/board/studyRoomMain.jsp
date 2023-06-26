@@ -109,7 +109,6 @@
 						<tr>
 							<td>
 								<select class="searchSelect" name="searchSelect" id="sRoomSearchSelect">
-								<option value="0">전체</option>
 								<option  value="10">강원</option>
 								<option  value="20">경기</option>
 								<option  value="30">경남</option>
@@ -280,41 +279,45 @@
 						var value='';
 						var search = data.search;
 						var searchList = data.searchList;
-						for (let i = 0; i < search.length; i++) {
-							 positions.push({title: search[i].studyRoomName, latlng: new kakao.maps.LatLng(search[i].studyRoomLat, search[i].studyRoomLng)});
-						 }
 
-						 // 검색 결과 스터디룸 리스트
-						for(let i = 0; i < searchList.length; i++){
-							value += '<table class="sRoomListTables">'
-									+'<input type="hidden" value="' + searchList[i].studyRoomNo+ '">'
-									+'<tbody>'
-									+'<tr>'
-									+'<th rowspan="6">'
-									+'<img class="studyRoomimg" src="'+ searchList[i].titleImg +'" style="width:250px;height:250px;">'
-									+'</th>'
-									+'</tr>'
-									+'<tr>'
-									+'<td>'
-									+'<span>'+ searchList[i].studyRoomLocation +'</span>'
-									+'<h3>'+ searchList[i].studyRoomName+'</h3>'
-									+'</td>'
-									+'</tr>'
-									+'<tr>'
-									+'<td>'+searchList[i].studyRoomAddress+'</td>'
-									+'</tr>'
-									+'<tr>'
-									+'<td>'+searchList[i].studyRoomPhone+'</td>'
-									+'</tr>'
-									+'<tr><td>&nbsp;</td></tr>'
-									+'</tbody>'
-									+'</table>';
-						}
-						if(searchList.length > 0){
+							for (let i = 0; i < search.length; i++) {
+								 positions.push({title: search[i].studyRoomName, latlng: new kakao.maps.LatLng(search[i].studyRoomLat, search[i].studyRoomLng)});
+							 }
+	
+							 // 검색 결과 스터디룸 리스트
+							for(let i = 0; i < searchList.length; i++){
+								value += '<table class="sRoomListTables">'
+										+'<input type="hidden" value="' + searchList[i].studyRoomNo+ '">'
+										+'<tbody>'
+										+'<tr>'
+										+'<th rowspan="6">'
+										+'<img class="studyRoomimg" src="'+ searchList[i].titleImg +'" style="width:250px;height:250px;">'
+										+'</th>'
+										+'</tr>'
+										+'<tr>'
+										+'<td>'
+										+'<span>'+ searchList[i].studyRoomLocation +'</span>'
+										+'<h3>'+ searchList[i].studyRoomName+'</h3>'
+										+'</td>'
+										+'</tr>'
+										+'<tr>'
+										+'<td>'+searchList[i].studyRoomAddress+'</td>'
+										+'</tr>'
+										+'<tr>'
+										+'<td>'+searchList[i].studyRoomPhone+'</td>'
+										+'</tr>'
+										+'<tr><td>&nbsp;</td></tr>'
+										+'</tbody>'
+										+'</table>';
+							}
+						
+
+						if((searchList.length > 0) || (searchAllList.length > 0)){
 							$('#sRoomList').html(value);
 						} else{
 							$('#sRoomList').html('조회 결과가 없습니다.');
 						}
+						
 						mapView(positions);
 						studyRoomDetail();
 						

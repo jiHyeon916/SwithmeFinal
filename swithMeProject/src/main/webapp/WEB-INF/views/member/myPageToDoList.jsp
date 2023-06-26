@@ -459,6 +459,7 @@ a:hover {
 					},
 					success : function(data){
 						reload(data);
+						calendarLoad();
 					},
 					error : function(){
 						console.log('실패');

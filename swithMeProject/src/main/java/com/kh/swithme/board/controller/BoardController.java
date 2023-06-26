@@ -910,12 +910,13 @@ public class BoardController {
 	@RequestMapping(value="search.bo", produces="application/json; charset=UTF-8")
 	public HashMap<String, Object> ajaxSearch(String searchSelect, String searchText) {
 		HashMap<String, Object> data = new HashMap<>();
-		HashMap<String, String> map = new HashMap<>(); 
+		HashMap<String, String> map = new HashMap<>();
 		map.put("searchSelect", searchSelect);
 		map.put("searchText", searchText);
+
 		data.put("search", boardService.selectAddressSearch(map));
 		data.put("searchList", boardService.studyRoomSearch(map));
-		System.out.println(boardService.selectAddressSearch(map));
+
 		return data;
 	}
 

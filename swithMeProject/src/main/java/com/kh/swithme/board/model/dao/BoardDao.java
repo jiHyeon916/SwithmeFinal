@@ -262,6 +262,15 @@ public class BoardDao {
 	public ArrayList<StudyRoom> selectAddressSearch(SqlSessionTemplate sqlSession, HashMap<String, String> map){
 		return (ArrayList)sqlSession.selectList("boardMapper.selectAddressSearch", map);
 	}
+	
+	public ArrayList<StudyRoom> selectAddressSearchAll(SqlSessionTemplate sqlSession, String searchText){
+		return (ArrayList)sqlSession.selectList("boardMapper.selectAddressSearchAll", searchText);
+	}
+
+	public ArrayList<StudyRoom> studyRoomSearchAll(SqlSessionTemplate sqlSession, String searchText){
+		return (ArrayList)sqlSession.selectList("boardMapper.studyRoomSearchAll", searchText);
+	}
+
 
 
 
