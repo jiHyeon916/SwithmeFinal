@@ -216,7 +216,7 @@
 			                        	let boardNo = listArr[i].boardNo;
 					                        	value 	+= '<tr>' 
 					                           		  	 +'<td>' + list.boardNo + '</td>'
-						                           		 +'<td id="boardClick">' + list.boardTitle + '</td>' //제목을 클릭하면 넘어감
+						                           		 +'<td id="boardClick">' + list.boardTitle + '</td>' //제목을 클릭하면 해당 게시판 페이지로 이동
 						                           		 +'<td>' + list.summary + '</td>'
 						                           		 +'<td>' + list.createDate + '</td>'
 					                        			 +'<td>' + '<input type="checkbox" value="' + boardNo + '" name="BoardChkDel" id="admemBoardChkDel"></input>' + '</td>' 
@@ -228,7 +228,6 @@
                        									let boardNo = $(this).parent().find('td:first').text();
                        									console.log(boardNo);
                        									location.href='freeBoardDetail.bo?boardNo=' + boardNo;
-                       									
                        								 });
                        								 
                         					   }else{
@@ -270,7 +269,7 @@
 			            		   			  value  += '<tr>' 
 			            		   					 +'<input type="hidden" value="' + list.sbNo + '">' 
 				                          		  	 +'<td>' + list.sbBoardNo + '</td>'
-					                           		 +'<td id="bandClick">' + list.boardTitle + '</td>' //제목을 클릭하면 해당 게시글로 페이지로 이동
+					                           		 +'<td id="bandClick">' + list.boardTitle + '</td>' //제목을 클릭하면 해당 밴드 페이지로 이동
 					                           		 +'<td >' + sbText + '</td>'
 					                           		 +'<td>' + list.sbCreateDate + '</td>'
 				                       				 +'<td>' + '<input type="checkbox" value="' + sbNo + '" name="BandChkDel" id="admemBandChkDel">' + '</td>'
