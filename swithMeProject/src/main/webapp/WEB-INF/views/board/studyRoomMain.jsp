@@ -312,7 +312,7 @@
 							}
 						
 
-						if((searchList.length > 0) || (searchAllList.length > 0)){
+						if(searchList.length > 0){
 							$('#sRoomList').html(value);
 						} else{
 							$('#sRoomList').html('조회 결과가 없습니다.');
