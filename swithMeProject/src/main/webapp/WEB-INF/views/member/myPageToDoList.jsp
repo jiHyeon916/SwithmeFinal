@@ -62,6 +62,17 @@ a:hover {
 	padding-left: 250px;
 	
 }
+.topBlock{
+	height : 55px;
+	padding : 13px 20px;
+	border : 1.5px solid rgb(175, 175, 175);
+	border-radius: 10px;
+	box-sizing : border-box;
+	color : rgb(3, 195, 115);
+	font-size : 16px;
+	font-weight : 500;
+	margin-bottom : 30px;
+}
 
 .block {
 	height: 800px;
@@ -72,13 +83,34 @@ a:hover {
 	margin: auto;
 }
 
-.myBtn>button {
-	display: inline-block;
-	width: 100px;
-	height: 38px;
+.selectBtn {
 	background-color: white;
-	border-radius: 5px;
-	margin-right: 10px;
+    width : 100px;
+    height: 38px;
+	border : 1.5px solid #03c373;
+	border-radius : 5px;
+	color : #03c373;
+	margin-right : 10px;
+}
+
+.noneBtn{
+	background-color: white;
+    width : 100px;
+    height: 38px;
+    border : 1.5px solid #cecece;
+	border-radius : 5px;
+	color : #cecece;
+	margin-right : 10px;
+}
+
+.myBtn>button:hover{
+	background-color: white;
+    width : 100px;
+    height: 38px;
+	border : 1.5px solid #03c373;
+	border-radius : 5px;
+	color : #03c373;
+	margin-right : 10px;
 }
 
 #todoHead>button{
@@ -160,15 +192,14 @@ a:hover {
 		<div class="mySide">
 			<jsp:include page="myMenuBar.jsp" />
 		</div>
-		
 
 		<div class="content">
+			<div class="topBlock">일정관리</div>
 			<div class="block">
 				<div class="myBtn">
-					<button onclick="location.href='calendar.me'">일정 </button>
-					<button onclick="location.href='toDoList.me'">오늘의 할 일</button>
+					<button class="noneBtn" onclick="location.href='calendar.me'">일정 </button>
+					<button class="selectBtn" onclick="location.href='toDoList.me'">오늘의 할 일</button>
 				</div>
-				<div class="page-blank2"></div>
 				<div class="todoOuter">
 					<div id="todoCalendar">
 						<div id='calendar'></div>
@@ -196,6 +227,7 @@ a:hover {
 	<script>
 		$(function(){
 			calendarLoad();
+			clickHeadBtn();
 		})
 
 		function calendarLoad(){
@@ -250,7 +282,6 @@ a:hover {
 				var date =  moment(arg.startStr).format('YYYY-MM-DD');
 				var date2 = moment(arg.startStr).format('DD');
 				var date3 = moment(arg.startStr).day();
-	
 				switch(date3){
 					case 0 : date3='SUNDAY';break;
 					case 1 : date3='MONDAY';break;
@@ -265,9 +296,10 @@ a:hover {
 				tab += '<button id="all" value="'+date+'" onclick="changeBtn(0,this);" class="headBtn">전체보기</button>'
 							+ '<button id="todo" value="'+date+'" onclick="changeBtn(1,this);" class="headBtn">진행 중</button>'
 							+ '<button id="complete" value="'+date+'" onclick="changeBtn(2,this);" class="headBtn">완료</button>'
-							+ '<button id="addBtn" onclick="addInput();" class="headBtn">추가</button>';
+							+ '<button id="addBtn" value="'+date+'" onclick="addInput(this);" class="headBtn">추가</button>';
 				$('#todoHead').html(tab);
 				selectTodoList(date, 0);
+				clickHeadBtn();
 				}
 	
 			});
@@ -287,7 +319,6 @@ a:hover {
 				success : function(data){
 					listView(type, data);
 					todoCheck();
-					clickHeadBtn();
 				},
 				error : function(){
 					console.log('실패');
@@ -296,14 +327,12 @@ a:hover {
 		}
 
 		function changeBtn(type,obj){
-			
 			var date = obj.value;
 			selectTodoList(date, type);
 		}
 
-		// 조회
+		// 조건별 조회
 		function listView(type,data){
-			console.log(data);
 			var todoList;
 			if(type==0){
 				var todoList = data.all;
@@ -327,11 +356,12 @@ a:hover {
 		}
 
 		//todo 입력창 생성
-	  	function addInput(){
+	  	function addInput(btn){
+			date = btn.value;
 			$('.todoInput').remove();
 			$('#todoHead').append('<div class="todoInput"></div>');
 			$('.todoInput').append('<input type="text" class="newTodoContents">');
-			$(".todoInput").append('<button onclick="addTodo();">추가</button><button onclick="noAdd();">취소</button>');	
+			$(".todoInput").append('<button value="'+date+'" onclick="addTodo(this);">추가</button><button onclick="noAdd();">취소</button>');	
 		}
 
 		//todo 입력창 취소
@@ -346,11 +376,11 @@ a:hover {
 		}
 
 		//todo 추가
-		function addTodo(){
+		function addTodo(btn){
 			var value="";
 			var todo =$('.newTodoContents').val();
+			var date = btn.value;
 			if(todo!=""){
-				var date = moment($('#todoDate').text(), 'dddd\nD').format('YYYY-MM-DD');
 						$.ajax({
 							url : 'insertTodoList',
 							data : {
@@ -362,6 +392,7 @@ a:hover {
 								reload(data);
 								$('.todoInput').remove();
 								todoCheck();
+								calendarLoad();
 							},
 							error : function(){
 								console.log('추가 실패');
@@ -450,12 +481,14 @@ a:hover {
 								+'<button class="deleteTodo" onclick="deleteTodo('+todoList[i].todoNo+');">삭제</button>&nbsp;<br>';	
 				}
 				$('#todoContent').append(value);
+				todoCheck();
 			}
 
 			function clickHeadBtn(){
-				$('.headBtn').removeClass('.hover');
-				$('.headBtn').on('click', function() {
-        			$(this).addClass('.hover');
+				$('.headBtn').on('click',function() {
+					console.log(this);
+					$('.headBtn').removeClass('hover');
+        			$(this).addClass('hover');
 				});
 			}
 

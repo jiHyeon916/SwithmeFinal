@@ -67,6 +67,18 @@ a:hover {
 	padding-left: 250px;
 }
 
+.topBlock{
+	height : 55px;
+	padding : 13px 20px;
+	border : 1.5px solid rgb(175, 175, 175);
+	border-radius: 10px;
+	box-sizing : border-box;
+	color : rgb(3, 195, 115);
+	font-size : 16px;
+	font-weight : 500;
+	margin-bottom : 30px;
+}
+
 .block {
 	padding: 25px;
 	border: 1.5px solid rgb(175, 175, 175);
@@ -75,18 +87,34 @@ a:hover {
 	margin: auto;
 }
 
-.myBtn>button {
-	display: inline-block;
-	width: 100px;
-	height: 38px;
+.selectBtn {
 	background-color: white;
-	border-radius: 5px;
-	margin-right: 10px;
+    width : 100px;
+    height: 38px;
+	border : 1.5px solid #03c373;
+	border-radius : 5px;
+	color : #03c373;
+	margin-right : 10px;
+}
+
+.noneBtn{
+	background-color: white;
+    width : 100px;
+    height: 38px;
+    border : 1.5px solid #cecece;
+	border-radius : 5px;
+	color : #cecece;
+	margin-right : 10px;
 }
 
 .myBtn>button:hover{
-	background-color : rgb(207, 254, 227);
+	background-color: white;
+    width : 100px;
+    height: 38px;
+	border : 1.5px solid #03c373;
+	border-radius : 5px;
 	color : #03c373;
+	margin-right : 10px;
 }
 
 /* 일요일 날짜 빨간색 */
@@ -122,7 +150,6 @@ a:hover {
 }
 
 
-
 </style>
 
 
@@ -140,10 +167,11 @@ a:hover {
 		
 
 		<div class="content">
+			<div class="topBlock">일정관리</div>
 			<div class="block">
 				<div class="myBtn">
-					<button onclick="location.href='calendar.me'">일정 </button>
-					<button onclick="location.href='toDoList.me'">오늘의 할 일</button>
+					<button class="selectBtn" onclick="location.href='calendar.me'">일정 </button>
+					<button class="noneBtn" onclick="location.href='toDoList.me'">오늘의 할 일</button>
 				</div>
 				<div class="page-blank2"></div>
 				<div id='calendar'></div>
