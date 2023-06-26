@@ -1,6 +1,7 @@
 package com.kh.swithme.member.controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import javax.servlet.http.HttpSession;
 
@@ -12,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.google.gson.Gson;
-import com.kh.swithme.board.model.vo.Board;
 import com.kh.swithme.common.model.vo.PageInfo;
 import com.kh.swithme.common.template.Pagination;
 import com.kh.swithme.member.model.service.MemberService;
