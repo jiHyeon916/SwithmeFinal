@@ -316,6 +316,7 @@
 							$('#sRoomList').html('조회 결과가 없습니다.');
 						}
 						mapView(positions);
+						studyRoomDetail();
 						
 					}, 
 					error : function(){

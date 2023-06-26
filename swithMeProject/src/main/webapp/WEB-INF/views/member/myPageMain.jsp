@@ -459,6 +459,12 @@
 			let boardNo = $(this).children().eq(0).val();
 			location.href = 'freeBoardDetail.bo?boardNo=' + boardNo;
 		});
+		
+		// 달력 클릭시 todoList 페이지로 이동
+		$(document).on('click', 'tbody', function(){
+			location.href = 'toDoList.me';
+		});
+		
 	</script>
 	
 	

@@ -33,235 +33,235 @@ import com.kh.swithme.member.model.vo.Member;
 
 @Controller
 public class AdminController {
-   
-   @Autowired
-   private AdminService adminService;
-   
 
-   
-	
-   
-   
-   
-   
-   //지현
-   
-   // 사용자들 모두 조회
-   @RequestMapping("adminMember.ad")
-   public ModelAndView adminMember(ModelAndView mv, @RequestParam(value="amPage", defaultValue="1")int currentPage) {
-      
-	  //페이징처리
-	  //회원의 count가져오기(DB)
-	  PageInfo pi = Pagination.getPageInfo(adminService.selectMemberCount(), currentPage, 5, 10);
-	  
-      //리스트 넘기기
-	  mv.addObject("pi", pi);
-	  mv.addObject("memList", adminService.adminMemberList(pi)); //memList 가 Key값
-	  mv.setViewName("admin/adminMember");
-	  return mv; 
-   	  }
-   
-   //검색 결과
-   @RequestMapping("adminMemberSearch.ad")
-   public ModelAndView adminMemberSearch(@RequestParam(value="amPage", defaultValue="1")int currentPage, 
-                              String keyword, 
-                              String condition 
-                              ,ModelAndView mv 
-                              ) {
-      //Map에 String 2개를 담기.(키워드값, 옵션 담기)
-      HashMap<String, String> map = new HashMap();
-      map.put("condition", condition);
-      map.put("keyword", keyword);
-      
-      
-      //페이징처리(키워드가 포함된 글의 개수)
-      PageInfo pi = Pagination.getPageInfo(adminService.selectMemberSearchCount(map), currentPage, 5, 10);
-     
-      ArrayList<Member> searchList =  adminService.selectMemberSearchList(map,pi);
-      
-      
-      //페이징 처리된 결과ArrayList
-      mv.addObject("searchList",searchList); //list결과->key값 searchList
-      mv.addObject("pi",pi);
-      mv.addObject("keyword", keyword);
-      mv.addObject("condition", condition);
-      mv.setViewName("admin/adminMemberSearch");
-      
-      return mv;
-      }
-   
-   
-   //회원 상태 조회
-   @ResponseBody
-   @RequestMapping("memberStatusSelect.ad")
-   public String memberStatus(String memberId) {
-      
-      Member m = adminService.memberStatus(memberId);
-      return m.getMemberStatus();
-   }
-   
-   
-   
-   //회원 정지 해제 
-   @ResponseBody
-   @RequestMapping("adminMemberStopFree.ad")
-   public char memberStopFree(String memberId) {
-     return adminService.memberStopFree(memberId) > 0 ? 'Y' : 'N';
-   }
-   
-   //회원 정지 
-   @ResponseBody
-   @RequestMapping("adminMemberStop.ad")
-   public char memberStop(String memberId, HttpSession session) {
-	 return adminService.memberStop(memberId) > 0 ? 'Y' : 'N';
-   }
-   
-   
-   
-   
-   /*
+	@Autowired
+	private AdminService adminService;
+
+
+
+
+
+
+
+
+	//지현
+
+	// 사용자들 모두 조회
+	@RequestMapping("adminMember.ad")
+	public ModelAndView adminMember(ModelAndView mv, @RequestParam(value="amPage", defaultValue="1")int currentPage) {
+
+		//페이징처리
+		//회원의 count가져오기(DB)
+		PageInfo pi = Pagination.getPageInfo(adminService.selectMemberCount(), currentPage, 5, 10);
+
+		//리스트 넘기기
+		mv.addObject("pi", pi);
+		mv.addObject("memList", adminService.adminMemberList(pi)); //memList 가 Key값
+		mv.setViewName("admin/adminMember");
+		return mv; 
+	}
+
+	//검색 결과
+	@RequestMapping("adminMemberSearch.ad")
+	public ModelAndView adminMemberSearch(@RequestParam(value="amPage", defaultValue="1")int currentPage, 
+			String keyword, 
+			String condition 
+			,ModelAndView mv 
+			) {
+		//Map에 String 2개를 담기.(키워드값, 옵션 담기)
+		HashMap<String, String> map = new HashMap();
+		map.put("condition", condition);
+		map.put("keyword", keyword);
+
+
+		//페이징처리(키워드가 포함된 글의 개수)
+		PageInfo pi = Pagination.getPageInfo(adminService.selectMemberSearchCount(map), currentPage, 5, 10);
+
+		ArrayList<Member> searchList =  adminService.selectMemberSearchList(map,pi);
+
+
+		//페이징 처리된 결과ArrayList
+		mv.addObject("searchList",searchList); //list결과->key값 searchList
+		mv.addObject("pi",pi);
+		mv.addObject("keyword", keyword);
+		mv.addObject("condition", condition);
+		mv.setViewName("admin/adminMemberSearch");
+
+		return mv;
+	}
+
+
+	//회원 상태 조회
+	@ResponseBody
+	@RequestMapping("memberStatusSelect.ad")
+	public String memberStatus(String memberId) {
+
+		Member m = adminService.memberStatus(memberId);
+		return m.getMemberStatus();
+	}
+
+
+
+	//회원 정지 해제 
+	@ResponseBody
+	@RequestMapping("adminMemberStopFree.ad")
+	public char memberStopFree(String memberId) {
+		return adminService.memberStopFree(memberId) > 0 ? 'Y' : 'N';
+	}
+
+	//회원 정지 
+	@ResponseBody
+	@RequestMapping("adminMemberStop.ad")
+	public char memberStop(String memberId, HttpSession session) {
+		return adminService.memberStop(memberId) > 0 ? 'Y' : 'N';
+	}
+
+
+
+
+	/*
    //회원 디테일 조회정보(select)
    @RequestMapping("memberDetailInfo.ad")
    public ModelAndView memberDetailInfo(String memberId, ModelAndView mv) {
-      
+
       //System.out.println(memberId);
-    
+
 	   ArrayList<Board> memberBoardList = adminService.memberDetailInfo(memberId);
 	   mv.addObject("memberBoardList", memberBoardList);
        mv.setViewName("admin/memberDetailInfo");
        return mv;
    }*/
-   
-   
-   
-   
-   //디테일info로 이동(+회원정보 가지고)
-   @RequestMapping("memberDetailInfo.ad")
-   public ModelAndView memberDetailInfo(String memberId, HttpSession session, ModelAndView mv) {
-	    
-	   //System.out.println(memberId);
-	   Member m = adminService.memberInfo(memberId);
-	   //System.out.println(m);
-	   
-	   mv.addObject("m", m);
-	   mv.setViewName("admin/memberDetailInfo");
-	   
-	   return mv;
-	  
 
-	  
-	   
-   }
-   
-   
-   //회원 디테일 조회정보(select) board
-   @ResponseBody
-   @RequestMapping(value="memberDetailBoardList.ad", produces="application/json; charset=UTF-8")
-   public String memberDetailBoard(String memberId) {
-	   
-	   ArrayList<Board> list = adminService.memberDetailBoard(memberId);
-	   return new Gson().toJson(list);
-   }
-   
-   //회원 디테일 조회정보(select) band
-  @ResponseBody
-  @RequestMapping(value="memberBandList.ad", produces="application/json; charset=UTF-8")
-  public String memberBandList(String memberId) {
 
-	  ArrayList<Band> list = adminService.memberDetailBand(memberId);
-	  return new Gson().toJson(list);
-  }
 
-  
-  // 회원 board삭제
-  @ResponseBody
-  @RequestMapping("deleteBoardDetail.ad")
-  public int deleteBoardDetail(@RequestParam("boardNo")int[] boardNo) {
-	  
-	  int result = 1;
-	  for(int i = 0; i <boardNo.length; i++) {
-		  result *= adminService.deleteBoardDetail(boardNo[i]);
-	  }
-	 return result;
-  }
-  
-  // 회원 band삭제
-  @ResponseBody
-  @RequestMapping("deleteBandDetail.ad")
-  public int deleteBandDetail( @RequestParam("bandNo")int[] bandNo) {
-	  
-	  int result = 1;
-	  for(int i = 0; i <bandNo.length; i++) {
-		  result *= adminService.deleteBandDetail(bandNo[i]);
-	  }
-	 return result;
-  }
-  
-  
-  
-  //회원 board 글 검색(게시글 제목)
-  @ResponseBody
-  @RequestMapping(value="memBoardSearchTitle.ad",  produces="application/json; charset=UTF-8")
-  public String memBoardSearch(String memberId, String keyword) {
-	  HashMap<String, String> map = new HashMap();
-	  map.put("keyword",keyword);
-	  map.put("memberId", memberId);
-	  ArrayList<Board> list = adminService.memBoardSearch(map);
-	  return new Gson().toJson(list);
-  }
- 
- 
-  // 회원 board글 검색(게시글 내용)
-   @ResponseBody
-   @RequestMapping(value="memBoardSearchContent.ad", produces="application/json; charset=UTF-8")
-   public String memSearchContent(String memberId, String keyword) {
-	   HashMap<String, String> map = new HashMap();
-	   map.put("keyword", keyword);
-	   map.put("memberId", memberId);
-	   ArrayList<Board> list = adminService.memSearchContent(map);
-	   return new Gson().toJson(list);
-   }
-  
-  
-   //회원  band글 검색(게시글 제목)
-   @ResponseBody
-   @RequestMapping(value="memBandSearchTitle.ad", produces="application/json; charset=UTF-8")
-   public String memBandSearchTitle(String memberId, String keyword) {
-	   HashMap<String, String> map = new HashMap();
-	   map.put("keyword", keyword);
-	   map.put("memberId", memberId);
-	   ArrayList<Band> list = adminService.memBandSearchTitle(map);
-	   return new Gson().toJson(list);
-   }
-   
-   //회원 band글 검색(게시글 내용)
-   @ResponseBody
-   @RequestMapping(value="memBandSearchContent.ad", produces="application/json; charset=UTF-8")
-   public String memBandSearchContent(String memberId, String keyword) {
-	   HashMap<String,String> map = new HashMap();
-	   map.put("keyword", keyword);
-	   map.put("memberId", memberId);
-	   ArrayList<Band> list = adminService.memBandSearchContent(map);
-	   return new Gson().toJson(list);
-   }
-   
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-   // 이유진 ------------------------------------------------------------
+
+	//디테일info로 이동(+회원정보 가지고)
+	@RequestMapping("memberDetailInfo.ad")
+	public ModelAndView memberDetailInfo(String memberId, HttpSession session, ModelAndView mv) {
+
+		//System.out.println(memberId);
+		Member m = adminService.memberInfo(memberId);
+		//System.out.println(m);
+
+		mv.addObject("m", m);
+		mv.setViewName("admin/memberDetailInfo");
+
+		return mv;
+
+
+
+
+	}
+
+
+	//회원 디테일 조회정보(select) board
+	@ResponseBody
+	@RequestMapping(value="memberDetailBoardList.ad", produces="application/json; charset=UTF-8")
+	public String memberDetailBoard(String memberId) {
+
+		ArrayList<Board> list = adminService.memberDetailBoard(memberId);
+		return new Gson().toJson(list);
+	}
+
+	//회원 디테일 조회정보(select) band
+	@ResponseBody
+	@RequestMapping(value="memberBandList.ad", produces="application/json; charset=UTF-8")
+	public String memberBandList(String memberId) {
+
+		ArrayList<Band> list = adminService.memberDetailBand(memberId);
+		return new Gson().toJson(list);
+	}
+
+
+	// 회원 board삭제
+	@ResponseBody
+	@RequestMapping("deleteBoardDetail.ad")
+	public int deleteBoardDetail(@RequestParam("boardNo")int[] boardNo) {
+
+		int result = 1;
+		for(int i = 0; i <boardNo.length; i++) {
+			result *= adminService.deleteBoardDetail(boardNo[i]);
+		}
+		return result;
+	}
+
+	// 회원 band삭제
+	@ResponseBody
+	@RequestMapping("deleteBandDetail.ad")
+	public int deleteBandDetail( @RequestParam("bandNo")int[] bandNo) {
+
+		int result = 1;
+		for(int i = 0; i <bandNo.length; i++) {
+			result *= adminService.deleteBandDetail(bandNo[i]);
+		}
+		return result;
+	}
+
+
+
+	//회원 board 글 검색(게시글 제목)
+	@ResponseBody
+	@RequestMapping(value="memBoardSearchTitle.ad",  produces="application/json; charset=UTF-8")
+	public String memBoardSearch(String memberId, String keyword) {
+		HashMap<String, String> map = new HashMap();
+		map.put("keyword",keyword);
+		map.put("memberId", memberId);
+		ArrayList<Board> list = adminService.memBoardSearch(map);
+		return new Gson().toJson(list);
+	}
+
+
+	// 회원 board글 검색(게시글 내용)
+	@ResponseBody
+	@RequestMapping(value="memBoardSearchContent.ad", produces="application/json; charset=UTF-8")
+	public String memSearchContent(String memberId, String keyword) {
+		HashMap<String, String> map = new HashMap();
+		map.put("keyword", keyword);
+		map.put("memberId", memberId);
+		ArrayList<Board> list = adminService.memSearchContent(map);
+		return new Gson().toJson(list);
+	}
+
+
+	//회원  band글 검색(게시글 제목)
+	@ResponseBody
+	@RequestMapping(value="memBandSearchTitle.ad", produces="application/json; charset=UTF-8")
+	public String memBandSearchTitle(String memberId, String keyword) {
+		HashMap<String, String> map = new HashMap();
+		map.put("keyword", keyword);
+		map.put("memberId", memberId);
+		ArrayList<Band> list = adminService.memBandSearchTitle(map);
+		return new Gson().toJson(list);
+	}
+
+	//회원 band글 검색(게시글 내용)
+	@ResponseBody
+	@RequestMapping(value="memBandSearchContent.ad", produces="application/json; charset=UTF-8")
+	public String memBandSearchContent(String memberId, String keyword) {
+		HashMap<String,String> map = new HashMap();
+		map.put("keyword", keyword);
+		map.put("memberId", memberId);
+		ArrayList<Band> list = adminService.memBandSearchContent(map);
+		return new Gson().toJson(list);
+	}
+
+
+
+
+
+
+
+
+
+
+
+	// 이유진 ------------------------------------------------------------
 	// 관리자 메인페이지
 	@RequestMapping("adPage.ad")
 	public String adminPageMain() {
 		return "admin/adminPageMain";
 	}
-	
+
 	// 문의글 답변 INSERT
 	@ResponseBody
 	@RequestMapping("qnaAnswer")
@@ -277,44 +277,44 @@ public class AdminController {
 		return new Gson().toJson(adminService.selectQnaReply(qnaNo));
 
 	}
-	
+
 	// 문의글 답변여부 상태변화
 	@ResponseBody
 	@RequestMapping("qnaAnswerUpdate")
 	public String qnaStatusUpdate(int qnaNo) {
 		return adminService.qnaStatusUpdate(qnaNo) > 0 ? "success" : "fail";
 	}
-	
+
 	// 관리자 아이템관리
 	@RequestMapping("itemList.ad")
 	public String adminItemListView() {
 		return "admin/adminItemListView";
 	}
-	
+
 	// 관리자 아이템목록
 	@ResponseBody
 	@RequestMapping(value="selectItemList.ad", produces="application/json; charset=UTF-8")
 	public String selectItemListView(@RequestParam(value="cPage", defaultValue="1") int currentPage,
-									 Item item, String itemCategory, String itemStatus, Model model) {
-		
+			Item item, String itemCategory, String itemStatus, Model model) {
+
 		item.setItemCategory(itemCategory);
 		item.setItemStatus(itemStatus);
-		
+
 		PageInfo pi = Pagination.getPageInfo(adminService.selectItemListCount(item), currentPage, 12, 5);
-		
+
 		JSONObject jObj = new JSONObject();
 		jObj.put("pi", pi);
 		jObj.put("list", adminService.selectItemList(pi, item));
-		
+
 		return new Gson().toJson(jObj);
 	};
-	
+
 	// 관리자 아이템등록 페이지
 	@RequestMapping("itemEnrollForm.ad")
 	public String adminItemEnrollForm() {
 		return "admin/adminItemEnrollForm";
 	}
-	
+
 	// 관리자 아이템등록
 	@RequestMapping("insertItem.ad")
 	public String insertItem(Item item, MultipartFile upFile, HttpSession session, Model model) {
@@ -335,7 +335,7 @@ public class AdminController {
 	public int itemStatusUpdate(Item item) {
 		return adminService.itemStatusUpdate(item);
 	};
-	
+
 	// 관리자 아이템 수정
 	@ResponseBody
 	@RequestMapping("itemUpdate.ad")
@@ -353,7 +353,7 @@ public class AdminController {
 		}
 		return adminService.itemUpdate(item);
 	};
-	
+
 	// 사진 사용 메소드
 	public String saveFile(MultipartFile upfile, HttpSession session, String type) { // 실제 넘어온 파일의 이름을 변경해서 서버에 업로드
 		String originName = upfile.getOriginalFilename();
@@ -374,36 +374,36 @@ public class AdminController {
 		}
 		return changeName;
 	}
-	
-		
-	
-	
-	 
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 	// 김희재 ------------------------------------------------------------
 
 	// 스터디룸 관리
@@ -487,7 +487,7 @@ public class AdminController {
 	public String updateStudyRoom(StudyRoom sr, 
 			@RequestParam("reUpFileFirst") MultipartFile reUpFileFirst,
 			@RequestParam("reUpFile[]") MultipartFile[] reUpFiles, 
-			@RequestParam("origin") String[] origin,
+			@RequestParam("change") String[] change,
 			@RequestParam("fileNo") int[] fileno,
 			HttpSession session, 
 			Model model) {
@@ -525,15 +525,15 @@ public class AdminController {
 
 		// 기존에 업로드 된 파일 존재하고 수정 시에도 유지되는 파일
 		ArrayList<Attach> maintainImage = new ArrayList();
-		for(int i = 0; i < origin.length; i++) {
+		for(int i = 0; i < change.length; i++) {
 			Attach at = new Attach();
 			at.setFileNo(fileno[i]);
-			at.setOriginName(origin[i]);
+			at.setChangeName(change[i]);
 			maintainImage.add(at);
 		}
 
 		System.out.println("DB에 저장된 파일 리스트 : "+dbImageList);
-		System.out.println("기존에 업로드 된 파일이 존재하고 수정 시에도 유지되는 파일" + maintainImage);
+		System.out.println("기존에 업로드 된 파일이 존재하고 수정시 유지되는 파일" + maintainImage);
 
 		// 해당 글번호 DB에 파일 무조건 존재
 		// => 1. 기존 파일 삭제 / 새로운 파일 추가 
@@ -544,11 +544,10 @@ public class AdminController {
 			ArrayList<Attach> checkList = new ArrayList();
 			for(int i = 0; i < dbImageList.size(); i++) {
 				Attach at = new Attach();
-				if(dbImageList.get(i).getFileLevel() == 2) {
-					at.setFileNo(dbImageList.get(i).getFileNo());
-					at.setOriginName(dbImageList.get(i).getOriginName());
-					checkList.add(at);
-				}
+				at.setFileNo(dbImageList.get(i).getFileNo());
+				at.setChangeName(dbImageList.get(i).getChangeName());
+				checkList.add(at);
+
 			} 
 
 			checkList.removeAll(maintainImage);
@@ -558,9 +557,10 @@ public class AdminController {
 			if(checkList.size() > 0) {
 				ArrayList<Attach> deleteImage = new ArrayList();
 				for(int i = 0; i < checkList.size(); i++) {
-					new File(session.getServletContext().getRealPath(checkList.get(i).getOriginName())).delete();
+					// 기존에 첨부파일이 있는지 체크 => 기존의 첨부파일 삭제
+					new File(session.getServletContext().getRealPath(checkList.get(i).getChangeName())).delete();
 					Attach at = new Attach();
-					at.setOriginName(checkList.get(i).getOriginName());
+					at.setChangeName(checkList.get(i).getChangeName());
 					at.setRefNo(studyRoomNo);
 					at.setFileNo(checkList.get(i).getFileNo());
 					result3 = adminService.deleteStudyRoomImage(at);
@@ -572,12 +572,11 @@ public class AdminController {
 		// updateForm에서 전달된 파일이 있을 경우
 		// 썸네일 => 수정
 		if(!reUpFileFirst.getOriginalFilename().equals("")) {
-			new File(session.getServletContext().getRealPath(origin[0])).delete();
+			new File(session.getServletContext().getRealPath(change[0])).delete();
 			Attach at = new Attach();
 			at.setOriginName(reUpFileFirst.getOriginalFilename());
 			at.setChangeName("resources/uploadFiles/admin/" + saveFile(reUpFileFirst, session, "study"));
 			at.setRefNo(studyRoomNo);
-			at.setFileLevel(1);
 			result3 = adminService.updateStudyRoomImage(at);
 		}
 

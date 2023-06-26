@@ -95,7 +95,7 @@
                     <h3>${sRoomDetail.studyRoomName}</h3> <br>
                     <p>${sRoomDetail.studyRoomAddress}<br>
                         Tel : ${sRoomDetail.studyRoomPhone}<br>
-                        Web : <a href=" ${sRoomDetail.studyRoomWebsite}">${sRoomDetail.studyRoomWebsite}</a> 
+                        Web : <a href=" ${sRoomDetail.studyRoomWebsite}" target="_blank">${sRoomDetail.studyRoomWebsite}</a> 
                     </p><br>
                 </div>
                 <div class="swiper">
@@ -131,25 +131,40 @@
                 <tr>
                     <th colspan="4" style="font-size: larger;">이용후기(<span id="rcount"></span>)</th>
                 </tr>
-                <tr>
-                    <th colspan="4" class="reviewStar">
-                        <input type="radio" name="reviewStar" value="1" id="rate1">
-                        <label for="rate1">★</label>
-                        <input type="radio" name="reviewStar" value="2" id="rate2">
-                        <label for="rate2">★</label>
-                        <input type="radio" name="reviewStar" value="3" id="rate3">
-                        <label for="rate3">★</label>
-                        <input type="radio" name="reviewStar" value="4" id="rate4">
-                        <label for="rate4">★</label>
-                        <input type="radio" name="reviewStar" value="5" id="rate5">
-                        <label for="rate5">★</label>
-                    </th>
-                </tr>
-                <tr>
-                    <th colspan="4"> <textarea class="form-control" name="" id="content" cols="55" rows="2" style="resize:none; width:90%; float:left;"></textarea>
-                        <button class="insertBtn" onclick="insertReview();">등록하기</button>
-                    </th>
-                </tr>
+                <c:choose>
+                    <c:when test="${ empty loginMember }">
+                        <tr>
+                            <th colspan="4" class="reviewStar">
+                            </th>
+                        </tr>
+                        <tr>
+                            <th colspan="4"> <textarea class="form-control" name="" id="content" cols="55" rows="2" style="resize:none; width:90%; float:left;">로그인 후 이용가능합니다.</textarea>
+                                <button class="insertBtn" onclick="insertReview();" disabled>등록하기</button>
+                            </th>
+                        </tr>
+                    </c:when>
+                    <c:otherwise>
+                        <tr>
+                            <th colspan="4" class="reviewStar">
+                                <input type="radio" name="reviewStar" value="1" id="rate1">
+                                <label for="rate1">★</label>
+                                <input type="radio" name="reviewStar" value="2" id="rate2">
+                                <label for="rate2">★</label>
+                                <input type="radio" name="reviewStar" value="3" id="rate3">
+                                <label for="rate3">★</label>
+                                <input type="radio" name="reviewStar" value="4" id="rate4">
+                                <label for="rate4">★</label>
+                                <input type="radio" name="reviewStar" value="5" id="rate5">
+                                <label for="rate5">★</label>
+                            </th>
+                        </tr>
+                        <tr>
+                            <th colspan="4"> <textarea class="form-control" name="" id="content" cols="55" rows="2" style="resize:none; width:90%; float:left;"></textarea>
+                                <button class="insertBtn" onclick="insertReview();">등록하기</button>
+                            </th>
+                        </tr>
+                    </c:otherwise>
+                </c:choose>
             </thead>
             <tbody>
             </tbody>
@@ -214,7 +229,15 @@
     			},
     			success : function(result){
     				var value='';
+    				var modifyBtn = '';
+    				var deleteBtn = '';
     				for(let i in result){
+    					
+    					if('${ loginMember.memberId }' == result[i].memberId || '${ loginMember.memberId }' == 'admin' ){
+                            modifyBtn = '<button class="updateBtn">수정</button>&nbsp;';
+                            deleteBtn = '<button class="deleteBtn">삭제</button>';
+                        };
+
     					value += '<tr>' 
 							+ '<th>' + result[i].memberId+ '</th>'
 							+ '<td class=rating><input type="hidden" id="hideStar"value="'+result[i].reviewStar+'" <b>' + result[i].reviewStar + '</b>/5 &nbsp;';
@@ -227,17 +250,21 @@
                         value += '</td>'
                             + '<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>'
                             + '<td style="text-align:right;">' + result[i].reviewDate+'&nbsp;&nbsp;'
-                            + '<button class="updateBtn">수정</button>&nbsp;'
+                            + modifyBtn
                             + '<input type="hidden" value="' +  result[i].reviewNo + '">'
-                            + '<button class="deleteBtn">삭제</button>'
+                            + deleteBtn
                             + '</td>'
                             + '</tr>' 
                             + '<tr style="border-bottom:solid 0.3px lightgrey;">'
                             + '<td colspan="4" style="height:100px; vertical-align:top;" class="reviewContent">' + result[i].reviewContent + '</td>'
                             + '</tr>';
+                        modifyBtn = '';
+                        deleteBtn = '';
+                        
     				}
     				$('#reviewArea tbody').html(value);
     				$('#rcount').text(result.length);
+    				
     			},
     			error : function(){
     				console.log('실패');
