@@ -214,70 +214,80 @@ public class AdminServiceImpl implements AdminService {
 	
 	// 희재 -----------------------------------------------
 	
-	// 스터디룸 
-	// 스터디룸 리스트 전체 count
-	@Override
-	public int adminStudyRoomListCount() {
-		return adminDao.adminStudyRoomListCount(sqlSession);
-	}
+		// 스터디룸 
+		// 스터디룸 리스트 전체 count
+		@Override
+		public int adminStudyRoomListCount() {
+			return adminDao.adminStudyRoomListCount(sqlSession);
+		}
 
-	// 스터디룸 전체 리스트 조회
-	@Override
-	public ArrayList<StudyRoom> selectAllStudyRoomList(PageInfo pi) {
-		return adminDao.selectAllStudyRoomList(sqlSession, pi);
-	}
+		// 스터디룸 전체 리스트 조회
+		@Override
+		public ArrayList<StudyRoom> selectAllStudyRoomList(PageInfo pi) {
+			return adminDao.selectAllStudyRoomList(sqlSession, pi);
+		}
 
-	// 스터디룸 추가
-	@Override
-	public int insertStudyRoom(StudyRoom sr) {
-		return adminDao.insertStudyRoom(sqlSession, sr);
-	}
+		// 스터디룸 추가
+		@Override
+		public int insertStudyRoom(StudyRoom sr) {
+			return adminDao.insertStudyRoom(sqlSession, sr);
+		}
 
-	// 스터디룸 이미지 추가
-	@Override
-	public int insertStudyRoomImage(Attach at) {
-		return adminDao.insertStudyRoomImage(sqlSession, at);
-	}
+		// 스터디룸 이미지 추가
+		@Override
+		public int insertStudyRoomImage(Attach at) {
+			return adminDao.insertStudyRoomImage(sqlSession, at);
+		}
 
-	// 스터디룸 선택 삭제
-	@Override
-	public int deleteCheckStudyRoom(int studyRoomNo) {
-		return adminDao.deleteCheckStudyRoom(sqlSession,studyRoomNo);
-	}
-	
-	@Override
-	public int deleteCheckStudyRoomImage(int studyRoomNo) {
-		return adminDao.deleteCheckStudyRoomImage(sqlSession,studyRoomNo);
-	}
+		// 스터디룸 선택 삭제
+		@Override
+		public int deleteCheckStudyRoom(int studyRoomNo) {
+			return adminDao.deleteCheckStudyRoom(sqlSession,studyRoomNo);
+		}
+		
+		@Override
+		public int deleteCheckStudyRoomImage(int studyRoomNo) {
+			return adminDao.deleteCheckStudyRoomImage(sqlSession,studyRoomNo);
+		}
 
 
-	// 스터디룸 상세보기 삭제
-	@Override
-	public int deleteStudyRoom(int studyRoomNo) {
-		return 0;
-	}
-	
-	// 스터디룸 상세정보
-	@Override
-	public StudyRoom selectStudyRoom(int studyRoomNo) {
-		return adminDao.selectStudyRoom(sqlSession, studyRoomNo);
-	}
+		// 스터디룸 상세보기 삭제
+		@Override
+		public int deleteStudyRoom(int studyRoomNo) {
+			return 0;
+		}
+		
+		// 스터디룸 상세정보
+		@Override
+		public StudyRoom selectStudyRoom(int studyRoomNo) {
+			return adminDao.selectStudyRoom(sqlSession, studyRoomNo);
+		}
 
-	@Override
-	public ArrayList<Attach> selectStudyRoomImage(int studyRoomNo) {
-		return adminDao.selectStudyRoomImage(sqlSession, studyRoomNo);
-	}
+		@Override
+		public ArrayList<Attach> selectStudyRoomImage(int studyRoomNo) {
+			return adminDao.selectStudyRoomImage(sqlSession, studyRoomNo);
+		}
 
-	// 스터디룸 정보 수정
-	@Override
-	public int updateStudyRoom(StudyRoom sr) {
-		return adminDao.updateStudyRoom(sqlSession, sr);
-	}
+		// 스터디룸 정보 수정
+		@Override
+		public int updateStudyRoom(StudyRoom sr) {
+			return adminDao.updateStudyRoom(sqlSession, sr);
+		}
 
-	@Override
-	public int updateStudyRoomImage(Attach at) {
-		return adminDao.updateStudyRoomImage(sqlSession, at);
-	}
+		@Override
+		public int updateStudyRoomImage(Attach at) {
+			return adminDao.updateStudyRoomImage(sqlSession, at);
+		}
+
+		@Override
+		public int deleteStudyRoomImage(Attach at) {
+			return adminDao.deleteStudyRoomImage(sqlSession, at);
+		}
+
+		@Override
+		public int updateAddStudyRoomImage(Attach at) {
+			return adminDao.updateAddStudyRoomImage(sqlSession, at);
+		}
 
 
 
