@@ -70,12 +70,12 @@ public class AdminServiceImpl implements AdminService {
       return adminDao.memberStop(sqlSession,memberId);
    }
 
-   //회원 디테일 조회정보(select) band
+   //회원 디테일 조회정보(select) board
    @Override
    public ArrayList<Board> memberDetailBoard(String memberId) {
       return (ArrayList)adminDao.memberDetailBoard(sqlSession, memberId);
    }
-   //회원 디테일 조회정보(select) sband
+   //회원 디테일 조회정보(select) band
    @Override
    public ArrayList<Band> memberDetailBand(String memberId) {
       return (ArrayList)adminDao.memberDetailBand(sqlSession, memberId);
@@ -98,18 +98,18 @@ public class AdminServiceImpl implements AdminService {
 	  return adminDao.deleteBandDetail(sqlSession,boardNo);
   }
   
-  //회원 board글 검색(제목으로)
-  @Override
+  	//회원 board글 검색(제목으로)
+  	@Override
 	public ArrayList<Board> memBoardSearch(HashMap<String, String> map) {
 		return adminDao.memBoardSearch(sqlSession,map);
 	}
 
-  //회원 board글 검색(내용으로)
+  	//회원 board글 검색(내용으로)
 	@Override
 	public ArrayList<Board> memSearchContent(HashMap<String, String> map) {
 		return adminDao.memSearchContent(sqlSession,map);
 	}
-	// 회원 band글 검색(제목으로)
+	//회원 band글 검색(제목으로)
 	@Override
 	public ArrayList<Band> memBandSearchTitle(HashMap<String, String> map) {
 		return adminDao.memBandSearchTitle(sqlSession, map);
@@ -244,6 +244,12 @@ public class AdminServiceImpl implements AdminService {
 	public int deleteCheckStudyRoom(int studyRoomNo) {
 		return adminDao.deleteCheckStudyRoom(sqlSession,studyRoomNo);
 	}
+	
+	@Override
+	public int deleteCheckStudyRoomImage(int studyRoomNo) {
+		return adminDao.deleteCheckStudyRoomImage(sqlSession,studyRoomNo);
+	}
+
 
 	// 스터디룸 상세보기 삭제
 	@Override
@@ -272,6 +278,7 @@ public class AdminServiceImpl implements AdminService {
 	public int updateStudyRoomImage(Attach at) {
 		return adminDao.updateStudyRoomImage(sqlSession, at);
 	}
+
 
 
 

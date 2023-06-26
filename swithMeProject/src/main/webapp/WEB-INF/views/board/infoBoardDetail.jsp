@@ -17,6 +17,17 @@
         <div class="wrap">
             <!-- 스티키 영역 -->
             <div id="contentBox" class="clear">
+                <div id="boardList">
+                    
+                    <div id="nextList" class="clear">
+                        <!-- 다음글 목록 -->
+                    </div>
+                    <div id="prevList" class="clear">
+                        <!-- 이전글 목록  -->
+                    </div>
+                    <button onclick="location.href='freeBoardListView.bo?boardType=1'">목록으로</button>
+                </div>
+                
                 <!-- 글 보이는 곳 -->
                 <div>
                     <!-- 썸네일 사진 -->

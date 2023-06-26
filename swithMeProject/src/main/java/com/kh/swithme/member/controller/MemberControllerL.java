@@ -404,31 +404,23 @@ public class MemberControllerL {
 	
 	
 	
-	//알람 조회
-	@ResponseBody
-	@RequestMapping(value="alarmList.me", produces="application/json; charset=UTF-8")
-	public String selectAlarmList(String memberId) {   //memberId값 어디서 받아옴 ?
-		
-		System.out.println(memberId);
-		
-		ArrayList<Alarm> list = memberService.selectAlarmList(memberId);
-		
-		System.out.println(list);
-		
-		 return new Gson().toJson(list);
-		
-	}
+		//알람 조회
+		@ResponseBody
+		@RequestMapping(value="alarmList.me", produces="application/json; charset=UTF-8")
+		public String selectAlarmList(String memberId) {  
+			
+			ArrayList<Alarm> list = memberService.selectAlarmList(memberId);
+			 return new Gson().toJson(list);
+		}
 	
-	//보드, 밴드 읽음 표시 
+		//보드, 밴드 읽음 표시 
 		@ResponseBody
 		@RequestMapping("readAlarm")
 		public char readAlarm(int boardNo, Integer alarmNo) {
 			
-		
 		HashMap<String, Integer> map = new HashMap();
 		map.put("alarmNo", alarmNo);
 		map.put("boardNo", boardNo);
-
 		return	memberService.readAlarm(map) > 0 ? 'Y' : 'N';
 		}
 		

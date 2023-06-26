@@ -42,10 +42,10 @@ public interface AdminService {
 	   public int memberStop(String memberId);
 	   
 	   
-	   //회원 디테일 조회정보(Band)
+	   //회원 디테일 조회정보(board)
 	   public ArrayList<Board> memberDetailBoard(String memberId);
 	
-	   //회원 디테일 조회정보(Sband)
+	   //회원 디테일 조회정보(band)
 	   public ArrayList<Band> memberDetailBand(String memberId);
 	   
 	   //회원 정보 조회
@@ -125,6 +125,7 @@ public interface AdminService {
 	
 	// 스터디룸 선택 삭제
 	int deleteCheckStudyRoom(int studyRoomNo);
+	int deleteCheckStudyRoomImage(int studyRoomNo);
 	
 	// 스터디룸 상세보기 삭제
 	int deleteStudyRoom(int studyRoomNo);

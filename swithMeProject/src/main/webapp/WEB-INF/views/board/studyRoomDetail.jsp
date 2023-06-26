@@ -20,7 +20,7 @@
     .buttonArea{
         height: 100px;
     }
-    #sRoomList{width:65%;border: solid 0.5px lightgrey;}
+    #sRoomList{width:65%;}
     .info{height: 150px;}
     .info2{
         height: 50px;
@@ -85,19 +85,18 @@
             <a class="btn btn-secondary" style="float:left;" href="studyRoomMainView.bo">목록으로</a>
             <c:if test="${loginMember.memberId == 'admin'}">
                 <a class="btn btn-secondary" style="float:right;" href="updateStudyRoomForm.ad?studyRoomNo=${sRoomDetail.studyRoomNo}">수정하기</a> 
-                <a class="btn btn-secondary" style="float:right;" href="deleteStudyRoomForm.ad?studyRoomNo=${sRoomDetail.studyRoomNo}">삭제하기</a> 
+                <a class="btn btn-secondary" style="float:right;" onclick="deleteStudyRoom(${sRoomDetail.studyRoomNo});">삭제하기</a> 
             </c:if>
             <br>
         </div>
         <div class="content">
             <div id="sRoomList">
                 <div class="info">
-                    ${sRoomDetail.studyRoomName}<br>
-                    ${sRoomDetail.studyRoomAddress}<br>
-                    <span>전화</span>
-                    ${sRoomDetail.studyRoomPhone}
-                    <span>웹</span>
-                    <a href=" ${sRoomDetail.studyRoomWebsite}"></a>
+                    <h3>${sRoomDetail.studyRoomName}</h3> <br>
+                    <p>${sRoomDetail.studyRoomAddress}<br>
+                        Tel : ${sRoomDetail.studyRoomPhone}<br>
+                        Web : <a href=" ${sRoomDetail.studyRoomWebsite}">${sRoomDetail.studyRoomWebsite}</a> 
+                    </p><br>
                 </div>
                 <div class="swiper">
                     <!-- Additional required wrapper -->
@@ -119,7 +118,7 @@
                     <div class="swiper-scrollbar"></div>
                 </div>
                 <div class="info2">
-                    ${sRoomDetail.studyRoomIntroduce}
+                    <p style="font-size: larger;">${sRoomDetail.studyRoomIntroduce}</p>
                 </div>
             </div>
             <div id="sRoomMap">
@@ -188,6 +187,23 @@
         $(function(){
             selectReviewList();
         });
+
+        function deleteStudyRoom(sno){
+            $.ajax({
+						url : 'deleteStudyRoom.ad',
+						data : {
+							studyRoomNo : sno
+						},
+						success : function(){
+							alert('스터디룸이 삭제되었습니다.');
+                            location.href='adminStudyRoom.ad';
+
+						},
+						error : function(){
+							console.log('삭제 실패');
+						}
+					});
+        }
 
         // 이용후기 조회
     	function selectReviewList(){

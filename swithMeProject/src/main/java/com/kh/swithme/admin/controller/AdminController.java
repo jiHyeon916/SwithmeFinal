@@ -45,6 +45,7 @@ public class AdminController {
    
    
    //지현
+   
    // 사용자들 모두 조회
    @RequestMapping("adminMember.ad")
    public ModelAndView adminMember(ModelAndView mv, @RequestParam(value="amPage", defaultValue="1")int currentPage) {
@@ -147,12 +148,7 @@ public class AdminController {
 	   
 	   return mv;
 	  
-	   
-	   
-	   // mv.addObject("memberId", memberId);
-	   //memberId로 회원 정보 가져오기
-	  // mv.setViewName("admin/memberDetailInfo");
-	   
+
 	  
 	   
    }
@@ -171,21 +167,11 @@ public class AdminController {
   @ResponseBody
   @RequestMapping(value="memberBandList.ad", produces="application/json; charset=UTF-8")
   public String memberBandList(String memberId) {
-	  
+
 	  ArrayList<Band> list = adminService.memberDetailBand(memberId);
 	  return new Gson().toJson(list);
-		
   }
-   
-  
-  
-	/*
-	 * @RequestMapping("memberReplyList.ad") public String memberReplyList(String
-	 * memberId) {
-	 * 
-	 * adminService.memberReplyList(memberId) }
-	 * 
-	 */
+
   
   // 회원 board삭제
   @ResponseBody
@@ -193,19 +179,10 @@ public class AdminController {
   public int deleteBoardDetail(@RequestParam("boardNo")int[] boardNo) {
 	  
 	  int result = 1;
-	  System.out.println(boardNo);
-	  
 	  for(int i = 0; i <boardNo.length; i++) {
 		  result *= adminService.deleteBoardDetail(boardNo[i]);
-		  
 	  }
-	  //System.out.println(result);
-	  
 	 return result;
-	  
-	  //return adminService.deleteBoardDetail(boardNo) > 0 ? 'Y' : 'N';
-  
-  
   }
   
   // 회원 band삭제
@@ -213,38 +190,24 @@ public class AdminController {
   @RequestMapping("deleteBandDetail.ad")
   public int deleteBandDetail( @RequestParam("bandNo")int[] bandNo) {
 	  
-	  
 	  int result = 1;
-	  System.out.println(bandNo + "넘버");
-	  
 	  for(int i = 0; i <bandNo.length; i++) {
 		  result *= adminService.deleteBandDetail(bandNo[i]);
-		  
 	  }
-	 // System.out.println(result + "result");
-	  
 	 return result;
-	  //return adminService.deleteBandDetail(boardNo) > 0 ? 'Y' : 'N';
   }
   
   
   
   //회원 board 글 검색(게시글 제목)
-  
   @ResponseBody
   @RequestMapping(value="memBoardSearchTitle.ad",  produces="application/json; charset=UTF-8")
   public String memBoardSearch(String memberId, String keyword) {
-	  
-	  
 	  HashMap<String, String> map = new HashMap();
 	  map.put("keyword",keyword);
 	  map.put("memberId", memberId);
-	  
 	  ArrayList<Board> list = adminService.memBoardSearch(map);
-	
-	  //System.out.println(list);
-	  
-	 return new Gson().toJson(list);
+	  return new Gson().toJson(list);
   }
  
  
@@ -252,16 +215,10 @@ public class AdminController {
    @ResponseBody
    @RequestMapping(value="memBoardSearchContent.ad", produces="application/json; charset=UTF-8")
    public String memSearchContent(String memberId, String keyword) {
-	   
-	   //System.out.println(keyword);
 	   HashMap<String, String> map = new HashMap();
 	   map.put("keyword", keyword);
 	   map.put("memberId", memberId);
-	   
 	   ArrayList<Board> list = adminService.memSearchContent(map);
-	   
-	   //System.out.println(list);
-	   
 	   return new Gson().toJson(list);
    }
   
@@ -270,15 +227,10 @@ public class AdminController {
    @ResponseBody
    @RequestMapping(value="memBandSearchTitle.ad", produces="application/json; charset=UTF-8")
    public String memBandSearchTitle(String memberId, String keyword) {
-	   
 	   HashMap<String, String> map = new HashMap();
 	   map.put("keyword", keyword);
 	   map.put("memberId", memberId);
-	   
 	   ArrayList<Band> list = adminService.memBandSearchTitle(map);
-	   
-	   //System.out.println(list);
-	   
 	   return new Gson().toJson(list);
    }
    
@@ -286,15 +238,10 @@ public class AdminController {
    @ResponseBody
    @RequestMapping(value="memBandSearchContent.ad", produces="application/json; charset=UTF-8")
    public String memBandSearchContent(String memberId, String keyword) {
-	   
 	   HashMap<String,String> map = new HashMap();
 	   map.put("keyword", keyword);
 	   map.put("memberId", memberId);
-	   
 	   ArrayList<Band> list = adminService.memBandSearchContent(map);
-	   
-	   System.out.println(list);
-	   
 	   return new Gson().toJson(list);
    }
    
@@ -504,6 +451,7 @@ public class AdminController {
 		int result2 = 1;
 		for(int i = 0; i < upFiles.length; i++) {
 			MultipartFile upFile = upFiles[i];
+			System.out.println(upFile);
 			if (!upFile.getOriginalFilename().equals("")) {
 				at.setOriginName(upFile.getOriginalFilename());
 				at.setChangeName("resources/uploadFiles/admin/" + saveFile(upFile, session, "study"));
@@ -534,7 +482,6 @@ public class AdminController {
 	// 스터디룸 수정
 	@RequestMapping("updateStudyRoom.ad")
 	public String updateStudyRoom(StudyRoom sr, Attach at, @RequestParam("reUpFile[]") MultipartFile[] reUpFiles, @RequestParam("checkThumnail") int value, @RequestParam("originName") String origin, HttpSession session, Model model) {
-		System.out.println(at);
 		switch(sr.getStudyRoomLocation()) {
 			case "10" : sr.setStudyRoomLocation("강원");break;
 			case "20" : sr.setStudyRoomLocation("경기");break;
@@ -559,6 +506,7 @@ public class AdminController {
 		int result2 = 1;
 		for(int i = 0; i < reUpFiles.length; i++) {
 			MultipartFile reUpFile = reUpFiles[i];
+			System.out.println(reUpFiles);
 			if (!reUpFile.getOriginalFilename().equals("")) {
 				new File(session.getServletContext().getRealPath(origin)).delete();
 				at.setOriginName(reUpFile.getOriginalFilename());
@@ -570,9 +518,7 @@ public class AdminController {
 				}
 				result2 = adminService.updateStudyRoomImage(at);
 			} else {
-				System.out.println(origin);
-				at.setOriginName(origin);
-				result2 = adminService.updateStudyRoomImage(at);
+
 			}
 		}
 		if((result1 * result2) > 0) {
@@ -589,12 +535,14 @@ public class AdminController {
 	@RequestMapping(value="deleteCheckStudyRoom.ad", produces="application/json; charset=UTF-8")
 	public int deleteCheckStudyRoom(@RequestParam(value="studyRoomNo[]")int[] studyRoomNo) {
 
-		int result = 1;
+		int result1 = 0;
+		int result2 = 0;
 		for(int i = 0; i < studyRoomNo.length; i++) {
-			result = adminService.deleteCheckStudyRoom(studyRoomNo[i]);
+			result1 = adminService.deleteCheckStudyRoom(studyRoomNo[i]);
+			result2 = adminService.deleteCheckStudyRoomImage(studyRoomNo[i]);
 		}
 
-		return result;
+		return result1*result2;
 	}
 
 
