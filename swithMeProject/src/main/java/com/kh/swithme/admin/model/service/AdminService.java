@@ -111,31 +111,34 @@ public interface AdminService {
 	
 	
 	// 희재 -----------------------------------------------------
-	// 스터디룸 
-	// 스터디룸 리스트 전체 count
-	int adminStudyRoomListCount();
-	// 스터디룸 전체 리스트 조회
-	ArrayList<StudyRoom> selectAllStudyRoomList(PageInfo pi);
-   
-	// 스터디룸 추가
-	int insertStudyRoom(StudyRoom sr);
-	
-	// 스터디룸 위치 추가
-	int insertStudyRoomImage(Attach at);
-	
-	// 스터디룸 선택 삭제
-	int deleteCheckStudyRoom(int studyRoomNo);
-	
-	// 스터디룸 상세보기 삭제
-	int deleteStudyRoom(int studyRoomNo);
-	
-	// 스터디룸 상세보기
-	StudyRoom selectStudyRoom(int studyRoomNo);
-	ArrayList<Attach> selectStudyRoomImage(int studyRoomNo);
-	
-	// 스터디룸 정보 수정
-	int updateStudyRoom(StudyRoom sr);
-	int updateStudyRoomImage(Attach at);
+		// 스터디룸 
+		// 스터디룸 리스트 전체 count
+		int adminStudyRoomListCount();
+		// 스터디룸 전체 리스트 조회
+		ArrayList<StudyRoom> selectAllStudyRoomList(PageInfo pi);
+	   
+		// 스터디룸 추가
+		int insertStudyRoom(StudyRoom sr);
+		
+		// 스터디룸 위치 추가
+		int insertStudyRoomImage(Attach at);
+		
+		// 스터디룸 선택 삭제
+		int deleteCheckStudyRoom(int studyRoomNo);
+		int deleteCheckStudyRoomImage(int studyRoomNo);
+		
+		// 스터디룸 상세보기 삭제
+		int deleteStudyRoom(int studyRoomNo);
+		
+		// 스터디룸 상세보기
+		StudyRoom selectStudyRoom(int studyRoomNo);
+		ArrayList<Attach> selectStudyRoomImage(int studyRoomNo);
+		
+		// 스터디룸 정보 수정
+		int updateStudyRoom(StudyRoom sr);
+		int updateStudyRoomImage(Attach at);
+		int deleteStudyRoomImage(Attach at);
+		int updateAddStudyRoomImage(Attach at);
 	
 	
 }

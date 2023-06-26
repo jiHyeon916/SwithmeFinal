@@ -231,6 +231,7 @@ public interface BoardService {
 	
 	// 스터디룸 주소 불러오기
 	ArrayList<StudyRoom> selectAddress();
+	ArrayList<StudyRoom> selectAddressSearch(HashMap<String, String> map);
 	
 	// 스터디룸 검색하기
 	ArrayList<StudyRoom> studyRoomSearch(HashMap<String, String> map);

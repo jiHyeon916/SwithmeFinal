@@ -82,7 +82,7 @@ public class MemberDao {
 	}
 	//임시비밀번호 메일전송(DB에저장)
 	public void sendMailInsert(SqlSessionTemplate sqlSession, Member m) {
-		 sqlSession.update("memberMapper.sendMailInsert", m);
+		sqlSession.update("memberMapper.sendMailInsert", m);
 
 	}
 	//알람 조회
@@ -94,12 +94,11 @@ public class MemberDao {
 	public int readAlarm(SqlSessionTemplate sqlSession, HashMap<String, Integer> map) {
 		return sqlSession.update("memberMapper.readAlarm", map);
 	}
-	
+
 	//알림 읽음 여부 - 밴드
 	public int readAlarmB(SqlSessionTemplate sqlSession, HashMap<String, Integer> map) {
 		return sqlSession.update("memberMapper.readAlarmB",map);
 	}
-	
 
 
 
@@ -120,18 +119,27 @@ public class MemberDao {
 		return sqlSession.update("memberMapper.updateScehdule", cl);
 	}
 
-	public ArrayList<TodoList> selectTodoList(SqlSessionTemplate sqlSession, TodoList td){
-		return (ArrayList)sqlSession.selectList("memberMapper.selectTodoList", td);
+	public ArrayList<TodoList> selectTodoListAll(SqlSessionTemplate sqlSession, TodoList td){
+		return (ArrayList)sqlSession.selectList("memberMapper.selectTodoListAll", td);
 	}
-	
+
+	public ArrayList<TodoList> selectTodoListTodo(SqlSessionTemplate sqlSession, TodoList td){
+		return (ArrayList)sqlSession.selectList("memberMapper.selectTodoListTodo", td);
+	}
+
+	public ArrayList<TodoList> selectTodoListComplete(SqlSessionTemplate sqlSession, TodoList td){
+		return (ArrayList)sqlSession.selectList("memberMapper.selectTodoListComplete", td);
+	}
+
+
 	public ArrayList<TodoList> todoAchievementRateList(SqlSessionTemplate sqlSession, String memberId){
 		return (ArrayList)sqlSession.selectList("memberMapper.todoAchievementRateList", memberId);
 	}
-	
+
 	public int insertTodoList(SqlSessionTemplate sqlSession, TodoList td) {
 		return sqlSession.insert("memberMapper.insertTodoList", td);
 	}
-	
+
 	public int deleteTask(SqlSessionTemplate sqlSession, TodoList td) {
 		return sqlSession.delete("memberMapper.deleteTask", td);
 	}
@@ -139,87 +147,87 @@ public class MemberDao {
 	public int checkTodoList(SqlSessionTemplate sqlSession, int todoNo) {
 		return sqlSession.update("memberMapper.checkTodoList", todoNo);
 	}
-	
+
 	public int uncheckTodoList(SqlSessionTemplate sqlSession, int todoNo) {
 		return sqlSession.update("memberMapper.uncheckTodoList", todoNo);
 	}
-	
+
 	public ArrayList<Band> allStudyBandList(SqlSessionTemplate sqlSession, String memberId){
 		return (ArrayList)sqlSession.selectList("memberMapper.allStudyBandList", memberId);
 	}
-	
+
 	public ArrayList<Band> favoriteStudyBand(SqlSessionTemplate sqlSession, String memberId){
 		return (ArrayList)sqlSession.selectList("memberMapper.favoriteStudyBand", memberId);
 	}
-	
+
 	public int selectSbandBookMark(SqlSessionTemplate sqlSession, BandBookMark bm) {
 		return sqlSession.selectOne("memberMapper.selectSbandBookmark", bm);
 	}
-	
+
 	public int insertSbandBookmark(SqlSessionTemplate sqlSession, BandBookMark bm) {
 		return sqlSession.insert("memberMapper.insertSbandBookmark", bm);
 	}
-	
+
 	public int deleteSbandBookmark(SqlSessionTemplate sqlSession, BandBookMark bm) {
 		return sqlSession.insert("memberMapper.deleteSbandBookmark", bm);
 	}
-	
+
 	public int selectBookMarkListCount(SqlSessionTemplate sqlSession, String memberId) {
 		return sqlSession.selectOne("memberMapper.selectBookMarkListCount", memberId);
 	}
-	
+
 	public ArrayList<Board> selectBoardBookMarkList(SqlSessionTemplate sqlSession, String memberId, PageInfo pi){
 		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit() ;
 		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
 		return (ArrayList)sqlSession.selectList("memberMapper.selectBoardBookMarkList", memberId, rowBounds);
 	}
-	
+
 	public int deleteBoardBookMark(SqlSessionTemplate sqlSession, int boardNo) {
 		return sqlSession.delete("memberMapper.deleteBoardBookMark", boardNo);
 	}
 
 
-	
-	
+
+
 	// 이유진 -----------------------------------------------------------------------------------
 
 	// 토탈포인트(사용가능한 포인트)
 	public int selectTotalPoint(SqlSessionTemplate sqlSession, String memberId) {
 		return sqlSession.selectOne("memberMapper.selectTotalPoint", memberId);
 	}
-	
+
 	// 마이페이지 메인 - 포인트 내역(최신 3개)
 	public ArrayList<Point> selectPointList3(SqlSessionTemplate sqlSession, String memberId){
 		return (ArrayList)sqlSession.selectList("memberMapper.selectPointList3", memberId);
 	}
-	
+
 	// 포인트 내역 수 가져오기
 	public int myPointListCount(SqlSessionTemplate sqlSession, String memberId) {
 		return sqlSession.selectOne("memberMapper.myPointListCount", memberId);
 	}
-	
+
 	// 사용자의 포인트 리스트 조회
 	public ArrayList<Point> myPointList(SqlSessionTemplate sqlSession, PageInfo pi, String memberId){
 		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit() ;
 		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
 		return (ArrayList)sqlSession.selectList("memberMapper.myPointList", memberId, rowBounds);
 	}
-	
+
 	// 오늘 얻은 포인트 가져오기(적립내용만)
 	public int todayPoint(SqlSessionTemplate sqlSession, String memberId) {
 		return sqlSession.selectOne("memberMapper.todayPoint", memberId);
 	}
-	
+
 	// 마이페이지 메인 - 알림 내역(최신 5개)
 	public ArrayList<Alarm> selectAlarmList5(SqlSessionTemplate sqlSession, String memberId){
 		return (ArrayList)sqlSession.selectList("memberMapper.selectAlarmList5", memberId);
 	}
-	
+
 	// 사용자가 작성한 게시글 수 가져오기
 	public int myBoardListCount(SqlSessionTemplate sqlSession, Board b) {
 		return sqlSession.selectOne("memberMapper.myBoardListCount", b);
 	}
-	
+
 	// 사용자가 작성한 게시글 리스트 조회
 	public ArrayList<Board> myBoardList(SqlSessionTemplate sqlSession, PageInfo pi, Board b){
 		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit() ;
@@ -231,7 +239,7 @@ public class MemberDao {
 	public int myReplyListCount(SqlSessionTemplate sqlSession, Reply r) {
 		return sqlSession.selectOne("memberMapper.myReplyListCount", r);
 	}
-	
+
 	// 사용자가 작성한 댓글 리스트 조회
 	public ArrayList<Reply> myReplyList(SqlSessionTemplate sqlSession, PageInfo pi, Reply r){
 		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit() ;
@@ -239,34 +247,34 @@ public class MemberDao {
 		return (ArrayList)sqlSession.selectList("memberMapper.myReplyList", r, rowBounds);
 	};
 
-	
+
 	// 문의글 수 가져오기
 	public int selectQnaListCount(SqlSessionTemplate sqlSession, QNA qna) {
 		return sqlSession.selectOne("memberMapper.selectQnaListCount", qna);
 	}
-	
+
 	// 문의글 목록 가져오기
 	public ArrayList<QNA> selectQnaList(SqlSessionTemplate sqlSession, PageInfo pi, QNA qna){
 		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
 		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
 		return (ArrayList)sqlSession.selectList("memberMapper.selectQnaList", qna, rowBounds);
 	}
-	
+
 	// 문의글 작성하기
 	public int insertQna(SqlSessionTemplate sqlSession, QNA qna) {
 		return sqlSession.insert("memberMapper.insertQna", qna);
 	}
-	
+
 	// 작성한 문의글 번호 가져오기
 	public QNA selectQnaNo(SqlSessionTemplate sqlSession, String memberId) {
 		return sqlSession.selectOne("memberMapper.selectQnaNo", memberId);
 	}
-	
+
 	// 문의글 상세보기
 	public QNA qnaDetailView(SqlSessionTemplate sqlSession, int qno) {
 		return sqlSession.selectOne("memberMapper.qnaDetailView", qno);
 	}
-	
+
 	// 문의글 삭제하기
 	public int qnaDelete(SqlSessionTemplate sqlSession, int qno) {
 		return sqlSession.delete("memberMapper.qnaDelete", qno);
@@ -276,17 +284,17 @@ public class MemberDao {
 	public int defaultCharacter(SqlSessionTemplate sqlSession, Member m) {
 		return sqlSession.insert("memberMapper.defaultCharacter", m);
 	}
-	
+
 	// 회원가입시 기본 배경 지급
 	public int defaultBackground(SqlSessionTemplate sqlSession, Member m) {
 		return sqlSession.insert("memberMapper.defaultBackground", m);
 	}
-	
+
 	// 보유 아이템 리스트 카운트
 	public int myItemListCount(SqlSessionTemplate sqlSession, MemberItem mItem) {
 		return sqlSession.selectOne("memberMapper.myItemListCount", mItem);
 	};
-	
+
 	// 보유 아이템 리스트
 	public ArrayList<Item> myItemList(SqlSessionTemplate sqlSession, PageInfo pi, MemberItem mItem){
 		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
@@ -298,7 +306,7 @@ public class MemberDao {
 	public int deleteMyItem(SqlSessionTemplate sqlSession, MemberItem mitem) {
 		return sqlSession.delete("memberMapper.deleteMyItem", mitem);
 	};
-	
+
 	// 착용한 아이템 가져오기
 	public ArrayList<Item> myCharacter(SqlSessionTemplate sqlSession, String memberId){
 		return (ArrayList)sqlSession.selectList("memberMapper.myCharacter", memberId);

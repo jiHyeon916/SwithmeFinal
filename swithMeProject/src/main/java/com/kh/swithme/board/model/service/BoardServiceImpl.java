@@ -35,7 +35,7 @@ public class BoardServiceImpl implements BoardService {
 
 
 	//혜린 -----------------------------------------------------------------------------------
-	
+
 	@Override
 	public int boardListCount(int boardType) {
 		return boardDao.boardListCount(sqlSession, boardType);
@@ -264,8 +264,8 @@ public class BoardServiceImpl implements BoardService {
 	public Board boardlist(int boardNo) {
 		return boardDao.boardlist(sqlSession, boardNo);
 	}
-	
-	
+
+
 	// ************* 메인 
 	@Override
 	public ArrayList<Band> mainStudy(String category) {
@@ -329,10 +329,14 @@ public class BoardServiceImpl implements BoardService {
 	public ArrayList<StudyRoom> studyRoomSearch(HashMap<String, String> map) {
 		return boardDao.studyRoomSearch(sqlSession, map);
 	}
-	
-	
-	
-	
+	@Override
+	public ArrayList<StudyRoom> selectAddressSearch(HashMap<String, String> map) {
+		return boardDao.selectAddressSearch(sqlSession, map);
+	}
+
+
+
+
 
 
 

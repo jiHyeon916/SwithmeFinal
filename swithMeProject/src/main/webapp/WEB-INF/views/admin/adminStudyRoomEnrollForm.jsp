@@ -266,24 +266,23 @@ tr{
                                     <td><textarea name="studyRoomIntroduce" id="studyRoomIntroduce" cols="40" rows="8" style="resize:none;"></textarea></td>
                                 </tr>
                                 <tr>
-                                    <td><p>사진</p></td>
+                                    <td>
+                                        <p>사진</p>
+                                        <p style="font-size:smaller; color : grey;">* 1개 이상<br> 등록 필수</p>
+                                    </td>
                                     <td id="imageArea">
                                         <div class="studyRoomImg">
-                                            <input type="radio" name="checkThumnail" checked value="0">
                                             <label class="uploadBtn" for="upFile1">추가</label> 
                                             <input type="file" id="upFile1" name="upFile[]" onchange="preview(this,'studyRoomView1');" style="display:none;">
-                                            <button type="button" class="deleteBtn" onclick="deleteImage('studyRoomView1','upFile1');">삭제</button>
-                                            <img id="studyRoomView1" class="studyRoomView" src="resources/images/member/none.jpeg" />
+                                            <img id="studyRoomView1" class="studyRoomView" src="resources/images/member/none.jpeg" style="border:2px solid black;"/>
                                         </div>
                                         <div class="studyRoomImg">
-                                            <input type="radio" name="checkThumnail" value="1">
                                             <label class="uploadBtn" for="upFile2">추가</label> 
                                             <input type="file" id="upFile2" name="upFile[]" onchange="preview(this,'studyRoomView2');" style="display:none;">
                                             <button type="button" class="deleteBtn" onclick="deleteImage('studyRoomView2', 'upFile2');">삭제</button>
                                             <img id="studyRoomView2" class="studyRoomView" src="resources/images/member/none.jpeg" />
                                         </div>
                                         <div class="studyRoomImg">
-                                            <input type="radio" name="checkThumnail" value="2">
                                             <label class="uploadBtn" for="upFile3">추가</label> 
                                             <input type="file" id="upFile3" name="upFile[]" onchange="preview(this,'studyRoomView3');" style="display:none;">
                                             <button type="button" class="deleteBtn" onclick="deleteImage('studyRoomView3', 'upFile3');">삭제</button>
