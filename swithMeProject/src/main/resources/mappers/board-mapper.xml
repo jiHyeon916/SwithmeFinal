@@ -319,6 +319,69 @@
 				SR_CREATEDATE DESC
 	</select>
 	
+	<!-- 스터디룸 위치 검색 -->
+	<select id="selectAddressSearch" parameterType="hashmap" resultMap="sRoomResultSet">
+		SELECT 
+			SR_LAT
+			,SR_LNG
+		FROM
+			BOARD_STUDYROOM
+        WHERE
+						<if test="searchSelect == '10'">
+				SR_LOCATION='강원'
+			</if>
+			<if test="searchSelect == '20'">
+				SR_LOCATION='경기'
+			</if>
+			<if test="searchSelect == '30'">
+				SR_LOCATION='경남'
+			</if>
+			<if test="searchSelect == '40'">
+				SR_LOCATION='경북'
+			</if>
+			<if test="searchSelect == '50'">
+				SR_LOCATION='광주'
+			</if>
+			<if test="searchSelect == '60'">
+				SR_LOCATION='대구' 
+			</if>
+			<if test="searchSelect == '70'">
+				SR_LOCATION='대전'
+			</if>
+			<if test="searchSelect == '80'">
+				SR_LOCATION='부산'
+			</if>
+			<if test="searchSelect == '90'">
+				SR_LOCATION='서울'
+			</if>
+			<if test="searchSelect == '11'">
+				SR_LOCATION='세종'
+			</if>
+			<if test="searchSelect == '12'">
+				SR_LOCATION='울산'
+			</if>
+			<if test="searchSelect == '13'">
+				SR_LOCATION='인천' 
+			</if>
+			<if test="searchSelect == '14'">
+				SR_LOCATION='전남'
+			</if>
+			<if test="searchSelect == '15'">
+				SR_LOCATION='전북'
+			</if>
+			<if test="searchSelect == '16'">
+				SR_LOCATION='제주'
+			</if>
+			<if test="searchSelect == '17'">
+				SR_LOCATION='충남'
+			</if>
+			<if test="searchSelect == '18'">
+				SR_LOCATION ='충북'
+			</if>
+			AND
+				SR_NAME LIKE '%' || #{searchText} || '%'
+	</select>
+	
 	
 	
 	
