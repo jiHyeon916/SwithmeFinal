@@ -19,6 +19,10 @@
 		<result column="LIKECOUNT" property="likeCount" />
 		<result column="COMMENTCOUNT" property="commentCount" />
 		<result column="SB_RECRUIT_MEM" property="totalPerson" />
+		<result column="RPEV_TITLE" property="prev" />
+		<result column="PREV" property="prevNo" />
+		<result column="NEXT_TITLE" property="next" />
+		<result column="NEXT" property="nextNo" />
 	</resultMap>
 	
 	<resultMap id="replyResultMap" type="reply">
@@ -314,6 +318,103 @@
 			BY
 				SR_CREATEDATE DESC
 	</select>
+	
+	<!-- 스터디룸 위치 검색 -->
+	<select id="selectAddressSearch" parameterType="hashmap" resultMap="sRoomResultSet">
+		SELECT 
+			SR_LAT
+			,SR_LNG
+		FROM
+			BOARD_STUDYROOM
+        WHERE
+			<if test="searchSelect == '10'">
+				SR_LOCATION='강원'
+			</if>
+			<if test="searchSelect == '20'">
+				SR_LOCATION='경기'
+			</if>
+			<if test="searchSelect == '30'">
+				SR_LOCATION='경남'
+			</if>
+			<if test="searchSelect == '40'">
+				SR_LOCATION='경북'
+			</if>
+			<if test="searchSelect == '50'">
+				SR_LOCATION='광주'
+			</if>
+			<if test="searchSelect == '60'">
+				SR_LOCATION='대구' 
+			</if>
+			<if test="searchSelect == '70'">
+				SR_LOCATION='대전'
+			</if>
+			<if test="searchSelect == '80'">
+				SR_LOCATION='부산'
+			</if>
+			<if test="searchSelect == '90'">
+				SR_LOCATION='서울'
+			</if>
+			<if test="searchSelect == '11'">
+				SR_LOCATION='세종'
+			</if>
+			<if test="searchSelect == '12'">
+				SR_LOCATION='울산'
+			</if>
+			<if test="searchSelect == '13'">
+				SR_LOCATION='인천' 
+			</if>
+			<if test="searchSelect == '14'">
+				SR_LOCATION='전남'
+			</if>
+			<if test="searchSelect == '15'">
+				SR_LOCATION='전북'
+			</if>
+			<if test="searchSelect == '16'">
+				SR_LOCATION='제주'
+			</if>
+			<if test="searchSelect == '17'">
+				SR_LOCATION='충남'
+			</if>
+			<if test="searchSelect == '18'">
+				SR_LOCATION ='충북'
+			</if>
+			AND
+				SR_NAME LIKE '%' || #{searchText} || '%'
+	</select>
+	
+	<!-- 스터디룸 위치 검색 -->
+	<select id="selectAddressSearchAll" resultMap="sRoomResultSet">
+		SELECT 
+			SR_LAT
+			,SR_LNG
+		FROM
+			BOARD_STUDYROOM
+        WHERE
+			SR_NAME LIKE '%' || #{searchText} || '%'
+	</select>
+	
+	<!-- 스터디룸 검색 -->
+	<select id="studyRoomSearchAll" resultType="studyRoom">
+		SELECT 
+			SR_NO studyRoomNo
+			,SR_NAME studyRoomName
+			,SR_LOCATION studyRoomLocation
+			,SR_ADDRESS studyRoomAddress
+			,SR_PHONE studyRoomPhone
+			,CHANGE_NAME titleImg
+		FROM
+			BOARD_STUDYROOM
+		JOIN
+			ATTACH ON(BOARD_STUDYROOM.SR_NO = ATTACH.REF_NO)
+        WHERE
+            FILE_LEVEL=1
+		AND
+			SR_NAME LIKE '%' || #{searchText} || '%'
+		ORDER
+		BY
+			SR_CREATEDATE DESC
+	</select>
+	
 	
 	
 	
@@ -1330,7 +1431,9 @@
 		 WHERE
               ITEM_STATUS = 'Y'
            AND
-           	  ITEM_NO != 0
+           	  ITEM_NO != 1
+           AND
+           	  ITEM_NO != 2
            <if test="category != '전체보기'">
            AND
               ITEM_CATEGORY = #{category}
@@ -1370,8 +1473,29 @@
 		 WHERE
 		 	  NICKNAME = #{ memberId }
 		   AND
-		   	  WEAR_STATUS = 'N'
+		   	  WEAR_STATUS = 'Y'
 		   	  
+	</select>
+	
+	<!-- 이전글 다음글  -->
+	<select id="boardlist" resultMap="boardResultSet">
+	
+	SELECT *
+	  FROM (SELECT
+	               BOARD_NO, 
+	               LAG(BOARD_NO, 1) OVER(ORDER BY ROWNUM) AS PREV,
+	               LAG(BOARD_TITLE, 1) OVER(ORDER BY ROWNUM) AS RPEV_TITLE,
+	               LEAD(BOARD_NO, 1) OVER(ORDER BY ROWNUM) AS NEXT,
+	               LEAD(BOARD_TITLE, 1) OVER(ORDER BY ROWNUM) AS NEXT_TITLE
+   			  FROM	
+	               (select ROWNUM, A.*
+	                   from(SELECT * 
+	                           FROM MAINBOARD 
+	                        WHERE BOARD_TYPE = 'free'
+	                        AND BOARD_STATUS = 'Y') A)
+            )
+	WHERE BOARD_NO = #{ boardNo }
+	
 	</select>
 	
 	

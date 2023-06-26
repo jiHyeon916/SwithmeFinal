@@ -24,5 +24,9 @@ public class Board {
 	private String key;  // 검색 키워드 
 	private String keyType;  //키워드 타입 => 태그 또는 검색 
 	private int totalPerson; // 총 모집 인원 수 
+	private String prev;
+	private int prevNo;
+	private String next;
+	private int nextNo;
 	
 }

@@ -120,6 +120,8 @@
     <script>
         $(function(){
             allStudyBandList();   
+            favoriteStudyBand();
+            
         });
 
     
@@ -131,20 +133,19 @@
                     memberId : '${loginMember.memberId}' 
                 },
                 success : function(list){
-                    console.log(list);
+
                     var value='';
                     for(let i in list){
                         value += '<div class="studyBand">'
-                                + '<button class="checkFavorite" id="checkFavorite'+list[i].sbNo+'" style="border:none;">☆</button>'
+                                + '<button class="checkFavorite" id="checkFavorite'+list[i].sbNo+'" onclick="checkFavorite('+list[i].sbNo+');">☆</button>'
                                 + '<input type="hidden" value="'+list[i].sbNo+'">'
                                 + '<div class="studyBandImgBox"><img class="studyBandImg" src="'+ list[i].sbChangeName+'"></div>'
                                 + '<span>'+ list[i].sbTitle+'</span>'
                                 + '<button class="detailBtn" onclick="detailView('+ list[i].sbNo+');">바로가기</button>'
                                 + '</div>';
                             }
-                    $('.allStudyBand').html(value); 
-                    favoriteStudyBand(); 
-                    checkFavorite(); 
+                    $('.allStudyBand').html(value);
+
                 },
                 error : function(){
                     console.log('밴드 조회 실패');
@@ -166,13 +167,14 @@
                         var value='';
 	                    for(let i in list){
 	                        value += '<div class="studyBand">'
-                                + '<button class="favorite" id="checkFavorite'+list[i].sbNo+'" style="border:none; color:red;">☆</button>'
+                                + '<button class="favorite" id="avorite'+list[i].sbNo+'" style="border:none; color:red;" onclick="checkFavorite('+list[i].sbNo+');">☆</button>'
                                 + '<input type="hidden" value="'+list[i].sbNo+'">'
                                 + '<div class="studyBandImgBox"><img class="studyBandImg" src="'+ list[i].sbChangeName+'"></div>'
                                 + '<span>'+ list[i].sbTitle+'</span>'
                                 + '<button class="detailBtn" onclick="detailView('+ list[i].sbNo+');">바로가기</button>'
                                 + '</div>';
 	                    }    
+	                    $('.favoriteStudyBand').html(value);
                 	} else {
                 		$('.favoriteStudyBand').append('<p id="message">즐겨찾는 밴드를 등록해보세요!</p>');
                 	}
@@ -184,56 +186,73 @@
             });
         }
 
-        //북마크 등록/삭제
-        function checkFavorite(){
-            $('.checkFavorite').click(function(){
-                var color = $(this).css('color');
-                var checkBandNo = $(this).next().val();
-                var checkBand = $(this);
-                var p = $(this).next().parent();
-                console.log(p);
-                if(color === 'rgb(255, 0, 0)'){
-                    p.remove();
-                    $.ajax({
-                        url : 'deleteSbandBookmark.me',
-                        data : {
-                            sbNo : checkBandNo,
-                            memberId : '${loginMember.memberId}' 
-                        },
-                        success : function(){
-                            console.log('북마크 삭제 성공');
-                            favoriteStudyBand();
-                            location.reload();
-                        },
-                        error : function(){
-                            console.log('실패');
-                        }
-                    });  
-                } else {
-                    $.ajax({
-                        url : 'insertSbandBookmark.me',
-                        data : {
-                            sbNo : checkBandNo,
-                            memberId : '${loginMember.memberId}' 
-                        },
-                        success : function(){
-                            console.log('북마크 등록 성공');
-                            favoriteStudyBand();
-                        },
-                        error : function(){
-                            console.log('실패');
-                        }
-                    });
-
-                }
-            })
-
+        // 북마크상태니?
+       	function checkFavorite(checkBandNo){
+            console.log($(this));     
+            $.ajax({
+        		url : 'selectSbandBookmark.me',
+        		data : {
+        			sbNo : checkBandNo,
+                    memberId : '${loginMember.memberId}' 
+        		},
+        		success : function(result){
+        			console.log(result);
+        			if(result>0){
+        				deleteBookmark(checkBandNo);
+        			} else{
+        				insertBookmark(checkBandNo);
+        				
+        			}
+        			location.reload();
+        		},
+        		error : function(){
+        			console.log('실패');
+        		}
+        	});
+        
         }
 
+        
+        //북마크 삭제
+        function deleteBookmark(checkBandNo){
+        	$.ajax({
+                url : 'deleteSbandBookmark.me',
+                data : {
+                    sbNo : checkBandNo,
+                    memberId : '${loginMember.memberId}' 
+                },
+                success : function(){
+                    console.log('북마크 삭제 성공');
+                },
+                error : function(){
+                    console.log('실패');
+                }
+            });  
+        }
+        
+        //북마크 추가
+        function insertBookmark(checkBandNo){
+        	$.ajax({
+                url : 'insertSbandBookmark.me',
+                data : {
+                    sbNo : checkBandNo,
+                    memberId : '${loginMember.memberId}' 
+                },
+                success : function(){
+                    console.log('북마크 등록 성공');
+                },
+                error : function(){
+                    console.log('실패');
+                }
+            });
+        }
+        
+        //
+        
+        // 바로가기
         function detailView(sno){
             location.href = "studyBand.bo/detail.bo?sno="+sno;
         }
-        
 
 
 

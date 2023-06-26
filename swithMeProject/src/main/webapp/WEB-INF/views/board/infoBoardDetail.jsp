@@ -17,6 +17,17 @@
         <div class="wrap">
             <!-- 스티키 영역 -->
             <div id="contentBox" class="clear">
+                <div id="boardList">
+                    
+                    <div id="nextList" class="clear">
+                        <!-- 다음글 목록 -->
+                    </div>
+                    <div id="prevList" class="clear">
+                        <!-- 이전글 목록  -->
+                    </div>
+                    <button onclick="location.href='freeBoardListView.bo?boardType=1'">목록으로</button>
+                </div>
+                
                 <!-- 글 보이는 곳 -->
                 <div>
                     <!-- 썸네일 사진 -->
@@ -552,7 +563,17 @@
                 success: function(r) {
                     
                     let result = '';
+                    let modifyBtn = '';
+
                     for (var i in r) {
+
+                        if('${ sessionScope.loginMember.nickName }' == r[i].memberId){
+                            modifyBtn  = '<div>'
+                                            + '<p class="reReplyModify" onclick=reReplyModify(this,' + r[i].reReplyNo + ')>수정</p>'
+                                            + '<p onclick="deleteRe(2,' + r[i].reReplyNo + ')">삭제</p>'
+                                        + '</div>'
+                        }
+
                         result += '<div class="clear">'
                                     + '<div id="rrCon"><img src=""></div>'
                                     + '<div id="rrList" class="clear">'
@@ -561,12 +582,9 @@
                                                 +  '<div class="clear">'
                                                     + '<p>' + r[i].memberId + '</p>'
                                                     + '<p>' + r[i].createDate + '</p>' 
-                                                    + '<div>'
-                                                        + '<p>수정</p>'
-                                                        + '<p>삭제</p>'
-                                                    + '</div>'
+                                                    + modifyBtn
                                                 + '</div>'
-                                                +  '<p>' + r[i].reReplyContent + '</p>'
+                                                + '<p class="reReplyCon' + r[i].reReplyNo + '">' + r[i].reReplyContent + '</p>'
                                             + '</div>'
                                         + '</div>'
                                     + '</div>'
@@ -582,6 +600,43 @@
                     console.log('대댓글 불러오기 실패');
                 }
             }); 
+        }
+
+        // 대댓글 수정하기 
+        function reReplyModify(e, num){
+            
+            var textdata = $(e).parent().parent().next().text();
+
+            $(".modiCheck").attr('onclick', null);
+            $('.reReplyModify').attr('onclick', null);
+
+            var modifyArea = '<textarea class="reReplayModify">' + textdata + '</textarea>'
+                            + '<button class="reReplyMBtn">수정</button>'
+                            + '<button class="reset reReplyRBtn">취소</button>'
+
+            $('.reReplyCon' + num ).html(modifyArea);
+
+            $('.reReplyMBtn').click(function(){
+                $.ajax({
+                    url : 'reReplyModify.bo',
+                    data : {
+                        reReplyNo : num,
+                        reReplyContent : $('.reReplayModify').val()
+                    },
+                    success : function(r){
+                        reply();
+                    },
+                    error : function(){
+
+                    }
+
+                });
+            });
+
+            $('.reset').click(function(){
+                reply();
+            })
+            
         }
 
         //태그 검색 

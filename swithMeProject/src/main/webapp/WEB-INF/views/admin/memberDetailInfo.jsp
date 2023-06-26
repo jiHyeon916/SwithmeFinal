@@ -120,11 +120,11 @@
   		border-color:red;
       }
  
-/*  	#adminMemberTable > tbody > tr:hover{
+	#adminMemberTable > tbody > tr:hover{
  		cursor:pointer;
  		background-color:lightgray;
  		
- 		} */
+ 		} 
     
       
 </style>
@@ -200,9 +200,9 @@
              		$('.memberBoardList').click();
              	});
              	
+            	
              	//회원이 작성한 게시판 글 조회
                function memberBoardList() {
-                  
                      $.ajax({
                         url: 'memberDetailBoardList.ad',
                         data:{memberId : '${m.memberId}'},
@@ -210,54 +210,45 @@
                          	let value = "";
 	                         $('.memberBandList').removeClass('selectBtn');
 	                         $('.memberBoardList').addClass('selectBtn');
-                         
                         	 	if(listArr.length != 0) {
                         			for(let i in listArr) {
 			                        	let list = listArr[i];
 			                        	let boardNo = listArr[i].boardNo;
 					                        	value 	+= '<tr>' 
 					                           		  	 +'<td>' + list.boardNo + '</td>'
-						                           		 +'<td>' + list.boardTitle + '</td>'
+						                           		 +'<td id="boardClick">' + list.boardTitle + '</td>' //제목을 클릭하면 넘어감
 						                           		 +'<td>' + list.summary + '</td>'
 						                           		 +'<td>' + list.createDate + '</td>'
 					                        			 +'<td>' + '<input type="checkbox" value="' + boardNo + '" name="BoardChkDel" id="admemBoardChkDel"></input>' + '</td>' 
 					                        			 +'</tr>' //value값에 원하는 값을 담아서 체크되면 넘기기 
-                        						}
-                       					 $('#adminMemberTable tbody').html(value);
-                        			 }else{
-                        	  			$('#adminMemberTable tbody').html('작성된 게시물이 존재하지 않습니다.');
-                         				}
-                        		},error:() => {console.log('실패');}
-                     		  })
+                        							}
+                       								 $('#adminMemberTable tbody').html(value);
+                       								 
+                       								 $('#adminMemberTable tbody tr #boardClick').click(function() {
+                       									let boardNo = $(this).parent().find('td:first').text();
+                       									console.log(boardNo);
+                       									location.href='freeBoardDetail.bo?boardNo=' + boardNo;
+                       									
+                       								 });
+                       								 
+                        					   }else{
+                        	  					     $('#adminMemberTable tbody').html('작성된 게시물이 존재하지 않습니다.');
+                         					}
+                        					},error:() => {console.log('실패');}
+                     					  })
+                     		            };
+                     		            
                      		  
-                     		  
-                     		  
-                     			 
-                     	 	  
-                            };
-
-                            /*
-                             $(document).on('click','#adminMemberTable > tbody > tr', function() {
-                            	
-                            	let boardNo = $(this).next('td').val();
-                            	conosle.log(boardNo);
-                    
-                            	
-                            	location.href="freeBoardDetail.bo?boardNo="+ boardNo;
-                            
-                            });  */
-                      
-                            
-                            
-                            
-                            
-                            
-                            
-                            
-                   
+                    	             
+                    	                      
+                    	                         
+                     		            
+                     		            
+                     		            
+                     		            
+                     		            
                //회원이 작성한 밴드 글 조회            
                function memberBandList() {
-            	   
             	   $.ajax({
             		   	url : 'memberBandList.ad',
             		   	data:{memberId : '${m.memberId}'},
@@ -265,46 +256,41 @@
             		   		let	value = "";	
             		   		$('.memberBoardList').removeClass('selectBtn');
             		   		$('.memberBandList').addClass('selectBtn');
-            		   		
-            		   		
             		   			if(listArr.length != 0) {
             		   				for(let i in listArr) {
 		            		   			let list = listArr[i];
-		            		   			let sbNo = listArr[i].sbBoardNo;
 		            		   			
+		            		   			let sbandNo = listArr[i].sbNo;
+		            		   			
+		            		   			let sbNo = listArr[i].sbBoardNo;
 		            		   			let sbText = list.sbContent;
-	            		   					 console.log(list.sbContent);
-	            		   					 
-	            		   					 
            		   	                    const extractTextPattern = /(<([^>]+)>)/gi;
-
-           		   	                    var extractedText = sbText.replace(extractTextPattern, '');
-           		   	                 
+           		   	                    let extractedText = sbText.replace(extractTextPattern, '');
            		   	                    sbText = extractedText;   
-
-
-	            		   					 
 			            		   			  value  += '<tr>' 
+			            		   					 +'<input type="hidden" value="' + list.sbNo + '">' 
 				                          		  	 +'<td>' + list.sbBoardNo + '</td>'
-					                           		 +'<td>' + list.boardTitle + '</td>'
+					                           		 +'<td id="bandClick">' + list.boardTitle + '</td>' //제목을 클릭하면 해당 게시글로 페이지로 이동
 					                           		 +'<td >' + sbText + '</td>'
 					                           		 +'<td>' + list.sbCreateDate + '</td>'
 				                       				 +'<td>' + '<input type="checkbox" value="' + sbNo + '" name="BandChkDel" id="admemBandChkDel">' + '</td>'
 				                       				 +'</tr>';
-				                       				 
-											
-				                       				 
             		   							}
             		   					 $('#adminMemberTable tbody').html(value);
-            		   					 
-            		   					 //console.log(arr);
-            		   					 
+            		   					 $('#adminMemberTable tbody tr #bandClick').click(function() {
+            		 						let sbandNo = $(this).parent().find('input[type="hidden"]').val();
+            		 						location.href='studyBand.bo/detail.bo?sno=' + sbandNo;
+            		  					 });
             		   				}else{
             		   					$('#adminMemberTable tbody').html('작성된 게시물이 존재하지 않습니다.');
             		   					}
             		   			},error: () => {console.log('실패');}
             	     		  });
                             };
+                            
+ 					
+						
+                            
                   </script>
                   
                   
@@ -328,10 +314,10 @@
 				            						if(yes) {
 							            				if(boardChk.each(function(index, i){
 							            					boardChkArr[index] = $(this).val(); // 체크박스에서 band 혹은 board의 no값을 넘겼음. 
-							            				}));
-				            					    if(bandChk.each(function(index,i){
-				            							bandChkArr[index] = $(this).val();  
-				            							}));
+							            					}));
+					            					    if(bandChk.each(function(index,i){
+					            							bandChkArr[index] = $(this).val();  
+					            							}));
 								            					$.ajax({
 								        	 						url :'deleteBoardDetail.ad',
 								        	 						data : {boardNo : boardChkArr},
@@ -341,11 +327,12 @@
 								        	 							if(result > 0) {
 								        	 								alert('삭제되었습니다.');
 								        	 								location.reload();
+								        	 								
 								        	 							}else{
 								        	 								alert('삭제에 실패하였습니다.');
 								        	 								}
 								        	 							},error: () => {console.log('실패');}
-								        	 						});
+								        	 						}); // 이거 board if문 안으로 넣으면 두개 삭제할 때 알럿 두번뜸.
 								            					
 								            					$.ajax({
 								        	 						url :'deleteBandDetail.ad',
@@ -379,7 +366,6 @@
             
              <!-- 회원 글 keyword로 검색하기 -->
            		<script>
-           
            		//카테고리별 검색 내용 결과 
            		$(function() {
            			$('#adminMemberBtn').on('click',function() {	//검색 버튼을 눌렀을 때 
@@ -393,13 +379,11 @@
            				
            				//게시글 + 제목 검색조회 목록 
            				if(boardColor === 'rgb(3, 195, 115)' && $('#adminMemberSelect').val() === boardTitle) { 
-           					
            					$.ajax({
            						url : 'memBoardSearchTitle.ad',
            						data: {memberId : memberId,
            								keyword : keyword},
            						success : function(list){
-           							
            							if(list.length != 0){   
            								let value = "";
            									for(let i in list) {
@@ -422,13 +406,11 @@
            				
            				} // 게시글 + 내용
            				else if(boardColor === 'rgb(3, 195, 115)' && $('#adminMemberSelect').val() === boardContent){ 
-           					
            					$.ajax({
            						url : 'memBoardSearchContent.ad',
            						data: {memberId : memberId,
            							   keyword : keyword},
            						success : function(list){
-           							
            							if(list.length != 0){
            								let value = "";
            									for(let i in list){
@@ -451,21 +433,23 @@
            					
            				// 스터디밴드 + 제목	
            				}else if(bandColor === 'rgb(3, 195, 115)' && $('#adminMemberSelect').val() === boardTitle){ 
-           					
            					 $.ajax({
            						 url : 'memBandSearchTitle.ad',
            						 data : {memberId : memberId,
            							 	keyword : keyword},
            						success : function(list) {
-           							
            							if(list.length != 0) {
            								let value = "";
            								for(let i in list) {
-           									let sbNo = list[i].sbNo; 
+           									let sbNo = list[i].sbNo;
+           									let sbText = list[i].sbContent
+          		   	                        const extractTextPattern = /(<([^>]+)>)/gi;
+          		   	                        let extractedText = sbText.replace(extractTextPattern, '');
+          		   	                        sbText = extractedText;     
 			       									value 	+= '<tr>' 
 			                                     		  	 +'<td>' + list[i].sbNo + '</td>'
 			          	                           			 +'<td>' + list[i].boardTitle + '</td>'
-			          	                           			 +'<td>' + list[i].sbContent + '</td>'
+			          	                           			 +'<td>' + sbText + '</td>'
 			          	                           			 +'<td>' + list[i].sbCreateDate + '</td>'
 			          	                           		   	 +'<td>' + '<input type="checkbox" value="' + sbNo + '" name="BandChkDel" id="admemBandChkDel"></input>' + '</td>'
 			                                  				 +'</tr>'
@@ -480,24 +464,26 @@
            					
            				  // 스터디밴드 + 내용
            				}else if(bandColor === 'rgb(3, 195, 115)' && $('#adminMemberSelect').val() === boardContent){
-           					
            					$.ajax({
            						url : 'memBandSearchContent.ad',
            						data : {memberId : memberId,
            								keyword : keyword},
            						success : function(list) {
-           							
            							if(list.length != 0) {
            								value = "";
            									for(let i in list) {
            										let sbNo = list[i].sbNo; 
-		           									value 	+= '<tr>' 
-		           										+'<td>' + list[i].sbNo + '</td>'
-		          	                           			 +'<td>' + list[i].boardTitle + '</td>'
-		          	                           			 +'<td>' + list[i].sbContent + '</td>'
-		          	                           			 +'<td>' + list[i].sbCreateDate + '</td>'
-		          	                           		   	 +'<td>' + '<input type="checkbox" value="' + sbNo + '" name="BandChkDel" id="admemBandChkDel"></input>' + '</td>'
-		                                  				 +'</tr>'
+           										let sbText = list[i].sbContent
+             		   	                        const extractTextPattern = /(<([^>]+)>)/gi;
+             		   	                        let extractedText = sbText.replace(extractTextPattern, '');
+             		   	                        sbText = extractedText;     
+			           									value 	+= '<tr>' 
+			           										+'<td>' + list[i].sbNo + '</td>'
+			          	                           			 +'<td>' + list[i].boardTitle + '</td>'
+			          	                           			 +'<td>' + sbText + '</td>'
+			          	                           			 +'<td>' + list[i].sbCreateDate + '</td>'
+			          	                           		   	 +'<td>' + '<input type="checkbox" value="' + sbNo + '" name="BandChkDel" id="admemBandChkDel"></input>' + '</td>'
+			                                  				 +'</tr>'
            								}
            								$('#adminMemberTable tbody').html(value);
            							}else{
@@ -508,6 +494,21 @@
            					    };
            					 });
            				 });
+           		
+           		
+           		
+           		
+         
+           		
+           		
+           		
+           		
+           		
+           		
+           		
+           		
+           		
+           		
            </script> 
             
             

@@ -19,7 +19,6 @@
         <p class="footerInfo">
         (주)스윗미 | 대표자: 양유진 | 사업자번호: 234-56-04435<br> 
         통신판매업: 2022-종로B-0062 | 개인정보보호책임자: 이유진 | 이메일: khproject@swith.me<br> 
-        주소: 서울시 종로구 종로지원특별센터 B층 101호<br> 
         ©SWITHME. ALL RIGHTS RESERVED<br> 
         </p>
     </div>

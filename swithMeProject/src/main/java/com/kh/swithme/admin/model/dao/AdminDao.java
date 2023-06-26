@@ -62,11 +62,11 @@ public class AdminDao {
 		return sqlSession.update("adminMapper.memberStop", memberId);
 	}
 
-	//회원 디테일 조회정보(select) band
+	//회원 디테일 조회정보(select) board
 	public ArrayList<Board> memberDetailBoard(SqlSessionTemplate sqlSession, String memberId) {
 		return (ArrayList)sqlSession.selectList("adminMapper.memberDetailBoard", memberId);
 	}
-	//회원 디테일 조회정보(select) Sband
+	//회원 디테일 조회정보(select) band
 	public ArrayList<Band> memberDetailBand(SqlSessionTemplate sqlSession, String memberId) {
 		return (ArrayList)sqlSession.selectList("adminMapper.memberDetailBand", memberId);
 	}
@@ -77,7 +77,7 @@ public class AdminDao {
 
 	}
 	
-	//회원 baord 글 삭제
+	//회원 board 글 삭제
 	public int deleteBoardDetail(SqlSessionTemplate sqlSession, int boardNo) {
 		return sqlSession.update("adminMapper.deleteBoardDetail", boardNo);
 	}
@@ -86,9 +86,9 @@ public class AdminDao {
 	public int deleteBandDetail(SqlSessionTemplate sqlSession, int boardNo) {
 		return sqlSession.update("adminMapper.deleteBandDetail",boardNo);
 	}
+	
 	//회원 board글 검색(내용으로)
 	public ArrayList<Board> memBoardSearch(SqlSessionTemplate sqlSession, HashMap<String, String> map) {
-		// TODO Auto-generated method stub
 		return (ArrayList)sqlSession.selectList("adminMapper.memBoardSearch", map);
 	}
 	
@@ -197,54 +197,63 @@ public class AdminDao {
 
 
 	// 김희재 ----------------------------------------
-	// 스터디룸 
-	// 스터디룸 리스트 전체 count
-	public int adminStudyRoomListCount(SqlSessionTemplate sqlSession) {
-		return sqlSession.selectOne("adminMapper.adminStudyRoomListCount");
-	}
+		// 스터디룸 
+		// 스터디룸 리스트 전체 count
+		public int adminStudyRoomListCount(SqlSessionTemplate sqlSession) {
+			return sqlSession.selectOne("adminMapper.adminStudyRoomListCount");
+		}
 
-	// 스터디룸 전체 리스트 조회
-	public ArrayList<StudyRoom> selectAllStudyRoomList(SqlSessionTemplate sqlSession, PageInfo pi){
-		int offset = (pi.getCurrentPage() -1) * pi.getBoardLimit();
-		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
-		return (ArrayList)sqlSession.selectList("adminMapper.selectAllStudyRoomList", null, rowBounds);
-	}
+		// 스터디룸 전체 리스트 조회
+		public ArrayList<StudyRoom> selectAllStudyRoomList(SqlSessionTemplate sqlSession, PageInfo pi){
+			int offset = (pi.getCurrentPage() -1) * pi.getBoardLimit();
+			RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
+			return (ArrayList)sqlSession.selectList("adminMapper.selectAllStudyRoomList", null, rowBounds);
+		}
 
-	// 스터디룸 추가
-	public int insertStudyRoom(SqlSessionTemplate sqlSession, StudyRoom sr) {
-		return sqlSession.insert("adminMapper.insertStudyRoom", sr);
-	}
-	
-	// 스터디룸 이미지 추가
-	public int insertStudyRoomImage(SqlSessionTemplate sqlSession, Attach at) {
-		return sqlSession.insert("adminMapper.insertStudyRoomImage", at);
-	}
+		// 스터디룸 추가
+		public int insertStudyRoom(SqlSessionTemplate sqlSession, StudyRoom sr) {
+			return sqlSession.insert("adminMapper.insertStudyRoom", sr);
+		}
+		
+		// 스터디룸 이미지 추가
+		public int insertStudyRoomImage(SqlSessionTemplate sqlSession, Attach at) {
+			return sqlSession.insert("adminMapper.insertStudyRoomImage", at);
+		}
 
-	// 스터디룸 선택 삭제
-	public int deleteCheckStudyRoom(SqlSessionTemplate sqlSession, int studyRoomNo) {
-		return sqlSession.delete("adminMapper.deleteCheckStudyRoom", studyRoomNo);
-	}
+		// 스터디룸 선택 삭제
+		public int deleteCheckStudyRoom(SqlSessionTemplate sqlSession, int studyRoomNo) {
+			return sqlSession.delete("adminMapper.deleteCheckStudyRoom", studyRoomNo);
+		}
 
-	// 스터디룸 상세보기 삭제
+		public int deleteCheckStudyRoomImage(SqlSessionTemplate sqlSession, int studyRoomNo) {
+			return sqlSession.delete("adminMapper.deleteCheckStudyRoomImage", studyRoomNo);
+		}
 
 
-	// 스터디룸 정보 수정
-	public StudyRoom selectStudyRoom(SqlSessionTemplate sqlSession, int studyRoomNo) {
-		return sqlSession.selectOne("adminMapper.selectStudyRoom", studyRoomNo);
-	}
+		// 스터디룸 정보 수정
+		public StudyRoom selectStudyRoom(SqlSessionTemplate sqlSession, int studyRoomNo) {
+			return sqlSession.selectOne("adminMapper.selectStudyRoom", studyRoomNo);
+		}
 
-	public ArrayList<Attach> selectStudyRoomImage(SqlSessionTemplate sqlSession, int studyRoomNo){
-		return (ArrayList)sqlSession.selectList("adminMapper.selectStudyRoomImage", studyRoomNo);
-	}
+		public ArrayList<Attach> selectStudyRoomImage(SqlSessionTemplate sqlSession, int studyRoomNo){
+			return (ArrayList)sqlSession.selectList("adminMapper.selectStudyRoomImage", studyRoomNo);
+		}
 
-	public int updateStudyRoom(SqlSessionTemplate sqlSession, StudyRoom sr) {
-		return sqlSession.update("adminMapper.updateStudyRoom", sr);
-	}
-	
-	public int updateStudyRoomImage(SqlSessionTemplate sqlSession, Attach at) {
-		return sqlSession.update("adminMapper.updateStudyRoomImage", at);
-	}
+		public int updateStudyRoom(SqlSessionTemplate sqlSession, StudyRoom sr) {
+			return sqlSession.update("adminMapper.updateStudyRoom", sr);
+		}
+		
+		public int updateStudyRoomImage(SqlSessionTemplate sqlSession, Attach at) {
+			return sqlSession.update("adminMapper.updateStudyRoomImage", at);
+		}
 
+		public int deleteStudyRoomImage(SqlSessionTemplate sqlSession, Attach at) {
+			return sqlSession.delete("adminMapper.deleteStudyRoomImage", at);
+		}
+		
+		public int updateAddStudyRoomImage(SqlSessionTemplate sqlSession, Attach at) {
+			return sqlSession.update("adminMapper.updateAddStudyRoomImage", at);
+		}
 	
 
 

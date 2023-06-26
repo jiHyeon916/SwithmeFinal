@@ -164,3 +164,11 @@ textarea:focus{
 .replyWrap .rCon button:last-child{
     margin-right: 0;
 }
+
+/* 대댓글 수정하기  */
+.reReplayModify{
+    width: 640px !important;
+}
+.reReplyMBtn, .reReplyRBtn{
+    width: 307px;
+}

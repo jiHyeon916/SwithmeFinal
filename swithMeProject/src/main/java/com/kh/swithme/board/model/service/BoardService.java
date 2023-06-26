@@ -190,6 +190,7 @@ public interface BoardService {
 	// 멤버 이미지 가져오기 
 	ArrayList<Item> memberImg(String memberId);
 	
+	Board boardlist(int boardNo);
 	
 	
 	// **************** 메인 어디다.?
@@ -230,9 +231,13 @@ public interface BoardService {
 	
 	// 스터디룸 주소 불러오기
 	ArrayList<StudyRoom> selectAddress();
+	ArrayList<StudyRoom> selectAddressSearch(HashMap<String, String> map);
+	ArrayList<StudyRoom> selectAddressSearchAll(String searchText);
 	
 	// 스터디룸 검색하기
 	ArrayList<StudyRoom> studyRoomSearch(HashMap<String, String> map);
+	ArrayList<StudyRoom> studyRoomSearchAll(String searchText);
+
 	
 	
 //--- 지현

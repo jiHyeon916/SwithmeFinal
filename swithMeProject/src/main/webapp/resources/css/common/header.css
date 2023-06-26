@@ -221,3 +221,25 @@ header{
     font-size: 14px;
     padding: 3px 10px 3px;
 }
+
+
+/* 비로그인시 사이드 버튼  */
+#BtnBox .loginP{
+    font-size: 14px;
+    text-align: center;
+    margin-top: 80px;
+}
+
+#BtnBox .plzBtn{
+    width: 170px;
+    margin: 0 auto;
+}
+
+#BtnBox .loginPlz a,
+#BtnBox .joinPlz a{
+    font-size: 14px;
+}
+#BtnBox .loginPlz:hover,
+#BtnBox .joinPlz:hover{
+    background-color: #eeffe0;
+}

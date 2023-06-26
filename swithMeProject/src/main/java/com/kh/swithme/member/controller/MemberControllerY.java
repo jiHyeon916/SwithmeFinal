@@ -57,7 +57,7 @@ public class MemberControllerY {
 		
 		String memberId = ((Member)session.getAttribute("loginMember")).getMemberId();
 		
-		PageInfo pi = Pagination.getPageInfo(memberService.myPointListCount(memberId), currentPage, 10, 5);
+		PageInfo pi = Pagination.getPageInfo(memberService.myPointListCount(memberId), currentPage, 15, 5);
 		
 		// 보내야할 값
 		// 페이징, 포인트내역 리스트, 오늘 얻은 포인트, 토탈포인트
@@ -310,6 +310,13 @@ public class MemberControllerY {
 		return result;
 	}
 	
+
+	// 마이페이지 메인 - 작성글목록
+	@ResponseBody
+	@RequestMapping(value="myPostList.me", produces="application/json; charset=UTF-8")
+	public String mainPostListView(String memberId) {
+		return new Gson().toJson(memberService.mainPostList(memberId));
+	}
 	
 	
 	
