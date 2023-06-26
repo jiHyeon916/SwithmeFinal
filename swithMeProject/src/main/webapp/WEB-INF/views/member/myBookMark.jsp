@@ -260,7 +260,7 @@ input[type=checkbox]{
 				if(confirm('삭제하시겠습니까?')){
 					let checkArr = [];
 					$('input[name=bMarkCheck]:checked').each(function(index){
-						checkArr[index] = $(this).next().val();	
+						checkArr[index] = $(this).next().children().children().val();	
 					})
 					console.log(checkArr);
 					
