@@ -215,8 +215,8 @@
    		UPDATE
    			ATTACH
    		SET
-   			#{originName}
-   			,#{changeName}
+   			ORIGIN_NAME=#{originName}
+   			,CHANGE_NAME=#{changeName}
    		WHERE
    			REF_NO=#{refNo}
    		AND

@@ -268,10 +268,11 @@ tr{
                                 <tr>
                                     <td>
                                         <p>사진</p>
-                                        <p style="font-size:smaller; color : grey;">* 1개 이상<br> 등록 필수</p>
+                                        <p style="font-size:smaller; color : red;">* 1개 이상<br> 등록 필수</p>
                                     </td>
                                     <td id="imageArea">
                                         <div class="studyRoomImg">
+                                            <label style="color:red;">*</label>
                                             <label class="uploadBtn" for="upFile1">추가</label> 
                                             <input type="file" id="upFile1" name="upFile[]" onchange="preview(this,'studyRoomView1');" style="display:none;">
                                             <img id="studyRoomView1" class="studyRoomView" src="resources/images/member/none.jpeg" style="border:2px solid black;"/>

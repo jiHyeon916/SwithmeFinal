@@ -267,12 +267,16 @@ tr{
                                     <td><textarea name="studyRoomIntroduce" id="studyRoomIntroduce" cols="40" rows="8" style="resize:none;" required>${studyRoom.studyRoomIntroduce}</textarea></td>
                                 </tr>
                                 <tr>
-                                    <td><p>사진</p></td>
+                                    <td>
+                                        <p>사진</p>
+                                        <p style="font-size:smaller; color : red;">* 1개 이상<br> 등록 필수</p>
+                                    </td>
                                     <td id="imageArea">
                                         <div class="studyRoomImg">
+                                            <label style="color:red;">*</label>
                                             <label class="uploadBtn" for="reUpFile1">추가</label> 
                                             <input type="file" id="reUpFile1" name="reUpFileFirst" onchange="preview(this,'studyRoomView1');" style="display:none;">
-                                            <input type="hidden" name="origin" value="${imageList[0].originName}">
+                                            <input type="hidden" name="change" value="${imageList[0].changeName}">
                                             <input type="hidden" name="fileNo" value="${imageList[0].fileNo}">
                                             <img id="studyRoomView1" class="studyRoomView" src="${imageList[0].changeName} " style="border:2px solid black;" />
                                         </div>
@@ -282,7 +286,7 @@ tr{
                                             <button type="button" class="deleteBtn">삭제</button>
                                             <c:choose>
                                                 <c:when test="${not empty imageList[1]}">
-                                                    <input type="hidden" name="origin" value="${imageList[1].originName}">
+                                                    <input type="hidden" name="change" value="${imageList[1].changeName}">
                                                     <input type="hidden" name="fileNo" value="${imageList[1].fileNo}">
                                                     <img id="studyRoomView2" class="studyRoomView" src="${imageList[1].changeName}" />
                                                 </c:when>
@@ -299,7 +303,7 @@ tr{
                                             <input type="hidden" name="deleteFile" value="0">
                                             <c:choose>
                                                 <c:when test="${not empty imageList[2]}">
-                                                    <input type="hidden" name="origin" value="${imageList[2].originName}">
+                                                    <input type="hidden" name="change" value="${imageList[2].changeName}">
                                                     <input type="hidden" name="fileNo" value="${imageList[2].fileNo}">
                                                     <img id="studyRoomView3" class="studyRoomView" src="${imageList[2].changeName}" />
                                                 </c:when>
