@@ -181,7 +181,6 @@
 								success : function(result) {
 									if(result == 'Y'){
 										location.href = 'studyBand.bo/detail.bo?sno=' + bNo;
-										$('')
 										AlarmList();
 									}
 								},error : () => {console.log('실패');}		
