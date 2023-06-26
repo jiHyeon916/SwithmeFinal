@@ -38,8 +38,12 @@ public interface BandService {
 	int increaseCount(int sbBoardNo);
 	// 밴드 글 상세조회
 	BandBoard selectBandBoard(int sbBoardNo);
+	// 밴드 글 수정 조회하기
+	BandBoard updateSelectBandBoard(BandBoard bb);
+	// 밴드 사진 수정하기
 	// 밴드 글 수정하기
-	int updateBandBoard(BandBoard bb);
+	int updateBandText(BandBoard bb);
+	int updateBoardPhoto(BandAttach bat);
 	// 밴드 글 삭제하기
 	int deleteBandBoard(int sbBoardNo);
 	
