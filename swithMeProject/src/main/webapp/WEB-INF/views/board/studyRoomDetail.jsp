@@ -95,7 +95,7 @@
                     <h3>${sRoomDetail.studyRoomName}</h3> <br>
                     <p>${sRoomDetail.studyRoomAddress}<br>
                         Tel : ${sRoomDetail.studyRoomPhone}<br>
-                        Web : <a href=" ${sRoomDetail.studyRoomWebsite}">${sRoomDetail.studyRoomWebsite}</a> 
+                        Web : <a href=" ${sRoomDetail.studyRoomWebsite}" target="_blank">${sRoomDetail.studyRoomWebsite}</a> 
                     </p><br>
                 </div>
                 <div class="swiper">

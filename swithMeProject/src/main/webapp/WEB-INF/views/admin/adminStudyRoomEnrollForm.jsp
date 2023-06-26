@@ -175,6 +175,13 @@ tr{
     border-radius: 5px;
     padding: 10px;
 }
+#studyRoomWebsite{
+    width : 100%;
+    height: 40px;
+    border: 1.5px solid #cecece;
+    border-radius: 5px;
+    padding: 10px;
+}
 #studyRoomIntroduce{
     width : 100%;
     border: 1.5px solid #cecece;
@@ -260,6 +267,10 @@ tr{
                                 <tr>
                                     <td><p>전화번호</p></td>
                                     <td><input type="text" id="studyRoomPhone" name="studyRoomPhone" required></td>
+                                </tr>
+                                <tr>
+                                    <td><p>홈페이지</p></td>
+                                    <td><input type="text" id="studyRoomWebsite" name="studyRoomWebsite" required></td>
                                 </tr>
                                 <tr>
                                     <td><p>소개글</p></td>

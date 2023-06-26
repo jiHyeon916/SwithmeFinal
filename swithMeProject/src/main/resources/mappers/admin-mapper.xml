@@ -100,6 +100,7 @@
    			,SR_LNG
    			,SR_PHONE
    			,SR_INTRODUCE
+   			,SR_WEBSITE
    			)
    		VALUES
    			(
@@ -111,6 +112,7 @@
    			,#{studyRoomLng}
    			,#{studyRoomPhone}
    			,#{studyRoomIntroduce}
+   			,#{studyRoomWebsite}
    			)
    </insert>
    
@@ -207,6 +209,7 @@
 			,SR_LNG=#{studyRoomLng}
 			,SR_PHONE=#{studyRoomPhone}
 			,SR_INTRODUCE=#{studyRoomIntroduce}
+			,SR_WEBSITE=#{studyRoomWebsite}
    		WHERE
    			SR_NO=#{studyRoomNo}
    </update>
