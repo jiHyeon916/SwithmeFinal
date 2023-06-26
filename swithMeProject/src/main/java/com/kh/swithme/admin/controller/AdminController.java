@@ -404,48 +404,51 @@ public class AdminController {
 	
 	
 	
-	  // 김희재 ------------------------------------------------------------
-	
+	// 김희재 ------------------------------------------------------------
+
 	// 스터디룸 관리
 	// 스터디룸 조회
 	@RequestMapping("adminStudyRoom.ad")
 	public String adminStudyRoomMain(Model model, @RequestParam(value="aPage", defaultValue="1")int currentPage ) {
-		
+
 		PageInfo pi = Pagination.getPageInfo(adminService.adminStudyRoomListCount(), currentPage, 10, 10);
-		
+
 		model.addAttribute("list", adminService.selectAllStudyRoomList(pi));
 		model.addAttribute("pi", pi);
 
 		return "admin/adminStudyRoom";
 	}
-	
+
 	// 스터디룸 추가 페이지로 이동
 	@RequestMapping("adminstudyRoomInsert.ad")
 	public String adminstudyRoomInsert() {
 		return "admin/adminStudyRoomEnrollForm";
 	}
-	
+
 	// 스터디룸 추가
 	@RequestMapping("insertStudyRoom.ad")
-	public String insertStudyRoom(StudyRoom sr, Attach at, @RequestParam("upFile[]") MultipartFile[] upFiles, @RequestParam("checkThumnail") int value, HttpSession session, Model model) {
+	public String insertStudyRoom(StudyRoom sr, 
+			Attach at, 
+			@RequestParam("upFile[]") MultipartFile[] upFiles, 
+			HttpSession session, Model model) {
 		switch(sr.getStudyRoomLocation()) {
-			case "10" : sr.setStudyRoomLocation("강원");break;
-			case "20" : sr.setStudyRoomLocation("경기");break;
-			case "30" : sr.setStudyRoomLocation("경남");break;
-			case "40" : sr.setStudyRoomLocation("경북");break;
-			case "50" : sr.setStudyRoomLocation("광주");break;
-			case "60" : sr.setStudyRoomLocation("대구");break;
-			case "70" : sr.setStudyRoomLocation("대전");break;
-			case "80" : sr.setStudyRoomLocation("부산");break;
-			case "90" : sr.setStudyRoomLocation("서울");break;
-			case "11" : sr.setStudyRoomLocation("세종");break;
-			case "12" : sr.setStudyRoomLocation("울산");break;
-			case "13" : sr.setStudyRoomLocation("인천");break;
-			case "14" : sr.setStudyRoomLocation("전남");break;
-			case "15" : sr.setStudyRoomLocation("전북");break;
-			case "16" : sr.setStudyRoomLocation("제주");break;
-			case "17" : sr.setStudyRoomLocation("충남");break;
-			case "18" : sr.setStudyRoomLocation("충북");break;
+		case "10" : sr.setStudyRoomLocation("강원");break;
+		case "20" : sr.setStudyRoomLocation("경기");break;
+		case "30" : sr.setStudyRoomLocation("경남");break;
+		case "40" : sr.setStudyRoomLocation("경북");break;
+		case "50" : sr.setStudyRoomLocation("광주");break;
+		case "60" : sr.setStudyRoomLocation("대구");break;
+		case "70" : sr.setStudyRoomLocation("대전");break;
+		case "80" : sr.setStudyRoomLocation("부산");break;
+		case "90" : sr.setStudyRoomLocation("서울");break;
+		case "11" : sr.setStudyRoomLocation("세종");break;
+		case "12" : sr.setStudyRoomLocation("울산");break;
+		case "13" : sr.setStudyRoomLocation("인천");break;
+		case "14" : sr.setStudyRoomLocation("전남");break;
+		case "15" : sr.setStudyRoomLocation("전북");break;
+		case "16" : sr.setStudyRoomLocation("제주");break;
+		case "17" : sr.setStudyRoomLocation("충남");break;
+		case "18" : sr.setStudyRoomLocation("충북");break;
 		}
 		int result1 = adminService.insertStudyRoom(sr);
 		int result2 = 1;
@@ -455,7 +458,7 @@ public class AdminController {
 			if (!upFile.getOriginalFilename().equals("")) {
 				at.setOriginName(upFile.getOriginalFilename());
 				at.setChangeName("resources/uploadFiles/admin/" + saveFile(upFile, session, "study"));
-				if(value == i) {
+				if(i == 0) {
 					at.setFileLevel(1);
 				} else {
 					at.setFileLevel(2);
@@ -481,58 +484,128 @@ public class AdminController {
 
 	// 스터디룸 수정
 	@RequestMapping("updateStudyRoom.ad")
-	public String updateStudyRoom(StudyRoom sr, Attach at, @RequestParam("reUpFile[]") MultipartFile[] reUpFiles, @RequestParam("checkThumnail") int value, @RequestParam("originName") String origin, HttpSession session, Model model) {
+	public String updateStudyRoom(StudyRoom sr, 
+			@RequestParam("reUpFileFirst") MultipartFile reUpFileFirst,
+			@RequestParam("reUpFile[]") MultipartFile[] reUpFiles, 
+			@RequestParam("origin") String[] origin,
+			@RequestParam("fileNo") int[] fileno,
+			HttpSession session, 
+			Model model) {
+
 		switch(sr.getStudyRoomLocation()) {
-			case "10" : sr.setStudyRoomLocation("강원");break;
-			case "20" : sr.setStudyRoomLocation("경기");break;
-			case "30" : sr.setStudyRoomLocation("경남");break;
-			case "40" : sr.setStudyRoomLocation("경북");break;
-			case "50" : sr.setStudyRoomLocation("광주");break;
-			case "60" : sr.setStudyRoomLocation("대구");break;
-			case "70" : sr.setStudyRoomLocation("대전");break;
-			case "80" : sr.setStudyRoomLocation("부산");break;
-			case "90" : sr.setStudyRoomLocation("서울");break;
-			case "11" : sr.setStudyRoomLocation("세종");break;
-			case "12" : sr.setStudyRoomLocation("울산");break;
-			case "13" : sr.setStudyRoomLocation("인천");break;
-			case "14" : sr.setStudyRoomLocation("전남");break;
-			case "15" : sr.setStudyRoomLocation("전북");break;
-			case "16" : sr.setStudyRoomLocation("제주");break;
-			case "17" : sr.setStudyRoomLocation("충남");break;
-			case "18" : sr.setStudyRoomLocation("충북");break;
+		case "10" : sr.setStudyRoomLocation("강원");break;
+		case "20" : sr.setStudyRoomLocation("경기");break;
+		case "30" : sr.setStudyRoomLocation("경남");break;
+		case "40" : sr.setStudyRoomLocation("경북");break;
+		case "50" : sr.setStudyRoomLocation("광주");break;
+		case "60" : sr.setStudyRoomLocation("대구");break;
+		case "70" : sr.setStudyRoomLocation("대전");break;
+		case "80" : sr.setStudyRoomLocation("부산");break;
+		case "90" : sr.setStudyRoomLocation("서울");break;
+		case "11" : sr.setStudyRoomLocation("세종");break;
+		case "12" : sr.setStudyRoomLocation("울산");break;
+		case "13" : sr.setStudyRoomLocation("인천");break;
+		case "14" : sr.setStudyRoomLocation("전남");break;
+		case "15" : sr.setStudyRoomLocation("전북");break;
+		case "16" : sr.setStudyRoomLocation("제주");break;
+		case "17" : sr.setStudyRoomLocation("충남");break;
+		case "18" : sr.setStudyRoomLocation("충북");break;
 		}
-		
-		int result1 = adminService.updateStudyRoom(sr);
-		int result2 = 1;
-		for(int i = 0; i < reUpFiles.length; i++) {
-			MultipartFile reUpFile = reUpFiles[i];
-			System.out.println(reUpFiles);
-			if (!reUpFile.getOriginalFilename().equals("")) {
-				new File(session.getServletContext().getRealPath(origin)).delete();
-				at.setOriginName(reUpFile.getOriginalFilename());
-				at.setChangeName("resources/uploadFiles/admin/" + saveFile(reUpFile, session, "study"));
-				if(value == i) {
-					at.setFileLevel(1);
-				} else {
-					at.setFileLevel(2);
+
+		int studyRoomNo = sr.getStudyRoomNo();
+		int result1 = 1; // 게시글 수정
+		int result2 = 1; // 기존 파일 삭제 수정
+		int result3 = 1; // 새로운 파일 추가 
+
+		//게시글 수정
+		result1= adminService.updateStudyRoom(sr);
+
+		// 해당 게시글 번호 DB에 저장된 파일 리스트 불러오기
+		ArrayList<Attach> dbImageList = adminService.selectStudyRoomImage(studyRoomNo);
+
+		// 기존에 업로드 된 파일 존재하고 수정 시에도 유지되는 파일
+		ArrayList<Attach> maintainImage = new ArrayList();
+		for(int i = 0; i < origin.length; i++) {
+			Attach at = new Attach();
+			at.setFileNo(fileno[i]);
+			at.setOriginName(origin[i]);
+			maintainImage.add(at);
+		}
+
+		System.out.println("DB에 저장된 파일 리스트 : "+dbImageList);
+		System.out.println("기존에 업로드 된 파일이 존재하고 수정 시에도 유지되는 파일" + maintainImage);
+
+		// 해당 글번호 DB에 파일 무조건 존재
+		// => 1. 기존 파일 삭제 / 새로운 파일 추가 
+		// => 2. 기존 파일 유지 / 새로운 파일 추가
+
+		// 유지되는 기존 파일 확인하기
+		if(maintainImage.size() < dbImageList.size()) {
+			ArrayList<Attach> checkList = new ArrayList();
+			for(int i = 0; i < dbImageList.size(); i++) {
+				Attach at = new Attach();
+				if(dbImageList.get(i).getFileLevel() == 2) {
+					at.setFileNo(dbImageList.get(i).getFileNo());
+					at.setOriginName(dbImageList.get(i).getOriginName());
+					checkList.add(at);
 				}
-				result2 = adminService.updateStudyRoomImage(at);
-			} else {
+			} 
+
+			checkList.removeAll(maintainImage);
+			System.out.println(checkList);
+
+			// 유지 안되는 파일 삭제하기
+			if(checkList.size() > 0) {
+				ArrayList<Attach> deleteImage = new ArrayList();
+				for(int i = 0; i < checkList.size(); i++) {
+					new File(session.getServletContext().getRealPath(checkList.get(i).getOriginName())).delete();
+					Attach at = new Attach();
+					at.setOriginName(checkList.get(i).getOriginName());
+					at.setRefNo(studyRoomNo);
+					at.setFileNo(checkList.get(i).getFileNo());
+					result3 = adminService.deleteStudyRoomImage(at);
+				}
 
 			}
+		} 
+
+		// updateForm에서 전달된 파일이 있을 경우
+		// 썸네일 => 수정
+		if(!reUpFileFirst.getOriginalFilename().equals("")) {
+			new File(session.getServletContext().getRealPath(origin[0])).delete();
+			Attach at = new Attach();
+			at.setOriginName(reUpFileFirst.getOriginalFilename());
+			at.setChangeName("resources/uploadFiles/admin/" + saveFile(reUpFileFirst, session, "study"));
+			at.setRefNo(studyRoomNo);
+			at.setFileLevel(1);
+			result3 = adminService.updateStudyRoomImage(at);
 		}
-		if((result1 * result2) > 0) {
+
+		// 썸네일X
+		// 새로운 파일 추가
+		for(int i = 0; i < reUpFiles.length; i++) {
+			MultipartFile reUpFile = reUpFiles[i];
+			if(!reUpFile.getOriginalFilename().equals("")) {
+				Attach at = new Attach();
+				at.setOriginName(reUpFile.getOriginalFilename());
+				at.setChangeName("resources/uploadFiles/admin/" + saveFile(reUpFile, session, "study"));
+				at.setRefNo(studyRoomNo);
+				at.setFileLevel(2);
+				result3 = adminService.updateAddStudyRoomImage(at);
+			} 
+		} 
+
+		if((result1 * result2 * result3) > 0) {
 			return "redirect:adminStudyRoom.ad";
 		} else {
 			System.out.println("실패");
 			return "redirect:adminStudyRoom.ad";
 		}
-
 	}
 
 	// 스터디룸 삭제
 	@ResponseBody
-	@RequestMapping(value="deleteCheckStudyRoom.ad", produces="application/json; charset=UTF-8")
+	@RequestMapping(value="deleteCheckStudyRoom.ad")
 	public int deleteCheckStudyRoom(@RequestParam(value="studyRoomNo[]")int[] studyRoomNo) {
 
 		int result1 = 0;
@@ -545,7 +618,15 @@ public class AdminController {
 		return result1*result2;
 	}
 
-
+	@ResponseBody
+	@RequestMapping(value="deleteStudyRoom.ad")
+	public int deleteStudyRoom(int studyRoomNo) {
+		int result1 = 0;
+		int result2 = 0;
+		result1 = adminService.deleteCheckStudyRoom(studyRoomNo);
+		result2 = adminService.deleteCheckStudyRoomImage(studyRoomNo);
+		return result1*result2;
+	}
 
 
 }

@@ -137,6 +137,30 @@
    			)
    </insert>
    
+   <insert id="updateAddStudyRoomImage" parameterType="attach">
+   		INSERT
+   		INTO
+   			ATTACH
+   			(
+   			FILE_NO
+   			,ORIGIN_NAME
+   			,CHANGE_NAME
+   			,FILE_LEVEL
+   			,REF_NO
+   			,FIELD
+   			)
+   		VALUES
+   			(
+   			SEQ_ATTACH_NO.NEXTVAL
+   			,#{originName}
+   			,#{changeName}
+   			,#{fileLevel}
+   			,#{refNo}
+   			,2
+   			)
+   </insert>
+   
+   
    <!-- 스터디룸 상세 보기 -->
 	<select id="selectStudyRoom" parameterType="_int" resultMap="sRoomResultSet">
 		SELECT 
@@ -187,16 +211,27 @@
    			SR_NO=#{studyRoomNo}
    </update>
    
-   <update id="updateStudyRoomImage" parameterType="attach">
+      <insert id="updateStudyRoomImage" parameterType="attach">
    		UPDATE
    			ATTACH
    		SET
-   			ORIGIN_NAME=#{originName}
-   			,CHANGE_NAME=#{changeName}
+   			#{originName}
+   			,#{changeName}
    		WHERE
-   			REF_NO = #{refNo}
-   </update>
+   			REF_NO=#{refNo}
+   		AND
+   			FILE_LEVEL=1
+   </insert>
    
+   <delete id="deleteStudyRoomImage" parameterType="attach">
+   		DELETE
+   		FROM
+   			ATTACH
+   		WHERE
+   			REF_NO=#{refNo}
+   		AND 
+   			FILE_NO=#{fileNo}
+   </delete>
    
  
     <!-- 지현 -->
