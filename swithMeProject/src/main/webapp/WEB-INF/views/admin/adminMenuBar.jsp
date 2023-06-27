@@ -14,7 +14,7 @@
          <li><a href="adminStudyRoom.ad">스터디룸관리</a></li>
 		 <li><a href="itemList.ad">상점관리</a></li>
          <li><a href="qna.me">문의사항관리</a></li>
-         <li><a href="#">신고관리</a></li>
+         <!--<li><a href="#">신고관리</a></li> -->
       </ul>
    </div> 
 </body>
