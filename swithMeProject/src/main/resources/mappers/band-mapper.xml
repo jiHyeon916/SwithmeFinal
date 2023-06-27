@@ -101,7 +101,9 @@
           JOIN
 	            MEMBER M ON(M.MEMBER_ID = B.MEMBER_ID)
 	      LEFT JOIN
-	      		ATTACH ON(B.SB_BOARD_NO = REF_NO)
+	      		(SELECT CHANGE_NAME, REF_NO
+                   FROM ATTACH
+                  WHERE FIELD = 3) ON(B.SB_BOARD_NO = REF_NO)
 		 WHERE
 				SB_NO = #{sno}
 		   AND
@@ -140,7 +142,9 @@
 		  JOIN
 	            MEMBER A ON(A.MEMBER_ID = B.MEMBER_ID)
 	      LEFT JOIN
-	      		ATTACH ON(SB_BOARD_NO = REF_NO)
+	      		(SELECT CHANGE_NAME, REF_NO
+                   FROM ATTACH
+                  WHERE FIELD = 3) ON(SB_BOARD_NO = REF_NO)
 		 WHERE
 				SB_BOARD_NO = #{sbBoardNo}
 		   AND

@@ -103,14 +103,14 @@
 		                        		<div class="img_box">
 		                        			<label class="labetPhoto" for="file1">첨부</label>
 		                        			<div class="img_container">
-		                        				<img id="img1" src="/swithme/resources/images/member/none.jpeg">
+		                        				<img class="imgTest11" id="img1" src="/swithme/resources/images/member/none.jpeg">
 		                        			</div>
 		                        		</div>
 		                        	
 	
 		                        		<div class="fileType">
 		                        			<input type="hidden" name="sbBoardNo" >
-		                        			<input type="file" id="file1" accept="image/*" name="file" onchange="setImage(this);" />
+		                        			<input type="file" id="file1" accept="image/*" name="file" onchange="setImage1(this);" />
 		                        		</div>
 	                        		</div>
                         		</form>
@@ -176,9 +176,11 @@
 	                    <form action="changeReader.sb" method="post">
 	                 		<br>
 	                        <div class="form-group">
+	                        <!--
 	                        	<div id="bandSearchBox">
-				                    <input type="text" id="searchBar" onkeyup="nickSearch(this);">
+				                     <input type="text" id="searchBar" onkeyup="nickSearch(this);">
 				                </div>
+				            -->
 				                <input type="hidden" id="sNo" class="sno" name="sbNo" value="">
 				                <div class="readerPass">
 								
@@ -392,6 +394,7 @@
 									data : {sbNo : sno},
 									success : function(){									
 										alert('밴드 삭제가 완료되었습니다.');
+										location.href='/swithme/studyBand.bo';
 									},
 									error : function(){
 										console.log('밴드삭제 실패');
@@ -471,9 +474,8 @@
 
 		
 		// 게시글 이미지 영역
-		function setImage(inputFile) {
-			var imgSrc1 = $('#img1').attr('src');
-
+		function setImage1(inputFile) {
+			
 			if(inputFile.files.length == 1){
 	
 				let reader = new FileReader();
@@ -481,15 +483,16 @@
 	            reader.readAsDataURL(inputFile.files[0]);
 	
 	            reader.onload = function(e){
-	    				
-	                $('#img1').attr('src', e.target.result);
-
-					$('#disMissBoard').click(function(){
-							$('.img_container>#img1').attr('src', "");
-							$('.note-editable').empty();
-
-					})					
+	    			var imgTest = $('.imgTest11');
+	    			
+	                $(imgTest).attr("src", e.target.result);
 				} 
+
+				$('#disMissBoard').click(function(){
+						$('.img_container>imgTest').attr('src', "");
+						$('.note-editable').empty();
+
+				})					
 			}
 		};		
 					

@@ -123,7 +123,7 @@
 	                        </div>
 	                        <br>
 	                        <div class="btnGroupMain">
-		                        <button class="enrollConfirm" type="button" onclick="test1()" data-toggle="modal" data-target="#updateBandBoard" >수정하기</button>
+		                        <!-- <button class="enrollConfirm" type="button" onclick="test1()" data-toggle="modal" data-target="#updateBandBoard" >수정하기</button> -->		                        
 		                        <button class="enrollDismiss" id="deleteBoard" type="button">삭제하기</button>
 		                        <input type="hidden" class="sBoardNoModal" name="bandNo" value="">
 	                        </div>
@@ -140,7 +140,7 @@
             	<div class="modal-content">
             
 	                <!-- Modal body -->
-           		<form method="POST" enctype="multipart/form-data" id="photoForm">
+           		<form method="POST" enctype="multipart/form-data" id="photoFormTest">
 	                <div class="modal-body1">
                  		<br>
                         <div class="form-group">
@@ -160,7 +160,7 @@
 		                        			<label class="labetPhoto" for="file1">첨부</label>
 		                        			<label class="labetPhoto" onclick="photoReset();">삭제</label>
 		                        			<div class="img_container">
-		                        				<img id="img2" src="">
+		                        				<img class="img2Test" id="img2" src="">
 		                        			</div>
 		                        		</div>
 		                        	
@@ -168,7 +168,7 @@
 		                        			<input type="text" name="test" value="test">
 		                        			<input type="text" class="sBoardNoModal" name="refNo" value="">
 		                        			<input type="text" name="photoSrc" id="photoSrc" value="">
-		                        			<input type="file" id="file1" accept="image/*" name="refile" value="" onchange="setImage(this);" />
+		                        			<input type="file" id="file1" accept="image/*" name="refile" value="" onchange="setImage2(this);" />
 		                        		</div>
 	                        		</div>
 	                        </div>
@@ -187,10 +187,14 @@
 		</div>
 		
 		<script>
+		
+			$('.img_container').click(function(){
+				$('#file1').click();					
+			})
 			
 		    // 게시글 수정 영역 사진 삭제 버튼
 			function photoReset(){
-				$('#img2').attr('src','/swithme/resources/none.jpeg');
+				$('.img2Test').attr('src','/swithme/resources/none.jpeg');
 				$('#file1').val("");
 				
 				// console.log($('#img2').attr('src'));
@@ -243,7 +247,7 @@
 						
 						$('.note-placeholder').html("");
 						$('.note-editable').html(BandSelect.sbContent);
-						$('#img2').attr('src', BandSelect.changeName);
+						$('.img2Test').attr("src", BandSelect.changeName);
 						
 						// console.log($('#img2').attr('src'));
 						// console.log($('#file1').val());
@@ -255,8 +259,7 @@
 			};
 			
 			// 게시글 이미지 영역
-			function setImage(inputFile) {
-				var imgSrc1 = $('#img1').attr('src');
+			function setImage2(inputFile) {
 
 				if(inputFile.files.length == 1){
 		
@@ -265,15 +268,16 @@
 		            reader.readAsDataURL(inputFile.files[0]);
 		
 		            reader.onload = function(e){
-		    				
-		                $('#img2').attr('src', e.target.result);
+		    			var img2Test = $('.img2Test');
+		    			
+		                $(img2Test).attr("src", e.target.result);
 
-						$('#disMissBoard').click(function(){
-								
-								$('.note-editable').empty();
-
-						})					
 					} 
+					$('#disMissBoard').click(function(){
+							
+						$('.note-editable').empty();
+
+					})					
 				}
 				// console.log($('#img2').attr('src'));
 				// console.log($('#file1').val());
@@ -284,7 +288,7 @@
 					
 				let sbBoardNo1 = $('.sBoardNoModal').val();
 				let sbContent1 = $(this).parent().siblings('.form-group').find('.note-editable').html();
-				let sbPhotoSrc = $(this).parent().siblings('.form-group').find('#img2').attr('src');
+				let sbPhotoSrc = $(this).parent().siblings('.form-group').find('.img2Test').attr('src');
 				let sbPhotoInput = $('#file1');
 				
 				$('#photoSrc').val(sbPhotoSrc);
@@ -304,11 +308,9 @@
 					}
 				});
 				
-				var form = $('#photoForm')[0];
+				var form = $('#photoFormTest')[0];
 			    var formData = new FormData(form);
-			    formData.append('refNo', sbBoardNo1);
-			    formData.append('photoSrc', sbPhotoSrc);
-			    formData.append('refile', sbPhotoInput.files);
+
 			    // formData.append('refile', sbPhotoInput);
 				console.log($('.sBoardNoModal').val());
 				console.log($('#photoSrc').val());
@@ -353,8 +355,6 @@
 				var param = new URLSearchParams(query);
 				var sno = param.get('sno');
 				
-				var sbBoardNo = $(this).children().eq(0).val();
-				
 				if(${ !empty loginMember }){							
 					if('${bandMem.sbNo}' == sno && '${bandMem.memId}' == '${loginMember.memberId}' && '${bandMem.banish}' == 'Y'){
 						var valueText = "";
@@ -376,7 +376,12 @@
 		        		$('.replyBtn').html(valueText1);
 					}
 				}
+				
+				var sbBoardNo = $(this).children().eq(0).val();
+				
+				
 				$('.sBoardNoModal').attr('value', sbBoardNo);
+				
 				
 				// console.log(sbBoardNo);
 				selectReplyList(sbBoardNo);
@@ -399,7 +404,14 @@
 						} else {
 							$('#photoImg1').attr('src', list.changeName);
 							
-						}		
+						}	
+						
+						if('${loginMember.memberId}' == list.memId){
+							$('#deleteBoard').css('display', 'show');
+						} else {
+							$('#deleteBoard').css('display', 'none');					
+						}
+						
 					},
 					error : function(){
 						console.log('실패');
@@ -506,7 +518,7 @@
 								$('.replyContent').val('');
 							}
 						},
-						error : function(){cl
+						error : function(){
 							console.log('실패');
 						}
 					})
