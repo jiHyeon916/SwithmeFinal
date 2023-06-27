@@ -227,7 +227,7 @@ input[type=checkbox]{
 			                    			<button disabled style="border : 1px solid rgb(175, 175, 175); color : rgb(175, 175, 175);">${p}</button>
 			                    		</c:when>
 			                    		<c:otherwise>
-			                    		<button></button>
+			                    			<button onclick="location.href='bookmark.me?cPage=${ p}'">${p}</button>
 			                    		</c:otherwise>
 			                    	</c:choose>
 			                    </c:forEach>
