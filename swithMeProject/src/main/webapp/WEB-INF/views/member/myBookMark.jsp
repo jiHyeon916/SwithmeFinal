@@ -276,6 +276,7 @@ input[type=checkbox]{
 					
 					$.ajax({
 						url : 'deleteBookMark.me',
+						method : 'POST',
 						data : {
 							memberId : '${loginMember.memberId}',
 							boardNo : checkArr

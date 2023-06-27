@@ -302,6 +302,7 @@ th, td{
 				if(confirm($('input[name=checkSRoom]:checked').length + '개의 스터디룸을 삭제하시겠습니까?')){
 					$.ajax({
 						url : 'deleteCheckStudyRoom.ad',
+						method : 'POST',
 						data : {
 							studyRoomNo : checkArr
 						},

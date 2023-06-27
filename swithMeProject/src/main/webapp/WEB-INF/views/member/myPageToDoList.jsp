@@ -240,6 +240,7 @@ a:hover {
 				  //캘린더 조회
 				  $.ajax({
 					url:'todoAchievementRate.me',
+					method : 'POST',
 					data:{
 						memberId : '${ loginMember.memberId }'
 					},
@@ -312,6 +313,7 @@ a:hover {
 		console.log(date);
 		$.ajax({
 				url : 'selectTodoList.me',
+				method : 'POST',
 				data : {
 					todoDate : date,
 					memberId : '${ loginMember.memberId }'
@@ -383,6 +385,7 @@ a:hover {
 			if(todo!=""){
 						$.ajax({
 							url : 'insertTodoList',
+							method : 'POST',
 							data : {
 								todoDate : date,
 								memberId : '${loginMember.memberId}',
@@ -413,6 +416,7 @@ a:hover {
 					if(checked){
 						$.ajax({
 							url : 'checkTodoList.me',
+							method : 'POST',
 							data : {
 								todoNo : tno,
 								todoDate : date,
@@ -429,6 +433,7 @@ a:hover {
 					} else {
 						$.ajax({
 							url : 'uncheckTodoList.me',
+							method : 'POST',
 							data : {
 								todoNo : tno,
 								todoDate : date,
@@ -452,6 +457,7 @@ a:hover {
 				var date = moment($('#todoDate').text(), 'dddd\nD').format('YYYY-MM-DD');
 				$.ajax({
 					url : 'deleteTodo.me',
+					method : 'POST',
 					data : {
 						todoNo : selectTodoNo,
 						todoDate : date,

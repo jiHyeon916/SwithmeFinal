@@ -129,6 +129,7 @@
         function allStudyBandList(){
     		$.ajax({
                 url : 'allStudyBandList.me',
+                method : 'POST',
                 data : {
                     memberId : '${loginMember.memberId}' 
                 },
@@ -157,6 +158,7 @@
         function favoriteStudyBand(){
             $.ajax({
                 url : 'favoriteStudyBandList.me',
+                method : 'POST',
                 data : {
                     memberId : '${loginMember.memberId}' 
                 },
@@ -191,6 +193,7 @@
             console.log($(this));     
             $.ajax({
         		url : 'selectSbandBookmark.me',
+                method : 'POST',
         		data : {
         			sbNo : checkBandNo,
                     memberId : '${loginMember.memberId}' 
@@ -217,6 +220,7 @@
         function deleteBookmark(checkBandNo){
         	$.ajax({
                 url : 'deleteSbandBookmark.me',
+                method : 'POST',
                 data : {
                     sbNo : checkBandNo,
                     memberId : '${loginMember.memberId}' 
@@ -234,6 +238,7 @@
         function insertBookmark(checkBandNo){
         	$.ajax({
                 url : 'insertSbandBookmark.me',
+                method : 'POST',
                 data : {
                     sbNo : checkBandNo,
                     memberId : '${loginMember.memberId}' 

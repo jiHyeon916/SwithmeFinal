@@ -306,6 +306,7 @@ a:hover {
 				  showEndDay = moment(endDay).add(1,'days').format('YYYY-MM-DD');
 	        	  $.ajax({
 	            	  url:'addSchedule.me',
+					  method : 'POST',
 	            	  data : {
 	            		  calendarTitle : $('#calendar_title').val(),
 	            		  memberId : '${ loginMember.memberId }',
@@ -410,6 +411,7 @@ a:hover {
 	    		 if(confirm('일정을 삭제하시겠습니까?')){
 	    			 $.ajax({
 	    		        	url : 'deleteSchedule.me',
+							method : 'POST',
 	    		        	data : {
 	    						calendarNo : calendarNo
 	    						, memberId : '${ loginMember.memberId }'
@@ -433,6 +435,7 @@ a:hover {
 	    	  //캘린더 조회
 	    		$.ajax({
 	    			  url : 'calendarList.me',
+					  method : 'POST',
 	    			  data : {
 	    				  memberId : '${ loginMember.memberId }'
 	    			  },
