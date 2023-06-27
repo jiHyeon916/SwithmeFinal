@@ -165,6 +165,9 @@
 											<tr>
 												<td>${sRoom.studyRoomPhone}</td>
 											</tr>
+											<tr>
+												<td>리뷰(${sRoom.reviewCnt}) </td>
+											</tr>
 											<tr><td>&nbsp;</td></tr>
 										</tbody>
 									</table>

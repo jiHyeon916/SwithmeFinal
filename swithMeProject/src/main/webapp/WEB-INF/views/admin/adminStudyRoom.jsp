@@ -235,10 +235,10 @@ th, td{
 							</tr>
 	         			</thead>
 	         			<tbody>
-	         				<c:forEach items="${list}" var="sr" varStatus="status">
+	         				<c:forEach items="${list}" var="sr">
 								<tr class="checkSRoomTr">
 									<td><input type="checkbox" value="${sr.studyRoomNo}" name="checkSRoom" class="checkDelete"></td>
-									<td>${status.count}</td>
+									<td>${sr.studyRoomNo}</td>
 									<td>${sr.studyRoomName}</td>
 									<td>${sr.studyRoomLocation}</td>
 									<td>${sr.studyRoomAddress}</td>
@@ -269,7 +269,7 @@ th, td{
 							<button disabled style="border : 1px solid rgb(175, 175, 175); color : rgb(175, 175, 175);">${p}</button>
 						</c:when>
 						<c:otherwise>
-							<button style="border : 1px solid rgb(175, 175, 175); color : rgb(175, 175, 175);" onclick="location.href='adminStudyRoom.ad?aPage=${p}'">${p}</button>
+							<button  onclick="location.href='adminStudyRoom.ad?aPage=${p}'">${p}</button>
 						</c:otherwise>
 					</c:choose>
 				</c:forEach>					
