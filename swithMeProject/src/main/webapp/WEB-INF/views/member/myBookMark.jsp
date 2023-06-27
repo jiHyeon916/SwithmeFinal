@@ -84,6 +84,7 @@
     padding-bottom: 10px;
     border-bottom: 1px solid rgb(227, 227, 227);
     /* background-color: #164b35; */
+	cursor: pointer;
 }
 .post_block:last-child{
     border-bottom: none;
@@ -133,6 +134,15 @@ input[type=checkbox]{
     margin-right: 5px;
     font-size: 14px;
 }
+input[type=checkbox]{
+    display: inline-block;
+    margin-right: 10px;
+    margin-top : 10px;
+    background-color : pink;
+    float : left;
+    top : 50px;
+}
+
 /* 페이징버튼 */
 .paBtn{
 	width : 265px;
