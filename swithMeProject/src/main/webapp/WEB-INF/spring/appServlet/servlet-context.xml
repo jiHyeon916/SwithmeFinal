@@ -55,7 +55,11 @@
 			<mapping path="/insertItem.ad"/>
 			<mapping path="/adminStudyRoom.ad"/>
 			<mapping path="/adminstudyRoomInsert.ad"/>
+			<mapping path="/insertStudyRoom.ad"/>
+			<mapping path="/updateStudyRoomForm.ad"/>
+			<mapping path="/updateStudyRoom.ad"/>
 			<mapping path="/deleteCheckStudyRoom.ad"/>
+			<mapping path="/deleteStudyRoom.ad"/>
 			<mapping path="/adminStudyBand.ad"/>
 			<beans:bean class="com.kh.swithme.common.interceptor.AdminInterceptor" id="adminInterceptor"></beans:bean>		
 		</interceptor>

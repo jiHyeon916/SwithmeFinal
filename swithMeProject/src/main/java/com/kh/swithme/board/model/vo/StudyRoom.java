@@ -16,5 +16,5 @@ public class StudyRoom {
 	private Date studyRoomCreatedate;
 	private String studyRoomWebsite;
 	private String titleImg;
-	
+	private int reviewCnt;
 }

@@ -11,4 +11,7 @@ public class BandAttach {
 	private String fileLevel; // FILE_LEVEL
 	private int refNo; // REF_NO
 	private String field; // FIELD
+	private int bandNo;
+	private String photoSrc;
+	private String refile;
 }

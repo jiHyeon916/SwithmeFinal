@@ -94,7 +94,7 @@ public class BoardDao {
 	public int tagInsert(SqlSessionTemplate sqlSession, String tagList) {
 		return sqlSession.insert("boardMapper.tagInsert", tagList);
 	}
-	
+
 	public int test(SqlSessionTemplate sqlSession, Board b) {
 		return sqlSession.insert("boardMapper.test", b);
 	}
@@ -208,9 +208,9 @@ public class BoardDao {
 	public Board boardlist(SqlSessionTemplate sqlSession, int boardNo) {
 		return sqlSession.selectOne("boardMapper.boardlist", boardNo);
 	}
-	
-	
-	
+
+
+
 
 	// 희재 스터디룸 ------------------------------------------------------------------------
 	public int sRoomListCount(SqlSessionTemplate sqlSession) {
@@ -254,25 +254,37 @@ public class BoardDao {
 	public ArrayList<StudyRoom> selectAddress(SqlSessionTemplate sqlSession) {
 		return (ArrayList)sqlSession.selectList("boardMapper.selectAddress");
 	}
-	
+
 	public ArrayList<StudyRoom> studyRoomSearch(SqlSessionTemplate sqlSession, HashMap<String, String> map){
 		return (ArrayList)sqlSession.selectList("boardMapper.studyRoomSearch", map);
 	}
+
+	public ArrayList<StudyRoom> selectAddressSearch(SqlSessionTemplate sqlSession, HashMap<String, String> map){
+		return (ArrayList)sqlSession.selectList("boardMapper.selectAddressSearch", map);
+	}
 	
-	
-	
-	
-	
-	
+	public ArrayList<StudyRoom> selectAddressSearchAll(SqlSessionTemplate sqlSession, String searchText){
+		return (ArrayList)sqlSession.selectList("boardMapper.selectAddressSearchAll", searchText);
+	}
+
+	public ArrayList<StudyRoom> studyRoomSearchAll(SqlSessionTemplate sqlSession, String searchText){
+		return (ArrayList)sqlSession.selectList("boardMapper.studyRoomSearchAll", searchText);
+	}
+
+
+
+
+
+
 	// ******* 메인 
 	public ArrayList<Band> mainStudy(SqlSessionTemplate sqlSession, String category) {
 		return (ArrayList)sqlSession.selectList("boardMapper.mainStudy", category);
 	}
-	
-	
-	
-	
-	
-	
-	
+
+
+
+
+
+
+
 }

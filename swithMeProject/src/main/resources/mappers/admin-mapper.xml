@@ -66,7 +66,7 @@
 			BOARD_STUDYROOM
 		ORDER
 		BY
-			SR_NAME
+			SR_NO
 	</select>
 	
 	<!-- 스터디룸 삭제 -->
@@ -76,6 +76,14 @@
    			BOARD_STUDYROOM
    		WHERE
    			SR_NO=#{studyRoomNo}
+   	</delete>
+   	
+   	<delete id="deleteCheckStudyRoomImage" parameterType="_int">
+   		DELETE
+   		FROM
+   			ATTACH
+   		WHERE
+   			REF_NO=#{studyRoomNo}
    	</delete>
    			
    <!-- 스터디룸 추가 -->
@@ -92,6 +100,7 @@
    			,SR_LNG
    			,SR_PHONE
    			,SR_INTRODUCE
+   			,SR_WEBSITE
    			)
    		VALUES
    			(
@@ -103,6 +112,7 @@
    			,#{studyRoomLng}
    			,#{studyRoomPhone}
    			,#{studyRoomIntroduce}
+   			,#{studyRoomWebsite}
    			)
    </insert>
    
@@ -128,6 +138,30 @@
    			,2
    			)
    </insert>
+   
+   <insert id="updateAddStudyRoomImage" parameterType="attach">
+   		INSERT
+   		INTO
+   			ATTACH
+   			(
+   			FILE_NO
+   			,ORIGIN_NAME
+   			,CHANGE_NAME
+   			,FILE_LEVEL
+   			,REF_NO
+   			,FIELD
+   			)
+   		VALUES
+   			(
+   			SEQ_ATTACH_NO.NEXTVAL
+   			,#{originName}
+   			,#{changeName}
+   			,#{fileLevel}
+   			,#{refNo}
+   			,2
+   			)
+   </insert>
+   
    
    <!-- 스터디룸 상세 보기 -->
 	<select id="selectStudyRoom" parameterType="_int" resultMap="sRoomResultSet">
@@ -175,20 +209,32 @@
 			,SR_LNG=#{studyRoomLng}
 			,SR_PHONE=#{studyRoomPhone}
 			,SR_INTRODUCE=#{studyRoomIntroduce}
+			,SR_WEBSITE=#{studyRoomWebsite}
    		WHERE
    			SR_NO=#{studyRoomNo}
    </update>
    
-   <update id="updateStudyRoomImage" parameterType="attach">
+      <insert id="updateStudyRoomImage" parameterType="attach">
    		UPDATE
    			ATTACH
    		SET
    			ORIGIN_NAME=#{originName}
    			,CHANGE_NAME=#{changeName}
    		WHERE
-   			REF_NO = #{refNo}
-   </update>
+   			REF_NO=#{refNo}
+   		AND
+   			FILE_LEVEL=1
+   </insert>
    
+   <delete id="deleteStudyRoomImage" parameterType="attach">
+   		DELETE
+   		FROM
+   			ATTACH
+   		WHERE
+   			REF_NO=#{refNo}
+   		AND 
+   			FILE_NO=#{fileNo}
+   </delete>
    
  
     <!-- 지현 -->
@@ -280,20 +326,20 @@
    
    </select>
    
-   <!-- 검색한 키워드가 포함된  -->
+   <!-- 검색한 키워드가 포함된 Member Count  -->
    <select id="selectMemberSearchCount" resultType="_int" parameterType="hashmap">
-      SELECT
-         COUNT(*)
-      FROM
-         MEMBER
-      WHERE   
-      <if test="condition == 'memberId'">
-         MEMBER_ID 
-      </if>
-      <if test="condition == 'nickName'">
-         NICKNAME
-      </if>
-         LIKE '%' || #{keyword} || '%'      
+	      SELECT
+	         COUNT(*)
+	      FROM
+	         MEMBER
+	      WHERE   
+	      <if test="condition == 'memberId'">
+	         MEMBER_ID 
+	      </if>
+	      <if test="condition == 'nickName'">
+	         NICKNAME
+	      </if>
+	         LIKE '%' || #{keyword} || '%'      
    </select>
    
    <!-- 검색결과 ArrayList -->
@@ -316,7 +362,7 @@
                LIKE '%' || #{keyword} || '%'      
            ORDER 
                BY 
-                   MEMBER_ENROLL_DATE DESC
+                  MEMBER_ENROLL_DATE DESC
    
    </select>
    
@@ -429,7 +475,7 @@
                  
       		ORDER
       			BY
-      				CREATE_DATE DESC					
+      				SB_CREATE_DATE DESC					
       </select> 
     
    

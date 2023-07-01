@@ -101,7 +101,9 @@
           JOIN
 	            MEMBER M ON(M.MEMBER_ID = B.MEMBER_ID)
 	      LEFT JOIN
-	      		ATTACH ON(B.SB_BOARD_NO = REF_NO)
+	      		(SELECT CHANGE_NAME, REF_NO
+                   FROM ATTACH
+                  WHERE FIELD = 3) ON(B.SB_BOARD_NO = REF_NO)
 		 WHERE
 				SB_NO = #{sno}
 		   AND
@@ -140,7 +142,9 @@
 		  JOIN
 	            MEMBER A ON(A.MEMBER_ID = B.MEMBER_ID)
 	      LEFT JOIN
-	      		ATTACH ON(SB_BOARD_NO = REF_NO)
+	      		(SELECT CHANGE_NAME, REF_NO
+                   FROM ATTACH
+                  WHERE FIELD = 3) ON(SB_BOARD_NO = REF_NO)
 		 WHERE
 				SB_BOARD_NO = #{sbBoardNo}
 		   AND
@@ -677,5 +681,36 @@
 		 WHERE
 		 		SB_NO = #{sbNo}
 	</delete>
+	
+	<select id="updateSelectBandBoard" resultType="bandBoard">
+		SELECT DISTINCT
+				SB_BOARD_NO sbBoardNo
+			   ,SB_CONTENT sbContent
+			   ,NVL(CHANGE_NAME,'/swithme/resources/none.jpeg') changeName
+		  FROM
+			    SBAND_BOARD
+	      LEFT JOIN
+			    ATTACH ON(SB_BOARD_NO = REF_NO)
+		WHERE
+				SB_BOARD_NO = #{sbBoardNo}
+	</select>
+	
+	<update id="updateBandText">
+		UPDATE
+				SBAND_BOARD
+		   SET
+		   		SB_CONTENT = #{sbContent}
+		 WHERE
+				SB_BOARD_NO = #{sbBoardNo}
+	</update>
+	
+	<update id="updateBoardPhoto">
+		UPDATE
+				ATTACH
+		   SET
+				CHANGE_NAME	= #{changeName}
+		 WHERE
+				REF_NO = #{sbBoardNo}
+	</update>
 	
 </mapper>

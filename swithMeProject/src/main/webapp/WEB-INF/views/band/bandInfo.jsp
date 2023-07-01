@@ -191,7 +191,7 @@
 		console.log(fileTarget);
 		
 		fileTarget.change(function(){
-			alert('dd');
+			
 			$('#photoChange').css('display','inline');
 		}); 
 		
