@@ -115,37 +115,26 @@
         
 		
 		
-		$(function () { //다 읽으면 빨간점 사라지게 
-			//location.href = reload();
-			
+		$(function () { //다 읽으면 빨간점 사라질 수 있도록
 				if('${ !empty loginMember}') {
-					console.log($('#noRead'));
-					
 					$.ajax({
 						url : 'alarmList.me',
 						data : { memberId : '${loginMember.memberId}' },
 						success : function(list) {
-							
 							let allRead = true;
-							
 							for(let i in list) {
-								
 								if(list[i].alarmStatus == 'Y' ){
 									allRead = false;
 									break;
-									
 								}
 							}
-							
 							if(allRead){
 								$('#noRead').hide();
 							}
-							
-								
 						},error : () => {console.log('실패');}
 					})
-				}
-		});
+				 }
+			});
 		
 	
 		
